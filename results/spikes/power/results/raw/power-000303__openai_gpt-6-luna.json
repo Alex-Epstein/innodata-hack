@@ -1,0 +1,142 @@
+{
+ "key": "e22c13b916aaceb4e7bc4ca791a94abc2750dde258d2310544b7021282e81db6",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a single-line diagram of an electrical distribution system. Filled breaker squares are closed; hollow squares are open (N.O. = normally open). Power flows through closed breakers, transformers and conductors in either direction, from the sources at the top. Ignore equipment ratings. Breakers CB-1 and CB-14 trip open. The operator then opens breaker CB-5 and closes tie breaker CB-T2; every other breaker stays as drawn. What is the total load, in kW, that is left without power? Answer with a single integer number of kW.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "power-000303.png",
+       "sha256": "6f7ce069432e7ac471cc22894e3416cd66d1b035090a040c87848c561d040bd4"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794674880-VNWy7t6QnrmM4va0stZn",
+  "object": "chat.completion",
+  "created": 1794674880,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "CB-1 opening de-energizes Bus A; CB-T1 remains open, so MCC-1 and MCC-2 lose power. Opening CB-5 isolates T-3, but closing CB-T2 lets the energized MCC-4 supply MCC-3. CB-14 being open leaves the PNL-2 loads without power.\n\nMCC-1: 25 + 30 + 125 = 180 kW  \nMCC-2: 200 + 200 = 400 kW  \nPNL-2: 15 + 40 + 40 = 95 kW  \n\nTotal: 180 + 400 + 95 = 675 kW\n\nFINAL ANSWER: 675",
+     "refusal": null,
+     "reasoning": "**Examining MCC3 bus setup**\n\nI'm looking at the MCC3 bus, which has a vertical load at x1255 for CB14 that descends to PNL2. CB13 has a vertical load of 30 kW. It's interesting how PNL2 connects CB14 and the load breakers for CB25, CB26, and CB27. I'm trying to make sure I have the connections and loads properly understood, as it's crucial for the system's performance.",
+     "reasoning_details": [
+      {
+       "type": "reasoning.summary",
+       "summary": "**Examining MCC3 bus setup**\n\nI'm looking at the MCC3 bus, which has a vertical load at x1255 for CB14 that descends to PNL2. CB13 has a vertical load of 30 kW. It's interesting how PNL2 connects CB14 and the load breakers for CB25, CB26, and CB27. I'm trying to make sure I have the connections and loads properly understood, as it's crucial for the system's performance.",
+       "format": "openai-responses-v1",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7508,
+        "sha256": "8c2c453c6879555ba8626552a6b4b818de5c990a46ef52688c0cc10d73c19be7"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0813a33a49bc8117016af890c19f4c87d19189094717914034",
+       "index": 1
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7360,
+        "sha256": "2b6a87d3a215ee9de00f9137d41a8763580495401e35557b1d329e360c174db2"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0813a33a49bc8117016af890c782cc87d199d2af11d22969fa",
+       "index": 2
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7552,
+        "sha256": "5e989cae3cebd3d4a8b8dc63d05af8df36527596ab7fe2e610f79c7637fa1497"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0813a33a49bc8117016af890cad43487d18aaf1b10c4302bed",
+       "index": 3
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 3436,
+        "sha256": "93e0b24b1afbdc1954d1b730b8010a9f2b9a47cc4502bcd70d1b61b33803ab4f"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0813a33a49bc8117016af890cf04a887d1bf239873dd2e353d",
+       "index": 4
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 3561,
+   "completion_tokens": 1844,
+   "total_tokens": 5405,
+   "cost": 0.00136705,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 3558,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.00136705,
+    "upstream_inference_prompt_cost": 0.00044505,
+    "upstream_inference_completions_cost": 0.000922
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1694,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 17.12,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:48:00+00:00"
+}

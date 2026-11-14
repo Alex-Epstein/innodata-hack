@@ -1,0 +1,103 @@
+{
+ "key": "5ccd64172766f514f1c68fe740d4c3e8eca12b1075169436745549af5c60ddcc",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a single-line diagram of an electrical distribution system. Filled breaker squares are closed; hollow squares are open (N.O. = normally open). Power flows through closed breakers, transformers and conductors in either direction, from the sources at the top. Ignore equipment ratings. Breaker CB-2 trips open; every other breaker stays as drawn. Which loads lose power? Answer with the load names exactly as written on the diagram, as a comma-separated list in any order.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "power-000101.png",
+       "sha256": "3571288b71b0ff46dba70171a324bd8c5b56877c3391aed22338f3ec6cea18b0"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794674850-B0wq9IGyfAMJCmjuNK9r",
+  "object": "chat.completion",
+  "created": 1794674850,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "CB-2 disconnects transformer T-1 from BUS A, de-energizing MCC-1 and its downstream panel PNL-1. The other transformers remain connected.\n\nFINAL ANSWER: Pump House 1, Air Compressor 2, Lab Building, UV Disinfection",
+     "refusal": null,
+     "reasoning": null,
+     "reasoning_details": [
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 3884,
+        "sha256": "10c6c74bca21eb68b17f1b40470e0377eb2337d8e306f496901685f1af8d2120"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0614fa5c27a32912016af890a3284087d18d6b3c9143ed569e",
+       "index": 0
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2116,
+   "completion_tokens": 229,
+   "total_tokens": 2345,
+   "cost": 0.000378925,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 2113,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.000378925,
+    "upstream_inference_prompt_cost": 0.000264425,
+    "upstream_inference_completions_cost": 0.0001145
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 168,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 3.41,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:47:29+00:00"
+}

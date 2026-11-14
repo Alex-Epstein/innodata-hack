@@ -1,0 +1,264 @@
+{
+ "data": {
+  "level": 3,
+  "site": "Riverside Hospital Central Plant",
+  "sides": [
+   {
+    "name": "A",
+    "source": {
+     "kind": "utility",
+     "label": "UTILITY FEED 1\n13.8 kV, 3φ, 60 Hz"
+    },
+    "feeders": [
+     {
+      "side": "A",
+      "cross": false,
+      "mcc": "MCC-1",
+      "xfmr": {
+       "name": "T-1",
+       "kva": 1000
+      },
+      "children": [
+       {
+        "type": "load",
+        "name": "Aeration Blower 3",
+        "kw": 40,
+        "cb": "CB-9"
+       },
+       {
+        "type": "load",
+        "name": "Air Compressor 2",
+        "kw": 30,
+        "cb": "CB-10"
+       }
+      ],
+      "cb": "CB-3"
+     },
+     {
+      "side": "A",
+      "cross": false,
+      "mcc": "MCC-2",
+      "xfmr": {
+       "name": "T-2",
+       "kva": 500
+      },
+      "children": [
+       {
+        "type": "load",
+        "name": "Admin Building",
+        "kw": 125,
+        "cb": "CB-11"
+       },
+       {
+        "type": "load",
+        "name": "Maintenance Shop",
+        "kw": 125,
+        "cb": "CB-12"
+       }
+      ],
+      "cb": "CB-4"
+     },
+     {
+      "side": "A",
+      "cross": true,
+      "mcc": "MCC-3",
+      "xfmr": {
+       "name": "T-3",
+       "kva": 500
+      },
+      "children": [
+       {
+        "type": "load",
+        "name": "Aeration Blower 4",
+        "kw": 125,
+        "cb": "CB-13"
+       },
+       {
+        "type": "load",
+        "name": "Sludge Press",
+        "kw": 50,
+        "cb": "CB-14"
+       }
+      ],
+      "cb": "CB-5"
+     }
+    ],
+    "main_cb": "CB-1"
+   },
+   {
+    "name": "B",
+    "source": {
+     "kind": "utility",
+     "label": "UTILITY FEED 2\n13.8 kV, 3φ, 60 Hz"
+    },
+    "feeders": [
+     {
+      "side": "B",
+      "cross": true,
+      "mcc": "MCC-4",
+      "xfmr": {
+       "name": "T-4",
+       "kva": 1500
+      },
+      "children": [
+       {
+        "type": "load",
+        "name": "Sump Pump 4",
+        "kw": 25,
+        "cb": "CB-15"
+       },
+       {
+        "type": "panel",
+        "name": "PNL-1",
+        "children": [
+         {
+          "type": "load",
+          "name": "Raw Water Intake",
+          "kw": 20,
+          "cb": "CB-22"
+         },
+         {
+          "type": "load",
+          "name": "Pump House 1",
+          "kw": 15,
+          "cb": "CB-23"
+         }
+        ],
+        "cb": "CB-16"
+       }
+      ],
+      "cb": "CB-6"
+     },
+     {
+      "side": "B",
+      "cross": false,
+      "mcc": "MCC-5",
+      "xfmr": {
+       "name": "T-5",
+       "kva": 500
+      },
+      "children": [
+       {
+        "type": "load",
+        "name": "Security Gate",
+        "kw": 60,
+        "cb": "CB-17"
+       },
+       {
+        "type": "load",
+        "name": "Lab Building",
+        "kw": 20,
+        "cb": "CB-18"
+       },
+       {
+        "type": "load",
+        "name": "Boiler Room",
+        "kw": 150,
+        "cb": "CB-19"
+       }
+      ],
+      "cb": "CB-7"
+     },
+     {
+      "side": "B",
+      "cross": false,
+      "mcc": "MCC-6",
+      "xfmr": {
+       "name": "T-6",
+       "kva": 750
+      },
+      "children": [
+       {
+        "type": "load",
+        "name": "Fuel Oil Pump",
+        "kw": 60,
+        "cb": "CB-20"
+       },
+       {
+        "type": "panel",
+        "name": "PNL-2",
+        "children": [
+         {
+          "type": "load",
+          "name": "Chiller 1",
+          "kw": 125,
+          "cb": "CB-24"
+         },
+         {
+          "type": "load",
+          "name": "Pump House 2",
+          "kw": 40,
+          "cb": "CB-25"
+         }
+        ],
+        "cb": "CB-21"
+       }
+      ],
+      "cb": "CB-8"
+     }
+    ],
+    "main_cb": "CB-2"
+   }
+  ],
+  "ties": [
+   {
+    "cb": "CB-T1",
+    "between": [
+     "BUS A",
+     "BUS B"
+    ],
+    "normally": "open"
+   },
+   {
+    "cb": "CB-T2",
+    "between": [
+     "MCC-4",
+     "MCC-3"
+    ],
+    "normally": "open"
+   }
+  ]
+ },
+ "scenario": {
+  "tripped": [
+   "CB-1",
+   "CB-8"
+  ],
+  "opened": [
+   "CB-5"
+  ],
+  "closed": [
+   "CB-T2"
+  ],
+  "distractors": {
+   "ignore_tie_kw": 720,
+   "by_position_kw": 565
+  }
+ },
+ "dead_loads": [
+  "Aeration Blower 3",
+  "Air Compressor 2",
+  "Admin Building",
+  "Maintenance Shop",
+  "Fuel Oil Pump",
+  "Chiller 1",
+  "Pump House 2"
+ ],
+ "kw": {
+  "Aeration Blower 3": 40,
+  "Air Compressor 2": 30,
+  "Admin Building": 125,
+  "Maintenance Shop": 125,
+  "Aeration Blower 4": 125,
+  "Sludge Press": 50,
+  "Sump Pump 4": 25,
+  "Raw Water Intake": 20,
+  "Pump House 1": 15,
+  "Security Gate": 60,
+  "Lab Building": 20,
+  "Boiler Room": 150,
+  "Fuel Oil Pump": 60,
+  "Chiller 1": 125,
+  "Pump House 2": 40
+ }
+}

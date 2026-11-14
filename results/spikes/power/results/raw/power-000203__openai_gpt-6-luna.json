@@ -1,0 +1,114 @@
+{
+ "key": "b1bb675210e3e80d351d09ba38175f99309156678531af9dc1d163b60903b0c7",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a single-line diagram of an electrical distribution system. Filled breaker squares are closed; hollow squares are open (N.O. = normally open). Power flows through closed breakers, transformers and conductors in either direction, from the sources at the top. Ignore equipment ratings. Breakers CB-20 and CB-6 trip open; every other breaker stays as drawn. Which loads lose power? Answer with the load names exactly as written on the diagram, as a comma-separated list in any order.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "power-000203.png",
+       "sha256": "fa93529a0bb8c5aca805a12a97555702cb5d8fa25155ad9dd73e16b0891bdc22"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794674861-bwScLeEBta9MICL6XSLN",
+  "object": "chat.completion",
+  "created": 1794674861,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "CB-6 trips the T4 feed to MCC-4, and the normally open tie prevents supply from MCC-3. The loads on MCC-4 lose power. CB-20 trips the feed to PNL-2, so both loads on that panel lose power.\n\nFINAL ANSWER: Lift Station 3, Lighting Panel LP-2, Sump Pump 4, Filter Gallery",
+     "refusal": null,
+     "reasoning": null,
+     "reasoning_details": [
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7616,
+        "sha256": "5c4050d37ddef5ded0377c9ac75876ed63b68a5c954b0b0841064162d3e48d4b"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0be8e8a3144f991d016af890aed98887d1808716bae53435dd",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 4396,
+        "sha256": "d0401f05e15bab664d1fe10004abb64720225d8c2f2925a1ba16819120acd4bc"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0be8e8a3144f991d016af890b3da1087d1b844b55a8a4c35c1",
+       "index": 1
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 3373,
+   "completion_tokens": 819,
+   "total_tokens": 4192,
+   "cost": 0.00083105,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 3370,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.00083105,
+    "upstream_inference_prompt_cost": 0.00042155,
+    "upstream_inference_completions_cost": 0.0004095
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 735,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 9.03,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:47:41+00:00"
+}
