@@ -1,0 +1,1079 @@
+{
+ "sources": [
+  {
+   "tasks": "results/spikes/missions/tasks",
+   "results": "results/spikes/missions/results"
+  },
+  {
+   "tasks": "results/spikes/missions/tasks_flood",
+   "results": "results/spikes/missions/results_flood"
+  },
+  {
+   "tasks": "results/spikes/topo/tasks",
+   "results": "results/spikes/topo/results_64k"
+  }
+ ],
+ "n_tasks": 21,
+ "tasks": [
+  {
+   "id": "topo-000301",
+   "title": "Count the contour lines",
+   "question_type": "topo.trail_crossings",
+   "difficulty": 3,
+   "image": "img/topo-000301.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. The Ridge Trail (dashed black line) runs from the magenta square S to the magenta square E. How many contour lines does it cross between S and E? Count every crossing, index contours included; if it crosses the same contour line twice, count both. Answer with a whole number, for example 7.",
+   "answer": 15,
+   "answer_type": "integer",
+   "ordered": true,
+   "tolerance_abs": null,
+   "tolerance_rel": null,
+   "options": [],
+   "input": "number",
+   "steps": null,
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "14",
+     "correct": false
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "18",
+     "correct": false
+    }
+   }
+  },
+  {
+   "id": "topo-000302",
+   "title": "Count the contour lines",
+   "question_type": "topo.trail_crossings",
+   "difficulty": 3,
+   "image": "img/topo-000302.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. The Aspen Trail (dashed black line) runs from the magenta square S to the magenta square E. How many contour lines does it cross between S and E? Count every crossing, index contours included; if it crosses the same contour line twice, count both. Answer with a whole number, for example 7.",
+   "answer": 17,
+   "answer_type": "integer",
+   "ordered": true,
+   "tolerance_abs": null,
+   "tolerance_rel": null,
+   "options": [],
+   "input": "number",
+   "steps": null,
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "22",
+     "correct": false
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "28",
+     "correct": false
+    }
+   }
+  },
+  {
+   "id": "topo-000303",
+   "title": "Count the contour lines",
+   "question_type": "topo.trail_crossings",
+   "difficulty": 3,
+   "image": "img/topo-000303.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. The Cedar Trail (dashed black line) runs from the magenta square S to the magenta square E. How many contour lines does it cross between S and E? Count every crossing, index contours included; if it crosses the same contour line twice, count both. Answer with a whole number, for example 7.",
+   "answer": 10,
+   "answer_type": "integer",
+   "ordered": true,
+   "tolerance_abs": null,
+   "tolerance_rel": null,
+   "options": [],
+   "input": "number",
+   "steps": null,
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "4",
+     "correct": false
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "12",
+     "correct": false
+    }
+   }
+  },
+  {
+   "id": "mission-001101",
+   "title": "Search and rescue: who can the crew see?",
+   "question_type": "mission.sar_line_of_sight",
+   "difficulty": 4,
+   "image": "img/mission-001101.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Search and rescue: a helicopter has landed on the ridge at the magenta square R. Four missing hikers are at the magenta points A, B, C and D. The crew can see a hiker only if the ground nowhere between rises above the straight sight line from R to that hiker. Ignore trees, eye height and the curvature of the Earth. Which hikers can the crew see from R? Answer with their letters separated by commas, for example A, C.",
+   "answer": [
+    "B",
+    "D"
+   ],
+   "answer_type": "sequence",
+   "ordered": false,
+   "tolerance_abs": null,
+   "tolerance_rel": null,
+   "options": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "input": "multi",
+   "steps": [
+    {
+     "hiker": "A",
+     "tower_elev_m": 1022.2,
+     "hiker_elev_m": 775.8,
+     "clearance_m": -171.3,
+     "tightest_x": 1369.6,
+     "tightest_y": 797.8,
+     "ground_there_m": 1085.7,
+     "sight_line_there_m": 914.4,
+     "visible": false
+    },
+    {
+     "hiker": "B",
+     "tower_elev_m": 1022.2,
+     "hiker_elev_m": 484.9,
+     "clearance_m": 25.9,
+     "tightest_x": 1741.1,
+     "tightest_y": 1214.0,
+     "ground_there_m": 953.3,
+     "sight_line_there_m": 979.2,
+     "visible": true
+    },
+    {
+     "hiker": "C",
+     "tower_elev_m": 1022.2,
+     "hiker_elev_m": 566.3,
+     "clearance_m": -65.3,
+     "tightest_x": 2256.0,
+     "tightest_y": 1239.2,
+     "ground_there_m": 970.8,
+     "sight_line_there_m": 905.5,
+     "visible": false
+    },
+    {
+     "hiker": "D",
+     "tower_elev_m": 1022.2,
+     "hiker_elev_m": 540.3,
+     "clearance_m": 28.4,
+     "tightest_x": 3043.0,
+     "tightest_y": 2412.5,
+     "ground_there_m": 550.5,
+     "sight_line_there_m": 578.9,
+     "visible": true
+    }
+   ],
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "A, B, D",
+     "correct": false
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "B, D",
+     "correct": true
+    }
+   }
+  },
+  {
+   "id": "mission-001102",
+   "title": "Search and rescue: who can the crew see?",
+   "question_type": "mission.sar_line_of_sight",
+   "difficulty": 4,
+   "image": "img/mission-001102.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Search and rescue: a helicopter has landed on the ridge at the magenta square R. Four missing hikers are at the magenta points A, B, C and D. The crew can see a hiker only if the ground nowhere between rises above the straight sight line from R to that hiker. Ignore trees, eye height and the curvature of the Earth. Which hikers can the crew see from R? Answer with their letters separated by commas, for example A, C.",
+   "answer": [
+    "A"
+   ],
+   "answer_type": "sequence",
+   "ordered": false,
+   "tolerance_abs": null,
+   "tolerance_rel": null,
+   "options": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "input": "multi",
+   "steps": [
+    {
+     "hiker": "A",
+     "tower_elev_m": 876.9,
+     "hiker_elev_m": 438.8,
+     "clearance_m": 27.1,
+     "tightest_x": 3119.2,
+     "tightest_y": 1481.2,
+     "ground_there_m": 814.7,
+     "sight_line_there_m": 841.9,
+     "visible": true
+    },
+    {
+     "hiker": "B",
+     "tower_elev_m": 876.9,
+     "hiker_elev_m": 728.6,
+     "clearance_m": -104.2,
+     "tightest_x": 3235.2,
+     "tightest_y": 1961.1,
+     "ground_there_m": 916.2,
+     "sight_line_there_m": 812.1,
+     "visible": false
+    },
+    {
+     "hiker": "C",
+     "tower_elev_m": 876.9,
+     "hiker_elev_m": 576.8,
+     "clearance_m": -111.2,
+     "tightest_x": 1182.6,
+     "tightest_y": 593.8,
+     "ground_there_m": 755.0,
+     "sight_line_there_m": 643.8,
+     "visible": false
+    },
+    {
+     "hiker": "D",
+     "tower_elev_m": 876.9,
+     "hiker_elev_m": 485.0,
+     "clearance_m": -47.4,
+     "tightest_x": 3092.1,
+     "tightest_y": 1748.9,
+     "ground_there_m": 827.3,
+     "sight_line_there_m": 779.9,
+     "visible": false
+    }
+   ],
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "A, D",
+     "correct": false
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "A",
+     "correct": true
+    }
+   }
+  },
+  {
+   "id": "mission-001302",
+   "title": "Pick the base camp",
+   "question_type": "mission.base_camp",
+   "difficulty": 4,
+   "image": "img/mission-001302.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Ranger mission: choose the base camp from the magenta points C1, C2, C3 and C4. The site must meet all three rules: (1) it is below 400 m; (2) it is within 300 m of a stream (blue line), measured with the scale bar; (3) it is on gentle ground, where neighbouring contour lines are at least 100 m apart. Exactly one site meets all three rules. Which one? Answer with the site name, for example C2.",
+   "answer": "C1",
+   "answer_type": "label",
+   "ordered": true,
+   "tolerance_abs": null,
+   "tolerance_rel": null,
+   "options": [
+    "C1",
+    "C2",
+    "C3",
+    "C4"
+   ],
+   "input": "choice",
+   "steps": [
+    {
+     "site": "C1",
+     "elev_m": 249.4,
+     "stream_distance_m": 151.1,
+     "contour_spacing_m": 795.1,
+     "kind": "ok",
+     "below_limit": true,
+     "within_300m_of_stream": true,
+     "gentle_ground": true
+    },
+    {
+     "site": "C2",
+     "elev_m": 358.4,
+     "stream_distance_m": 169.0,
+     "contour_spacing_m": 52.7,
+     "kind": "too_steep",
+     "below_limit": true,
+     "within_300m_of_stream": true,
+     "gentle_ground": false
+    },
+    {
+     "site": "C3",
+     "elev_m": 570.9,
+     "stream_distance_m": 151.7,
+     "contour_spacing_m": 144.9,
+     "kind": "too_high",
+     "below_limit": false,
+     "within_300m_of_stream": true,
+     "gentle_ground": true
+    },
+    {
+     "site": "C4",
+     "elev_m": 278.6,
+     "stream_distance_m": 683.7,
+     "contour_spacing_m": 190.4,
+     "kind": "too_far",
+     "below_limit": true,
+     "within_300m_of_stream": false,
+     "gentle_ground": true
+    }
+   ],
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "C3",
+     "correct": false
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "C1",
+     "correct": true
+    }
+   }
+  },
+  {
+   "id": "mission-001303",
+   "title": "Pick the base camp",
+   "question_type": "mission.base_camp",
+   "difficulty": 4,
+   "image": "img/mission-001303.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Ranger mission: choose the base camp from the magenta points C1, C2, C3 and C4. The site must meet all three rules: (1) it is below 600 m; (2) it is within 300 m of a stream (blue line), measured with the scale bar; (3) it is on gentle ground, where neighbouring contour lines are at least 100 m apart. Exactly one site meets all three rules. Which one? Answer with the site name, for example C2.",
+   "answer": "C3",
+   "answer_type": "label",
+   "ordered": true,
+   "tolerance_abs": null,
+   "tolerance_rel": null,
+   "options": [
+    "C1",
+    "C2",
+    "C3",
+    "C4"
+   ],
+   "input": "choice",
+   "steps": [
+    {
+     "site": "C1",
+     "elev_m": 789.4,
+     "stream_distance_m": 172.0,
+     "contour_spacing_m": 163.6,
+     "kind": "too_high",
+     "below_limit": false,
+     "within_300m_of_stream": true,
+     "gentle_ground": true
+    },
+    {
+     "site": "C2",
+     "elev_m": 364.2,
+     "stream_distance_m": 1893.1,
+     "contour_spacing_m": 165.5,
+     "kind": "too_far",
+     "below_limit": true,
+     "within_300m_of_stream": false,
+     "gentle_ground": true
+    },
+    {
+     "site": "C3",
+     "elev_m": 383.2,
+     "stream_distance_m": 217.3,
+     "contour_spacing_m": 201.8,
+     "kind": "ok",
+     "below_limit": true,
+     "within_300m_of_stream": true,
+     "gentle_ground": true
+    },
+    {
+     "site": "C4",
+     "elev_m": 553.6,
+     "stream_distance_m": 213.9,
+     "contour_spacing_m": 45.4,
+     "kind": "too_steep",
+     "below_limit": true,
+     "within_300m_of_stream": true,
+     "gentle_ground": false
+    }
+   ],
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "C3",
+     "correct": true
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "C1",
+     "correct": false
+    }
+   }
+  },
+  {
+   "id": "mission-001401",
+   "title": "Flash flood: which camp is hit?",
+   "question_type": "mission.flash_flood",
+   "difficulty": 4,
+   "image": "img/mission-001401.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Flash flood: the dam at the magenta square D has failed. The water runs downhill from D, always in the direction of steepest descent, so its path crosses every contour line at a right angle. Four campsites are at the magenta points C1, C2, C3 and C4, all lower than the dam. Exactly one of them lies in the water's path. Which campsite does the water reach? Answer with the site name, for example C2.",
+   "answer": "C4",
+   "answer_type": "label",
+   "ordered": true,
+   "tolerance_abs": null,
+   "tolerance_rel": null,
+   "options": [
+    "C1",
+    "C2",
+    "C3",
+    "C4"
+   ],
+   "input": "choice",
+   "steps": {
+    "dam_elev_m": 768.3,
+    "flow_distance_to_camp_m": 1515.0,
+    "sites": [
+     {
+      "site": "C1",
+      "elev_m": 647.5,
+      "distance_to_water_route_m": 383.3,
+      "flooded": false
+     },
+     {
+      "site": "C2",
+      "elev_m": 490.5,
+      "distance_to_water_route_m": 586.4,
+      "flooded": false
+     },
+     {
+      "site": "C3",
+      "elev_m": 651.7,
+      "distance_to_water_route_m": 777.0,
+      "flooded": false
+     },
+     {
+      "site": "C4",
+      "elev_m": 415.2,
+      "distance_to_water_route_m": 20.9,
+      "flooded": true
+     }
+    ]
+   },
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "C4",
+     "correct": true
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "C2",
+     "correct": false
+    }
+   }
+  },
+  {
+   "id": "mission-001403",
+   "title": "Flash flood: which camp is hit?",
+   "question_type": "mission.flash_flood",
+   "difficulty": 4,
+   "image": "img/mission-001403.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Flash flood: the dam at the magenta square D has failed. The water runs downhill from D, always in the direction of steepest descent, so its path crosses every contour line at a right angle. Four campsites are at the magenta points C1, C2, C3 and C4, all lower than the dam. Exactly one of them lies in the water's path. Which campsite does the water reach? Answer with the site name, for example C2.",
+   "answer": "C4",
+   "answer_type": "label",
+   "ordered": true,
+   "tolerance_abs": null,
+   "tolerance_rel": null,
+   "options": [
+    "C1",
+    "C2",
+    "C3",
+    "C4"
+   ],
+   "input": "choice",
+   "steps": {
+    "dam_elev_m": 626.8,
+    "flow_distance_to_camp_m": 1440.0,
+    "sites": [
+     {
+      "site": "C1",
+      "elev_m": 367.6,
+      "distance_to_water_route_m": 575.6,
+      "flooded": false
+     },
+     {
+      "site": "C2",
+      "elev_m": 577.9,
+      "distance_to_water_route_m": 339.7,
+      "flooded": false
+     },
+     {
+      "site": "C3",
+      "elev_m": 413.7,
+      "distance_to_water_route_m": 416.3,
+      "flooded": false
+     },
+     {
+      "site": "C4",
+      "elev_m": 467.8,
+      "distance_to_water_route_m": 8.4,
+      "flooded": true
+     }
+    ]
+   },
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "C2",
+     "correct": false
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "C4",
+     "correct": true
+    }
+   }
+  },
+  {
+   "id": "topo-000202",
+   "title": "Read the elevation",
+   "question_type": "topo.point_elevation",
+   "difficulty": 2,
+   "image": "img/topo-000202.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. The magenta point P lies exactly on a contour line. What is the elevation of P in meters? Answer with a whole number, for example 1240.",
+   "answer": 320,
+   "answer_type": "integer",
+   "ordered": true,
+   "tolerance_abs": null,
+   "tolerance_rel": null,
+   "options": [
+    "P"
+   ],
+   "input": "number",
+   "steps": null,
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "320",
+     "correct": true
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "360",
+     "correct": false
+    }
+   }
+  },
+  {
+   "id": "mission-001103",
+   "title": "Search and rescue: who can the crew see?",
+   "question_type": "mission.sar_line_of_sight",
+   "difficulty": 4,
+   "image": "img/mission-001103.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Search and rescue: a helicopter has landed on the ridge at the magenta square R. Four missing hikers are at the magenta points A, B, C and D. The crew can see a hiker only if the ground nowhere between rises above the straight sight line from R to that hiker. Ignore trees, eye height and the curvature of the Earth. Which hikers can the crew see from R? Answer with their letters separated by commas, for example A, C.",
+   "answer": [
+    "C"
+   ],
+   "answer_type": "sequence",
+   "ordered": false,
+   "tolerance_abs": null,
+   "tolerance_rel": null,
+   "options": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "input": "multi",
+   "steps": [
+    {
+     "hiker": "A",
+     "tower_elev_m": 785.4,
+     "hiker_elev_m": 573.2,
+     "clearance_m": -52.7,
+     "tightest_x": 2181.3,
+     "tightest_y": 638.1,
+     "ground_there_m": 675.8,
+     "sight_line_there_m": 623.1,
+     "visible": false
+    },
+    {
+     "hiker": "B",
+     "tower_elev_m": 785.4,
+     "hiker_elev_m": 633.3,
+     "clearance_m": -67.1,
+     "tightest_x": 817.4,
+     "tightest_y": 2003.6,
+     "ground_there_m": 783.5,
+     "sight_line_there_m": 716.4,
+     "visible": false
+    },
+    {
+     "hiker": "C",
+     "tower_elev_m": 785.4,
+     "hiker_elev_m": 585.5,
+     "clearance_m": 27.8,
+     "tightest_x": 910.1,
+     "tightest_y": 1520.2,
+     "ground_there_m": 741.7,
+     "sight_line_there_m": 769.4,
+     "visible": true
+    },
+    {
+     "hiker": "D",
+     "tower_elev_m": 785.4,
+     "hiker_elev_m": 666.5,
+     "clearance_m": -115.2,
+     "tightest_x": 580.8,
+     "tightest_y": 1892.7,
+     "ground_there_m": 846.5,
+     "sight_line_there_m": 731.3,
+     "visible": false
+    }
+   ],
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "C",
+     "correct": true
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "C",
+     "correct": true
+    }
+   }
+  },
+  {
+   "id": "mission-001201",
+   "title": "Lost hiker vs sunset",
+   "question_type": "mission.lost_hiker_sunset",
+   "difficulty": 4,
+   "image": "img/mission-001201.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. A lost hiker at the magenta square S must reach the hut at the magenta square H along the Ridge Trail (dashed black line). It is 15:30 and sunset is at 16:45. Walking time follows Naismith's rule: 1 hour for every 4 km of map distance, plus 1 hour for every 300 m of ascent. Add up every uphill stretch along the way; downhill stretches add no time and do not cancel ascent. Use the scale bar for distance. How many minutes of daylight are left when the hiker reaches the hut? Give a negative number if the hiker arrives after sunset. An answer within 10 minutes of the true value is accepted. Give one number, for example 25 or -15.",
+   "answer": 33,
+   "answer_type": "number",
+   "ordered": true,
+   "tolerance_abs": 10,
+   "tolerance_rel": null,
+   "options": [],
+   "input": "number",
+   "steps": {
+    "trail_length_m": 1798.6,
+    "total_ascent_m": 77.4,
+    "uphill_contour_crossings": 4,
+    "start_elev_m": 373.6,
+    "end_elev_m": 368.1,
+    "minutes_from_distance": 27.0,
+    "minutes_from_ascent": 15.5,
+    "wrong_if_net_gain_only": 27.0,
+    "wrong_if_climb_ignored": 27.0,
+    "walking_minutes": 42.5,
+    "daylight_minutes": 75,
+    "minutes_left_at_arrival": 32.5
+   },
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "32",
+     "correct": true
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "28",
+     "correct": true
+    }
+   }
+  },
+  {
+   "id": "mission-001202",
+   "title": "Lost hiker vs sunset",
+   "question_type": "mission.lost_hiker_sunset",
+   "difficulty": 4,
+   "image": "img/mission-001202.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. A lost hiker at the magenta square S must reach the hut at the magenta square H along the Summit Trail (dashed black line). It is 15:30 and sunset is at 18:05. Walking time follows Naismith's rule: 1 hour for every 4 km of map distance, plus 1 hour for every 300 m of ascent. Add up every uphill stretch along the way; downhill stretches add no time and do not cancel ascent. Use the scale bar for distance. How many minutes of daylight are left when the hiker reaches the hut? Give a negative number if the hiker arrives after sunset. An answer within 10 minutes of the true value is accepted. Give one number, for example 25 or -15.",
+   "answer": 52,
+   "answer_type": "number",
+   "ordered": true,
+   "tolerance_abs": 10,
+   "tolerance_rel": null,
+   "options": [],
+   "input": "number",
+   "steps": {
+    "trail_length_m": 2438.7,
+    "total_ascent_m": 334.4,
+    "uphill_contour_crossings": 17,
+    "start_elev_m": 447.2,
+    "end_elev_m": 687.2,
+    "minutes_from_distance": 36.6,
+    "minutes_from_ascent": 66.9,
+    "wrong_if_net_gain_only": 84.6,
+    "wrong_if_climb_ignored": 36.6,
+    "walking_minutes": 103.5,
+    "daylight_minutes": 155,
+    "minutes_left_at_arrival": 51.5
+   },
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "52",
+     "correct": true
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "58",
+     "correct": true
+    }
+   }
+  },
+  {
+   "id": "mission-001203",
+   "title": "Lost hiker vs sunset",
+   "question_type": "mission.lost_hiker_sunset",
+   "difficulty": 4,
+   "image": "img/mission-001203.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. A lost hiker at the magenta square S must reach the hut at the magenta square H along the Miners Trail (dashed black line). It is 15:30 and sunset is at 18:40. Walking time follows Naismith's rule: 1 hour for every 4 km of map distance, plus 1 hour for every 300 m of ascent. Add up every uphill stretch along the way; downhill stretches add no time and do not cancel ascent. Use the scale bar for distance. How many minutes of daylight are left when the hiker reaches the hut? Give a negative number if the hiker arrives after sunset. An answer within 10 minutes of the true value is accepted. Give one number, for example 25 or -15.",
+   "answer": 36,
+   "answer_type": "number",
+   "ordered": true,
+   "tolerance_abs": 10,
+   "tolerance_rel": null,
+   "options": [],
+   "input": "number",
+   "steps": {
+    "trail_length_m": 2281.1,
+    "total_ascent_m": 599.9,
+    "uphill_contour_crossings": 30,
+    "start_elev_m": 347.7,
+    "end_elev_m": 646.9,
+    "minutes_from_distance": 34.2,
+    "minutes_from_ascent": 120.0,
+    "wrong_if_net_gain_only": 94.1,
+    "wrong_if_climb_ignored": 34.2,
+    "walking_minutes": 154.2,
+    "daylight_minutes": 190,
+    "minutes_left_at_arrival": 35.8
+   },
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "44",
+     "correct": true
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "42",
+     "correct": true
+    }
+   }
+  },
+  {
+   "id": "mission-001301",
+   "title": "Pick the base camp",
+   "question_type": "mission.base_camp",
+   "difficulty": 4,
+   "image": "img/mission-001301.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Ranger mission: choose the base camp from the magenta points C1, C2, C3 and C4. The site must meet all three rules: (1) it is below 500 m; (2) it is within 300 m of a stream (blue line), measured with the scale bar; (3) it is on gentle ground, where neighbouring contour lines are at least 100 m apart. Exactly one site meets all three rules. Which one? Answer with the site name, for example C2.",
+   "answer": "C1",
+   "answer_type": "label",
+   "ordered": true,
+   "tolerance_abs": null,
+   "tolerance_rel": null,
+   "options": [
+    "C1",
+    "C2",
+    "C3",
+    "C4"
+   ],
+   "input": "choice",
+   "steps": [
+    {
+     "site": "C1",
+     "elev_m": 370.8,
+     "stream_distance_m": 202.0,
+     "contour_spacing_m": 954.4,
+     "kind": "ok",
+     "below_limit": true,
+     "within_300m_of_stream": true,
+     "gentle_ground": true
+    },
+    {
+     "site": "C2",
+     "elev_m": 681.2,
+     "stream_distance_m": 189.9,
+     "contour_spacing_m": 147.9,
+     "kind": "too_high",
+     "below_limit": false,
+     "within_300m_of_stream": true,
+     "gentle_ground": true
+    },
+    {
+     "site": "C3",
+     "elev_m": 397.1,
+     "stream_distance_m": 1661.6,
+     "contour_spacing_m": 1410.2,
+     "kind": "too_far",
+     "below_limit": true,
+     "within_300m_of_stream": false,
+     "gentle_ground": true
+    },
+    {
+     "site": "C4",
+     "elev_m": 468.4,
+     "stream_distance_m": 206.4,
+     "contour_spacing_m": 48.7,
+     "kind": "too_steep",
+     "below_limit": true,
+     "within_300m_of_stream": true,
+     "gentle_ground": false
+    }
+   ],
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "C1",
+     "correct": true
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "C1",
+     "correct": true
+    }
+   }
+  },
+  {
+   "id": "mission-001402",
+   "title": "Flash flood: which camp is hit?",
+   "question_type": "mission.flash_flood",
+   "difficulty": 4,
+   "image": "img/mission-001402.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Flash flood: the dam at the magenta square D has failed. The water runs downhill from D, always in the direction of steepest descent, so its path crosses every contour line at a right angle. Four campsites are at the magenta points C1, C2, C3 and C4, all lower than the dam. Exactly one of them lies in the water's path. Which campsite does the water reach? Answer with the site name, for example C2.",
+   "answer": "C3",
+   "answer_type": "label",
+   "ordered": true,
+   "tolerance_abs": null,
+   "tolerance_rel": null,
+   "options": [
+    "C1",
+    "C2",
+    "C3",
+    "C4"
+   ],
+   "input": "choice",
+   "steps": {
+    "dam_elev_m": 810.8,
+    "flow_distance_to_camp_m": 1290.0,
+    "sites": [
+     {
+      "site": "C1",
+      "elev_m": 576.5,
+      "distance_to_water_route_m": 626.5,
+      "flooded": false
+     },
+     {
+      "site": "C2",
+      "elev_m": 743.5,
+      "distance_to_water_route_m": 897.5,
+      "flooded": false
+     },
+     {
+      "site": "C3",
+      "elev_m": 451.3,
+      "distance_to_water_route_m": 16.5,
+      "flooded": true
+     },
+     {
+      "site": "C4",
+      "elev_m": 523.3,
+      "distance_to_water_route_m": 791.0,
+      "flooded": false
+     }
+    ]
+   },
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "C3",
+     "correct": true
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "C3",
+     "correct": true
+    }
+   }
+  },
+  {
+   "id": "topo-000101",
+   "title": "Which point is higher?",
+   "question_type": "topo.higher_point",
+   "difficulty": 1,
+   "image": "img/topo-000101.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Two points are marked in magenta, A and B. Which point is at the higher elevation? Answer with a single letter, A or B.",
+   "answer": "B",
+   "answer_type": "label",
+   "ordered": true,
+   "tolerance_abs": null,
+   "tolerance_rel": null,
+   "options": [
+    "A",
+    "B"
+   ],
+   "input": "choice",
+   "steps": null,
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "B",
+     "correct": true
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "B",
+     "correct": true
+    }
+   }
+  },
+  {
+   "id": "topo-000102",
+   "title": "Which point is higher?",
+   "question_type": "topo.higher_point",
+   "difficulty": 1,
+   "image": "img/topo-000102.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Two points are marked in magenta, A and B. Which point is at the higher elevation? Answer with a single letter, A or B.",
+   "answer": "B",
+   "answer_type": "label",
+   "ordered": true,
+   "tolerance_abs": null,
+   "tolerance_rel": null,
+   "options": [
+    "A",
+    "B"
+   ],
+   "input": "choice",
+   "steps": null,
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "B",
+     "correct": true
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "B",
+     "correct": true
+    }
+   }
+  },
+  {
+   "id": "topo-000103",
+   "title": "Which point is higher?",
+   "question_type": "topo.higher_point",
+   "difficulty": 1,
+   "image": "img/topo-000103.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Two points are marked in magenta, A and B. Which point is at the higher elevation? Answer with a single letter, A or B.",
+   "answer": "A",
+   "answer_type": "label",
+   "ordered": true,
+   "tolerance_abs": null,
+   "tolerance_rel": null,
+   "options": [
+    "A",
+    "B"
+   ],
+   "input": "choice",
+   "steps": null,
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "A",
+     "correct": true
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "A",
+     "correct": true
+    }
+   }
+  },
+  {
+   "id": "topo-000201",
+   "title": "Read the elevation",
+   "question_type": "topo.point_elevation",
+   "difficulty": 2,
+   "image": "img/topo-000201.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. The magenta point P lies exactly on a contour line. What is the elevation of P in meters? Answer with a whole number, for example 1240.",
+   "answer": 580,
+   "answer_type": "integer",
+   "ordered": true,
+   "tolerance_abs": null,
+   "tolerance_rel": null,
+   "options": [
+    "P"
+   ],
+   "input": "number",
+   "steps": null,
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "580",
+     "correct": true
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "580",
+     "correct": true
+    }
+   }
+  },
+  {
+   "id": "topo-000203",
+   "title": "Read the elevation",
+   "question_type": "topo.point_elevation",
+   "difficulty": 2,
+   "image": "img/topo-000203.jpg",
+   "overlay": null,
+   "question": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. The magenta point P lies exactly on a contour line. What is the elevation of P in meters? Answer with a whole number, for example 1240.",
+   "answer": 820,
+   "answer_type": "integer",
+   "ordered": true,
+   "tolerance_abs": null,
+   "tolerance_rel": null,
+   "options": [
+    "P"
+   ],
+   "input": "number",
+   "steps": null,
+   "models": {
+    "Haiku": {
+     "model_id": "anthropic/claude-haiku-5.5",
+     "answer": "820",
+     "correct": true
+    },
+    "Luna": {
+     "model_id": "openai/gpt-6-luna",
+     "answer": "820",
+     "correct": true
+    }
+   }
+  }
+ ]
+}

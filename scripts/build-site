@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Build the "Beat the AI" phone page data (#40): site/tasks.json + site/img/ from the reported tasks and results.
+# Usage: scripts/build-site [task_dir:results_dir ...]   (default: tasks/final:results/final, else the topo spikes)
+cd "$(dirname "$0")/.." || exit 1
+PYTHONUTF8=1 uv run python scripts/build_site.py "$@"

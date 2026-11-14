@@ -1,0 +1,1 @@
+- done: #40 Beat the AI page (site/, scripts/build-site), tested at phone size; 21 spike tasks for now. next: rebuild from results/final after the final eval; Alex to enable GitHub Pages. blocked: Pages not enabled
