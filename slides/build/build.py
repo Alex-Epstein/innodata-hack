@@ -149,7 +149,7 @@ fill(shape(s1, "title").text_frame, [
 ], margins=(0, 0.03))
 place(shape(s1, "team"), y=3.20, w=TW, h=0.36)
 fill(shape(s1, "team").text_frame, [([
-    ("[Team name]", dict(font=LEAGUE, size=16, color=HUMAN)),
+    ("Lost the Plot", dict(font=LEAGUE, size=16, color="FFFFFF")),
     ("  ·  Visual Task Factory", dict(font=LEAGUE, size=16, color="FFFFFF"))], {})], margins=(0, 0.02))
 place(shape(s1, "members"), y=3.58, w=TW, h=0.40)
 fill(shape(s1, "members").text_frame, [([
