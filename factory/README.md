@@ -37,6 +37,21 @@ MOCK=1 uv run python -m factory fresh --seed 3 --family example        # offline
 | `reproducible` | a rebuild in a temp folder gives the same PNG and data bytes, question and answer |
 | `needs_image` | only with `--blind-results`: not every model got it right without the image |
 
+**Advisory LLM review** (`validate/review.py`, not a check: it never changes an answer, never edits `tasks.jsonl`
+and never drops a task). `claude-sonnet-5-5` reads each task (image, question, reference answer, `steps`) and flags
+what a careful human would raise: `ambiguity` (another answer is reasonable), `legibility` (something the answer
+needs is too small, covered or cut off), `leakage` (the question gives it away), `realism` (what gives the image
+away), `other`. It writes `review_report.json` next to `tasks.jsonl` and prints a table; every task it reviews goes
+into the README's "Hand check" notes, flagged ones with what was found and what was done.
+```bash
+uv run python -m validate.review --tasks tasks/final --dry-run   # call count and estimated cost, no calls
+uv run python -m validate.review --tasks tasks/final [--limit N]  # then log the actual token totals it prints
+```
+Calls the Anthropic API directly with `ANTHROPIC_API_KEY` from `.env` (fixed settings, max_tokens 2000, JSON
+output; the model only takes the default temperature, so none is sent). Replies are cached under `cache/review/`
+like eval's cache, so a rerun costs nothing and gives the same review. `MOCK=1` runs offline. Anthropic spend
+is not shown by `scripts/budget`, so use the token totals the run prints.
+
 ## How a family plugs in (`contracts/FAMILY.md`)
 A package `gen/<family>/` with `FAMILY, VERSION, TEMPLATES, REFERENCES, build, solve_independent, RejectSeed`. The
 registry imports every such package and skips a broken one with a warning. To pass every check, `build()` must:
