@@ -1,17 +1,17 @@
 # Briefing (the latest shared context; Alex's session keeps "Now" current)
 
 ## Now
-**12:15 · BUILD PHASE. Families decided: topo missions + power one-line** (`results/spikes/README.md` has the evidence).
-The difficulty is tracing a path through clutter: these models read labels and do math fine, but miscount contours along a
-trail and mis-trace feeders across crossings.
-| Owner | Issue | Done by |
+**13:45 · FINAL STRETCH. Everyone: read `docs/OVERVIEW.md` and `docs/SCRIPT.md` until you can explain any part.**
+Final 10 = all topo (crossings 3, sunset 3, flood 4), generated in Docker by the rule in DECISIONS. Demo = `site/` (live:
+https://alex-epstein.github.io/innodata-hack/).
+| Who | Job | Done by |
 |---|---|---|
-| tech-cosmos | #46 topo family → `gen/topo`, 10-seed pilot per mission | 1:30 |
-| WindHurtLZ | #47 power family → `gen/power`, wording + variety fixes, 10-seed pilot | 1:30 |
-| dl3832 | #40 Beat the AI phone page (GitHub Pages + QR) | 2:30 |
-| Alex | #6 core CLI + #7 validator (plug-in contract: `contracts/FAMILY.md`), #41 report page | core 1:00 |
-| tech-cosmos | #8 packaging, then the final eval (you own eval runs) | 2:45 |
-**Next gates:** 1:00 core + validator on main · 1:30 both families pass `validate`, pilots posted · **1:45 generator frozen, final-10 rule written** · 2:15 final eval + Docker rebuild · 2:45 ZIP passes checker · 3:10 uploaded.
+| WindHurtLZ | **Final set in Docker**: build image, generate per the rule, validate --drop-invalid, eval both models → `tasks/final`, `results/final`; then test the README's Docker commands on a clean clone | 2:20 |
+| tech-cosmos | **README content** (all organizer headings: problem, pipeline, pilot results + generator changes, findings incl. power, hand check, reused components, manual steps, limitations, contributions) + `scripts/package` ZIP, checker 0 FAIL. Stop site-fable | 2:50 |
+| dl3832 | **Human baseline** #55 on the final 10 (timed, image only) → hand-check notes for the README | 2:35 |
+| Alex + agents | slides from the template, rebuild report + site on the final set, EVIDENCE.md, rehearsal | 3:00 |
+| **Everyone** | learn your SCRIPT.md part; **two timed rehearsals at 2:50 and 3:00** | 3:10 |
+**Upload by 3:10** (hard 3:30). Presentations at 3:30.
 
 **Budget (Alex's session tracks it; check with `scripts/budget`)**
 | Pot | Cap | Spent | Notes |
