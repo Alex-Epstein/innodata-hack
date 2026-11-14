@@ -1,0 +1,99 @@
+{
+ "key": "cae8074fd3316b34e31401d7570328ca745249e57de96e0dba8051a93b3b7aaf",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "Durations are in working days: Monday to Friday, except the shaded company holidays. Every link is finish-to-start, and a task starts on the first working day after all of its predecessors finish. Suppose task 2 (Requirements sign-off) takes 2 more working days than planned and nothing else changes. On what date does the project now finish? Answer with the date in the form Fri Mar 5.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "gantt-000202.png",
+       "sha256": "579fcc1588620c12d04b0c1a3c58851c3caf5c711ce3e8fde2721163f13d2449"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673766-e9xuTTK1A7Qhfsqggwxn",
+  "object": "chat.completion",
+  "created": 1794673766,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "## Schedule logic\n\n**Working calendar:** Monday to Friday, excluding Thu 11/26, Fri 11/27, Fri 12/25 and Fri 1/1. After Wed 11/25 the next working day is Mon 11/30.\n\n**Revised dates, with task 2 at 9 days:**\n\n1. **Project kickoff** (1 day): Mon 11/16.\n2. **Requirements sign-off** (9 days, was 7): starts Tue 11/17. The seven-day span ends Wed 11/25, then 11/30 and Tue 12/1 make nine working days. Finishes **Tue 12/1**.\n3. **Analytics tagging** (6 days, pred 2): starts Wed 12/2 and finishes **Wed 12/9**.\n4. **UAT round 2** (4 days, pred 3): starts Thu 12/10 and finishes **Tue 12/15**.\n5. **Search index** (5 days, pred 1): starts 11/17 and finishes Mon 11/23. Unaffected.\n6. **Front-end build** (4 days, pred 5): starts Tue 11/24 and finishes Tue 12/1. Unaffected.\n7. **Help-center articles** (3 days, pred 6): starts Wed 12/2 and finishes Fri 12/4.\n8. **Bug-fix sprint** (2 days, pred 7): starts Mon 12/7 and finishes Tue 12/8.\n9. **Support training** (4 days, pred 8): starts Wed 12/9 and finishes Mon 12/14.\n10. **Go-live** (1 day, preds 4 and 9): starts after the later predecessor, which is UAT round 2 finishing Tue 12/15. It starts Wed 12/16 and finishes **Wed 12/16**.\n\nThe original plan finished Go-live on Tue 12/15, so the 2-day slip in task 2 pushes the project finish out by one working day. The slip reaches the end through the UAT round 2 chain (tasks 2 → 3 → 4 → 10), which was the critical path.\n\nFINAL ANSWER: Wed Dec 16",
+     "refusal": null,
+     "reasoning": "I'm reading through the schedule: the project starts Monday 11/16/26, with working days Monday through Friday minus the holidays on 11/26, 11/27, 12/25, and 1/1. Task 1 is a one-day kickoff on Monday 11/16 with no predecessors. Task 2 is a seven-day requirements sign-off that depends on task 1, so I'm working out its start on Tuesday 11/17.\n\nNow I'm checking the rest of the schedule with the two-day slip: the holidays on 11/26 and 11/27 push the task 2 finish to Tue 12/1. Task 3 analytics tagging then starts Wed 12/2 and finishes Wed 12/9, and I'm checking that against the original Gantt bar.\n\nI'm working through the remaining dependencies, where task 5 hangs off task 1 and not task 2. Task 5 runs five days from 11/17 to Mon 11/23, and task 6 starts 11/24 and finishes Tue 12/1, with the 11/26 and 11/27 holidays leaving it unchanged.\n\nI'm re-checking the calendar from 11/19 onward to confirm the holiday skips, since the +2 slip moves task 2's finish to Tue 12/1.\n\nNow I'm working out the rest of the schedule with the slip. Task 2 finishes Tue 12/1, task 3 runs 12/2 to Wed 12/9, and task 4 runs 12/10 to Tue 12/15. Task 6 starts 11/24 and also finishes 12/1, since the holidays don't affect it.\n\nNow I'm carrying the successor checks through to the end: task 7 runs three days from Wed 12/2 to Fri 12/4, task 8 two days to Tue 12/8, and task 9 four days to Mon 12/14. Task 10 depends on both tasks 4 and 9, so it can only start once the later of those finishes, landing on Wed 12/16. I'm also going back to check task 3's start against the original Gantt bar.\n\nI'm checking the original Gantt bars against the slipped dates: task 3 should start Mon 11/30 since 11/26 and 11/27 are holidays, and task 4 would then land on 12/8 to 12/11. Task 10 is the one I'm worried about, since its start is set by whichever of tasks 4 and 9 finishes later.\n\nI'm checking the Go-live bar on the Gantt chart against the calendar columns to see whether it lands on Wednesday 12/16.\n\nI'm checking the Go-live bar against the calendar columns, and it sits over Tue 12/15 originally, which matches my calculation. With the slip it moves to Wed 12/16, and I'm also confirming task 9's start on Wed 12/9 against the Gantt.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm reading through the schedule: the project starts Monday 11/16/26, with working days Monday through Friday minus the holidays on 11/26, 11/27, 12/25, and 1/1. Task 1 is a one-day kickoff on Monday 11/16 with no predecessors. Task 2 is a seven-day requirements sign-off that depends on task 1, so I'm working out its start on Tuesday 11/17.\n\nNow I'm checking the rest of the schedule with the two-day slip: the holidays on 11/26 and 11/27 push the task 2 finish to Tue 12/1. Task 3 analytics tagging then starts Wed 12/2 and finishes Wed 12/9, and I'm checking that against the original Gantt bar.\n\nI'm working through the remaining dependencies, where task 5 hangs off task 1 and not task 2. Task 5 runs five days from 11/17 to Mon 11/23, and task 6 starts 11/24 and finishes Tue 12/1, with the 11/26 and 11/27 holidays leaving it unchanged.\n\nI'm re-checking the calendar from 11/19 onward to confirm the holiday skips, since the +2 slip moves task 2's finish to Tue 12/1.\n\nNow I'm working out the rest of the schedule with the slip. Task 2 finishes Tue 12/1, task 3 runs 12/2 to Wed 12/9, and task 4 runs 12/10 to Tue 12/15. Task 6 starts 11/24 and also finishes 12/1, since the holidays don't affect it.\n\nNow I'm carrying the successor checks through to the end: task 7 runs three days from Wed 12/2 to Fri 12/4, task 8 two days to Tue 12/8, and task 9 four days to Mon 12/14. Task 10 depends on both tasks 4 and 9, so it can only start once the later of those finishes, landing on Wed 12/16. I'm also going back to check task 3's start against the original Gantt bar.\n\nI'm checking the original Gantt bars against the slipped dates: task 3 should start Mon 11/30 since 11/26 and 11/27 are holidays, and task 4 would then land on 12/8 to 12/11. Task 10 is the one I'm worried about, since its start is set by whichever of tasks 4 and 9 finishes later.\n\nI'm checking the Go-live bar on the Gantt chart against the calendar columns to see whether it lands on Wednesday 12/16.\n\nI'm checking the Go-live bar against the calendar columns, and it sits over Tue 12/15 originally, which matches my calculation. With the slip it moves to Wed 12/16, and I'm also confirming task 9's start on Wed 12/9 against the Gantt.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "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.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 818,
+   "completion_tokens": 3073,
+   "total_tokens": 3891,
+   "cost": 0.0016183,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0016183,
+    "upstream_inference_prompt_cost": 8.18e-05,
+    "upstream_inference_completions_cost": 0.0015365
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2363,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 12.42,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": true,
+ "mock": false,
+ "created": "2026-11-14T16:29:26+00:00"
+}

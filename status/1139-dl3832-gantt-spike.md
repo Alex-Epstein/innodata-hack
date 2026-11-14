@@ -1,0 +1,1 @@
+- done: spike E Gantt (#16): 9 tasks, Haiku 9/9, Luna 8/9, no drop across levels, too easy. next: next ticket per BRIEFING. blocked: nothing

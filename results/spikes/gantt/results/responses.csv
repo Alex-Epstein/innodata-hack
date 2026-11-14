@@ -1,0 +1,279 @@
+model,task_id,status,parsed,question_type,response,ref_answer,correct,finish_reason,error
+anthropic/claude-haiku-5.5,gantt-000101,ok,Tue Dec 1,gantt.finish_date,"**Schedule (working days only, skipping Thu 11/26, Fri 11/27, Fri 12/25, Fri 1/1):**
+
+1. **Kickoff** (1 day): Mon 11/16 to Mon 11/16.
+2. **Data cleanup** (3 days, after 1): Tue 11/17 to Thu 11/19.
+3. **Wi-Fi survey** (4 days, after 1): Tue 11/17 to Fri 11/20.
+4. **Floor-staff training** (5 days, after 2): starts Fri 11/20 (its predecessor, Data cleanup, finishes Thu 11/19, so it starts the next working day). Working days are Fri 11/20, Mon 11/23, Tue 11/24, Wed 11/25, then Thu 11/26 and Fri 11/27 are holidays, so it finishes Mon 11/30.
+5. **Cutover plan** (3 days, after 4): starts Mon 11/23 (Wi-Fi survey finished Fri 11/20). Working days are Mon 11/23, Tue 11/24, Wed 11/25, so it finishes Wed 11/25.
+6. **Go-live** (1 day, after 3 and 5): both predecessors are done by Mon 11/30, so it starts Tue 12/1 and finishes that day.
+
+The last task, Go-live, finishes on Tue Dec 1.
+
+FINAL ANSWER: Tue Dec 1",Tue Dec 1,1,stop,
+openai/gpt-6-luna,gantt-000101,ok,Tue Dec 1,gantt.finish_date,"Kickoff finishes Mon Nov 16. Data cleanup runs Tue Nov 17–Thu Nov 19, and Wi‑Fi survey runs Tue Nov 17–Fri Nov 20.
+
+Floor-staff training starts Fri Nov 20 and uses its five working days on Nov 20, 23, 24, 25, and 30, finishing Mon Nov 30. Cutover plan runs Nov 23–25, so Go-live can start Tue Dec 1 and finishes that day.
+
+FINAL ANSWER: Tue Dec 1",Tue Dec 1,1,stop,
+anthropic/claude-haiku-5.5,gantt-000102,ok,Mon Dec 7,gantt.finish_date,"## Schedule calculation
+
+**Calendar:** Project starts Mon 11/16. Non-working days are weekends plus the holidays Thu 11/26, Fri 11/27, Fri 12/25, and Fri 1/1.
+
+1. **Kickoff meeting** (1 day): Mon 11/16 to Mon 11/16.
+2. **HVAC ductwork** (6 days, after task 1): Tue 11/17, Wed 11/18, Thu 11/19, Fri 11/20, Mon 11/23, Tue 11/24. Finishes Tue 11/24.
+3. **Flooring** (5 days, after task 1): Tue 11/17 through Mon 11/23. Finishes Mon 11/23.
+4. **Punch list** (6 days, after task 2): Starts Wed 11/25. The holidays on 11/26 and 11/27 are skipped, so the days are Wed 11/25, Mon 11/30, Tue 12/1, Wed 12/2, Thu 12/3, Fri 12/4. Finishes Fri 12/4.
+5. **Fire inspection** (3 days, after task 4): Starts Tue 11/24 (the day after Flooring finishes on 11/23). Days are Tue 11/24, Wed 11/25, Mon 11/30. Finishes Mon 11/30.
+6. **Handover to tenant** (1 day, after tasks 3 and 5): Both predecessors are done by Fri 12/4, so handover starts on the next working day, Mon 12/7, and finishes the same day.
+
+The Gantt chart agrees: the handover bar sits in the Monday column after the Dec 6 week header begins.
+
+The last task, Handover to tenant, finishes on Mon Dec 7.
+
+FINAL ANSWER: Mon Dec 7",Mon Dec 7,1,stop,
+openai/gpt-6-luna,gantt-000102,ok,Mon Dec 7,gantt.finish_date,"Kickoff finishes Mon Nov 16. HVAC ductwork then runs Tue Nov 17–Tue Nov 24, so the punch list starts Wed Nov 25. Skipping the Nov 26–27 holidays and the weekend, the punch list finishes Fri Dec 4.
+
+Flooring finishes Mon Nov 23. Fire inspection runs Tue Nov 24, Wed Nov 25, and Mon Nov 30, finishing Mon Nov 30. Handover waits for both predecessors, so it starts Mon Dec 7 and finishes that day.
+
+FINAL ANSWER: Mon Dec 7",Mon Dec 7,1,stop,
+anthropic/claude-haiku-5.5,gantt-000103,ok,Wed Dec 2,gantt.finish_date,"The last task is Go-live (task 6), which finishes on **Wed Dec 2**.
+
+Working through the schedule, with weekends and the holidays on Thu 11/26, Fri 11/27, Fri 12/25 and Fri 1/1 skipped:
+
+1. **Kickoff** (1 day): Mon 11/16 to Mon 11/16.
+2. **Server provisioning** (3 days, after 1): Tue 11/17 to Thu 11/19.
+3. **Barcode label design** (2 days, after 1): Tue 11/17 to Wed 11/18.
+4. **Floor-staff training** (6 days, after 2): Fri 11/20, Mon 11/23, Tue 11/24, Wed 11/25, then the holidays on 11/26 and 11/27 are skipped, Mon 11/30, Tue 12/1. Finishes Tue 12/1.
+5. **Data cleanup** (2 days, after 4): Thu 11/19 to Fri 11/20.
+6. **Go-live** (1 day, after 3 and 5): starts after the later predecessor, Tue 12/1, so it runs Wed 12/2.
+
+FINAL ANSWER: Wed Dec 2",Wed Dec 2,1,stop,
+openai/gpt-6-luna,gantt-000103,ok,Wed Dec 2,gantt.finish_date,"Kickoff finishes Mon Nov 16. Server provisioning then runs for three working days, finishing Thu Nov 19. Floor-staff training starts Fri Nov 20; excluding weekends and the Nov 26–27 holidays, its six working days finish Tue Dec 1.
+
+Barcode label design and data cleanup finish earlier, so Go-live starts the next working day, Wed Dec 2, and finishes that day.
+
+FINAL ANSWER: Wed Dec 2",Wed Dec 2,1,stop,
+anthropic/claude-haiku-5.5,gantt-000201,ok,Thu Jan 7,gantt.slip_finish,"## Original schedule
+
+Working days exclude weekends and the holidays Thu 11/26, Fri 11/27, Fri 12/25 and Fri 1/1. Tracing the dependencies from the chart:
+
+- Task 1 (Kickoff): Mon 11/16
+- Task 2 (Site survey, 3 days): Tue 11/17 to Thu 11/19
+- Task 3 (Painting, 7 days, after 2): Fri 11/20 to Wed 12/2
+- Task 4 (Lighting fixtures, 6 days, after 3): Thu 12/3 to Thu 12/10
+- Task 7 (Ceiling grid, after 1): Tue 11/17 to Tue 11/24
+- Task 5 (Deep clean, 7 days, after 4 and 7): Fri 12/11 to Mon 12/21
+- Task 6 (Punch list, 6 days, after 5): Tue 12/22 to Wed 12/30
+- Task 8 (Flooring, 5 days, after 7): Wed 11/25 to Thu 12/3
+- Task 9 (IT cabling, 6 days, after 2 and 8): Fri 12/4 to Fri 12/11
+- Task 10 (Handover, after 6 and 9): Thu 12/31
+
+## Delayed schedule
+
+Task 4 now takes 10 working days instead of 6, and nothing else changes.
+
+- Task 4: starts Thu 12/3 and finishes Wed 12/16 (Dec 3, 4, 7, 8, 9, 10, 11, 14, 15, 16).
+- Task 5 (7 days): starts Thu 12/17. Working days are 17, 18, 21, 22, 23, 24 and Mon 12/28, so it finishes Mon 12/28. Fri 12/25 is a holiday and the weekend is skipped.
+- Task 6 (6 days): starts Tue 12/29. Working days are 29, 30, 31, then Mon 1/4, 1/5, 1/6, so it finishes Wed 1/6. Fri 1/1 is a holiday.
+- Task 9 finishes Fri 12/11, which is well before task 6, so it does not drive the finish.
+- Task 10 (1 day): starts Thu 1/7 and finishes that day.
+
+The project now finishes on Thu Jan 7 (2027).
+
+FINAL ANSWER: Thu Jan 7",Thu Jan 7,1,stop,
+openai/gpt-6-luna,gantt-000201,ok,Thu Jan 7,gantt.slip_finish,"Task 4’s revised duration is 10 working days. It starts Thu Dec 3 and finishes Wed Dec 16.
+
+Task 5 then runs Thu Dec 17 through Mon Dec 28. Task 6 runs Tue Dec 29 through Wed Jan 6, accounting for the Jan 1 holiday. Task 9 finishes earlier, so the handover waits for task 6 and finishes the next working day, Thu Jan 7.
+
+FINAL ANSWER: Thu Jan 7",Thu Jan 7,1,stop,
+anthropic/claude-haiku-5.5,gantt-000202,ok,Wed Dec 16,gantt.slip_finish,"## Schedule logic
+
+**Working calendar:** Monday to Friday, excluding Thu 11/26, Fri 11/27, Fri 12/25 and Fri 1/1. After Wed 11/25 the next working day is Mon 11/30.
+
+**Revised dates, with task 2 at 9 days:**
+
+1. **Project kickoff** (1 day): Mon 11/16.
+2. **Requirements sign-off** (9 days, was 7): starts Tue 11/17. The seven-day span ends Wed 11/25, then 11/30 and Tue 12/1 make nine working days. Finishes **Tue 12/1**.
+3. **Analytics tagging** (6 days, pred 2): starts Wed 12/2 and finishes **Wed 12/9**.
+4. **UAT round 2** (4 days, pred 3): starts Thu 12/10 and finishes **Tue 12/15**.
+5. **Search index** (5 days, pred 1): starts 11/17 and finishes Mon 11/23. Unaffected.
+6. **Front-end build** (4 days, pred 5): starts Tue 11/24 and finishes Tue 12/1. Unaffected.
+7. **Help-center articles** (3 days, pred 6): starts Wed 12/2 and finishes Fri 12/4.
+8. **Bug-fix sprint** (2 days, pred 7): starts Mon 12/7 and finishes Tue 12/8.
+9. **Support training** (4 days, pred 8): starts Wed 12/9 and finishes Mon 12/14.
+10. **Go-live** (1 day, preds 4 and 9): starts after the later predecessor, which is UAT round 2 finishing Tue 12/15. It starts Wed 12/16 and finishes **Wed 12/16**.
+
+The original plan finished Go-live on Tue 12/15, so the 2-day slip in task 2 pushes the project finish out by one working day. The slip reaches the end through the UAT round 2 chain (tasks 2 → 3 → 4 → 10), which was the critical path.
+
+FINAL ANSWER: Wed Dec 16",Wed Dec 16,1,stop,
+openai/gpt-6-luna,gantt-000202,ok,Wed Dec 16,gantt.slip_finish,"1. Task 2 starts Tue Nov 17. With the extra 2 working days, its 9-day duration ends Tue Dec 1; the Nov 26–27 holidays are non-working days.
+2. Task 3 then runs Wed Dec 2–Wed Dec 9, and task 4 runs Thu Dec 10–Tue Dec 15.
+3. The other Go-live predecessor, task 9, finishes Mon Dec 14. Go-live therefore starts the next working day, Wed Dec 16, and finishes that day.
+
+FINAL ANSWER: Wed Dec 16",Wed Dec 16,1,stop,
+anthropic/claude-haiku-5.5,gantt-000203,ok,Tue Dec 29,gantt.slip_finish,"The project still finishes on **Tue Dec 29**, because the extra 3 days on Ceiling grid are absorbed by float.
+
+**Original schedule (working days, skipping weekends and the holidays 11/26, 11/27, 12/25, 1/1):**
+
+- Task 1 (Kickoff): Mon 11/16.
+- Task 2 (Site survey): Tue 11/17 to Mon 11/23.
+- Task 6 (Permit application): Tue 11/24 to Mon 11/30. Thu 11/26 and Fri 11/27 are holidays.
+- Task 7 (Electrical rough-in): Tue 12/1 to Tue 12/8.
+- Task 8 (Fire alarm install): Wed 12/9 to Thu 12/10.
+- Task 9 (Ceiling grid, 4 days): Fri 12/11 to Wed 12/16.
+- Task 3 (Framing, 6 days, after tasks 2 and 7): Wed 12/9 to Wed 12/16.
+- Task 4 (Flooring, 2 days): Thu 12/17 to Fri 12/18.
+- Task 5 (Furniture delivery, 5 days): Mon 12/21 to Mon 12/28. Fri 12/25 is a holiday.
+- Task 10 (Handover, after tasks 5 and 9): Tue 12/29.
+
+**With Ceiling grid at 7 days:**
+
+- Task 9 starts Fri 12/11 and runs 12/11, 12/14, 12/15, 12/16, 12/17, 12/18, 12/21, so it finishes Mon 12/21.
+- Task 10 needs both task 5 (finishing Mon 12/28) and task 9 (finishing Mon 12/21). The later one is task 5, so the start is unchanged and handover stays on Tue 12/29.
+
+Ceiling grid has about 5 working days of float before it would delay handover.
+
+FINAL ANSWER: Tue Dec 29",Tue Dec 29,1,stop,
+openai/gpt-6-luna,gantt-000203,ok,Tue Dec 29,gantt.slip_finish,"1. Task 6 finishes Mon Nov 30, so task 7 runs Tue Dec 1–Tue Dec 8.
+2. Task 8 then runs Wed Dec 9–Thu Dec 10. With the 3-day extension, task 9 takes 7 working days, Fri Dec 11–Mon Dec 21.
+3. The other predecessor of task 10, task 5, finishes Mon Dec 28. Task 10 therefore starts the next working day, Tue Dec 29, and finishes that day.
+
+FINAL ANSWER: Tue Dec 29",Tue Dec 29,1,stop,
+anthropic/claude-haiku-5.5,gantt-000301,ok,"1, 3, 4, 8, 12, 13, 14, 16",gantt.zero_slack,"## Reading the chart
+
+Working days run Monday to Friday, skipping the holidays Thu 11/26, Fri 11/27, Fri 12/25 and Fri 1/1. Reading each bar's start and finish, with the arrows as links:
+
+| ID | Task | Working span | Main link |
+|---|---|---|---|
+| 1 | Kickoff meeting | Mon 11/16 | start |
+| 2 | Site survey | Tue 11/17 | 1 |
+| 3 | Permit application | Tue 11/17 | 1 |
+| 4 | Electrical rough-in | Wed 11/18 – Wed 11/25 | 3 |
+| 5 | HVAC ductwork | Wed 11/18 – Tue 11/24 | 2 |
+| 6 | Framing | Wed 11/25 – Tue 12/8 | 5 |
+| 7 | Painting | Wed 12/9 – Mon 12/14 | 6 |
+| 8 | Drywall | Mon 11/30 – Wed 12/9 | 4 |
+| 9 | Fire alarm install | Mon 11/30 – Mon 12/7 | 4 |
+| 10 | Ceiling grid | Tue 12/8 – Thu 12/17 | 9 |
+| 11 | Lighting fixtures | Tue 12/15 – Thu 12/24 | 7 |
+| 12 | Flooring | Thu 12/10 – Wed 12/16 | 8 |
+| 13 | IT cabling | Thu 12/17 – Thu 12/24 | 12 |
+| 14 | Signage | Mon 12/28 | 13 |
+| 15 | Furniture delivery | Fri 12/18 – Tue 12/22 | 10 |
+| 16 | Handover to tenant | Tue 12/29 | 14, 15, 11 |
+
+The project finishes Tue 12/29.
+
+## Tracing zero-slack tasks
+
+Working backward from task 16, which must start Tue 12/29 (the day after the Mon 12/28 finish of task 14):
+
+- **Task 14** starts Mon 12/28 only because task 13 finishes Thu 12/24, the last working day before it. Task 13 therefore has no slack.
+- **Task 13** starts Thu 12/17 right after task 12 finishes Wed 12/16. Task 12 is critical.
+- **Task 12** starts Thu 12/10 right after task 8 finishes Wed 12/9. Task 8 is critical.
+- **Task 8** starts Mon 11/30 right after task 4 finishes Wed 11/25 (the holidays fall in between). Task 4 is critical.
+- **Task 4** starts Wed 11/18 right after task 3 finishes Tue 11/17. Task 3 is critical.
+- **Task 3** starts Tue 11/17 right after task 1 finishes Mon 11/16. Task 1 is critical.
+
+## Checking the other branches
+
+- **Task 11** finishes Thu 12/24, but task 16 could tolerate it finishing as late as Mon 12/28. That gives it one working day of slack, so it is not critical.
+- **Tasks 6, 7** feed task 11, so they inherit that same one-day slack and are not critical.
+- **Tasks 2 and 5** feed task 6, so they also carry one day of slack.
+- **Task 15** finishes Tue 12/22, far earlier than needed, so it has large slack.
+- **Tasks 9 and 10** lead to task 15 and also have large slack.
+
+The zero-slack chain is 1 → 3 → 4 → 8 → 12 → 13 → 14 → 16.
+
+FINAL ANSWER: 1, 3, 4, 8, 12, 13, 14, 16","[""1"", ""3"", ""4"", ""8"", ""12"", ""13"", ""14"", ""16""]",1,stop,
+openai/gpt-6-luna,gantt-000301,ok,"1,2,3,4,5,6,7,8,11,12,13,14,16",gantt.zero_slack,"Using the working-day calendar, the zero-slack routes are 1–2–4–8–12–13–14–16 and 1–3–5–6–7–11–14–16. Tasks on the other branch finish early enough to have slack.
+
+FINAL ANSWER: 1,2,3,4,5,6,7,8,11,12,13,14,16","[""1"", ""3"", ""4"", ""8"", ""12"", ""13"", ""14"", ""16""]",0,stop,
+anthropic/claude-haiku-5.5,gantt-000302,ok,Mon Jan 11,gantt.two_slip_finish,"## Reconstructing the schedule from the Gantt chart
+
+Reading bar positions against the day columns (working days only, with Thu 11/26, Fri 11/27, Fri 12/25 and Fri 1/1 excluded):
+
+| ID | Task | Start | Finish | Working days |
+|---|---|---|---|---|
+| 1 | Project kickoff | Mon 11/16 | Mon 11/16 | 1 |
+| 2 | UX wireframes | Tue 11/17 | Wed 11/25 | 7 |
+| 3 | Visual design | Tue 11/17 | Wed 11/18 | 2 |
+| 4 | API contract | Tue 11/17 | Tue 11/17 | 1 |
+| 6 | Auth service | Wed 11/18 | Tue 11/24 | 5 |
+| 5 | Search index | Mon 11/30 | Tue 12/8 | 7 |
+| 8 | Front-end build | Mon 11/30 | Thu 12/3 | 4 |
+| 7 | Accessibility audit | Wed 12/9 | Thu 12/10 | 2 |
+| 9 | Content migration | Fri 12/4 | Tue 12/15 | 8 |
+| 11 | Bug-fix sprint | Wed 12/16 | Fri 12/18 | 3 |
+| 10 | Analytics tagging | Wed 12/16 | Mon 12/21 | 4 |
+| 12 | Marketing assets | Tue 12/22 | Mon 1/4 | 8 |
+| 14 | Load testing | Fri 12/11 | Thu 12/17 | 5 |
+| 15 | Support training | Fri 12/18 | Thu 12/24 | 5 |
+| 13 | Data backfill | Tue 1/5 | Wed 1/6 | 2 |
+| 16 | Go-live | Thu 1/7 | Thu 1/7 | 1 |
+
+The original critical path runs through Marketing assets → Data backfill → Go-live, finishing Thu 1/7.
+
+## Applying the changes
+
+- **Task 13 (Data backfill)** grows from 2 to 4 working days. It starts Tue 1/5 (after Marketing assets ends Mon 1/4) and runs Tue 1/5, Wed 1/6, Thu 1/7, Fri 1/8. It now finishes Fri 1/8.
+- **Task 11 (Bug-fix sprint)** grows from 3 to 7 working days. It starts Wed 12/16 and runs 12/16, 12/17, 12/18, 12/21, 12/22, 12/23, 12/24 (12/25 is a holiday), finishing Thu 12/24. That is still well before the other go-live predecessors, so it does not drive the finish.
+
+## Go-live
+
+Go-live depends on:
+- Data backfill, finishing Fri 1/8
+- Support training, finishing Thu 12/24
+- Bug-fix sprint, finishing Thu 12/24
+
+The latest predecessor is Data backfill on Fri 1/8. Go-live is 1 working day, so it starts Mon 1/11 (the next working day) and finishes that day. Mon 1/11/27 is a Monday, as required.
+
+The project now finishes on Mon Jan 11.
+
+FINAL ANSWER: Mon Jan 11",Mon Jan 11,1,stop,
+openai/gpt-6-luna,gantt-000302,ok,Mon Jan 11,gantt.two_slip_finish,"Task 13 starts Tue Jan 5, after task 12 finishes Mon Jan 4. Its duration increases from 2 to 4 working days, so it finishes Fri Jan 8. Task 11’s extended finish is still before task 12 finishes, so it does not delay task 13. Go-live starts on the next working day, Mon Jan 11, and finishes that day.
+
+FINAL ANSWER: Mon Jan 11",Mon Jan 11,1,stop,
+anthropic/claude-haiku-5.5,gantt-000303,ok,"1, 2, 3, 5, 6, 7, 9, 12, 13, 16",gantt.zero_slack,"## Reconstructing the schedule
+
+Reading the bar positions against the calendar (weekends and the holidays Nov 26, Nov 27, Dec 25 and Jan 1 are skipped):
+
+| ID | Task | Working days | Start | Finish | Driving predecessor |
+|---|---|---|---|---|---|
+| 1 | Kickoff meeting | 1 | Mon 11/16 | Mon 11/16 | none |
+| 2 | Site survey | 2 | Tue 11/17 | Wed 11/18 | 1 |
+| 3 | Electrical rough-in | 5 | Thu 11/19 | Wed 11/25 | 2 |
+| 4 | Demolition | 3 | Tue 11/17 | Thu 11/19 | 1 |
+| 5 | Fire alarm install | 8 | Mon 11/30 | Wed 12/9 | 3 |
+| 6 | Painting | 3 | Thu 12/10 | Mon 12/14 | 5 |
+| 7 | Lighting fixtures | 4 | Tue 12/15 | Fri 12/18 | 6 |
+| 8 | Plumbing rough-in | 2 | Fri 11/20 | Mon 11/23 | 4 |
+| 9 | Furniture delivery | 3 | Mon 12/21 | Wed 12/23 | 7 |
+| 10 | Framing | 2 | Tue 11/24 | Wed 11/25 | 8 |
+| 11 | IT cabling | 6 | Tue 12/15 | Tue 12/22 | 6 |
+| 12 | Deep clean | 7 | Thu 12/24 | Tue 1/5 | 9 |
+| 13 | Punch list | 1 | Wed 1/6 | Wed 1/6 | 12 |
+| 14 | Ceiling grid | 2 | Mon 11/30 | Tue 12/1 | 10 |
+| 15 | Signage | 8 | Wed 12/23 | Tue 1/5 | 11 |
+| 16 | Handover to tenant | 1 | Thu 1/7 | Thu 1/7 | 13 (also 14, 15) |
+
+## Critical path
+
+The longest chain of durations ends at task 16:
+
+1 → 2 → 3 → 5 → 6 → 7 → 9 → 12 → 13 → 16
+
+Its length is 1+2+5+8+3+4+3+7+1+1 = 35 working days. Each task starts on the first working day after its predecessor finishes, with no gaps, so every task on this chain has zero total slack.
+
+## Checking the other branches
+
+- **Tasks 11 and 15 (via 6):** The chain 6 → 11 → 15 → 16 totals 34 working days, one less than the critical chain. Task 15 finishes Jan 5 but task 16 can't start until Jan 7, so 15 has 1 day of slack. Task 11 has 1 day of slack as well.
+- **Tasks 4, 8, 10, 14:** The branch 1 → 4 → 8 → 10 → 14 → 16 finishes well before the project finish, so these have positive slack.
+
+The zero-slack tasks are 1, 2, 3, 5, 6, 7, 9, 12, 13 and 16.
+
+FINAL ANSWER: 1, 2, 3, 5, 6, 7, 9, 12, 13, 16","[""1"", ""2"", ""3"", ""5"", ""6"", ""7"", ""9"", ""12"", ""13"", ""16""]",1,stop,
+openai/gpt-6-luna,gantt-000303,ok,"1, 2, 3, 5, 6, 7, 9, 12, 13, 16",gantt.zero_slack,"Following the longest finish-to-start chain through the holiday calendar gives the critical path: 1 → 2 → 3 → 5 → 6 → 7 → 9 → 12 → 13 → 16. The other branches finish earlier and have slack.
+
+FINAL ANSWER: 1, 2, 3, 5, 6, 7, 9, 12, 13, 16","[""1"", ""2"", ""3"", ""5"", ""6"", ""7"", ""9"", ""12"", ""13"", ""16""]",1,stop,
