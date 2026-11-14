@@ -40,7 +40,7 @@ docker run --rm -e OPENROUTER_API_KEY -v "$(pwd)/out:/out" visual-task-factory f
 - **Seed:** `--seed N` takes any whole number; the same seed always builds the same task.
 - **Model:** both models are evaluated by default (`anthropic/claude-haiku-5.5` and `openai/gpt-6-luna`). To pick
   one, add `--model anthropic/claude-haiku-5.5` (repeatable) to either command.
-- **Settings** are fixed in `eval/client.py`: temperature 0, reasoning effort high, max_tokens 32000.
+- **Settings** are fixed in `eval/client.py`: temperature 0, reasoning effort high, max_tokens 64000.
 
 ## Reused components
 
