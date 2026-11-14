@@ -1,0 +1,103 @@
+{
+ "key": "3262dc1f6175b64e1859d811ad367f7812d1abb5bac008584d228ac45a778e20",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. The magenta point P lies exactly on a contour line. What is the elevation of P in meters? Answer with a whole number, for example 1240.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-000203.png",
+       "sha256": "9c95be527a1042a26d569b3c012e27cf47b79eb6a3562765fd759e9e660f4146"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794674776-z9d0w0NsQKQCCywmuLLI",
+  "object": "chat.completion",
+  "created": 1794674776,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Locating P:** The magenta point sits just southwest of the Eagle Rock summit (874 m), at roughly the 4162.5 N grid line and 572 E.\n\n**Reading the nearby contours:** The heavy 800 m index contour runs down-left from the \"800\" label near the summit, passing just below and to the left of P. The summit side of that contour is higher, and the thin lines inside it step up by 20 m each. Since P lies on a contour line and is just inside the 800 m contour, the nearest inner contour is the 820 m line.\n\n**Check:** The 820 m line runs about one contour spacing (roughly 15–20 px here) inside the 800 m index contour, which matches P's position.\n\nThis is an estimate from the map's visual layout, so it is not exact.\n\nFINAL ANSWER: 820",
+     "refusal": null,
+     "reasoning": "I'm working out the contour elevation at P, which sits around pixel (418, 985). The nearby 800 index contour runs down past the labels at (255, 900) and (618, 830), so I'm tracing how it bends around the summit to see which contour P falls on.\n\nI'm checking where the 800 contour runs near P, tracing it from the label at (255, 900) down-right past roughly (400, 990) and on around the summit loop. P appears to sit just north of that line, so I'm weighing whether it falls inside the 800 loop, which would put it at a higher elevation.\n\nI'm weighing whether P at (418, 985) lies inside the 800 loop or outside it, since the heavy line seems to pass just below it near x=418. If P sits above that line, it would be on a higher contour, probably 820 or so, though the exact spacing is hard to judge from here.\n\nI'm checking the thin contours between the 800 line and the summit loops, looking for one that passes through the area near P. If the 820 line runs just inside the heavy 800 contour around x=418, then P falls on 820, which seems the likeliest answer. I'm also checking the contour spacing against the 600 and 800 labels to see if that fits.\n\nI'm settling on 820 as the answer, since P sits about 20 pixels inside the heavy 800 line, and the 820 contour should run just there.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm working out the contour elevation at P, which sits around pixel (418, 985). The nearby 800 index contour runs down past the labels at (255, 900) and (618, 830), so I'm tracing how it bends around the summit to see which contour P falls on.\n\nI'm checking where the 800 contour runs near P, tracing it from the label at (255, 900) down-right past roughly (400, 990) and on around the summit loop. P appears to sit just north of that line, so I'm weighing whether it falls inside the 800 loop, which would put it at a higher elevation.\n\nI'm weighing whether P at (418, 985) lies inside the 800 loop or outside it, since the heavy line seems to pass just below it near x=418. If P sits above that line, it would be on a higher contour, probably 820 or so, though the exact spacing is hard to judge from here.\n\nI'm checking the thin contours between the 800 line and the summit loops, looking for one that passes through the area near P. If the 820 line runs just inside the heavy 800 contour around x=418, then P falls on 820, which seems the likeliest answer. I'm also checking the contour spacing against the 600 and 800 labels to see if that fits.\n\nI'm settling on 820 as the answer, since P sits about 20 pixels inside the heavy 800 line, and the 820 contour should run just there.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 4933,
+        "sha256": "7a844986228ab4ca295fdafa22c0c8def9596b85d99b0115c153803af511e8fe"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2774,
+   "completion_tokens": 1453,
+   "total_tokens": 4227,
+   "cost": 0.0010039,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0010039,
+    "upstream_inference_prompt_cost": 0.0002774,
+    "upstream_inference_completions_cost": 0.0007265
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1189,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 9.57,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:46:16+00:00"
+}

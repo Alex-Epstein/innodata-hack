@@ -1,0 +1,103 @@
+{
+ "key": "f89cb69372cec844f0e6fd0847ad50ee4be7f2074165c70fae4582442651eb98",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Wildfire: a fire is burning at the magenta square F and a crew is at the magenta square S. Fire spreads fastest uphill, so the crew is safe only on a route that stays below the elevation of F the whole way. Three escape trails (dashed black lines) leave S: Miners Trail, Ridge Trail and Cedar Trail. Exactly one of them never climbs to the elevation of F. Which trail should the crew take? Answer with the trail name, for example Miners Trail.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "mission-001503.png",
+       "sha256": "e2eddb449b283a6aed413876b92a7374946e77dad22b5effe55be54f4b2fd215"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794675684-Q4Qy2DcRbQuBXEVXIjYH",
+  "object": "chat.completion",
+  "created": 1794675684,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Ridge Trail**\n\nI estimated elevations from the contour pattern. Fire at F sits roughly between the 700 and 800 m contours, probably around 720–760 m. S lies in a similar band.\n\n- **Miners Trail** runs northwest from S and climbs to the heavy 800 m contour near its bend at the top of the map. It goes above F's elevation, so it is not safe.\n- **Cedar Trail** runs northeast from S, uphill toward the ridge that rises toward Pine Butte. It crosses contours above F's elevation, so it is not safe.\n- **Ridge Trail** runs south from S and drops steadily across the 600 m and 500 m contours before ending near the bottom of the map. It never climbs back to F's elevation, so it stays safe the whole way.\n\nFINAL ANSWER: Ridge Trail",
+     "refusal": null,
+     "reasoning": "I'm trying to pin down the elevation of point F and the trails around it. F sits near the 800 contour that runs past the S area, though I'm not yet sure whether it falls between the 800 and 600 lines, so I'll estimate its position relative to those nearby contours.\n\nI'm now placing F against the nearby contours, checking whether the heavy lines around it are 600, 700, or 800, and figuring the trail's path down to S from there.\n\nI'm checking where S sits relative to the 700 and 800 contours, and I'm estimating it at roughly 720 to 760. F looks like it lies near the 700 line, so its elevation is probably in the same range. Next I'm working out where the Cedar Trail heads east from S.\n\nI'm checking how the Cedar Trail climbs or drops as it leaves S toward the northeast, and whether it crosses the 800 contour near Pine Butte, which would put it above F.\n\nI'm tracing the Ridge Trail south from S, and it seems to head downhill through the 700 contour and on toward the 600 line, so it stays below F.\n\nI'm working out whether the Miners Trail climbs to the 800 contour on its way up from S and then drops back down toward the trailhead, since the heavy lines near its endpoints look like they're labeled 800 and 900.\n\nI'm checking whether the Miners Trail stays under the 740 level, and it looks like it climbs above that, so it's unsafe. Next I'm tracing where the Cedar Trail crosses the 800 contour as it heads northeast toward its end point.\n\nI'm settling on Ridge Trail as the safest route, since it runs south and downhill from S, away from F's elevation.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm trying to pin down the elevation of point F and the trails around it. F sits near the 800 contour that runs past the S area, though I'm not yet sure whether it falls between the 800 and 600 lines, so I'll estimate its position relative to those nearby contours.\n\nI'm now placing F against the nearby contours, checking whether the heavy lines around it are 600, 700, or 800, and figuring the trail's path down to S from there.\n\nI'm checking where S sits relative to the 700 and 800 contours, and I'm estimating it at roughly 720 to 760. F looks like it lies near the 700 line, so its elevation is probably in the same range. Next I'm working out where the Cedar Trail heads east from S.\n\nI'm checking how the Cedar Trail climbs or drops as it leaves S toward the northeast, and whether it crosses the 800 contour near Pine Butte, which would put it above F.\n\nI'm tracing the Ridge Trail south from S, and it seems to head downhill through the 700 contour and on toward the 600 line, so it stays below F.\n\nI'm working out whether the Miners Trail climbs to the 800 contour on its way up from S and then drops back down toward the trailhead, since the heavy lines near its endpoints look like they're labeled 800 and 900.\n\nI'm checking whether the Miners Trail stays under the 740 level, and it looks like it climbs above that, so it's unsafe. Next I'm tracing where the Cedar Trail crosses the 800 contour as it heads northeast toward its end point.\n\nI'm settling on Ridge Trail as the safest route, since it runs south and downhill from S, away from F's elevation.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 7493,
+        "sha256": "e36e696289db29eb67313054201dee0e30aa97ffc5d3dbae4ae39d59c2615d0f"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2889,
+   "completion_tokens": 2287,
+   "total_tokens": 5176,
+   "cost": 0.0014324,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0014324,
+    "upstream_inference_prompt_cost": 0.0002889,
+    "upstream_inference_completions_cost": 0.0011435
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2009,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 12.93,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:01:24+00:00"
+}

@@ -1,0 +1,189 @@
+model,task_id,status,parsed,question_type,response,ref_answer,correct,finish_reason,error
+anthropic/claude-haiku-5.5,mission-001101,ok,"A, B, D",mission.sar_line_of_sight,"**Setting up the geometry.** Reading the grid (571 to 575 across the map, 4162 to 4165 up the map), I estimate:
+
+- **R** at about (572.8, 4162.9), on the north flank of Bald Mtn between the 1000 and 1100 contours, so roughly 1050 m.
+- **A** to the southwest, on a convex slope falling away from the peak.
+- **B** to the northwest, just beyond the 500 m index contour (about 490 m).
+- **C** to the east, between the 600 and 700 m contours (about 590 m).
+- **D** to the northeast, inside the thin contours near the 600 m ring (about 650 m).
+
+**Checking each sight line.**
+
+- **A:** Terrain falls steeply from R and then flattens, so the profile is convex. The sight line runs above the ground the whole way, so A is visible.
+- **B:** The sight line drops about 560 m over roughly 1.2 km. Each point along it (crossing the 700, 600 and 500 m contour zones) sits above the ground. Near B the margin is small, but the ground stays below the line, so B is visible.
+- **C:** The line heads east with a gentle slope (about 460 m of drop over 1.7 km). Just east of R, the ground rises back up to the 1000 m contour (about 1000 to 1010 m near x ≈ 800 to 840 px), while the line there is only about 950 to 985 m. The ground pokes above the line, so C is hidden.
+- **D:** The line climbs away from R to the northeast with a steady slope. The ground falls away faster than the line near R and stays below it, including near D, so D is visible.
+
+The estimated elevations are read from the contours, so the margins for B and D are small. The verdict for C has the clearest margin.
+
+FINAL ANSWER: A, B, D","[""B"", ""D""]",0,stop,
+openai/gpt-6-luna,mission-001101,ok,"B, D",mission.sar_line_of_sight,"Trace a straight sight line from R to each hiker and compare it with the intervening contours. The terrain rises above the sight line toward A and C, blocking them. Along the paths to B and D, the ground stays below the sight line, so the crew can see them.
+
+FINAL ANSWER: B, D","[""B"", ""D""]",1,stop,
+anthropic/claude-haiku-5.5,mission-001102,ok,"A, D",mission.sar_line_of_sight,"## Reasoning
+
+I estimated elevations from the contour pattern, so the results are approximate.
+
+**Hiker B:** The sight line from R runs almost due north, up the western flank of Signal Hill. It passes the heavy 900 m contour near (1190, 450), which is higher than both R (roughly 880–900 m) and B (roughly 820–840 m). The terrain rises above the line, so **B is blocked**.
+
+**Hiker D:** The line from R runs northwest down the slope toward D (around 600 m). It crosses the 800 and 700 contours, and the terrain along it stays below the line. Near the 700 m contour, the line is about 745 m and the ground about 700 m. **D is visible.**
+
+**Hiker C:** The line from R runs southwest, passing near (600, 880) and (500, 923). Both points lie inside the 700 m contour that wraps around the Coldwater ridge, so the ground there is at least 700 m. The sight line at those points is only about 670–700 m, so the ground blocks it. **C is blocked.**
+
+**Hiker A:** The line from R runs west-northwest down toward A (around 490–500 m). Over most of its length the line descends more steeply than the ground near A, and the terrain stays below it. Near the 600 m contour the line is well above the ground. **A is visible**, though this is the least certain of the close calls because my elevation estimates are rough.
+
+Hikers A and D can be seen from R; B and C are hidden by intervening terrain.
+
+FINAL ANSWER: A, D","[""A""]",0,stop,
+openai/gpt-6-luna,mission-001102,ok,A,mission.sar_line_of_sight,"The line from R to A stays above the intervening contours, so A is visible. The routes to B and D cross higher ground on Signal Hill, and the route to C is blocked by rising terrain toward Coldwater Peak.
+
+FINAL ANSWER: A","[""A""]",1,stop,
+anthropic/claude-haiku-5.5,mission-001103,ok,C,mission.sar_line_of_sight,"**Locating the points** (using the 571–575 E and 4162–4165 N grid, about 335 px per km):
+
+- R ≈ (571.8, 4163.5), on the east flank of Signal Hill, roughly 770–800 m.
+- A ≈ (573.6, 4162.4), low on the south side of the Pine Butte area.
+- B ≈ (571.8, 4164.7), north of R.
+- C ≈ (573.3, 4164.2), on the slope of the central hill, roughly 615–625 m.
+- D ≈ (571.3, 4164.4), northwest of R.
+
+**Hiker D:** The line from R to D runs northwest, straight into the 800 m contour loop around Signal Hill. Terrain there is above the sight line, so D is hidden.
+
+**Hiker B:** The ground immediately north of R rises to the 800 m contour, which is above R's own elevation. The sight line to B starts at R's level and climbs only slowly, so the ground just north of R blocks it. B is hidden.
+
+**Hiker A:** The line from R to A passes south-west of Pine Butte, where the ground lies between the 600 and 700 m contours (about 650 m). The sight line there is only about 620 m, so the ridge blocks it. A is hidden.
+
+**Hiker C:** The line from R to C passes north of the central hill's summit. Its clearance over the hill is small but positive, and the slope near C runs close to the sight line. Given the contour spacing, C appears to be just visible, though this is a marginal call.
+
+The answer is C, with the caveat that C's visibility depends on elevations that are hard to read precisely from the map.
+
+FINAL ANSWER: C","[""C""]",1,stop,
+openai/gpt-6-luna,mission-001103,ok,C,mission.sar_line_of_sight,"Trace each straight path from R and compare it with the intervening contours. The paths to A, B, and D are blocked by higher ground: the Pine Butte shoulder blocks A, and Signal Hill blocks B and D. Along the path to C, the intervening ground stays below the sight line.
+
+FINAL ANSWER: C","[""C""]",1,stop,
+anthropic/claude-haiku-5.5,mission-001201,ok,32,mission.lost_hiker_sunset,"## Estimating the route
+
+**Distance.** Using the scale bar (about 334 px per km on this map), the trail runs from S up to a bend near (573, 466) in pixel coordinates, then northwest to H. The two legs measure about 331 px and 271 px, a total of about 602 px, or roughly 1.8 km.
+
+**Horizontal time (Naismith):** 1.8 km ÷ 4 km/h ≈ 0.45 h ≈ 27 min.
+
+**Elevation.**
+- S sits just south of the heavy 400 m contour, in the 360–380 m range. I estimate about 370 m.
+- The trail crosses the 400 m contour going north, then climbs further to the bend, which lies on the high side of the 400 m line near the Granite Knob slopes. I estimate the bend at about 450 m.
+- From the bend, the trail descends to H, which lies on the lower side of the 400 m contour (roughly 380–390 m). Descent adds no time.
+- Total ascent is therefore about 80 m (370 → 450 m). This is an estimate read from the contours, so it is approximate.
+
+**Ascent time:** 80 m ÷ 300 m/h ≈ 0.27 h ≈ 16 min.
+
+**Total walking time:** 27 + 16 = 43 min.
+
+**Arrival and daylight.** Starting at 15:30, the hiker reaches the hut at about 16:13. Sunset is at 16:45, so about 32 minutes of daylight remain. Given the uncertainty in the ascent estimate, this is roughly 30 minutes.
+
+FINAL ANSWER: 32",33,1,stop,
+openai/gpt-6-luna,mission-001201,ok,28,mission.lost_hiker_sunset,"The trail is about 1.8 km, giving roughly 27 minutes of walking time. The contour crossings indicate about 100 m of total ascent, adding 20 minutes. The trip takes about 47 minutes, so the hiker arrives around 16:17, with 28 minutes of daylight left.
+
+FINAL ANSWER: 28",33,1,stop,
+anthropic/claude-haiku-5.5,mission-001202,ok,52,mission.lost_hiker_sunset,"## Estimating the route
+
+**Distance.** The scale bar gives 1000 m ≈ 335 px, and the grid lines are 1 km apart. Summing the trail segments in pixels:
+- S → bend (near 677, 409): about 245 px ≈ 0.73 km
+- bend → trail corner (near 458, 535): about 253 px ≈ 0.75 km
+- corner → H (near 400, 848): about 320 px ≈ 0.95 km
+
+Total ≈ 2.43 km.
+
+**Ascent.** The trail starts at S, which sits between the 400 m and 500 m index contours, at roughly 420–440 m. It dips below the 400 m contour to a bend, then crosses back over 400 m near the trail corner at (458, 535). From there it climbs steadily to H.
+
+H sits between the heavy 700 m and 800 m contours, so I estimate its elevation at about 720 m. The uphill climb from about 400 m to 720 m gives roughly 320 m. Adding the small rise back over 400 m near the bend gives total ascent ≈ 335 m. The contour reading is approximate, so this figure carries some uncertainty.
+
+**Naismith's rule.**
+- Distance time: 2.43 km ÷ 4 km/h ≈ 0.61 h ≈ 36.5 min
+- Ascent time: 335 m ÷ 300 m/h ≈ 1.12 h ≈ 67 min
+- Total ≈ 103.5 min
+
+**Arrival and daylight.**
+- Start 15:30 + 103.5 min → arrival ≈ 17:13
+- Sunset 18:05 − 17:13 ≈ 52 min of daylight left
+
+FINAL ANSWER: 52",52,1,stop,
+openai/gpt-6-luna,mission-001202,ok,58,mission.lost_hiker_sunset,FINAL ANSWER: 58,52,1,stop,
+anthropic/claude-haiku-5.5,mission-001203,ok,44,mission.lost_hiker_sunset,"## Estimating the route
+
+**Map scale:** The grid lines 572 and 573 are 335 px apart, so 1 km ≈ 335 px (consistent with the scale bar: 1000 m ≈ 335 px).
+
+**Trail length:** Tracing the dashed trail from S (≈983, 318) to H (≈452, 853) through its bends at roughly (843, 483), (790, 512), (740, 540), (660, 585), and (540, 735):
+
+- Segment lengths in px: 216 + 60 + 57 + 92 + 192 + 147 ≈ 765 px
+- Distance ≈ 765 / 335 ≈ 2.28 km
+
+**Horizontal time:** 2.28 km ÷ 4 km/h ≈ 0.57 h ≈ 34 min
+
+**Ascent:** The contours are only approximately readable, so these elevations are estimates:
+
+- S lies between the 300 and 400 contours, roughly 360 m.
+- The trail climbs through the 500 and 800 contours and reaches roughly 900–920 m where it crosses the inner rings near (660, 585).
+- From there it descends toward H, which sits around 600–650 m. Descents add no time, so only the climb counts.
+- Total climbing ≈ 920 − 360 ≈ 560 m (taking the trail as essentially monotonic upward on the way to the peak).
+
+**Ascent time:** 560 m ÷ 300 m/h ≈ 1.87 h ≈ 112 min
+
+**Total walking time:** 34 + 112 ≈ 146 min
+
+**Arrival:** 15:30 + 146 min = 17:56
+
+**Daylight remaining:** Sunset is 18:40, so 18:40 − 17:56 = 44 minutes.
+
+Because the elevations are read from the contours, the ascent (and so the answer) could be off by roughly ±10 minutes.
+
+FINAL ANSWER: 44",36,1,stop,
+openai/gpt-6-luna,mission-001203,ok,42,mission.lost_hiker_sunset,"The trail is about 2.4 km, and its cumulative uphill gain is roughly 560 m. That gives about 36 minutes for distance plus 112 minutes for ascent, or 148 minutes total. Starting with 190 minutes of daylight leaves about 42 minutes.
+
+FINAL ANSWER: 42",36,1,stop,
+anthropic/claude-haiku-5.5,mission-001301,ok,C1,mission.base_camp,"**Rule 1 (below 500 m):** C2 sits between the 500 m and 600 m contours, so it is above 500 m and fails. C3 and C4 are below 500 m, and C1 is east of the 400 m index contour, so it is also below 500 m.
+
+**Rule 2 (within 300 m of a stream):** The scale bar gives about 1000 m per 335 px, so 300 m is roughly 100 px.
+- C3 is far from any blue line (Mill Creek is well to the west and the nearest stream is much more than 100 px away), so it fails.
+- C2 is about 190 m from the end of Mill Creek, which passes this rule, but it fails rule 1.
+- C4 is about 200 m from the start of Dry Fork, but it sits on steep ground (see below).
+- C1 is about 195 m from Dry Fork, so it passes.
+
+**Rule 3 (gentle ground, contours at least 100 m apart):**
+- C4 lies between the 400 m index contour and the 500 m contour, with closely spaced contour lines, so the ground is steep and it fails.
+- C1 lies in an area where the contour lines are widely spaced, so the ground is gentle.
+
+Only C1 satisfies all three rules.
+
+FINAL ANSWER: C1",C1,1,stop,
+openai/gpt-6-luna,mission-001301,ok,C1,mission.base_camp,"C1 is below 500 m, within 300 m of the Dry Fork, and its neighbouring contours are widely spaced enough to indicate gentle ground. C2 and C4 are on steeper ground, while C3 is too far from a stream.
+
+FINAL ANSWER: C1",C1,1,stop,
+anthropic/claude-haiku-5.5,mission-001302,ok,C3,mission.base_camp,"**Rule 2 (within 300 m of a stream):** The scale bar gives 2000 m ≈ 670 px, so 300 m ≈ 100 px. Rough distances to the nearest stream:
+- C1: about 250 m from Wolf Creek, so it passes.
+- C2: about 140 m from Mill Creek, so it passes.
+- C3: about 120 m from the Mill Creek end, so it passes.
+- C4: roughly 800 m from Wolf Creek, so it fails.
+
+**Rule 1 (below 400 m):** C4 and C1 sit on the north-east side of the heavy 500 m contour, in the 440 to 480 m range, so they fail. C2 is between the heavy 400 and 500 m lines, and I estimate it is above 400 m. C3 lies on the lower, outer side of the 500 m contour tongue near the stream, which puts it at or below 400 m. This is the least certain step, since I read the contour labels approximately.
+
+**Rule 3 (gentle ground, contours at least 100 m apart):** The contours are tightly packed around C2 on the slope between the 400 and 500 m lines, so C2 looks steep. C3 sits in a more open part of the tongue, which is consistent with gentle ground.
+
+C3 is the only site that plausibly meets all three rules. The elevation and slope judgements are estimates from the map rather than exact readings.
+
+FINAL ANSWER: C3",C1,0,stop,
+openai/gpt-6-luna,mission-001302,ok,C1,mission.base_camp,"C1 is below the 400 m contour, is within 300 m of a blue stream, and has neighbouring contours spaced at least 100 m apart. The other sites fail at least one of those conditions.
+
+FINAL ANSWER: C1",C1,1,stop,
+anthropic/claude-haiku-5.5,mission-001303,ok,C3,mission.base_camp,"**Checking each rule**
+
+Scale: 2000 m spans about 670 px, so 300 m ≈ 100 px on the map.
+
+- **C1 (near Granite Knob, elevation roughly 650-700 m):** The stream end just below it is about 195 m away, so it passes rule 2. Its position sits among closely spaced contours on the steep slope between Granite Knob and Lookout Pt, so it likely fails rule 3 (gentle ground). It also appears to be above the 600 m limit.
+- **C2 (northeast corner):** The nearest stream is roughly 1.9 km away, so it fails rule 2.
+- **C3 (west, around 400 m elevation):** It lies about 180 m from Dry Fork Creek, passing rule 2. Its elevation is well under 600 m, so it passes rule 1. The contours around it are widely spaced, so it passes rule 3.
+- **C4 (between the 600 m index contours):** It is about 230 m from the stream, but it sits in a dense band of contours, so the ground is steep. It fails rule 3, and its elevation is close to the 600 m limit.
+
+Only C3 satisfies all three rules. The gentle-ground judgement for C3 and the elevations of C1 and C4 are estimated from the map's contour spacing, not read exactly.
+
+FINAL ANSWER: C3",C3,1,stop,
+openai/gpt-6-luna,mission-001303,ok,C1,mission.base_camp,"C1 is below 600 m, within 300 m of the stream, and its neighbouring contours are at least 100 m apart. C2 and C3 are too far from the stream, while C4 does not meet the elevation and gentle-ground requirements.
+
+FINAL ANSWER: C1",C3,0,stop,

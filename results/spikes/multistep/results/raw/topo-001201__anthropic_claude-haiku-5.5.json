@@ -1,0 +1,103 @@
+{
+ "key": "2d55e671236d1feed4672114fc5855831f58082f37383575252af605d7c7a778",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. A hiker walks the Ridge Trail (dashed black line) from the magenta square S to the magenta square E. Estimate the walking time with Naismith's rule: 1 hour for every 4 km of map distance, plus 1 hour for every 300 m of ascent. Add up every uphill stretch along the way; downhill stretches add no time and do not cancel ascent. Use the scale bar for distance. Answer in minutes; an answer within 10 minutes of the true value is accepted. Give one number, for example 95.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-001201.png",
+       "sha256": "5e12807e38022930601523065f3d3b2d6665224d474d62961465d9814800f850"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794674900-vINAsvEgB3JLf1Tf6eRd",
+  "object": "chat.completion",
+  "created": 1794674900,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "## Estimating the walking time\n\n**Distance.** Using the scale bar (2000 m ≈ 1340 px, so about 335 px per km), I traced the dashed trail in segments:\n\n- S → the bend near (573, 466) on the map: about 331 px, or roughly 0.99 km.\n- Bend → E: about 271 px, or roughly 0.81 km.\n- Total map distance: about 1.8 km.\n\n**Distance time.** At 1 hour per 4 km, 1.8 km takes about 0.45 h, or 27 min.\n\n**Ascent.** Reading the contours along the trail:\n\n- **S to the bend:** S lies between the 360 m and 380 m contours, so about 370 m. The trail climbs north across the 400 m contour and reaches roughly 480 m at the bend. That is about 110 m of ascent, with no significant dips.\n- **Bend to E:** The trail descends from about 480 m down to E, which sits just north of the 400 m contour at about 390 m. This stretch adds no ascent.\n\nTotal ascent is about 110 m. At 1 hour per 300 m, that adds about 0.37 h, or about 22 min.\n\n**Total.** 27 min + 22 min ≈ 49 min. Given the contour estimates, about 48 min is a reasonable answer.\n\nFINAL ANSWER: 48",
+     "refusal": null,
+     "reasoning": "I'm working out the trail distance from S to E using the map coordinates. The x-scale comes out to about 335.5 pixels per km, and the y-scale to about 335, so the two match. Next I'm mapping S and E onto the grid and tracing the route upward from S.\n\nI'm checking the trail's total length by adding the two segments from S up to the midpoint and then to E, which comes to about 1.8 km. At 4 km/h that's roughly 27 minutes. Next I'm estimating the ascent by reading the contour lines between S and the nearby 400 m index contour.\n\nNow I'm reading the contour lines near S to estimate its elevation, which looks to be around 380 m. The trail climbs north from there, crossing the 400 m index contour and then several thinner contours toward the 500 m ring around Granite Knob.\n\nNow I'm estimating the trail's top point near (573,466), which looks to be around 480 to 500 m based on the nearby contour lines.\n\nNow I'm estimating the ascent from S up to the 480 m point, and the trail seems to rise steadily past the 400 m contour without a dip. Next I'm placing E against the heavy 400 m contours to the upper left of the route.\n\nI'm placing E against the heavy 400 m contour to the upper left, and I think E sits north of that line, in the lower ground between it and the ridge to the southwest.\n\nNow I'm estimating E's elevation from the contours around it, and it looks to be about 390 m. The trail runs down from about 480 m toward that level, and I'm checking where it crosses the 400 m contour.\n\nNow I'm checking the descent from the top point down to E, and the trail looks like it drops steadily to around 390 m with no climb along the way. That gives roughly 100 m of total ascent, which at 300 m per hour is about 20 minutes, bringing the estimate to 47 minutes.\n\nNow I'm placing the start point S against the contours, and it looks to sit around 370 m, just below the heavy 400 m line. The next step is checking how far the trail rises from there toward the top point.\n\nI'm estimating the top point's elevation at about 480 m, which puts the climb from S around 110 m. At 300 m per hour that's roughly 22 minutes, bringing the total to about 49 minutes, or roughly 48.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm working out the trail distance from S to E using the map coordinates. The x-scale comes out to about 335.5 pixels per km, and the y-scale to about 335, so the two match. Next I'm mapping S and E onto the grid and tracing the route upward from S.\n\nI'm checking the trail's total length by adding the two segments from S up to the midpoint and then to E, which comes to about 1.8 km. At 4 km/h that's roughly 27 minutes. Next I'm estimating the ascent by reading the contour lines between S and the nearby 400 m index contour.\n\nNow I'm reading the contour lines near S to estimate its elevation, which looks to be around 380 m. The trail climbs north from there, crossing the 400 m index contour and then several thinner contours toward the 500 m ring around Granite Knob.\n\nNow I'm estimating the trail's top point near (573,466), which looks to be around 480 to 500 m based on the nearby contour lines.\n\nNow I'm estimating the ascent from S up to the 480 m point, and the trail seems to rise steadily past the 400 m contour without a dip. Next I'm placing E against the heavy 400 m contours to the upper left of the route.\n\nI'm placing E against the heavy 400 m contour to the upper left, and I think E sits north of that line, in the lower ground between it and the ridge to the southwest.\n\nNow I'm estimating E's elevation from the contours around it, and it looks to be about 390 m. The trail runs down from about 480 m toward that level, and I'm checking where it crosses the 400 m contour.\n\nNow I'm checking the descent from the top point down to E, and the trail looks like it drops steadily to around 390 m with no climb along the way. That gives roughly 100 m of total ascent, which at 300 m per hour is about 20 minutes, bringing the estimate to 47 minutes.\n\nNow I'm placing the start point S against the contours, and it looks to sit around 370 m, just below the heavy 400 m line. The next step is checking how far the trail rises from there toward the top point.\n\nI'm estimating the top point's elevation at about 480 m, which puts the climb from S around 110 m. At 300 m per hour that's roughly 22 minutes, bringing the total to about 49 minutes, or roughly 48.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 8861,
+        "sha256": "604c715e9b1208336ae347a70b9a48e6fa8315b162e2d5035b421f66a66fe6a6"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2898,
+   "completion_tokens": 3017,
+   "total_tokens": 5915,
+   "cost": 0.0017983,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0017983,
+    "upstream_inference_prompt_cost": 0.0002898,
+    "upstream_inference_completions_cost": 0.0015085
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2575,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 15.74,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:48:20+00:00"
+}

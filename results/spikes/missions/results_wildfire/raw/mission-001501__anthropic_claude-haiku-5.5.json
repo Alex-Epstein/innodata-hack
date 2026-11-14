@@ -1,0 +1,103 @@
+{
+ "key": "956593ab56aad777d323c169df2b32458c61de5e181bec54816e4877b3d85584",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Wildfire: a fire is burning at the magenta square F and a crew is at the magenta square S. Fire spreads fastest uphill, so the crew is safe only on a route that stays below the elevation of F the whole way. Three escape trails (dashed black lines) leave S: Summit Trail, Cedar Trail and Miners Trail. Exactly one of them never climbs to the elevation of F. Which trail should the crew take? Answer with the trail name, for example Summit Trail.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "mission-001501.png",
+       "sha256": "2af1e798df603f9bdb55e9b693f35606917334f259c86f59ba2f79596a987aff"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794675674-3gFtGJ9MrxcZ8bGQIGZu",
+  "object": "chat.completion",
+  "created": 1794675674,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Step 1: Elevation of F.** F sits just above the heavy 700 m contour of Pine Butte's ring, so its elevation is roughly 710 to 720 m.\n\n**Step 2: Elevation of S.** S lies between the 600 m index contour to its north and the 500 m index contour to its southwest, so it is roughly 600 to 620 m. Any trail that climbs above about 710 m is unsafe.\n\n**Step 3: Check each trail.**\n- **Summit Trail** runs northwest from S up toward Lookout Pt (788 m), crossing the 700 m contours. It climbs above F's elevation, so it is unsafe.\n- **Miners Trail** runs east-southeast from S into the saddle and then east along the inside of Pine Butte's 700 m ring. The trail is inside that ring, so it is above 700 m and likely at or above F's elevation. It is unsafe.\n- **Cedar Trail** runs southwest from S, down past the 500 m contour toward the 400 m area. It only descends from S, so it stays below F's elevation the whole way.\n\nCedar Trail is the only route that never reaches F's elevation.\n\nFINAL ANSWER: Cedar Trail",
+     "refusal": null,
+     "reasoning": "I'm estimating F's elevation from its position near the 700 contour and the 20 m interval, counting the intermediate contours between the 600 and 700 heavy lines.\n\nI'm checking whether F sits above or below the 700 contour by comparing its pixel height with where that heavy line runs at the same x-position. The ring near the top of the 700 contour looks like it passes just under F, which would put F above 700.\n\nI'm working out which trails stay below F's roughly 710 m elevation. The Summit Trail climbs northwest toward the Lookout Point area, and I'm checking where it crosses the 700 contour near its upper end.\n\nI'm checking the Miners Trail against the contours next, tracing where it runs relative to the 600 and 700 lines and which of those the saddle between S and Pine Butte falls under.\n\nI'm checking the Miners Trail against the 700 contour: the point near (830,787) looks like it sits inside that ring, which would put it above 700, possibly around 720. That would make the trail's elevation close to F's, and I'm not yet sure which is higher. Next I'm turning to the Cedar Trail, which heads southwest from S and then south.\n\nI'm settling on Cedar Trail: it heads southwest and keeps descending from S, staying below 620 the whole way, so it never climbs above F.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm estimating F's elevation from its position near the 700 contour and the 20 m interval, counting the intermediate contours between the 600 and 700 heavy lines.\n\nI'm checking whether F sits above or below the 700 contour by comparing its pixel height with where that heavy line runs at the same x-position. The ring near the top of the 700 contour looks like it passes just under F, which would put F above 700.\n\nI'm working out which trails stay below F's roughly 710 m elevation. The Summit Trail climbs northwest toward the Lookout Point area, and I'm checking where it crosses the 700 contour near its upper end.\n\nI'm checking the Miners Trail against the contours next, tracing where it runs relative to the 600 and 700 lines and which of those the saddle between S and Pine Butte falls under.\n\nI'm checking the Miners Trail against the 700 contour: the point near (830,787) looks like it sits inside that ring, which would put it above 700, possibly around 720. That would make the trail's elevation close to F's, and I'm not yet sure which is higher. Next I'm turning to the Cedar Trail, which heads southwest from S and then south.\n\nI'm settling on Cedar Trail: it heads southwest and keeps descending from S, staying below 620 the whole way, so it never climbs above F.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 5949,
+        "sha256": "2545f76687f24e6a560565cc0d8de602cebeaedc3c4bc484d1a488772ee39eb8"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2888,
+   "completion_tokens": 1924,
+   "total_tokens": 4812,
+   "cost": 0.0012508,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0012508,
+    "upstream_inference_prompt_cost": 0.0002888,
+    "upstream_inference_completions_cost": 0.000962
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1525,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 10.47,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:01:14+00:00"
+}

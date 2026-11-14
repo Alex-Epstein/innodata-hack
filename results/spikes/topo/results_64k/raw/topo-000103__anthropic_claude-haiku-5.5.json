@@ -1,0 +1,103 @@
+{
+ "key": "148b3b020370d3e6ef422ca6bdf83759a846706d7714ab2abf088d570bd8277d",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Two points are marked in magenta, A and B. Which point is at the higher elevation? Answer with a single letter, A or B.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-000103.png",
+       "sha256": "4ff23f745f7f90383837764873457d335ea38450aaf3edd2a19016fb4e606f32"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794674761-ohc5Ag5aESYrhcyFh2ey",
+  "object": "chat.completion",
+  "created": 1794674761,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Locating the points:** A sits on the southwest flank of the Coldwater Peak hill, and B sits on its eastern flank.\n\n**Point A:** Heavy index contours surround the hill. The 600 m index contour runs beneath A (labeled near the bottom of the hill), and A lies between that contour and the next heavy contour inside it, which is at a higher level. So A is roughly in the 620–680 m range.\n\n**Point B:** B lies right against the eastern side of the 600 m index contour, just inside it. That places B at about 610–630 m. The eastern slope is gentler, with more widely spaced contours.\n\n**Comparison:** A lies farther up the hill's flank than B, between the 600 and 700 m heavy contours, while B sits just above the 600 m contour. A is at the higher elevation.\n\nFINAL ANSWER: A",
+     "refusal": null,
+     "reasoning": "I'm pinning down the coordinates of points A and B on the map, with Coldwater Peak nearby, and I'm checking where A sits relative to the heavy 600 contour line near it.\n\nI'm checking which heavy contour lines bracket point A, since the 600 line near the bottom and the lines labeled 700 and 800 further up all sit close to it. Point A seems to lie between them, so I'm trying to pin down which contour it falls against.\n\nI'm weighing whether B sits just inside or just outside the heavy 600 contour, since the line runs close to it on the right side of the hill. A probably falls between the 600 and 700 contours, around 650 to 680.\n\nI'm tracing the heavy lines around Coldwater to tell which ones are the 600 and 700 contours. The 600 label up at (737,490) is on the outer ring, and the 700 at (625,365) sits inside it. Next I'm working out whether the line through (773,700) is the same 600 contour.\n\nI'm now estimating how far A and B each sit from the Coldwater summit, starting with A's offset of about 49 pixels left and 311 down.\n\nI'm working out how far B sits from the summit, which is about 366 pixels east and 272 south. I'm also noting that the contours on the east side look widely spaced, so the slope there is gentle.\n\nI'm comparing A's spot against the nearby heavy lines, with the 600 contour below it and a heavier line to its upper left, and A seems to land around 650 to 680.\n\nI'm settling on B at roughly 610 to 620, which puts it just above the 600 contour, while A still looks higher.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm pinning down the coordinates of points A and B on the map, with Coldwater Peak nearby, and I'm checking where A sits relative to the heavy 600 contour line near it.\n\nI'm checking which heavy contour lines bracket point A, since the 600 line near the bottom and the lines labeled 700 and 800 further up all sit close to it. Point A seems to lie between them, so I'm trying to pin down which contour it falls against.\n\nI'm weighing whether B sits just inside or just outside the heavy 600 contour, since the line runs close to it on the right side of the hill. A probably falls between the 600 and 700 contours, around 650 to 680.\n\nI'm tracing the heavy lines around Coldwater to tell which ones are the 600 and 700 contours. The 600 label up at (737,490) is on the outer ring, and the 700 at (625,365) sits inside it. Next I'm working out whether the line through (773,700) is the same 600 contour.\n\nI'm now estimating how far A and B each sit from the Coldwater summit, starting with A's offset of about 49 pixels left and 311 down.\n\nI'm working out how far B sits from the summit, which is about 366 pixels east and 272 south. I'm also noting that the contours on the east side look widely spaced, so the slope there is gentle.\n\nI'm comparing A's spot against the nearby heavy lines, with the 600 contour below it and a heavier line to its upper left, and A seems to land around 650 to 680.\n\nI'm settling on B at roughly 610 to 620, which puts it just above the 600 contour, while A still looks higher.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 7473,
+        "sha256": "2916ea20959b6f96b3c1b90e0eef66dbf0bde275880eaca04f0169f6ec890316"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2770,
+   "completion_tokens": 2198,
+   "total_tokens": 4968,
+   "cost": 0.001376,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.001376,
+    "upstream_inference_prompt_cost": 0.000277,
+    "upstream_inference_completions_cost": 0.001099
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1921,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 12.99,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:46:00+00:00"
+}
