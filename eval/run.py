@@ -32,7 +32,7 @@ CSV_CELL_LIMIT = 131072         # the judges' CSV reader stops at this many char
 
 
 def load_tasks(tasks_dir: Path) -> list[dict]:
-    lines = (tasks_dir / "tasks.jsonl").read_text().splitlines()
+    lines = (tasks_dir / "tasks.jsonl").read_text(encoding="utf-8").splitlines()
     return [json.loads(line) for line in lines if line.strip()]
 
 
@@ -75,18 +75,18 @@ def evaluate(tasks_dir, out_dir, models=client.MODELS, workers: int = 4, blind: 
     for (model, task), (row, rec) in zip(pairs, results):
         rows.append(row)
         name = f"{task['task_id']}__{re.sub(r'[^A-Za-z0-9.-]+', '_', model)}.json"
-        (out_dir / "raw" / name).write_text(json.dumps(client.for_raw_log(rec), ensure_ascii=False, indent=1))
+        (out_dir / "raw" / name).write_text(json.dumps(client.for_raw_log(rec), ensure_ascii=False, indent=1), encoding="utf-8")
         if len(row["response"]) > CSV_CELL_LIMIT:
             print(f"WARNING: reply of {model} on {task['task_id']} is {len(row['response'])} characters; the "
                   f"judges' CSV reader stops at {CSV_CELL_LIMIT}", file=sys.stderr)
 
     with open(out_dir / "responses.csv", "w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=COLUMNS)
+        w = csv.DictWriter(f, fieldnames=COLUMNS, lineterminator="\n")   # same bytes on every OS
         w.writeheader()
         w.writerows(rows)
 
     summary = summarize(rows, [rec for _, rec in results])
-    (out_dir / "summary.json").write_text(json.dumps(summary, indent=1))
+    (out_dir / "summary.json").write_text(json.dumps(summary, indent=1), encoding="utf-8")
     config = {
         "models": list(models), "endpoint": client.URL, **client.SETTINGS,
         "prompt_template": scoring.PROMPT_TEMPLATE, "image_sent": not blind,
@@ -98,7 +98,7 @@ def evaluate(tasks_dir, out_dir, models=client.MODELS, workers: int = 4, blind: 
         "timestamp": datetime.now(timezone.utc).isoformat(timespec="seconds"), "git_commit": _git_commit(),
         "totals": summary["totals"],
     }
-    (out_dir / "run_config.json").write_text(json.dumps(config, indent=1))
+    (out_dir / "run_config.json").write_text(json.dumps(config, indent=1), encoding="utf-8")
     return summary
 
 
