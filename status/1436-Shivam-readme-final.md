@@ -1,0 +1,1 @@
+done: #75 README final-results block filled from tasks/final + results/final (Haiku 2/10, Luna 3/10; 20 of 20 replies complete; 10 of 10 pass every check); few-shot finding added; real ZIP built under a throwaway name: 0 FAIL, 0 WARN, 124.75 MB. next: hand-check lines when results/human lands, final ZIP. blocked: team name
