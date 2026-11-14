@@ -1,0 +1,99 @@
+{
+ "key": "83efa7f2449ff9975703bb5f88543b500af69af2973a8bf9fe667f91f46288ef",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Two points are marked in magenta, A and B. Which point is at the higher elevation? Answer with a single letter, A or B.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-000101.png",
+       "sha256": "26b7599977b5ad84af1f4e79e3a8fff96259fa34328e2ee4a6ff3e5386f1b071"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673346-qyWS8BrCabLe8yn1Km36",
+  "object": "chat.completion",
+  "created": 1794673346,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Reading the nearby contours**\n\n- **Point A** (around x≈330, y≈935) sits just outside the heavy ring that runs past the 800 label on the west side of Pine Butte. The 700 index contour is further out to the southwest, so A lies between roughly 700 and 800 m.\n- **Point B** (around x≈465, y≈466) lies on the upper-left flank of the butte, to the right of the 800 index label at (393, 440). It is inside the 800 contour and close to the 900 index contour (label at about 433, 527), so it lies between roughly 800 and 900 m.\n\nSince B is inside the 800 contour and A is outside it, B is at the higher elevation.\n\nFINAL ANSWER: B",
+     "refusal": null,
+     "reasoning": "I'm checking whether point B sits near the 900 contour, which is labeled on the left side of the hill at roughly (433, 527). B is at (465, 466), and I'm tracing the heavy contour line from that label upward to see how close it passes to B.\n\nI'm checking the contours near point A at (330, 935), which sits between the heavy 700 line and the 600 region. I'm trying to work out whether A falls inside the 700 contour by tracing the line from the 700 label to the right, and I'm not sure yet which heavy line runs near it.\n\nI'm checking the contour rings around B now: the 900 label on the left, and whether the ring it sits on bends back past B's position.\n\nI'm working out whether B lies between the 800 and 900 contours, since at y≈440 the 800 line sits near x≈393 and B is further right. A is above the heavy 700 line near its label, and I'm trying to tell which heavy contour actually passes close to it.\n\nI'm concluding that A sits below the 800 contour, probably around 750 to 790 elevation, while B lies between the 800 and 900 lines, so B is the higher of the two.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm checking whether point B sits near the 900 contour, which is labeled on the left side of the hill at roughly (433, 527). B is at (465, 466), and I'm tracing the heavy contour line from that label upward to see how close it passes to B.\n\nI'm checking the contours near point A at (330, 935), which sits between the heavy 700 line and the 600 region. I'm trying to work out whether A falls inside the 700 contour by tracing the line from the 700 label to the right, and I'm not sure yet which heavy line runs near it.\n\nI'm checking the contour rings around B now: the 900 label on the left, and whether the ring it sits on bends back past B's position.\n\nI'm working out whether B lies between the 800 and 900 contours, since at y≈440 the 800 line sits near x≈393 and B is further right. A is above the heavy 700 line near its label, and I'm trying to tell which heavy contour actually passes close to it.\n\nI'm concluding that A sits below the 800 contour, probably around 750 to 790 elevation, while B lies between the 800 and 900 lines, so B is the higher of the two.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "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.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2770,
+   "completion_tokens": 1615,
+   "total_tokens": 4385,
+   "cost": 0.0010845,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0010845,
+    "upstream_inference_prompt_cost": 0.000277,
+    "upstream_inference_completions_cost": 0.0008075
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1378,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 9.58,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:22:26+00:00"
+}

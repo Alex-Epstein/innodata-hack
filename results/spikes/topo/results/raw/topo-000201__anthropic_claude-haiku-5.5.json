@@ -1,0 +1,99 @@
+{
+ "key": "6b480a5de521007ab7c65a83c7e1475519618c0a3cbecf091c209f2387ae1390",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. The magenta point P lies exactly on a contour line. What is the elevation of P in meters? Answer with a whole number, for example 1240.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-000201.png",
+       "sha256": "a3823f7a5f6895fc72b909f09c6735023acd82ecd265242ff07fdce7b8474679"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673356-EvdFntxWiJsLuaeqtUjH",
+  "object": "chat.completion",
+  "created": 1794673356,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Locating P:** The magenta point sits just southwest of Granite Knob (655 m), outside the heavy 600 m index ring that encloses the knob.\n\n**Counting contours outward from the 600 m ring:** Between the heavy 600 m contour (about x ≈ 1200 px at P's latitude) and the heavy 500 m contour (about x ≈ 1100 px), there are four thin intermediate contours. That gives 520, 540, 560 and 580 m, spaced about 20 px apart. P (at x ≈ 1185 px) lies on the first thin contour outside the 600 m ring, which is the 580 m contour.\n\nThis is an estimate from pixel spacing, but it is consistent with the contour interval.\n\nFINAL ANSWER: 580",
+     "refusal": null,
+     "reasoning": "I'm working out the elevation of point P at about pixel (1185, 1018), with contours every 20 m and heavier index lines at 400, 500, 600 and 700. The 600 index contour loops around Granite Knob, and I'm checking the inner contour lines against the knob's stated peak of 655.\n\nI'm checking where the 600 contour runs near P, which seems to pass just inside P's position around x≈1200–1210 at y≈1018. Since P sits at x=1185, it lies outside the 600 ring, probably on the 580 thin contour.\n\nI'm checking the spacing between the 500 and 600 heavy contours at this height, which comes to about 20 m per contour line, so the lines fall at 520, 540, 560 and 580 in between. P at x=1185 lands on the 580 line, which fits.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm working out the elevation of point P at about pixel (1185, 1018), with contours every 20 m and heavier index lines at 400, 500, 600 and 700. The 600 index contour loops around Granite Knob, and I'm checking the inner contour lines against the knob's stated peak of 655.\n\nI'm checking where the 600 contour runs near P, which seems to pass just inside P's position around x≈1200–1210 at y≈1018. Since P sits at x=1185, it lies outside the 600 ring, probably on the 580 thin contour.\n\nI'm checking the spacing between the 500 and 600 heavy contours at this height, which comes to about 20 m per contour line, so the lines fall at 520, 540, 560 and 580 in between. P at x=1185 lands on the 580 line, which fits.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "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.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2774,
+   "completion_tokens": 1003,
+   "total_tokens": 3777,
+   "cost": 0.0007789,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0007789,
+    "upstream_inference_prompt_cost": 0.0002774,
+    "upstream_inference_completions_cost": 0.0005015
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 751,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 5.72,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:22:35+00:00"
+}

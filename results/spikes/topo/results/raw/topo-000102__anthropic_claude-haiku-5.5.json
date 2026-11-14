@@ -1,0 +1,99 @@
+{
+ "key": "ccb8ccf6a8956cdc643d3d9b26ef0239717fb808d096b987f6338cfd42fb17a9",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Two points are marked in magenta, A and B. Which point is at the higher elevation? Answer with a single letter, A or B.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-000102.png",
+       "sha256": "e42b574e0b4275066b8acdabcdef72f3747b74d5c81a02f055a31ee2e9424506"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673346-4DGzi1k4xgHbwQrYhj0T",
+  "object": "chat.completion",
+  "created": 1794673346,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Point B** is higher.\n\n- **Point B** sits at roughly (282, 419). The heavy index contours on the west side run 500 (near x≈205 at its label), then 600, then 700 (labeled near x≈333), 800. B lies between the 500 and 600 index contours, so its elevation is about 550–590 m.\n- **Point A** sits at roughly (1161, 597), inside the 300 m index contour on the east side. Its nearby contours are lower, placing it roughly in the 350–450 m range.\n\nSince B lies between the 500 and 600 contours and A lies between the 300 and 400-ish contours, B is at the higher elevation.\n\nFINAL ANSWER: B",
+     "refusal": null,
+     "reasoning": "I'm locating point B on the map near (282, 419) and checking which contour lines are closest to it. It seems to sit between the 500 contour on the left and the 700 contour, though I'm not sure which heavy line is which yet.\n\nNow I'm checking the labels nearby: 700 sits at (333, 645), 800 at (427, 670), and 500 at (203, 600). The heavy line that passes just right of B at around x=295 looks like the 600 contour, which would put B on the outer, lower side of it, somewhere between 500 and 600.\n\nNow I'm tracing the heavy contour that runs down from the 500 label toward the point at A, checking where the next heavy line sits outward from it.\n\nNow I'm comparing A against the contour lines around it. A sits inside the 300 line, but it's unclear whether it falls nearer the 400 or the 500 heavy line, so I'm leaning toward somewhere in the 350 to 450 range.\n\nI'm estimating where B falls among the heavy lines at this height: the 500 line sits to its left and the 600 line to its right, so B is probably somewhere around 550 to 590. A looks like it lies between the 300 and 400 contours, so B is clearly the higher point.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm locating point B on the map near (282, 419) and checking which contour lines are closest to it. It seems to sit between the 500 contour on the left and the 700 contour, though I'm not sure which heavy line is which yet.\n\nNow I'm checking the labels nearby: 700 sits at (333, 645), 800 at (427, 670), and 500 at (203, 600). The heavy line that passes just right of B at around x=295 looks like the 600 contour, which would put B on the outer, lower side of it, somewhere between 500 and 600.\n\nNow I'm tracing the heavy contour that runs down from the 500 label toward the point at A, checking where the next heavy line sits outward from it.\n\nNow I'm comparing A against the contour lines around it. A sits inside the 300 line, but it's unclear whether it falls nearer the 400 or the 500 heavy line, so I'm leaning toward somewhere in the 350 to 450 range.\n\nI'm estimating where B falls among the heavy lines at this height: the 500 line sits to its left and the 600 line to its right, so B is probably somewhere around 550 to 590. A looks like it lies between the 300 and 400 contours, so B is clearly the higher point.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "CAQS4h4KEAgTGAI4AUIIdGhpbmtpbmcSDI8IifDY2/S14UgQNhoMASD2dMEkQ4VFqfUcIjAb1x3pqYlgEM0a+VJqnL7grU1SGaSf3Xkwvl85TSJxtNeKQ+NVVdGPsN+XQARGc9kq/x3SwdjGqAGLwxq02M5Rr4Jcmx68gcIaDUBIOS4k1Mik/N05GTzpeZuNZeg3cUH1qDJlCMR6VWujl1bSTK03z8S8gN6kJIziP6ihVHLCYkse3W7L2bVqd11zbfDsp9mvTZRvOhqb6n3CLGgrK/PPacY4LGxp60eh3xDea05hoM0mfZI32fOpI1+Sgts0ecbkdb7PXTk51IBztTpfcljXUIhxvDulclsFJgod9gDhEd1FgvVUCCx4ZUaRRpb3N731EUSh4g8qRK3wFbJrhNWfjwJHsDdqx4k/1db4S9NDvFUUT5BZK7V+Ns5IRh7GNlkPx4b83gfWMnzSA7IQReZUt4zAHSg6Kii95R9Cy67nVL3IOxhbRdvL9+VfJEXmIGKIbCbO0Yf+FQhKdT1QMErQnxYHFURd5GpJTgxke28aDO5zs3QeBPihqFBrRzav5wTteszYcU+cgH661BHNwaFQP4XxiiL2u4JRmiftJ1uEvYDx98nqGcROgNpDYP2xX6RL87/dBp2Gi3yuHqGNEPC5hQ+4OfUAU8OIvN8LqsRMn/v0mG43KfWiyV4Lpuv0uBHO21esYJc3qbLZa+iAlfifFOA/fFd9BLkgD4ldmlb+MMFqvScYcjtv5WqUkpWaJ/nkur7C7zaTIjFf1nEO+uvwoNsvSr57EEijC+Gqg5K2fRbVT8/4hDFA8CxjLRtad+Vussq4KLQuJGO65clhjAVx+lOSUAhvSTwQ1OBJD47jyql72ojOqxiM88Pi4IL03WWweVRHh21sbj6cK+bFUl1i97yDE9h3GuxUvOq1e0KgwweRg8XiAkZmJkUbfghz3lp8YaqXXFz6Aknpb1sw4XrDDPVkM2OpyT88kOkKOK48G/Egz+xsOM8mblrjFysHHG0p/BqtKe3o227VQaSgKs1P9gm1bX7jsjJwNyk/+vXcJ6F8MYhvFVBN8AhNFBI3DHlW9n5Y/IV5h2Zw9U6hGNXj2AtMXOKFvCqJDgbqaUOU8ZZXugi4tC+VJheXTPLBarHW6nHbtZAtOqwd1rPq2b+Njk/IbN+Uh8ydioFfSdR6dLxBxTTUrBfFGZ2o5d0J6EFEN96w/TexVDYxzzhZYjO/0qsYaPyT9j4mWjeTDSocFX7flgReXOVQXzke6hkzF+DZKy0U+hMpALGfh3R9IO5T3de8qLU/uy4ssAcbO+tJZzJy3bhTBdLb75VM/k30rNc95iDgMMvMce+I98x6NhQSiBn4ISq62pVIh5Bs2p3VdLFsIk9wOaBwe0Ae/J0avAahFREU7wrlyiMZbJ8Jm6HteO8t2cQ6Jx6QF4ycKndDxUptcGlZulgtAdkRoJO6u4VZeEOVI8Qd71OVrAolli1kPxnAoraE513HHOwFAEQDlnXkUM9jKFPcIiPccWiG/0AFZTMaZap75NY556TsyR+aLlkD+GoMsw+VAlt9rKm9EZNUH/rdlmphEuM+xR6fK71vv2AV3eAHVAg0X44yjcxisPJqCczXPVpsfDwNDsKKDBbHm2UiTQRRRqhN65LTKqf/amCGUvuWdv8arWAPgtJkVzPnwjS1orkMDrILk1082x34WT74YZorJY88q2u74Eq4sC/ayD6K/4eTTZI2HtV85GLDmecd/YuRhOK5fGxmmG4CZiS1KvwrQB6VQguUPM3nRsKCntJS0IK/wL2PUWkQyTcEaOIHwIO8R2gha425Q81qlzHypFohIn4wbA9nkYAK4qEvpUZzOTsX0Mr3DJwKX07lzb29Q2ZGrXZJg9igHfTINKjNmu4xgWRHOPPjDgXpWxEOMFeXjnNZ4y88fTNuzAwwi06svBe+njAzkeR5v3Y7UQ6P0aK0/8qA6uv4S+/1gQASL1tTi+LocobyokDw4vcsLFFUnOQMLeUI3lbZ8pq+33IlamPv7FW2BB2mzlosCFpb+3gt+0la03djwOFeyUJc9f8PQ2yQUVnV6CaTrML8ne48Iq52C6TWcSrVc57tNhgYO/OVDnpi2iDCd4lZl/Y2p/NFetTfveZqDIKrz2aS9aiu9wjX65f+FO9Sns8LzVZ1C88uM9cTWu9yvL/0ofQV6p2xOGfmHmek8Erb8fgn5GOGu12HAqq6chZPH3aXG7XNBIEUYk4ZQf4BC4Xlnrd21d30jxehupv7oJ8ombqo9Ssv3L4VgZVVCF5tXBx485ZFsMzZxPcAYtyIbIDfgpsHKhbYL5XsM3HHGWwqKNhLCeQol4HQ35/x2T+WQ/QMmXNdwsWA6wdCwsKLIG97FtaDgM7WIABrqOmuT2ri75rjaa62cPfmY5S/g5JQn3McZlBEUCAkkaBUdJtegg5aIfIzy6BoNSisljRuOht5IWXoZbyit5XnwfLGBNi4eFgt7D/Tb9XjfJUeRaCeKZK4cPfSxtLNlXzPPWaxKfbPBKiQ9a6tlFknlUZviUv+EQKhk3pq3sHcT/M9F41S2Y+VivTRTtdfNFC7iIAnVhnhg9AibJwNaiczLOHAxNjMRZXlPORXm/opiNPeihpjK/iLNvLc04ZiCGrJHV5eP+dh1bDnPoZZpJbE7kht3sHDlj6boBpOLHf/0PZ7Qu3RFO7Ty+ViYFpaeCNLZCn2bJYdIRQ1X722DB/UTw7LgrT0xlRHvdHeLmuDb829Tpj0yeuDi7vZTm6N3d1dSJljfAl+dixk1b3MrSB0mSPpspUMtOQLU33N4MyYhNG+8UlXKS4qxfo0koA14NlP0SfhG2Ovf/hGMSE1p6n+RRPEqGowzplutDaoHFcBd+D86hc7q4h16y1uekyODE7X1SrBlEj9g9yLEQ8R+fJAH5sjj7zUiJRQjHzo/fSMBvBdMUKrKYXhnDYnbBjGOi0Awu4ffJFAaoqIm/lL1M+gU11ZBrqc8HlZC18rzOLOQpsAEAxl8sm0tDiJ7Llwzx7yS3dVmBkpANTh3ndvc0lVLSm6R1uJKZriNPh9+dZej8HruckAYxnBHl4Yfb38SxNhp6G5c2KIpp1zfhT1nGkUxjB9zRa+rZdXwTXyZGDEEvTfEsyrje+9s0bsz6O1yy82QVBZSaR86TyA27OALfdZ8NozsxobpVse6rGPGFSH2IrELwvFfVHkOe9dNOI8pOm29+J/ABez7yFtSoHpVSoHC+0Xu7sOugmMh5SGdlZdTwLldfyA2hUhERFBUaU/wLMmhOUlzsHkz3ESSUdXGZIpca7JMxXGZ/QjPTiMiAQDRW2Gmz7aAthqqjJsGSOHnM62lCRhYHGdwg0aZRsB8cfR2+RVoCsRaoogTssM6YYlAzOud9+0LeYobiu3f68setamC9cupB8Y3XPQyVUyMY6ZbQaiiNlva2dlGO9ySl95XiQrxl5ywEylrgle3tMiM77fQhxXjC9JnviTqlbQcBUyaSvSIXt+b3cQcy7y8UPfwuHHFOm/qWovGkBeD80BTEeJzfnSvPQGVaGVDRQnYTVBlPQVMnDN3Xi4zM5WzbGGDAz8Y8W+rLi3lEP+mW5SgYgc/C4ywTgII2J9ShbMQhKTj43fGo429dv+CzUY59jNrdr/+3dt63pqXGK6sg0juf1tAIXVYgtpjL5cCm5w4EdWBUWgNNqmLJoImPOmAgdLogJH3K/5646rXBuvq0AHKXFNcycOR05NIBiCgD3c+e06qyNjSFz6ZnNw+ukf2O1KBZ+NCQKmpatHHjugvPBPvm/g+HTmwu8x2kSamt7vpxiSq7+0UqEGGI7CDO+BYeEvY5CNAqYDgG+owSCLhhZFK9AJGPkC/d6sfprqG1LQa2O8gOGC3bZ9jo6hEweAL6/DxCU/ADpy0F3hMHwLhAHLqtvXfjS9RYhsC+LAv+8UCdokmUbMdg3/v7jrc7s2jdVfZE3mYbPvu1oD883W+iCJyuToBtlP6w9Uy2PTc4y/u7YRZ4+0oGVwxCeVBL/+DGmOiJgpq7jkOL968QtULnKR3HgrMDcyvHUxlksMkCKEovOz6pkzsRIYjW5SHn0QeFcRQWxeuKQnPYZZfjcI/cp/fSjGUdPoCxPUPUkjNC4qF49TVrCb352iLOeJJ20orHelcdP3/LDsmCJvUm5J/RxgFMH8/mQ4D77Q+PrmjEX0VCe6UlozUwhBfSdY+0ZJ/z9roSXat79rYuCI6beKJb07n6SzPftj2FY2wlsarVuA0FQLPEDmDZW8Fi/BzNlAUvzgjcq4L+zFod4AaM/NJxw+Hy6IVOBr3lu9Oy9fLKhK/iT3uU2kwIoorG1So2fxL21ev3VHzgOCqp3Taq5bAdtYCqXZn3YrNlKPzELT0WasQY1d+oKHFmS13Hn/5X2EJf7ib05ZXLU6s2XkBrKrdEkeSiw+KPhW/9m5L7TAeOnpr53FsmaaJUgeAtTk6gzg/BV4B1JabE2jvDSMyYewvS/5QpESEUPQ+s6rfNGUoIJCWTcq4ljtMbYyTITW87BCfGweSwqiXbRyezkrj+mWptuJsxiliw1vu79SK8FbbsDNMhXMqwfKO/KG36BQ+yX4bdl6CoNLKm+EiryO88rl00LaMhMYrmyaP1SRUeDiSjgYhqqiv3lvoQ5Gf7ukawTDEgdp1NWlWW4rjK3Rmev+AhtmfztsyW8fmTDerRMjLIMNHqQhWaoUlemg9+EKygWt/Z+zb92Cg82kOy1iZklDOz+/S2s/X80BZD8NkBabBbhFGC0RBlhCAjnPfzQW4Q96+Pfap5aU2Gw2exKIB1Pj9teLrZRTHeBl3XlGrU/845l6TdjwT1GBYCOa0WPpNY0w9LxewosxBUDbo1Ufo/MaXWVd1zmImpH+8SUmhCEY/ZVfJCdTlfARg08IgWyy5ubSfiBzpARdKykmFjh5fTujhoCt82K9MFoDreArNDHZGYECtbjJdj6DyxsjHl4727d7KXJT04VDa2yiMnzxDOOI4GgIRWVGieKqmyPVSkH24W6K/7wpvu9LHLhtui1+j6fcl0jrB6CUgz/7gfgabaTQWxR0a8zHD1aSfQ/Q0EXEpFU80nKC7RwgzWOsILoOCnugucc5MZYGNdv4h5Yl606F3r3Z79zCMzcoIrp46uK6SFfDE2EDQeLlc9OwrqcD8BoFIWZ9ovjU20h/DmKR0FdNllAx08UHQIa/MeD3KxjUeONUq+6vfSyINvks8H+W6BgB.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2770,
+   "completion_tokens": 1603,
+   "total_tokens": 4373,
+   "cost": 0.0010785,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0010785,
+    "upstream_inference_prompt_cost": 0.000277,
+    "upstream_inference_completions_cost": 0.0008015
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1377,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 9.69,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:22:26+00:00"
+}

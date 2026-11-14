@@ -1,0 +1,99 @@
+{
+ "key": "9d271780854963454fb3df316113376ccd877c587ead3c6517d3c930f271454d",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Two points are marked in magenta, A and B. Which point is at the higher elevation? Answer with a single letter, A or B.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-000103.png",
+       "sha256": "4ff23f745f7f90383837764873457d335ea38450aaf3edd2a19016fb4e606f32"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673350-F6XepQT2bWEGbo5g7yJe",
+  "object": "chat.completion",
+  "created": 1794673350,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Locating the points:** A sits on the southwest flank of Coldwater Peak (1075 m), and B sits on the eastern flank, close to a heavy index contour.\n\n**Reading the contours:**\n- The heavy contour labeled 600 runs along the base of the peak's southern and eastern slopes. Point B lies essentially on this 600 m line, so its elevation is about 600 m.\n- Point A lies inside that same 600 m contour, on the side facing the peak. Moving from the 600 m line toward the summit, the contours step up through 620, 640, and so on, so A is somewhere around 620 to 660 m.\n\nSince A is uphill from the 600 m contour and B is at about 600 m, A is at the higher elevation.\n\nFINAL ANSWER: A",
+     "refusal": null,
+     "reasoning": "I'm placing points A and B on the map, roughly at 571.7, 4162.95 and 572.95, 4163.08, and I still need their elevations. Point A sits in pixel space near (349, 798), so I'm checking which contour lines are closest to it, including the 600 index contour near the bottom-left and the heavier contours around Coldwater Peak.\n\nI'm now looking for which heavy contour lies closest to point A, weighing the 600 label near the bottom-left against the nearby 800 and 700 lines, since point A seems to sit between two of them. I'm comparing that against point B, which seems to fall near the heavy 600 line running down the right side.\n\nI'm checking whether A falls inside the 600 contour, since the line near (410, 900) should pass below it at around y 880 when x is 349. A at y 798 sits above that, which would put it inside the 600 ring. B looks like it's on the heavier 600 line that curves up the right side of the peak.\n\nI'm weighing whether A sits inside the 600 contour, since it lies above the line that passes below it. That would put A somewhere around 620-640, and B, which sits on or just beside the heavy 600 line, somewhere around 600-620.\n\nPoint A is inside the 600 contour, since it sits above the line that passes below it, so it's likely higher than B. B sits on or just inside the heavy 600 line, which puts it around 610, while A could be closer to 640. A is roughly 80 pixels up the slope from the 600 line, whereas B is within about 10 pixels of it, so I'm leaning toward A being the higher point.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm placing points A and B on the map, roughly at 571.7, 4162.95 and 572.95, 4163.08, and I still need their elevations. Point A sits in pixel space near (349, 798), so I'm checking which contour lines are closest to it, including the 600 index contour near the bottom-left and the heavier contours around Coldwater Peak.\n\nI'm now looking for which heavy contour lies closest to point A, weighing the 600 label near the bottom-left against the nearby 800 and 700 lines, since point A seems to sit between two of them. I'm comparing that against point B, which seems to fall near the heavy 600 line running down the right side.\n\nI'm checking whether A falls inside the 600 contour, since the line near (410, 900) should pass below it at around y 880 when x is 349. A at y 798 sits above that, which would put it inside the 600 ring. B looks like it's on the heavier 600 line that curves up the right side of the peak.\n\nI'm weighing whether A sits inside the 600 contour, since it lies above the line that passes below it. That would put A somewhere around 620-640, and B, which sits on or just beside the heavy 600 line, somewhere around 600-620.\n\nPoint A is inside the 600 contour, since it sits above the line that passes below it, so it's likely higher than B. B sits on or just inside the heavy 600 line, which puts it around 610, while A could be closer to 640. A is roughly 80 pixels up the slope from the 600 line, whereas B is within about 10 pixels of it, so I'm leaning toward A being the higher point.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "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.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2770,
+   "completion_tokens": 1524,
+   "total_tokens": 4294,
+   "cost": 0.001039,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.001039,
+    "upstream_inference_prompt_cost": 0.000277,
+    "upstream_inference_completions_cost": 0.000762
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1271,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 9.32,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:22:30+00:00"
+}
