@@ -1,0 +1,378 @@
+{
+ "experiment": "2 worked examples in context vs zero-shot, same 8 test tasks per mission",
+ "models": [
+  "anthropic/claude-haiku-5.5",
+  "openai/gpt-6-luna"
+ ],
+ "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+ "temperature": 0,
+ "reasoning": {
+  "effort": "high"
+ },
+ "max_tokens": 64000,
+ "prompt_structure": [
+  "text: INTRO",
+  "image: example 1",
+  "text: EXAMPLE_HEADER (n=1)",
+  "image: example 2",
+  "text: EXAMPLE_HEADER (n=2)",
+  "image: test task",
+  "text: TEST_HEADER"
+ ],
+ "intro": "Here are 2 worked examples of this kind of task, each with its map and a correct step-by-step solution. After them comes a new task with its own map. Solve the new task.",
+ "example_header": "Worked example {n} (map above):\n\n{question}\n\nWorked solution:\n{solution}",
+ "test_header": "New task (map above):\n\n{prompt}",
+ "prompt_template": "{question}\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>",
+ "solution_source": "eval/fewshot.py solution(): one template per mission, filled from the task's steps and data JSON; asserted equal to the task's answer",
+ "example_task_ids": {
+  "crossings": [
+   "topo-crossings-000000",
+   "topo-crossings-000001"
+  ],
+  "sunset": [
+   "topo-sunset-000000",
+   "topo-sunset-000001"
+  ],
+  "flood": [
+   "topo-flood-000000",
+   "topo-flood-000001"
+  ]
+ },
+ "test_task_ids": {
+  "crossings": [
+   "topo-crossings-000002",
+   "topo-crossings-000003",
+   "topo-crossings-000004",
+   "topo-crossings-000005",
+   "topo-crossings-000006",
+   "topo-crossings-000007",
+   "topo-crossings-000008",
+   "topo-crossings-000009"
+  ],
+  "sunset": [
+   "topo-sunset-000002",
+   "topo-sunset-000003",
+   "topo-sunset-000004",
+   "topo-sunset-000005",
+   "topo-sunset-000006",
+   "topo-sunset-000007",
+   "topo-sunset-000008",
+   "topo-sunset-000009"
+  ],
+  "flood": [
+   "topo-flood-000002",
+   "topo-flood-000003",
+   "topo-flood-000004",
+   "topo-flood-000005",
+   "topo-flood-000006",
+   "topo-flood-000007",
+   "topo-flood-000008",
+   "topo-flood-000009"
+  ]
+ },
+ "baseline": {
+  "crossings": "results/pilot_topo_crossings/responses.csv (zero-shot, not re-called)",
+  "sunset": "results/pilot_topo_sunset/responses.csv (zero-shot, not re-called)",
+  "flood": "results/pilot_topo_flood/responses.csv (zero-shot, not re-called)"
+ },
+ "tasks_folders": {
+  "crossings": "tasks/pilot_topo_crossings",
+  "sunset": "tasks/pilot_topo_sunset",
+  "flood": "tasks/pilot_topo_flood"
+ },
+ "cache_dir": "cache/fewshot (EVAL_CACHE_DIR)",
+ "timestamp": "2026-11-14T19:31:56+00:00",
+ "git_commit": "83b7236aafb6bd9a2239daef958bbbacc7cebf37",
+ "totals": {
+  "calls": 48,
+  "from_cache": 0,
+  "incomplete": 0,
+  "retried_calls": 0,
+  "cost_usd_all_calls": 0.17081567499999997,
+  "cost_usd_new_calls": 0.17081567499999997
+ },
+ "results": {
+  "crossings | anthropic/claude-haiku-5.5": {
+   "zero_shot": 1,
+   "two_shot": 0,
+   "n": 8,
+   "per_task": {
+    "topo-crossings-000002": {
+     "ref": "12",
+     "zero_shot": "8",
+     "two_shot": "7"
+    },
+    "topo-crossings-000003": {
+     "ref": "19",
+     "zero_shot": "10",
+     "two_shot": "11"
+    },
+    "topo-crossings-000004": {
+     "ref": "15",
+     "zero_shot": "9",
+     "two_shot": "11"
+    },
+    "topo-crossings-000005": {
+     "ref": "11",
+     "zero_shot": "5",
+     "two_shot": "8"
+    },
+    "topo-crossings-000006": {
+     "ref": "11",
+     "zero_shot": "11",
+     "two_shot": "10"
+    },
+    "topo-crossings-000007": {
+     "ref": "16",
+     "zero_shot": "15",
+     "two_shot": "8"
+    },
+    "topo-crossings-000008": {
+     "ref": "13",
+     "zero_shot": "4",
+     "two_shot": "9"
+    },
+    "topo-crossings-000009": {
+     "ref": "11",
+     "zero_shot": "15",
+     "two_shot": "8"
+    }
+   }
+  },
+  "crossings | openai/gpt-6-luna": {
+   "zero_shot": 0,
+   "two_shot": 1,
+   "n": 8,
+   "per_task": {
+    "topo-crossings-000002": {
+     "ref": "12",
+     "zero_shot": "13",
+     "two_shot": "10"
+    },
+    "topo-crossings-000003": {
+     "ref": "19",
+     "zero_shot": "20",
+     "two_shot": "16"
+    },
+    "topo-crossings-000004": {
+     "ref": "15",
+     "zero_shot": "14",
+     "two_shot": "10"
+    },
+    "topo-crossings-000005": {
+     "ref": "11",
+     "zero_shot": "7",
+     "two_shot": "10"
+    },
+    "topo-crossings-000006": {
+     "ref": "11",
+     "zero_shot": "9",
+     "two_shot": "7"
+    },
+    "topo-crossings-000007": {
+     "ref": "16",
+     "zero_shot": "21",
+     "two_shot": "10"
+    },
+    "topo-crossings-000008": {
+     "ref": "13",
+     "zero_shot": "15",
+     "two_shot": "10"
+    },
+    "topo-crossings-000009": {
+     "ref": "11",
+     "zero_shot": "13",
+     "two_shot": "11"
+    }
+   }
+  },
+  "sunset | anthropic/claude-haiku-5.5": {
+   "zero_shot": 0,
+   "two_shot": 1,
+   "n": 8,
+   "per_task": {
+    "topo-sunset-000002": {
+     "ref": "10",
+     "zero_shot": "18",
+     "two_shot": "10"
+    },
+    "topo-sunset-000003": {
+     "ref": "31",
+     "zero_shot": "51",
+     "two_shot": "43"
+    },
+    "topo-sunset-000004": {
+     "ref": "-37",
+     "zero_shot": "-25",
+     "two_shot": "-13"
+    },
+    "topo-sunset-000005": {
+     "ref": "-31",
+     "zero_shot": "-27",
+     "two_shot": "-19"
+    },
+    "topo-sunset-000006": {
+     "ref": "62",
+     "zero_shot": "70",
+     "two_shot": "74"
+    },
+    "topo-sunset-000007": {
+     "ref": "45",
+     "zero_shot": "69",
+     "two_shot": "61"
+    },
+    "topo-sunset-000008": {
+     "ref": "14",
+     "zero_shot": "10",
+     "two_shot": "6"
+    },
+    "topo-sunset-000009": {
+     "ref": "25",
+     "zero_shot": "49",
+     "two_shot": "41"
+    }
+   }
+  },
+  "sunset | openai/gpt-6-luna": {
+   "zero_shot": 1,
+   "two_shot": 0,
+   "n": 8,
+   "per_task": {
+    "topo-sunset-000002": {
+     "ref": "10",
+     "zero_shot": "14",
+     "two_shot": "-2"
+    },
+    "topo-sunset-000003": {
+     "ref": "31",
+     "zero_shot": "47",
+     "two_shot": "39"
+    },
+    "topo-sunset-000004": {
+     "ref": "-37",
+     "zero_shot": "-25",
+     "two_shot": "-17"
+    },
+    "topo-sunset-000005": {
+     "ref": "-31",
+     "zero_shot": "-47",
+     "two_shot": "-47"
+    },
+    "topo-sunset-000006": {
+     "ref": "62",
+     "zero_shot": "62",
+     "two_shot": "66"
+    },
+    "topo-sunset-000007": {
+     "ref": "45",
+     "zero_shot": "73",
+     "two_shot": "65"
+    },
+    "topo-sunset-000008": {
+     "ref": "14",
+     "zero_shot": "18",
+     "two_shot": "10"
+    },
+    "topo-sunset-000009": {
+     "ref": "25",
+     "zero_shot": "41",
+     "two_shot": "45"
+    }
+   }
+  },
+  "flood | anthropic/claude-haiku-5.5": {
+   "zero_shot": 3,
+   "two_shot": 3,
+   "n": 8,
+   "per_task": {
+    "topo-flood-000002": {
+     "ref": "C1",
+     "zero_shot": "C1",
+     "two_shot": "C1"
+    },
+    "topo-flood-000003": {
+     "ref": "C3",
+     "zero_shot": "C2",
+     "two_shot": "C6"
+    },
+    "topo-flood-000004": {
+     "ref": "C6",
+     "zero_shot": "C6",
+     "two_shot": "C2"
+    },
+    "topo-flood-000005": {
+     "ref": "C2",
+     "zero_shot": "C5",
+     "two_shot": "C1"
+    },
+    "topo-flood-000006": {
+     "ref": "C5",
+     "zero_shot": "C3",
+     "two_shot": "C3"
+    },
+    "topo-flood-000007": {
+     "ref": "C5",
+     "zero_shot": "C4",
+     "two_shot": "C5"
+    },
+    "topo-flood-000008": {
+     "ref": "C2",
+     "zero_shot": "C1",
+     "two_shot": "C2"
+    },
+    "topo-flood-000009": {
+     "ref": "C2",
+     "zero_shot": "C2",
+     "two_shot": "C6"
+    }
+   }
+  },
+  "flood | openai/gpt-6-luna": {
+   "zero_shot": 3,
+   "two_shot": 1,
+   "n": 8,
+   "per_task": {
+    "topo-flood-000002": {
+     "ref": "C1",
+     "zero_shot": "C1",
+     "two_shot": "C1"
+    },
+    "topo-flood-000003": {
+     "ref": "C3",
+     "zero_shot": "C2",
+     "two_shot": "C2"
+    },
+    "topo-flood-000004": {
+     "ref": "C6",
+     "zero_shot": "C6",
+     "two_shot": "C5"
+    },
+    "topo-flood-000005": {
+     "ref": "C2",
+     "zero_shot": "C1",
+     "two_shot": "C1"
+    },
+    "topo-flood-000006": {
+     "ref": "C5",
+     "zero_shot": "C3",
+     "two_shot": "C3"
+    },
+    "topo-flood-000007": {
+     "ref": "C5",
+     "zero_shot": "C5",
+     "two_shot": "C1"
+    },
+    "topo-flood-000008": {
+     "ref": "C2",
+     "zero_shot": "C1",
+     "two_shot": "C1"
+    },
+    "topo-flood-000009": {
+     "ref": "C2",
+     "zero_shot": "C3",
+     "two_shot": "C3"
+    }
+   }
+  }
+ }
+}
