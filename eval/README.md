@@ -19,6 +19,11 @@ uv run python -m eval.run --tasks tasks/final --out results/extra/blind --blind
 From other code: `from eval import client, scoring, run`, then `client.call(model, prompt, image_path)`,
 `client.reply(record)`, `run.evaluate(tasks_dir, out_dir)`.
 
+Raw logs: `run.py` writes `client.for_raw_log(record)` to `raw/`. It replaces opaque provider blobs (encrypted
+reasoning data, reasoning signatures) with their length and SHA-256, because GitHub push protection mistook one
+for an API key. Reply text, readable reasoning, `finish_reason` and usage are untouched. Use the same function
+in any script that commits raw replies.
+
 Scoring rules generators should know:
 - `sequence` answers are compared in order. Add `"ordered": false` to the task if the answer is a set.
 - A reply with no `FINAL ANSWER:` line, or one cut off or failed, is never scored as correct; cut-off and failed
