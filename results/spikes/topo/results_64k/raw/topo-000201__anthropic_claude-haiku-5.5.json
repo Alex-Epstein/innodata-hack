@@ -1,0 +1,103 @@
+{
+ "key": "f65c050c4c8e4d54818638e9e03aa28e5257cf83848ac1ea3fe25ad517a772c8",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. The magenta point P lies exactly on a contour line. What is the elevation of P in meters? Answer with a whole number, for example 1240.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-000201.png",
+       "sha256": "a3823f7a5f6895fc72b909f09c6735023acd82ecd265242ff07fdce7b8474679"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794674765-ezk898PVzyTxcIeip0iW",
+  "object": "chat.completion",
+  "created": 1794674765,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "The magenta point P sits at the lower-left edge of the Granite Knob hill. The heavy 600 m index contour encloses the summit, and P lies just outside it, so P is below 600 m. The next contour outward from the 600 m index line is the 580 m line, and P falls on that line, so its elevation is 580 m.\n\nThis reading depends on estimating P's position relative to the nearby contours, since the gap between the 600 and 580 lines is small at this scale.\n\nFINAL ANSWER: 580",
+     "refusal": null,
+     "reasoning": "I'm working out the elevation at point P near Granite Knob, using the contour lines there. The 600-foot index contour wraps around the knob, and I'm weighing whether the nearby inner contours should be read against the 20-foot interval.\n\nI'm placing P just outside the 600 index contour, which runs around the west side of Granite Knob near x≈1190. Since P sits on a contour line in that outer band, I'm leaning toward 580 as its elevation, though I'm still checking whether 560 could fit given the spacing.\n\nI'm checking the left edge of the 600 contour near P: it sits around x≈1190 at y≈960 and x≈1196 at y≈1018, so P is roughly 10 pixels outside it. The next contour outward, 580, would be about 13 to 20 pixels away on that steep slope, so P is closest to the 580 line, and I'll go with 580.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm working out the elevation at point P near Granite Knob, using the contour lines there. The 600-foot index contour wraps around the knob, and I'm weighing whether the nearby inner contours should be read against the 20-foot interval.\n\nI'm placing P just outside the 600 index contour, which runs around the west side of Granite Knob near x≈1190. Since P sits on a contour line in that outer band, I'm leaning toward 580 as its elevation, though I'm still checking whether 560 could fit given the spacing.\n\nI'm checking the left edge of the 600 contour near P: it sits around x≈1190 at y≈960 and x≈1196 at y≈1018, so P is roughly 10 pixels outside it. The next contour outward, 580, would be about 13 to 20 pixels away on that steep slope, so P is closest to the 580 line, and I'll go with 580.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 3533,
+        "sha256": "c731f73d5ff77f9b6a72fbf5352386214ae15865b3b7499c9e5672e2b40ced3a"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2774,
+   "completion_tokens": 945,
+   "total_tokens": 3719,
+   "cost": 0.0007499,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0007499,
+    "upstream_inference_prompt_cost": 0.0002774,
+    "upstream_inference_completions_cost": 0.0004725
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 781,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 6.52,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:46:05+00:00"
+}

@@ -1,0 +1,103 @@
+{
+ "key": "7be5bdffad5baa7f97b0f4bee8d16149e3ccf9cd1c32172de6245155fc9f31d2",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Wildfire: a fire is burning at the magenta square F and a crew is at the magenta square S. Fire spreads fastest uphill, so the crew is safe only on a route that stays below the elevation of F the whole way. Three escape trails (dashed black lines) leave S: Lookout Trail, Summit Trail and Cedar Trail. Exactly one of them never climbs to the elevation of F. Which trail should the crew take? Answer with the trail name, for example Lookout Trail.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "mission-001502.png",
+       "sha256": "5e4581252f6e945408744627c570e23a769eeb5b86fc5cc9a08f9813e7f249fe"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794675674-IzDzpmFl2WNdLKPOy8ZU",
+  "object": "chat.completion",
+  "created": 1794675674,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Reasoning**\n\n1. **Elevation of F:** F sits between a heavy index contour labeled 500 to its south and a heavy contour near 600 to its north, so it is roughly 540–560 m.\n\n2. **Lookout Trail:** It runs north from S, up through the area between Coldwater Pk and the ridge to the north. It crosses the heavy index contours at roughly the 600 m level and higher, so it climbs above F's elevation.\n\n3. **Cedar Trail:** It leaves S heading west-northwest and reaches a high point near (460, 698). That point sits on the heavy contour near 600 m, which is above F. So Cedar Trail also climbs above F.\n\n4. **Summit Trail:** It runs southeast from S, dropping to a low point near (935, 905), then rising slightly to its east end at (1160, 868). It stays on the south side of the high ground and below the heavy contours that bound F's elevation. It never reaches the 600 m level, so it stays below F the whole way.\n\nSummit Trail is the only route that stays below the fire's elevation.\n\nFINAL ANSWER: Summit Trail",
+     "refusal": null,
+     "reasoning": "I'm pinning down the elevation at F, which sits at pixel (845, 747), with S at (686, 806) for reference. The contour interval is 20 m with index lines every 100 m, so I'm tracing nearby contours to bracket F's height. The 700 index ring around Pine Butte is at (1100, 325), and I'm checking whether F falls between the 600 contour and the next line near (790, 650).\n\nI'm reading the heavy contours around F to decide which index lines bracket it: one near (500,690)–(1000,700), probably 600, and one near y≈765 by x≈800, probably 500. F sits between them, so I'm estimating its elevation at roughly 550 m. Next I want to work out the elevation at S for the trails.\n\nI'm checking whether the trail elevations hold up against the contours, starting with the Lookout Trail's route near Coldwater, which seems to climb above F.\n\nI'm checking the Summit Trail next, from S down toward (935,905) and back up to (1160,868), to see whether it climbs above roughly 550 m or stays below F.\n\nCedar Trail looks like it climbs to about 600 m near the heavy contour by (460, 690), which would put it above F. I'm checking whether the Summit Trail, running from S toward (935, 905) and back up to (1160, 868), stays under F's roughly 550 m.\n\nI'm settling on Summit Trail: its route from S toward (935, 905) and back up to (1160, 868) seems to sit above the heavy 500 line but below the 540 and 560 thin contours, so it stays under F.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm pinning down the elevation at F, which sits at pixel (845, 747), with S at (686, 806) for reference. The contour interval is 20 m with index lines every 100 m, so I'm tracing nearby contours to bracket F's height. The 700 index ring around Pine Butte is at (1100, 325), and I'm checking whether F falls between the 600 contour and the next line near (790, 650).\n\nI'm reading the heavy contours around F to decide which index lines bracket it: one near (500,690)–(1000,700), probably 600, and one near y≈765 by x≈800, probably 500. F sits between them, so I'm estimating its elevation at roughly 550 m. Next I want to work out the elevation at S for the trails.\n\nI'm checking whether the trail elevations hold up against the contours, starting with the Lookout Trail's route near Coldwater, which seems to climb above F.\n\nI'm checking the Summit Trail next, from S down toward (935,905) and back up to (1160,868), to see whether it climbs above roughly 550 m or stays below F.\n\nCedar Trail looks like it climbs to about 600 m near the heavy contour by (460, 690), which would put it above F. I'm checking whether the Summit Trail, running from S toward (935, 905) and back up to (1160, 868), stays under F's roughly 550 m.\n\nI'm settling on Summit Trail: its route from S toward (935, 905) and back up to (1160, 868) seems to sit above the heavy 500 line but below the 540 and 560 thin contours, so it stays under F.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 6293,
+        "sha256": "af71223b1570baad976e68fa3a6759202d9682711330b06b4ba36e9b1c1f95ce"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2890,
+   "completion_tokens": 2005,
+   "total_tokens": 4895,
+   "cost": 0.0012915,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0012915,
+    "upstream_inference_prompt_cost": 0.000289,
+    "upstream_inference_completions_cost": 0.0010025
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1636,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 11.12,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:01:14+00:00"
+}

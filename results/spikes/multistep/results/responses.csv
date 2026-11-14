@@ -1,0 +1,189 @@
+model,task_id,status,parsed,question_type,response,ref_answer,correct,finish_reason,error
+anthropic/claude-haiku-5.5,topo-001101,ok,D,topo.line_of_sight,"## Reasoning
+
+I estimated coordinates from the map's grid (571 to 575 E, 4162 to 4165 N) and approximate elevations from the contours:
+
+- **T** (lookout) sits on the north-west flank of Bald Mtn (1226 m), roughly 1050 to 1100 m.
+- **A** is south-west of T, roughly 830 m.
+- **B** is north-west of T, below the 500 m index contour, roughly 480 m.
+- **C** is east-north-east of T, outside the 600 m contour, roughly 570 m.
+- **D** is north-east of T, between the 500 and 600 m contours, roughly 560 m.
+
+The key question for each hiker is whether the ground drops away from T faster than the sight line does. Visibility depends on the local slope of the ground in each hiker's direction compared with the sight-line slope.
+
+- **A:** The line from T toward A initially runs slightly toward the peak, so the ground rises above the sight line near T. A is hidden.
+- **C:** The direction from T to C is nearly perpendicular to the downhill direction, so the ground is almost level at first. The sight line falls at roughly 0.9 m per pixel, so the ground quickly rises above it. C is hidden.
+- **B:** The downhill direction lines up well with B, but the sight line to B is steep, falling about 1.5 m per pixel. Ground near T is only just above it, so B is at best marginally visible and probably hidden.
+- **D:** The sight line to D is shallow, about 0.75 to 0.85 m per pixel, while the ground falls away at roughly 0.9 m per pixel along that direction. The sight line stays above the ground along its whole length, so D is visible.
+
+These estimates are rough, since the contour positions are read by eye, and B is the closest call. Based on the analysis, only D appears clearly visible.
+
+FINAL ANSWER: D","[""B"", ""D""]",0,stop,
+openai/gpt-6-luna,topo-001101,ok,"B, D",topo.line_of_sight,"1. Trace the straight sightline from T to each hiker and compare it with the intervening contours.
+2. The lines from T to A and C pass over higher ground on Bald Mountain’s slopes, which rises above those sightlines and blocks them.
+3. The terrain between T and B, and between T and D, stays below the sightlines, so those hikers are visible.
+
+FINAL ANSWER: B, D","[""B"", ""D""]",1,stop,
+anthropic/claude-haiku-5.5,topo-001102,ok,A,topo.line_of_sight,"**Setting up the map.** Using the grid ticks, the approximate coordinates are T ≈ (574.27, 4163.45), A ≈ (572.50, 4163.84), B ≈ (574.21, 4164.62), C ≈ (571.59, 4162.34) and D ≈ (573.59, 4164.66). The lookout sits on the southwest flank of Signal Hill, just outside the 900 m loop, so T is roughly 860–880 m.
+
+**Hiker B (hidden).** The sight line from T runs almost due north, straight through the closed 900 m loop of Signal Hill. The ground there is above 900 m, while the sight line is only about 800–850 m at that point. B is hidden.
+
+**Hiker C (hidden).** The sight line runs southwest across the Coldwater ridge. Near x ≈ 574.0 (pixel x ≈ 500), the ground lies between the 700 and 800 m contours, around 740 m, while the sight line has dropped to roughly 650–660 m. C is at about 600 m on the far side of the 700 m contour, so the ridge blocks it.
+
+**Hiker D (hidden, but marginal).** The line from T to D passes the western shoulder of the 800 m ring, where the ground is about 800–820 m. The sight line there is only about 780–830 m, depending on the exact elevation of D. D appears to lie just west of a 600 m index contour, so it is probably near 580–600 m, which puts the sight line below the shoulder. This is the least certain call, but I judge D hidden.
+
+**Hiker A (visible).** The sight line drops from T toward A at roughly 0.5 m per map-pixel. The ground around T falls faster (about 1.3 m per pixel) and then stays well below the sight line across the 600 m area near Mill Creek. Nothing between T and A rises above the line.
+
+So the lookout can see only A.
+
+FINAL ANSWER: A","[""A""]",1,stop,
+openai/gpt-6-luna,topo-001102,ok,A,topo.line_of_sight,"Compare each hiker’s elevation with the terrain along the straight line from T. The line to A stays above the intervening ground. The lines to B and D are blocked by the rising slope of Signal Hill, and the line to C is blocked by higher ground near Coldwater Peak.
+
+FINAL ANSWER: A","[""A""]",1,stop,
+anthropic/claude-haiku-5.5,topo-001103,ok,A,topo.line_of_sight,"**Setting up coordinates (from the grid ticks, about 335 px per km):**
+- T (lookout) ≈ 571.79E, 4163.46N, on the east flank of Signal Hill, roughly 780–800 m.
+- A ≈ 573.61E, 4162.38N, south-east of Pine Butte, probably around 600 m.
+- B ≈ 571.85E, 4164.66N, north of T.
+- C ≈ 573.29E, 4164.21N, just outside the 700 m ring around the Mill Creek hill, probably about 680–690 m.
+- D ≈ 571.33E, 4164.41N, on the far side of Signal Hill.
+
+**Hikers B and D:** Both lie behind Signal Hill. The sight line from T to D runs down the hill's east flank, where the ground reaches the 800 m index contour, well above the sight line (about 740 m at that point). D is hidden. B's line runs north along the same flank, where the ground reaches about 800 m, while the sight line is only about 765 m there. B is hidden.
+
+**Hiker C:** The line from T to C crosses the Mill Creek hill. Its innermost ring tops out near 740 m. The sight line passes just above that ring at roughly 725–730 m, so the hill is at or slightly above the line. This is marginal, but I judge C hidden.
+
+**Hiker A:** The line from T descends steadily toward the south-east. Its closest approach to the Pine Butte western ridge (about 700 m) is only a few metres below the sight line, which is about 705 m at that point. Beyond that the ground falls away to A. This is also marginal, but A is the most likely hiker to be visible.
+
+My elevation readings are estimates from the contour pattern, and both A and C are close calls. A is my best judgement; B and D are clearly hidden.
+
+FINAL ANSWER: A","[""C""]",0,stop,
+openai/gpt-6-luna,topo-001103,ok,C,topo.line_of_sight,"The sight line to A is blocked by rising ground on the south side of Pine Butte. The paths to B and D cross higher ground on Signal Hill’s shoulder. The path to C crosses the lower basin and stays above the terrain.
+
+FINAL ANSWER: C","[""C""]",1,stop,
+anthropic/claude-haiku-5.5,topo-001201,ok,48,topo.hike_time,"## Estimating the walking time
+
+**Distance.** Using the scale bar (2000 m ≈ 1340 px, so about 335 px per km), I traced the dashed trail in segments:
+
+- S → the bend near (573, 466) on the map: about 331 px, or roughly 0.99 km.
+- Bend → E: about 271 px, or roughly 0.81 km.
+- Total map distance: about 1.8 km.
+
+**Distance time.** At 1 hour per 4 km, 1.8 km takes about 0.45 h, or 27 min.
+
+**Ascent.** Reading the contours along the trail:
+
+- **S to the bend:** S lies between the 360 m and 380 m contours, so about 370 m. The trail climbs north across the 400 m contour and reaches roughly 480 m at the bend. That is about 110 m of ascent, with no significant dips.
+- **Bend to E:** The trail descends from about 480 m down to E, which sits just north of the 400 m contour at about 390 m. This stretch adds no ascent.
+
+Total ascent is about 110 m. At 1 hour per 300 m, that adds about 0.37 h, or about 22 min.
+
+**Total.** 27 min + 22 min ≈ 49 min. Given the contour estimates, about 48 min is a reasonable answer.
+
+FINAL ANSWER: 48",42,1,stop,
+openai/gpt-6-luna,topo-001201,ok,45,topo.hike_time,FINAL ANSWER: 45,42,1,stop,
+anthropic/claude-haiku-5.5,topo-001202,ok,88,topo.hike_time,"## Estimating the route
+
+**Horizontal distance.** The scale bar gives 1000 m = 335 px, and the grid lines confirm this (571 to 572 spans 335 px). I estimated the trail as three straight pieces:
+
+1. S to the northern bend (about 245 px): about 0.73 km
+2. Northern bend to the western bend (about 255 px): about 0.76 km
+3. Western bend to E (about 316 px): about 0.94 km
+
+Total: about 2.44 km.
+
+**Naismith distance time:** 2.44 / 4 = 0.61 h ≈ 37 min.
+
+**Ascent.** Reading the contours, which are approximate:
+
+- S lies between the 400 and 500 index contours, at about 450 m.
+- The trail dips below the 400 contour at the northern bend, to about 385 m. The segment from S to this bend is downhill, so it adds no ascent.
+- From the northern bend (about 385 m) back up to the western bend (about 400 m), the climb is roughly 15 m.
+- From the western bend (about 400 m) up to E (about 640 m), the climb is roughly 240 m.
+
+Total ascent ≈ 15 + 240 = 255 m. Naismith ascent time: 255 / 300 = 0.85 h ≈ 51 min.
+
+**Total:** 37 + 51 ≈ 88 minutes.
+
+The elevation readings are estimates, so the result is uncertain by a few minutes in either direction.
+
+FINAL ANSWER: 88",103,0,stop,
+openai/gpt-6-luna,topo-001202,ok,90,topo.hike_time,"The trail is about 2.4 km long, giving 36 minutes for distance. The uphill stretches add roughly 270 m of ascent, or 54 minutes. Total: about 90 minutes.
+
+FINAL ANSWER: 90",103,0,stop,
+anthropic/claude-haiku-5.5,topo-001203,ok,140,topo.hike_time,"## Step 1: Map distance
+
+The scale bar spans 2000 m over about 670 px, so 1 px ≈ 3.0 m.
+
+I traced the trail through its bends from S to E, which gives about 765 px of path length:
+
+- Trail length ≈ 765 px × 3.0 m/px ≈ 2280 m ≈ 2.3 km
+
+Naismith's distance time is 2.3 / 4 ≈ 0.57 h ≈ 34 min.
+
+## Step 2: Ascent
+
+- **Start (S):** S sits between the 300 and 500 index contours, roughly 380 m.
+- **Climb:** Walking southwest, the trail climbs through the 400, 500, 600, 700 and 800 contours and reaches its highest point near the 900 m contour around the Eagle Rock ridge, about 900 m.
+- **After the peak:** The trail descends toward E, which lies just below the 700 m contour, so no further uphill is added on this leg.
+
+Total ascent ≈ 900 − 380 ≈ 520 m, which I round to about 530 m given the uncertainty in the elevation readings.
+
+## Step 3: Naismith's rule
+
+- Ascent time: 530 / 300 ≈ 1.8 h ≈ 106 min
+- Distance time: ≈ 34 min
+- Total ≈ 34 + 106 = 140 min
+
+The elevation readings are estimates from contour positions, so this is approximate.
+
+FINAL ANSWER: 140",154,0,stop,
+openai/gpt-6-luna,topo-001203,ok,125,topo.hike_time,"The trail is about 2.35 km long, adding roughly 35 minutes. It climbs approximately 450 m in total, adding 90 minutes; downhill stretches do not reduce that ascent.
+
+FINAL ANSWER: 125",154,0,stop,
+anthropic/claude-haiku-5.5,topo-001301,ok,C1,topo.campsite,"**Checking each site against the three rules**
+
+The scale bar puts 1000 m at about 334 px, so 300 m is roughly 100 px.
+
+- **C1** (east of Dry Fork): The nearest stream point is about 70 px away, roughly 210 m, so it passes rule 2. It lies east of the 400 m index contour, outside the hill, so its elevation is below 400 m and passes rule 1. The contours around it are widely spaced, well over 100 m apart, so it passes rule 3.
+- **C2** (north, near Mill Creek): It is about 190 m from Mill Creek, so it passes rule 2. However, it sits between the 500 m and 600 m contours, so it is above 500 m and fails rule 1.
+- **C3** (far northeast): It lies outside the 400 m contour, so it is low enough, but the nearest stream is several kilometres away. It fails rule 2.
+- **C4** (south of Bald Mountain): It is about 200 m from the head of Dry Fork, so it passes rule 2, and it is below 500 m. The contours between the 400 m and 500 m index lines are closely packed, so the ground is steep and it fails rule 3.
+
+Only C1 meets all three rules.
+
+FINAL ANSWER: C1",C1,1,stop,
+openai/gpt-6-luna,topo-001301,ok,C1,topo.campsite,"C1 is below 500 m, within 300 m of OY Fork by the map scale, and its neighbouring contours are spaced at least 100 m apart. The other sites fail at least one of those conditions.
+
+FINAL ANSWER: C1",C1,1,stop,
+anthropic/claude-haiku-5.5,topo-001302,ok,C1,topo.campsite,"## Working through the three rules
+
+**Scale:** The scale bar shows 1000 m ≈ 335 px, so 300 m ≈ 100 px. The grid lines (571 to 575) give the same scale.
+
+**C4** (about 1281, 486): It sits above the 300 m index contour, so it is below 400 m. However, the nearest stream (Wolf Creek or Mill Creek) is roughly 290 px horizontally away, about 800–900 m. It fails the stream rule.
+
+**C2** (about 932, 480): It lies between the 300 m and 400 m index contours, so it is below 400 m. Mill Creek is only about 140 m away, so it passes the stream rule. The contours between the 300 and 400 index lines are packed closely, with a spacing of roughly 20 px (about 60 m horizontal). That is steeper than the 100 m horizontal spacing the gentle-ground rule requires, so it fails.
+
+**C3** (about 942, 733): It sits in the zone between the 400 m and 500 m contours, so it is below 400 m only if it is on the lower side. It is about 155 m from the end of the stream, so it passes the stream rule. The contours around it are closely spaced and it lies on the flank of the hill near the 500 m loop, so the slope is steep. It fails the gentle-ground rule.
+
+**C1** (about 1163, 271): It lies above the 300 m contour on the lower northeast slope, so it is well below 400 m. The stream (Wolf Creek) is about 90 px horizontally away, roughly 260–280 m, which is within 300 m. The contours on this northeast side are more widely spaced, so the ground is gentle. It meets all three rules.
+
+Only C1 passes all three rules. The gentle-slope judgement for C1 is a visual estimate from the widely spaced contours in that area, but C4 fails the stream rule and C2 and C3 fail the slope rule clearly.
+
+FINAL ANSWER: C1",C1,1,stop,
+openai/gpt-6-luna,topo-001302,ok,C1,topo.campsite,"C1 is below 400 m, within 300 m of a stream, and its neighboring contours are at least 100 m apart. C2 and C3 are too high; C4 is too far from a stream.
+
+FINAL ANSWER: C1",C1,1,stop,
+anthropic/claude-haiku-5.5,topo-001303,ok,C3,topo.campsite,"**Checking each site against the three rules**
+
+Scale bar: 2000 m spans about 670 px, so 300 m is about 100 px.
+
+- **C1** (about 908, 659): The stream is roughly 65 px away, about 200 m, so it passes rule 2. It sits on the steep slope between Granite Knob and Lookout Pt, where contours are tightly packed and the elevation is well above 600 m. It fails rules 1 and 3.
+- **C2** (about 1345, 236): It is low, outside the 400 m contour, so it passes rule 1. The nearest stream is far to the southwest, well over 300 m away, so it fails rule 2.
+- **C3** (about 243, 479): It lies west of the 400 m contour, so it is below 600 m and passes rule 1. The Dry Fork stream runs about 90 px (roughly 270 m) from it, so it passes rule 2. The contours around it are widely spaced, so the ground is gentle and it passes rule 3.
+- **C4** (about 527, 791): It is about 225 m from the stream, so it passes rule 2. It lies among closely packed contours between the 500 m and 600 m lines, so the slope is steep and it fails rule 3.
+
+Only C3 meets all three rules.
+
+FINAL ANSWER: C3",C3,1,stop,
+openai/gpt-6-luna,topo-001303,ok,C3,topo.campsite,"C3 is below 600 m, is within 300 m of the blue stream, and has neighbouring contour lines at least 100 m apart. The other sites fail at least one of those checks: C2 is too far from the stream, while C1 and C4 are on steeper ground.
+
+FINAL ANSWER: C3",C3,1,stop,

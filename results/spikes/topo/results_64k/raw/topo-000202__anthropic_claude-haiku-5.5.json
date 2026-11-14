@@ -1,0 +1,103 @@
+{
+ "key": "7b6736147aea205d7100d9b3101155381f50b62568d644d73106920cdd963da9",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. The magenta point P lies exactly on a contour line. What is the elevation of P in meters? Answer with a whole number, for example 1240.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-000202.png",
+       "sha256": "3b6bedb0765735aba9fa08b082b58542206f6cd2495d12e67d04b0ae5edc423d"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794674772-Y8LpwQhY3YxCAWEJD3Na",
+  "object": "chat.completion",
+  "created": 1794674772,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "## Reading the map\n\n- **Scale:** 572 is at x≈445 and 573 at x≈780, so 1 km ≈ 335 px.\n- **Index contours (heavy):** 300, 400, 500, 600. Thin contours are 20 m apart, so the levels between two index lines are 320, 340, 360 and 380.\n- **Nearby feature:** The heavy 300 contour forms a tongue pointing north near (545, 920), then runs down-left to the bottom edge near (455, 1120). A contour pointing toward higher ground marks a valley, so the tongue's tip is a low point at 300 m.\n- **Point P:** P sits at about (472, 854), just northwest of that tongue tip. The thin contour through P wraps around the 300 tongue on its outer side, one interval above it. The nearest index line above is 400 m, which is further north.\n\nBecause P lies on the first thin contour above the 300 m index line, its elevation is 300 + 20 = 320 m.\n\nThis relies on tracing the thin contour by eye through a dense area, so it is the least certain step.\n\nFINAL ANSWER: 320",
+     "refusal": null,
+     "reasoning": "I'm working out which contour level passes through point P at pixel (472, 854). The index contours are 300, 400, 500, and 600, with a contour interval of 20, so the minor lines fall at 320, 340, 360, and so on. Next I'm tracing the thin contour nearby, starting from the line that runs through (310, 770).\n\nI'm checking the contour lines around P against the index levels and the spacing of the minor contours. I'm also comparing the thin contour near (370, 800) with the 300 index line that bends up near (545, 920), to see where P falls between them.\n\nI'm looking at the contour near (415, 880) and whether it runs down toward (455, 1120), which might be the 320 minor line. I'm also checking whether P at (472, 854) sits between that line and the thin contour that heads up-right toward (500, 835) and (540, 835).\n\nNow I'm checking whether P at (472, 854) lies on the tongue-shaped contour that bulges around (545, 920), since its spacing against the neighboring minor lines would settle which level it belongs to.\n\nI'm checking the 300 contour's tongue near (545, 920): it bulges uphill toward the 400 index to the north, which is the V-shape of a valley. So the tongue marks lower ground, and 300 is the lower level there.\n\nNow I'm placing P at (472, 854), just northwest of the 300 tongue's tip, so it sits above the 300 level. That points to one of the minor contours, likely 320 or 340, with four thin lines between the tongue and the 400 index to check against.\n\nNow I'm estimating how far P sits above the 300 tongue, using the spacing of the lines between 300 and 400 on that side.\n\nI'm weighing whether P sits on the thin contour that runs up toward (500, 790), which would make it the 340 line, or on the one that continues right past (500, 835). If it's the line hugging the 300 tongue's tip, the next thin contour above it should be 320, so I'm checking that adjacency.\n\nI'm settling on 320 for P, since the thin line through (472, 854) curves around the 300 tongue's tip and sits just above it.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm working out which contour level passes through point P at pixel (472, 854). The index contours are 300, 400, 500, and 600, with a contour interval of 20, so the minor lines fall at 320, 340, 360, and so on. Next I'm tracing the thin contour nearby, starting from the line that runs through (310, 770).\n\nI'm checking the contour lines around P against the index levels and the spacing of the minor contours. I'm also comparing the thin contour near (370, 800) with the 300 index line that bends up near (545, 920), to see where P falls between them.\n\nI'm looking at the contour near (415, 880) and whether it runs down toward (455, 1120), which might be the 320 minor line. I'm also checking whether P at (472, 854) sits between that line and the thin contour that heads up-right toward (500, 835) and (540, 835).\n\nNow I'm checking whether P at (472, 854) lies on the tongue-shaped contour that bulges around (545, 920), since its spacing against the neighboring minor lines would settle which level it belongs to.\n\nI'm checking the 300 contour's tongue near (545, 920): it bulges uphill toward the 400 index to the north, which is the V-shape of a valley. So the tongue marks lower ground, and 300 is the lower level there.\n\nNow I'm placing P at (472, 854), just northwest of the 300 tongue's tip, so it sits above the 300 level. That points to one of the minor contours, likely 320 or 340, with four thin lines between the tongue and the 400 index to check against.\n\nNow I'm estimating how far P sits above the 300 tongue, using the spacing of the lines between 300 and 400 on that side.\n\nI'm weighing whether P sits on the thin contour that runs up toward (500, 790), which would make it the 340 line, or on the one that continues right past (500, 835). If it's the line hugging the 300 tongue's tip, the next thin contour above it should be 320, so I'm checking that adjacency.\n\nI'm settling on 320 for P, since the thin line through (472, 854) curves around the 300 tongue's tip and sits just above it.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 8985,
+        "sha256": "d35733388154c34d94bcd86d6e30709c4ca6c28b0e655fa92f9d1b507ba74b3b"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2774,
+   "completion_tokens": 2656,
+   "total_tokens": 5430,
+   "cost": 0.0016054,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0016054,
+    "upstream_inference_prompt_cost": 0.0002774,
+    "upstream_inference_completions_cost": 0.001328
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2288,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 15.48,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:46:11+00:00"
+}

@@ -1,0 +1,103 @@
+{
+ "key": "a819cb05d0186290bd11c8875e9ddfa61eb48e12aa8e28ce49e2331856b8258f",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Two points are marked in magenta, A and B. Which point is at the higher elevation? Answer with a single letter, A or B.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-000102.png",
+       "sha256": "e42b574e0b4275066b8acdabcdef72f3747b74d5c81a02f055a31ee2e9424506"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794674758-dFSvID7DG98rjsQSqLJe",
+  "object": "chat.completion",
+  "created": 1794674758,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Reasoning:**\n\n- **Point B** sits at roughly (282, 419) on the map, on the western slope of the Pine Butte hill. The heavy index contours there are the 500, 600, and 700 lines (labeled 500 near the left edge and 700 near (333, 645)). B lies just outside the heavy line that runs about 600 m, so its elevation is roughly 580–590 m.\n- **Point A** sits at roughly (1161, 597) on the eastern slope. It lies inside the heavy 300 m contour on the right side, between the 300 m index line and the next heavier contour inward, so its elevation is roughly 340–360 m.\n\nBoth points lie on the flanks of the same hill, but B is on a much steeper, higher part of the slope, with contour lines closer together and nearer the 600 m level. A is on the lower, more gradual eastern side near 340 m.\n\nB is therefore at the higher elevation.\n\nFINAL ANSWER: B",
+     "refusal": null,
+     "reasoning": "I'm locating points A and B on the map, at roughly (574, 4164) and (572, 4164), and I need to figure out their elevations. A seems to sit between the heavy 300 index contour and the next contour, near pixel (1161, 597), so I'm checking where that heavy line runs close by.\n\nI'm checking which heavy contour lines run closest to point A at around (1161, 597), since the 300 line seems to sit to its right and the 500 line to its lower left.\n\nI'm now checking the heavy 400 and 300 lines to the right of A and working out how many thin contours fall between them, which puts A somewhere around 340 or 360. Turning to B near (282, 419), I'm tracing where the heavy 500 and 700 lines run past it.\n\nI'm checking the heavy contours on the other side of B now, tracing the 500, 600, and 700 lines to see which one passes closest to it.\n\nI'm working out where B falls against the heavy contours: the 600 line passes near (268,600) and climbs toward (300,400), and B at (282,419) seems to sit just outside it, so it's probably somewhere around 560 to 590. That makes B clearly higher than A, which I'm estimating at around 340 to 360.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm locating points A and B on the map, at roughly (574, 4164) and (572, 4164), and I need to figure out their elevations. A seems to sit between the heavy 300 index contour and the next contour, near pixel (1161, 597), so I'm checking where that heavy line runs close by.\n\nI'm checking which heavy contour lines run closest to point A at around (1161, 597), since the 300 line seems to sit to its right and the 500 line to its lower left.\n\nI'm now checking the heavy 400 and 300 lines to the right of A and working out how many thin contours fall between them, which puts A somewhere around 340 or 360. Turning to B near (282, 419), I'm tracing where the heavy 500 and 700 lines run past it.\n\nI'm checking the heavy contours on the other side of B now, tracing the 500, 600, and 700 lines to see which one passes closest to it.\n\nI'm working out where B falls against the heavy contours: the 600 line passes near (268,600) and climbs toward (300,400), and B at (282,419) seems to sit just outside it, so it's probably somewhere around 560 to 590. That makes B clearly higher than A, which I'm estimating at around 340 to 360.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 5481,
+        "sha256": "72e7cc6976d7ea2f29cbfd9a433cc3823291529d8e2f34f77f418387be9b19c3"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2770,
+   "completion_tokens": 1713,
+   "total_tokens": 4483,
+   "cost": 0.0011335,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0011335,
+    "upstream_inference_prompt_cost": 0.000277,
+    "upstream_inference_completions_cost": 0.0008565
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1398,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 11.19,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:45:57+00:00"
+}

@@ -1,0 +1,103 @@
+{
+ "key": "df5f9dc28d3782617daf3834a41efc1c67eb09b0b89e9d4362fc389074aed3fe",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Two points are marked in magenta, A and B. Which point is at the higher elevation? Answer with a single letter, A or B.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-000101.png",
+       "sha256": "26b7599977b5ad84af1f4e79e3a8fff96259fa34328e2ee4a6ff3e5386f1b071"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794674758-NEWjanRWgji7fIyUNPvv",
+  "object": "chat.completion",
+  "created": 1794674758,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Reading the map:**\n\n- **Point A** (around 571.7E, 4162.6N) sits on the southwestern slope of the Pine Butte hill. The nearby index contours are labeled 700 (to the northwest and west) and 600 (to the south and southeast), so A falls between roughly 600 and 700 m.\n- **Point B** (around 572.1E, 4163.9N) sits on the western flank of Pine Butte, right at the heavy 900 m index contour. The 800 contour lies just to its west, and B is closer to the summit (1094 m) than A is.\n\nThe contours are spaced more tightly on B's side of the hill, which indicates a steeper slope, but the key comparison is the elevation band. B is near 900 m, while A is between 600 and 700 m, so B is higher.\n\nFINAL ANSWER: B",
+     "refusal": null,
+     "reasoning": "I'm checking whether point B sits near the 900 index contour. The 900 label is at (432, 527), and the 800 label is at (392, 440), so I'm comparing B's position at (465, 466) against both contour lines.\n\nI'm now weighing point A against the contour lines, with the 700 and 600 labels nearby, and I'm judging whether A sits above the 700 heavy line. I'm also trying to trace the 700 and 900 contours around the hill, since their paths are hard to follow.\n\nI'm settling whether B is on the 900 contour or just outside it, since the line near B is hard to read. Judging from the rough path, B seems to lie between the 800 and 900 lines, and A looks lower, between the 600 and 700 ranges. So B is the higher point, and I'll answer B.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm checking whether point B sits near the 900 index contour. The 900 label is at (432, 527), and the 800 label is at (392, 440), so I'm comparing B's position at (465, 466) against both contour lines.\n\nI'm now weighing point A against the contour lines, with the 700 and 600 labels nearby, and I'm judging whether A sits above the 700 heavy line. I'm also trying to trace the 700 and 900 contours around the hill, since their paths are hard to follow.\n\nI'm settling whether B is on the 900 contour or just outside it, since the line near B is hard to read. Judging from the rough path, B seems to lie between the 800 and 900 lines, and A looks lower, between the 600 and 700 ranges. So B is the higher point, and I'll answer B.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 3933,
+        "sha256": "ae1e4b21ac8bc6672bc3fea26c4ff7e762b1f9eea2e917cee80e133818de42d8"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2770,
+   "completion_tokens": 1113,
+   "total_tokens": 3883,
+   "cost": 0.0008335,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0008335,
+    "upstream_inference_prompt_cost": 0.000277,
+    "upstream_inference_completions_cost": 0.0005565
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 840,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 7.29,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:45:57+00:00"
+}
