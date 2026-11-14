@@ -1,7 +1,7 @@
 # Innodata Hackathon: Visual Task Factory
 
-> Work in progress. Team rules: `AGENTS.md`. Requirements: `docs/BRIEF.md`. Formats: `contracts/SCHEMA.md`.
-> The headings below are the ones the organizers' format checker looks for; fill them in as results land.
+> **Team / agents: start at `AGENTS.md`** (new here: `docs/SETUP.md`). This README becomes the submission README;
+> the headings below are the ones the organizers' format checker requires. Fill them in as results land.
 
 ## Problem statement
 

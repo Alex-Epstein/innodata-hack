@@ -1,1 +1,1 @@
-Read AGENTS.md first. Alex Epstein (Alex-Epstein) is the team lead; everyone else takes tickets: work only on a claimed issue in its folder, never re-plan or edit lead-owned files (propose via a `request` issue). Before each task run `scripts/catchup` and `scripts/directives-check`. After each meaningful step run `scripts/log "<what happened>"`.
+Read AGENTS.md first and follow it. New here: do docs/SETUP.md "Agent steps". Alex (Alex-Epstein) leads; everyone else works only on their assigned issue. Run scripts/catchup before each task and scripts/log after each step.

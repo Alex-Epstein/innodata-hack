@@ -1,99 +1,60 @@
-# Innodata Hackathon, Visual Task Factory: read before doing anything (every agent: Claude, Codex, Cursor, Copilot, Gemini)
+# Innodata Hackathon · Visual Task Factory · rules for every agent (Claude, Codex, Cursor, Copilot, Gemini)
 
-> ## 👤 Roles: who leads, who takes tickets
-> **Alex Epstein (GitHub `Alex-Epstein`) is the team lead.** Alex and his Claude session plan the work, create and
-> assign issues, send directives, and own `AGENTS.md`, `contracts/`, `docs/DECISIONS.md`, `docs/BRIEFING.md` and
-> `docs/ARCHITECTURE.md`.
-> **Everyone else (`tech-cosmos`, `dl3832`, `WindHurtLZ`, and their agents) takes tickets.** If your user is not
-> Alex, you:
-> 1. work only on an issue your user has claimed (comment "claim"), inside that issue's folder;
-> 2. don't invent new scope, re-plan the project, or edit the lead-owned files above. Propose changes in an issue
->    labeled `request` (or comment on the discussion issue) and let Alex decide;
-> 3. follow open `directive` issues first;
-> 4. post progress with `scripts/log` and finish with a PR that meets the issue's "Done when".
->
-> Check who you're working for with `git config user.name` / `gh api user --jq .login`. If unsure, assume you are a ticket-taker.
+**First time here?** Do `docs/SETUP.md` ("Agent steps") before anything else.
+**Every session and before every task:** run `scripts/catchup` (Claude Code runs it for you).
 
-## ▶ Start here (first session, ~5 minutes)
-1. **Setup check** (fix anything missing, tell your user what you did):
-   - `gh auth status` works (scripts use the `gh` CLI). If not: your user runs `gh auth login`.
-   - `uv --version` and `docker info` work.
-   - `.env` exists at the repo root with `OPENROUTER_API_KEY=` and `ANTHROPIC_API_KEY=` filled in. The keys come from
-     Alex in the team chat, never from the repo. Never print, log or commit them.
-2. Run **`scripts/catchup`**: it tells you who you're working for, the current plan, open directives, the live log and open issues.
-3. Read `docs/BRIEFING.md` ("Now") and the issue your user is on. Skim `docs/BRIEF.md` (the organizers' rules) and
-   `contracts/SCHEMA.md` (file formats) before writing code.
-4. **No ticket yet?** List open issues with no "claim" comment (`gh issue list --repo Alex-Epstein/innodata-hack`),
-   recommend one to your user based on their skills, and once they agree, comment `claim (<their GitHub name>)` on it.
-5. Work loop: branch `<area>/<topic>` → small commits inside the issue's folder → `scripts/log "..."` at each
-   milestone → PR (template) with a `status/` line → squash-merge once it meets the issue's "Done when".
-6. Stuck for more than 10 minutes, or need another folder changed? Comment on the issue, add the `blocked` or
-   `request` label, and `scripts/log` it. Don't work around it in someone else's folder.
+## Roles
+- **Alex Epstein (`Alex-Epstein`) is the team lead.** Alex and his agent plan the work, create and assign issues,
+  send directives, decide, and own the lead files: `AGENTS.md`, `docs/`, `contracts/`, `scripts/`, `.claude/`, `.github/`.
+- **Everyone else (`tech-cosmos`, `dl3832`, `WindHurtLZ`) takes tickets.** If your user isn't Alex, you only work on
+  an issue assigned to your user, inside that issue's folder. You never re-plan the project or edit lead files. Want
+  something changed? Open an issue labeled `request` that mentions `@Alex-Epstein`.
+- Not sure who your user is? `gh api user --jq .login`. If in doubt, act as a ticket-taker.
 
-**What we're building:** a pipeline that renders realistic images from structured data, asks a question that needs
-real reasoning, computes the answer from the same data in code, checks every task automatically, and evaluates
-`anthropic/claude-haiku-5.5` and `openai/gpt-6-luna` on them. The idea (which image family) is being picked now:
-`docs/IDEATION.md`. Once picked, it's one line in `docs/DECISIONS.md` and the spec goes in `docs/SPEC.md`.
+## What we're building
+A pipeline that renders realistic images from structured data, asks a question that needs real reasoning, computes
+the answer from the same data in code, checks every task automatically, and evaluates `anthropic/claude-haiku-5.5`
+and `openai/gpt-6-luna` on them. **ZIP uploaded by 3:10 PM (hard deadline 3:30).** 5-minute presentation at 3:30.
 
-**Deadline: upload the ZIP by 3:30 PM ET (we aim for 3:10).** 5-minute presentation at 3:30.
-The organizers' requirements, in short: `docs/BRIEF.md`. File formats we all build against: `contracts/SCHEMA.md`.
+**Golden path (must always work on `main`):** `generate --seed N` → data JSON + PNG + question + answer →
+`validate` (all checks pass) → `eval` (both models answer, scored) → `results/` row. One command, also in Docker.
+`scripts/check` runs it; run it before every merge.
 
-**Golden path** (must always work on `main`):
-`generate --seed N` → data JSON + PNG + question + answer → `validate` (all checks pass) → `eval` (both models
-answer, scored) → `results/` row. One command, also inside Docker.
+## The files (and nothing else to read unless an issue points you there)
+| File | What it is |
+|---|---|
+| `docs/BRIEFING.md` | **Now**: current plan, the order to claim issues in, next gate |
+| `docs/BRIEF.md` | The organizers' requirements and rubric (they win over anything else) |
+| `contracts/SCHEMA.md` | Folder layout and file formats everyone builds against |
+| `docs/ARCHITECTURE.md` | How the pipeline works; decisions D1 to D9 under discussion (issue #9) |
+| `docs/DECISIONS.md` | One line per decision. Once written, don't re-argue it |
+| `docs/IDEATION.md` | The idea shortlist (until the idea is picked) |
+| `docs/EVIDENCE.md` | The only source for numbers in the README and slides |
+| `NOTES.md` | Insights, limitations, weird model behavior: anyone appends |
+| `docs/context/` | Archive of earlier planning. Read only when asked |
+| `docs/organizer/`, `tools/track2-format-check/` | Organizer files and their format checker |
 
-## Team and ownership (fill in once roles are set)
+## How we work
+1. **One issue = one person + agent.** Owner = the issue's assignee. Folder and "Done when" are in the issue.
+2. **Directives first.** Issues labeled `directive` are agreed team tasks from the lead. If one names your user or
+   "everyone": comment `ack`, do it before anything else, close it when done.
+3. **Live log (issue #1).** After every meaningful step (started, finished, stuck, learned):
+   `LOG_WHO="<name>'s agent" scripts/log "<what happened> (#issue)"`. Silence is the only wrong amount.
+4. **Branch** `<area>/<topic>` from `main` → small commits **inside your folder** → PR using the template, with
+   one new line in `status/<HHMM>-<name>-<slug>.md` (done / next / blocked) → squash-merge your own PR once the
+   issue's "Done when" is met and `scripts/check` passes. `main` must always run.
+5. **Blocked for more than 10 minutes** or need another folder changed: comment on the issue, add the `blocked` or
+   `request` label, log it. Never work around it in someone else's folder.
+6. **Done with your issue:** close it, log it, then take the next one per `docs/BRIEFING.md` (setup step 6).
 
-| Person | GitHub | Owns (only their agents edit these paths) |
-|---|---|---|
-| Alex | Alex-Epstein | `validate/`, `contracts/`, `AGENTS.md`, `docs/DECISIONS.md` |
-| | tech-cosmos | |
-| | dl3832 | |
-| | WindHurtLZ | |
-| | | |
-
-Suggested split: `validate/` + contracts · `eval/` · one generator family each under `gen/<family>/` ·
-Dockerfile + README + format checker + slides.
-
-## Rules for every person and every agent
-
-1. **Start:** run `scripts/catchup`, read this file, `docs/DECISIONS.md` and the newest files in `status/`.
-2. **Stay in your folder.** Need a change elsewhere? Ask its owner in the team chat or open an issue. Two agents never edit the same files.
-3. **Contracts first.** `contracts/SCHEMA.md` is the shared format. Change it only with a line in `docs/DECISIONS.md` and a heads-up in the chat.
-4. **Ground truth rule (organizers' hard rule):** structured data first, image rendered from it by code, answer computed from it by code. Never an AI-generated image, never an answer from a model or a person reading the image.
-5. **Model calls only through `eval/`'s client.** It caches every response to disk (reruns are free), retries 429/5xx with backoff, and uses temperature 0, reasoning effort high, a fixed max_tokens. Nobody calls the API directly.
-6. **Keys and budget:** organizer keys only ($100 OpenRouter + $100 Anthropic for the whole team). Keys live in `.env` (gitignored), never in code, logs, commits or chat. Estimate the call count before any batch run and post it to the live log.
-7. **Branches:** `<area>/<topic>` from `main`. Small PRs; merge your own once it runs. `main` always runs end to end.
-8. **Status:** each PR adds one file `status/<HHMM>-<who>-<slug>.md` with one line: done / next / blocked.
-9. **Decisions:** one line in `docs/DECISIONS.md`. Once written, agents stop proposing alternatives.
-10. **Numbers:** every number in the README or slides comes from a file in `results/`, produced by our code. Never round, never retype by hand.
-11. **Insights, limitations, weird model behavior** go in `NOTES.md` as you hit them. Slide 5 and the README come from there.
-12. **Disclose** reused components and any manual step (the README has a section for both). All code is written today.
-
-## Team lead and directives (agreed by the team)
-Alex coordinates (his Claude session acts as the lead's staff). Issues labeled **`directive`** are agreed team
-tasks. Claude Code shows open ones on every message (hook in `.claude/settings.json`); every other tool runs
-`scripts/directives-check` before each task. If one is for your person or for "everyone": comment **ack**, do it
-before other work, log it, close it when done (or comment why you can't). Need something from another folder?
-Open an issue labeled **`request`** and mention its owner (never only a DM: agents can't read DMs).
-`docs/BRIEFING.md` ("Now") is the latest shared context; read it at the start of every session.
-
-## Tasks
-One GitHub issue = one person or agent session, with an owner, a folder and an acceptance test. Comment "claim"
-to take one. Branch `<area>/<topic>`, PR with the template, status line, squash-merge your own once
-`scripts/check` passes.
-
-## Read next
-`docs/ONBOARDING.md` (paste prompt for teammates) · `docs/BRIEFING.md` (now) · `docs/BRIEF.md` (organizer requirements) · `contracts/SCHEMA.md` (formats) ·
-`docs/ARCHITECTURE.md` · `docs/IDEATION.md` · `docs/DECISIONS.md` · `docs/EVIDENCE.md` (numbers) ·
-`docs/context/` (everything from before: kickoff talk, game plan, idea bank, process playbook, history) ·
-`docs/organizer/` (kickoff slides, slide template, full visual brief) · `tools/track2-format-check/`
-
-## Live log
-Post after every meaningful step (started, decided, finished, stuck, learned):
-`LOG_WHO="Alex's agent" scripts/log "validate: pixel check passing on calendar tasks (#7)"`.
-Read everything with `scripts/catchup`. Too much sharing is fine; silence is not.
-
-## How agents help
-Build to the contracts and the owner's design. Small pieces the owner can read; explain what you wrote and why.
-Don't scaffold something the team hasn't decided yet (check `docs/DECISIONS.md`); ask instead.
+## Rules that never bend
+1. **Ground truth:** structured data first; the image is rendered from it by code; the answer is computed from it
+   by code. Never an AI-generated image, never an answer from a model or a person reading the image.
+2. **Model calls only through `eval/`'s client** (disk cache, retries, temperature 0, reasoning effort high, fixed
+   max_tokens). Organizer keys only: $100 OpenRouter + $100 Anthropic for the **whole team**. Before any batch run,
+   log the call count and estimated cost.
+3. **Keys** live only in `.env` (gitignored). Never print, log, commit or paste them anywhere.
+4. **Contracts:** `contracts/SCHEMA.md` changes only via the lead, with a line in `docs/DECISIONS.md`.
+5. **Numbers** in the README or slides come from `results/` via `docs/EVIDENCE.md`. Never round, never retype.
+6. **Honesty:** report every result, disclose reused code and any manual step, and log limitations in `NOTES.md`.
+7. **Explain as you go:** build in small pieces your user can follow, and tell them what you wrote and why.

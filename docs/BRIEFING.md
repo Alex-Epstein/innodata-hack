@@ -15,10 +15,9 @@ Docker + README + format checker (#8).
 
 **Architecture:** weigh in on https://github.com/Alex-Epstein/innodata-hack/issues/9 (docs/ARCHITECTURE.md, D1 to D9) by 11:20; Alex decides.
 
+**Claim order** (take the first one with no assignee; see docs/SETUP.md step 6): #2 eval client (spikes need it) → #3 spike A → #4 spike B → #5 spike C → #8 packaging. (#6 and #7 are Alex's.)
+
 **Deadline:** ZIP uploaded by 3:10 (hard 3:30). Next gate: **one task end to end on main by 11:45.**
 
 ## Where things are
-Rules: `AGENTS.md` · Requirements: `docs/BRIEF.md` · Formats: `contracts/SCHEMA.md` · Architecture:
-`docs/ARCHITECTURE.md` · Ideas: `docs/IDEATION.md` · Decisions: `docs/DECISIONS.md` · All earlier context:
-`docs/context/` (kickoff talk, game plan, idea bank, process playbook, history) · Organizer files:
-`docs/organizer/` · Format checker: `tools/track2-format-check/`
+The file table in `AGENTS.md`.
