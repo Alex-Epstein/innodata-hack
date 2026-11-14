@@ -63,15 +63,17 @@ body.panel-on:not(.portrait) #missions { transform: translateX(calc(-50% - var(-
 
 /* ---------- title lockup and story line ---------- */
 #lockup { position: fixed; inset: 0; z-index: 7; pointer-events: none; display: flex; align-items: center; justify-content: center; gap: .5em;
-  font-size: clamp(30px, 6.2vw, 104px); letter-spacing: .1em; white-space: nowrap; }
+  font-size: clamp(26px, 4.7vw, 84px); letter-spacing: .1em; white-space: nowrap; }
 #lockup span { opacity: 0; transition: transform 1.5s var(--ease), opacity 1.1s var(--ease); text-shadow: 0 0 40px rgba(14, 17, 22, .55); }
+#lockup .v { font-size: .55em; letter-spacing: 0; transform: none !important; }
 #lockup .a { transform: translateX(-34vw); } #lockup .b { transform: translateX(34vw); }
 #lockup.in span { opacity: 1; transform: none; }
+#lockup.part .v { opacity: 0; }
 #lockup.part .a { transform: translateX(-62vw); opacity: 0; } #lockup.part .b { transform: translateX(62vw); opacity: 0; }
 @media (max-aspect-ratio: 1/1) { #lockup { flex-direction: column; gap: 0; } }
 #caption { position: fixed; left: 0; right: 0; bottom: 11vh; z-index: 7; text-align: center; pointer-events: none; padding: 0 6vw;
-  font-size: clamp(20px, 2.7vw, 44px); opacity: 0; transform: translateY(10px); transition: opacity .8s var(--ease), transform .8s var(--ease);
-  text-shadow: 0 1px 24px var(--night), 0 0 6px var(--night); }
+  font-size: clamp(20px, 2.5vw, 40px); opacity: 0; transform: translateY(10px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+#caption span { display: inline-block; background: var(--night); border: 1px solid var(--hair); padding: .28em .9em .34em; }
 #caption.on { opacity: 1; transform: none; }
 body.panel-on:not(.portrait) #caption { right: var(--panel-w); }
 body.panel-on.portrait #caption { bottom: calc(var(--panel-h) + 12px); font-size: 18px; }

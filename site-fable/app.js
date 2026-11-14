@@ -14,7 +14,7 @@ const num = (v) => Math.round(v).toLocaleString('en-US').replace(/,/g, ' ');
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
 const lerp = (a, b, k) => a + (b - a) * k;
 const C = { paper: '#F3EEDF', ink: '#1E1B16', contour: '#9A5B2E', truth: '#2F7FC1', model: '#D2412C', you: '#D9A441', night: '#0E1116', dusk: '#C9A27A' };
-const U = 0.01, EXAG = 1.6;                           // world units per meter; vertical exaggeration (docs/DESIGN.md)
+const U = 0.01, EXAG = 2.0;                           // world units per meter; vertical exaggeration (docs/DESIGN.md)
 const MISSION = {
   flood: { name: 'Flash flood', blurb: 'which camp the water reaches' },
   crossings: { name: 'Rescue carry', blurb: 'how many contour lines a trail crosses' },
@@ -102,8 +102,8 @@ const skyMat = new T3.ShaderMaterial({
     uniform float uDusk, uLift; uniform vec3 uHorizon, uNight; varying vec3 vDir;
     void main(){
       vec3 d = normalize(vDir);
-      vec3 col = mix(uHorizon, vec3(0.085, 0.075, 0.115), smoothstep(-0.03, 0.2, d.y));   // dusk band, then violet, then night
-      col = mix(col, uNight, smoothstep(0.1, 0.6, d.y));
+      vec3 col = mix(uHorizon, vec3(0.085, 0.075, 0.115), smoothstep(-0.03, 0.3, d.y));   // dusk band, then violet, then night
+      col = mix(col, uNight, smoothstep(0.22, 0.9, d.y));
       float s = max(dot(d, normalize(vec3(-1.0, 0.07, 0.2))), 0.0);
       col += vec3(1.0, 0.70, 0.42) * (pow(s, 90.0) * 1.1 + pow(s, 9.0) * 0.25) * (1.0 - uDusk);
       col = mix(col, uNight + col * 0.06, uDusk * 0.92);
@@ -126,7 +126,7 @@ function applyLook() {
   const { lift, film, dusk } = look;
   skyMat.uniforms.uDusk.value = dusk; skyMat.uniforms.uLift.value = lift;
   duskCol.set(C.dusk).lerp(tmpCol.set(C.night), dusk * 0.92);
-  scene.fog.color.copy(duskCol); scene.fog.density = 0.0021 * lift;
+  scene.fog.color.copy(duskCol); scene.fog.density = 0.0018 * lift;
   if (finalPass) finalPass.uniforms.uFilm.value = film;
   if (!world) return;
   world.terrainMat.uniforms.uLift.value = lift; world.terrainMat.uniforms.uDusk.value = dusk; world.terrainMat.uniforms.uHaze.value.copy(duskCol);
@@ -164,7 +164,8 @@ const TERRAIN_FS = `
     vec3 col = texture2D(uMap, vUv).rgb;                                   // the task image, exactly, when uLift = 0
     vec3 n = normalize(mix(vec3(0.0, 1.0, 0.0), vN, uLift));
     float hs = clamp(dot(n, vec3(-0.5, 0.7071, -0.5)) / 0.7071, 0.0, 1.5);  // Imhof: light from the north-west at 45 degrees
-    col *= mix(1.0, 0.16 + 0.66 * hs, 0.9 * uLift);
+    col = mix(col, pow(col, vec3(1.55)), 0.8 * uLift);                      // deepen the pale map tints under film light
+    col *= mix(1.0, 0.14 + 0.72 * hs, 0.92 * uLift);
     float sun = clamp(dot(n, normalize(vec3(-0.93, 0.28, 0.22))), 0.0, 1.0); // low golden sun in the west, cool fill
     col *= mix(vec3(1.0), mix(vec3(0.66, 0.76, 1.0), vec3(1.12, 0.96, 0.76), smoothstep(0.0, 0.8, sun)), 0.7 * uLift);
     col = mix(col, col * vec3(0.16, 0.2, 0.36), uDusk);
@@ -222,7 +223,7 @@ async function buildWorld(task) {
     aH[k] = Z[k];
     const zx = (Z[i * nx + Math.min(nx - 1, j + 1)] - Z[i * nx + Math.max(0, j - 1)]) / ((Math.min(nx - 1, j + 1) - Math.max(0, j - 1)) * dx);
     const zy = (Z[Math.min(ny - 1, i + 1) * nx + j] - Z[Math.max(0, i - 1) * nx + j]) / ((Math.min(ny - 1, i + 1) - Math.max(0, i - 1)) * dy);
-    const n = new T3.Vector3(-zx * EXAG, 1, zy * EXAG).normalize();          // north is -z
+    const n = new T3.Vector3(-zx * EXAG * 1.5, 1, zy * EXAG * 1.5).normalize();   // shading z-factor, as in printed relief          // north is -z
     aN[3 * k] = n.x; aN[3 * k + 1] = n.y; aN[3 * k + 2] = n.z;
   }
   const index = new Uint32Array((nx - 1) * (ny - 1) * 6);
@@ -736,16 +737,16 @@ async function revealTrail(task, you) {
 }
 
 // ------------------------------------------------------------------ cold open
-function say(text, on = true) { const c = $('#caption'); if (text != null) c.textContent = text; c.classList.toggle('on', on); }
+function say(text, on = true) { const c = $('#caption'); if (text != null) { c.innerHTML = ''; c.appendChild(el('span', '', esc(text))); } c.classList.toggle('on', on); }
 async function introFlight() {
   const top = topState(), hm = world.hmax, D = top.r;
   const [sx, sy] = world.summit, S = world.wp(sx, sy);
-  const pts = [
-    [-27, Math.max(1.7, 0.2 * hm + 1.3), 14.5], [-13.5, 0.5 * hm + 1.5, 9], [-2, 0.9 * hm + 2.2, 13], [12, 1.05 * hm + 3.4, 12.5],
-    [23, 1.3 * hm + 6.5, 3], [15, 1.5 * hm + 15, 15], [top.tx + 1.5, D * 0.74, top.tz + D * 0.4], [top.tx, D * Math.cos(top.phi), top.tz + D * Math.sin(top.phi)],
+  const pts = [                                                             // from the east, into the low sun, around the south side, then up
+    [41, 0.25 * hm + 2.0, 9], [31, 0.4 * hm + 2.6, 22], [10, 0.6 * hm + 3.6, 31], [-13, 0.9 * hm + 6, 30], [-19, 1.3 * hm + 12, 20],
+    [-6, 1.5 * hm + 20, 19], [top.tx + 1.5, D * 0.74, top.tz + D * 0.4], [top.tx, D * Math.cos(top.phi), top.tz + D * Math.sin(top.phi)],
   ].map((p) => new T3.Vector3(...p));
   const flight = new T3.CatmullRomCurve3(pts, false, 'centripetal');
-  const t0 = new T3.Vector3(S.x * 0.7, S.y * 0.75, S.z * 0.7), t1 = new T3.Vector3(0, hm * 0.25, 0), t2 = new T3.Vector3(top.tx, 0, top.tz);
+  const t0 = new T3.Vector3(S.x * 0.8, S.y * 0.55, S.z * 0.8), t1 = new T3.Vector3(0, hm * 0.25, 0), t2 = new T3.Vector3(top.tx, 0, top.tz);
   const target = new T3.Vector3(), p = new T3.Vector3();
   controls.enabled = false; camMode = 'free';
   setLook({ lift: 1, film: 1, dusk: 0 });
@@ -754,7 +755,7 @@ async function introFlight() {
   lock.className = '';
   tween(500, () => {}).then(() => lock.classList.add('in'), () => {});
   tween(4700, () => {}).then(() => lock.classList.add('part'), () => {});
-  tween(6300, () => {}).then(() => { say('This is what the AI sees.'); document.body.classList.remove('cine'); }, () => {});
+  tween(6400, () => {}).then(() => say('This is what the AI sees.'), () => {});
   await tween(8000, (_, k) => {
     const u = 1 - Math.pow(1 - k, 1.9);
     flight.getPoint(u, p);
@@ -769,18 +770,18 @@ async function introFlight() {
   }, linear);
   Object.assign(cam, top); camMode = 'state';
   setLook({ lift: 0, film: 0 });
-  lock.className = '';
+  lock.className = ''; document.body.classList.remove('cine');
 }
 
 // ------------------------------------------------------------------ chapters (show mode): the factory and the results
 const CHECKS = {
   schema: ['Schema', 'Every file follows the contract'],
-  data_first: ['Data first', 'The data exists before the image; the image is drawn from it'],
+  data_first: ['Data first', 'The data file is written before the image, and unchanged since'],
   two_solvers: ['Two solvers', 'The answer is computed two independent ways, and they agree'],
-  render_matches_data: ['Render matches data', 'Marks and labels read back from the picture match the data'],
-  legibility: ['Legibility', 'No two labels overlap; nothing is hidden'],
+  render_matches_data: ['Render matches data', 'Every mark is found in the picture at the pixel the data predicts'],
+  legibility: ['Legibility', 'Every label is big enough, none overlap, none are cut off'],
   answer_not_in_question: ['Answer not in question', 'The question never gives the answer away'],
-  reproducible: ['Reproducible', 'The same seed rebuilds the same image'],
+  reproducible: ['Reproducible', 'A rebuild gives the same image, data, question and answer'],
 };
 async function chapterFactory() {
   const sets = IDX.sets.filter((s) => s.validation);
@@ -856,7 +857,7 @@ const dms = (v, lon) => { const h = lon ? (v < 0 ? 'W' : 'E') : v < 0 ? 'S' : 'N
 function collar(task) {
   const b = task.bounds;
   $('#quad').textContent = `${task.area} quadrangle · ${task.state} · elevation: USGS 3DEP`;
-  $('#coords').innerHTML = `${dms(b.south, 0)} ${dms(b.west, 1)} — ${dms(b.north, 0)} ${dms(b.east, 1)}<br>${num(task.elev_min_m)} m to ${num(task.elev_max_m)} m · seed ${task.seed}`;
+  $('#coords').innerHTML = `${dms(b.south, 0)} ${dms(b.west, 1)} — ${dms(b.north, 0)} ${dms(b.east, 1)}<br>${num(task.elev_min_m)} m to ${num(task.elev_max_m)} m · seed ${task.seed} · 3D relief ×${EXAG} vertical`;
 }
 function resetStage() {
   clearFx(); hudOff(); say(null, false); showPanel(false);
