@@ -99,9 +99,10 @@ seed ─► gen/topo.build()                                   validate/ (7 chec
 - **Is it fair or just hard to see?** A person solves each in about [human baseline] (we timed ourselves). Labels are a
   minimum size, and the trail is drawn so every crossing is visible. The reviewer agent hunts for ambiguity.
 - **Isn't it synthetic?** The tasks are synthetic and unlimited, but the terrain can be real (any place with USGS data)
-  and the look follows USGS conventions. Procedural terrain also works, for unlimited contamination-proof tasks.
+  and the look follows USGS conventions. Procedural (made-up) terrain worked in our earlier version (`results/spikes/topo`, `results/spikes/topo_synthetic`), but the current generator (topo 2.1) uses real terrain only. Say it that way.
 - **Why only topo?** We tested ten families, and the models solved the others. Narrowing to the one that reliably breaks
   them, with three different reasoning chains, is the finding.
-- **Cost and scale?** About half a cent per model call, the whole day about $2. New seed = new task, checked automatically.
+- **What does a lab actually buy?** `product/`: an RL environment pack (`factory export --format rl`: prompt + image + a verifier that returns the reward), step-by-step worked solutions for fine-tuning (`sft.jsonl`, every step computed from the data), a datasheet and use cases.
+- **Cost and scale?** Generation makes no API calls. Evaluating a task on both models costs about $0.0056 (pilot `summary.json`); the whole day about $2. New seed = new task, checked automatically.
 - **What's next?** More real places and missions (line of sight, wildfire), harder chains, and using these as RL
   environments to train map reading.
