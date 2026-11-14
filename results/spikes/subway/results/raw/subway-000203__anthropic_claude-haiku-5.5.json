@@ -1,0 +1,99 @@
+{
+ "key": "10a7ef99b37acd2dd0f820df4e95e83411cd0dab04d24baad01687c37246e63f",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is the Port Calder subway map. What is the fewest number of times you must change trains to travel from 38 St to Quincy St? You can only change trains at transfer stations (white circles); the number of stops does not matter. Answer with a single integer.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "subway-000203.png",
+       "sha256": "3fdae76e88e76c7531aea5a63f9d47ce21ad1caa0d789fdc50554ddf21f2256f"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673736-N8YvTqyEfKagKYcL0LHl",
+  "object": "chat.completion",
+  "created": 1794673736,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "## Route analysis\n\n**Lines serving the two stations:**\n- **38 St** is on the yellow (N) line, between 117 St and Civic Center.\n- **Quincy St** is on the gray (L) line, at the top left. The gray line's only transfer stations are Birch Av and Selden Hts.\n\n**Zero changes:** 38 St and Quincy St are not on the same line, so this is impossible.\n\n**One change:** Yellow's transfer stations are 117 St, Civic Center, and Av M.\n- 117 St connects to the brown line, which does not reach gray.\n- Civic Center connects to the red line, which does not reach Quincy St.\n- Av M connects to the green line, which does not reach Quincy St.\n\nNone of these lines reaches Quincy St directly, so one change is not enough.\n\n**Two changes:** Ride yellow from 38 St to Civic Center, then change to red. Ride red to Selden Hts, the transfer to gray, and change to gray. Ride gray through Larkin St, Tillman Av, Birch Av, 11 Av, and Knox Pkwy to Quincy St.\n\nChanges: Civic Center (yellow to red) and Selden Hts (red to gray), which is 2 changes.\n\nThe fewest number of changes is 2.\n\nFINAL ANSWER: 2",
+     "refusal": null,
+     "reasoning": "I'm going through the map line by line, starting with the Yellow line (N). It runs from Sutter St down-left through a string of stops that includes several transfer points, ending at Weirfield Sq.\n\nNow I'm going through the remaining lines on the map: the Brown line runs from Ferry Terminal down-left through Kestrel Jct, Hollis Sq, Copper Av, Arden Av, and ends at 8 Av. The Gray line runs diagonally from Tillman Av through Selden Hts, Pembrook Sq, and Bellamy Blvd to Mercer Park.\n\nNow I'm tracing the Green line diagonally from Union Station down through Birch Av, 7 Av, and Av M to Copper Av, then on past Harbor Pkwy and 82 St to Easton Pl.\n\nI'm checking which stations are actual transfer points, and so far only the white-circle stops count: Birch Av, 117 St, Civic Center, Av M, Selden Hts, Copper Av, and Kimball Pkwy. Medical Center is an ordinary red-line stop, not a transfer. Next I'll look at the stops after 38 St.\n\nNow I'm checking which stops on the yellow line can be reached from 38 St without changing lines, since the gray line's Quincy St is at the far top-left. The next stops in that direction are Civic Center, which connects to the red line, and 117 St, which connects to the brown line.\n\nI'm working out the route from 38 St: stay on the yellow line to Civic Center, switch to red there, ride to Selden Hts, then transfer to gray and head up-left toward Quincy St.\n\nI'm checking whether a single transfer could work instead: 38 St is only on the yellow line, and Quincy St is only on the gray line, so I need to see if yellow connects to a line that reaches gray at Birch Av or Selden Hts.\n\nI'm checking whether Green's diagonal path, running from Birch Av past Alder Rd, also crosses Selden Hts or Quincy St to give a one-change route.\n\nI'm checking whether green's path from Av M up to Birch Av could give a one-change route, but green doesn't reach Quincy St, so I'd still need a second change at Birch Av to gray. I'm now testing whether any yellow transfer (117 St, Civic Center, or Av M) reaches gray in a single change.\n\nI'm checking whether any yellow-line transfer can reach a gray station in one change, and it can't: Brown, Red, and Green from those transfers don't get me to Quincy St without a second change. So the best I can do is two changes, and I'm settling on that as the answer.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm going through the map line by line, starting with the Yellow line (N). It runs from Sutter St down-left through a string of stops that includes several transfer points, ending at Weirfield Sq.\n\nNow I'm going through the remaining lines on the map: the Brown line runs from Ferry Terminal down-left through Kestrel Jct, Hollis Sq, Copper Av, Arden Av, and ends at 8 Av. The Gray line runs diagonally from Tillman Av through Selden Hts, Pembrook Sq, and Bellamy Blvd to Mercer Park.\n\nNow I'm tracing the Green line diagonally from Union Station down through Birch Av, 7 Av, and Av M to Copper Av, then on past Harbor Pkwy and 82 St to Easton Pl.\n\nI'm checking which stations are actual transfer points, and so far only the white-circle stops count: Birch Av, 117 St, Civic Center, Av M, Selden Hts, Copper Av, and Kimball Pkwy. Medical Center is an ordinary red-line stop, not a transfer. Next I'll look at the stops after 38 St.\n\nNow I'm checking which stops on the yellow line can be reached from 38 St without changing lines, since the gray line's Quincy St is at the far top-left. The next stops in that direction are Civic Center, which connects to the red line, and 117 St, which connects to the brown line.\n\nI'm working out the route from 38 St: stay on the yellow line to Civic Center, switch to red there, ride to Selden Hts, then transfer to gray and head up-left toward Quincy St.\n\nI'm checking whether a single transfer could work instead: 38 St is only on the yellow line, and Quincy St is only on the gray line, so I need to see if yellow connects to a line that reaches gray at Birch Av or Selden Hts.\n\nI'm checking whether Green's diagonal path, running from Birch Av past Alder Rd, also crosses Selden Hts or Quincy St to give a one-change route.\n\nI'm checking whether green's path from Av M up to Birch Av could give a one-change route, but green doesn't reach Quincy St, so I'd still need a second change at Birch Av to gray. I'm now testing whether any yellow transfer (117 St, Civic Center, or Av M) reaches gray in a single change.\n\nI'm checking whether any yellow-line transfer can reach a gray station in one change, and it can't: Brown, Red, and Green from those transfers don't get me to Quincy St without a second change. So the best I can do is two changes, and I'm settling on that as the answer.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "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.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2864,
+   "completion_tokens": 2929,
+   "total_tokens": 5793,
+   "cost": 0.0017509,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0017509,
+    "upstream_inference_prompt_cost": 0.0002864,
+    "upstream_inference_completions_cost": 0.0014645
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2500,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 12.88,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:28:57+00:00"
+}
