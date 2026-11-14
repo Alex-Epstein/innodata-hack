@@ -26,6 +26,7 @@ and `openai/gpt-6-luna` on them. **ZIP uploaded by 3:10 PM (hard deadline 3:30).
 | File | What it is |
 |---|---|
 | `docs/OVERVIEW.md` | **The whole project from zero**: story, map lesson, missions, results, the 7 checks, Docker, Q&A |
+| `docs/STORY.md` | The day as a decision chain, challenges and fixes, where we ended |
 | `docs/QA.md` | Judge questions + answers ("why a picture?"), Luna vs Haiku, shortcomings, next steps, where we got stuck |
 | `docs/SCRIPT.md` | The 5-minute presentation script and who says what |
 | `docs/BRIEFING.md` | **Now**: current plan, the order to claim issues in, next gate |
