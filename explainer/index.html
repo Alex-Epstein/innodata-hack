@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visual Task Factory · how it works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+Condensed:wght@500;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper:#F3EEDF; --paper-2:#EAE3CF; --ink:#1E1B16; --ink-2:#5a5348; --rule:rgba(30,27,22,.25);
+  --contour:#9A5B2E; --truth:#2F7FC1; --model:#D2412C; --you:#D9A441; --wood:#DCE8C8; --night:#0E1116;
+}
+* { box-sizing:border-box; }
+body { margin:0; background:var(--paper); color:var(--ink); font:17px/1.55 "Source Serif 4", Georgia, serif; }
+.wrap { max-width:1180px; margin:0 auto; padding:0 32px; }
+.cap, h2, h3, h4, th, .verdict { font-family:"IBM Plex Sans Condensed", "Arial Narrow", sans-serif; text-transform:uppercase;
+  letter-spacing:.14em; font-weight:600; }
+.mono, code { font-family:"IBM Plex Mono", Menlo, monospace; font-variant-numeric:tabular-nums; }
+code { font-size:.82em; background:rgba(30,27,22,.06); padding:1px 5px; }
+.muted { color:var(--ink-2); font-size:.85em; }
+.collar { border-bottom:3px double var(--ink); padding:22px 0 14px; display:flex; justify-content:space-between;
+  align-items:baseline; gap:20px; flex-wrap:wrap; }
+.collar .cap { font-size:13px; }
+header.hero { padding:56px 0 40px; border-bottom:1px solid var(--rule); }
+header.hero h1 { font-family:"IBM Plex Sans Condensed", sans-serif; text-transform:uppercase; letter-spacing:.1em;
+  font-size:52px; line-height:1.02; margin:0 0 18px; font-weight:600; }
+header.hero .lede { font-style:italic; font-size:24px; max-width:820px; margin:0 0 34px; }
+.stats { display:grid; grid-template-columns:repeat(4, 1fr); gap:0; border-top:1px solid var(--rule); }
+.stat { padding:18px 18px 6px 0; border-right:1px solid var(--rule); margin-right:18px; }
+.stat:last-child { border-right:0; }
+.stat .n { font-family:"IBM Plex Mono", monospace; font-size:40px; font-weight:600; line-height:1.1; }
+.stat .n.red { color:var(--model); } .stat .n.blue { color:var(--truth); }
+.stat .l { font-size:14px; color:var(--ink-2); }
+section { padding:52px 0 18px; border-bottom:1px solid var(--rule); }
+h2 { font-size:15px; margin:0 0 6px; color:var(--contour); }
+h3 { font-size:28px; letter-spacing:.06em; margin:0 0 14px; }
+.beat { font-style:italic; font-size:21px; max-width:860px; margin:0 0 26px; }
+p { max-width:860px; }
+ol.stages { list-style:none; padding:0; margin:0; display:grid; grid-template-columns:repeat(2, 1fr); gap:0 36px; }
+.stage { display:flex; gap:16px; padding:16px 0; border-top:1px solid var(--rule); }
+.stage .num { font-size:22px; color:var(--contour); min-width:34px; }
+.stage h4 { margin:0 0 4px; font-size:15px; }
+.stage p { margin:0 0 6px; font-size:15.5px; }
+.flowline { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:8px 0 28px; font-family:"IBM Plex Mono", monospace; font-size:13px; }
+.flowline span.n { border:1px solid var(--ink); padding:4px 9px; background:#fffdf5; }
+.flowline span.a { color:var(--contour); }
+/* charts */
+.chart { margin:10px 0 8px; }
+.axis-top { display:grid; grid-template-columns:calc(220px + 52px) 1fr calc(60px + 90px); font:12px "IBM Plex Mono", monospace; color:var(--ink-2); height:18px; }
+.axis-top .ax { position:relative; }
+.axis-top .ax b { position:absolute; font-weight:400; transform:translateX(-50%); }
+.axis-top .ax b[style*="right"] { transform:none; }
+.grp { display:grid; grid-template-columns:220px 1fr 90px; align-items:center; border-top:1px solid var(--rule); padding:10px 0; }
+.grp-label { display:flex; flex-direction:column; }
+.grp-label .cap { font-size:14px; }
+.bars { display:flex; flex-direction:column; gap:6px; }
+.bar-row { display:grid; grid-template-columns:52px 1fr 60px; align-items:center; gap:0; cursor:default; }
+.bar-row:hover .track { background:rgba(30,27,22,.08); }
+.who { font:12px "IBM Plex Mono", monospace; color:var(--ink-2); }
+.track { position:relative; height:16px; background:rgba(30,27,22,.04); }
+.rule5 { position:absolute; left:50%; top:-4px; bottom:-4px; border-left:1.5px dashed var(--ink); opacity:.55; }
+.bar { position:absolute; left:0; top:2px; bottom:2px; border-radius:0 4px 4px 0; }
+.bar.haiku { background:var(--model); }
+.bar.luna { background:repeating-linear-gradient(135deg, var(--model) 0 3px, #f6d3cc 3px 6px); outline:1.5px solid var(--model); outline-offset:-1.5px; }
+.val { text-align:right; font-size:14px; }
+.verdict { font-size:12px; text-align:center; padding:4px 0; border:1px solid currentColor; margin-left:14px; }
+.verdict.keep { color:var(--truth); } .verdict.drop { color:var(--ink-2); }
+.chart-foot { display:flex; gap:22px; flex-wrap:wrap; font:13px "IBM Plex Mono", monospace; color:var(--ink-2); padding-top:10px; border-top:1px solid var(--rule); }
+.sw { display:inline-block; width:14px; height:10px; margin-right:6px; vertical-align:middle; }
+.sw.haiku { background:var(--model); }
+.sw.luna { background:repeating-linear-gradient(135deg, var(--model) 0 3px, #f6d3cc 3px 6px); outline:1.5px solid var(--model); outline-offset:-1.5px; }
+.rule-key { display:inline-block; width:0; height:12px; border-left:1.5px dashed var(--ink); margin-right:6px; vertical-align:middle; }
+.two { display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+table.data, table.spikes, table.steps { border-collapse:collapse; width:100%; font-size:14.5px; margin:8px 0 18px; }
+table th { font-size:12px; text-align:left; border-bottom:1px solid var(--ink); padding:6px 8px 6px 0; }
+table td { border-bottom:1px solid var(--rule); padding:6px 10px 6px 0; vertical-align:top; }
+table.steps td.k { font-family:"IBM Plex Sans Condensed", sans-serif; text-transform:uppercase; letter-spacing:.08em; font-size:12px; width:42%; }
+table.steps td { font-size:13px; word-break:break-word; }
+.toggle-table { font:13px "IBM Plex Mono", monospace; background:none; border:1px solid var(--ink); padding:4px 10px; cursor:pointer; }
+/* funnel */
+.f-row { display:grid; grid-template-columns:250px 1fr 60px 330px; gap:14px; align-items:center; padding:5px 0; border-top:1px solid var(--rule); }
+.f-name { font-family:"IBM Plex Sans Condensed", sans-serif; text-transform:uppercase; letter-spacing:.08em; font-size:13px; }
+.f-track { height:14px; background:rgba(30,27,22,.04); position:relative; }
+.f-bar { position:absolute; left:0; top:2px; bottom:2px; background:var(--contour); border-radius:0 4px 4px 0; }
+.f-val { text-align:right; }
+.f-note { font-size:13px; }
+.f-row.last .f-val { color:var(--truth); font-weight:600; }
+/* examples */
+.example { border:1px solid var(--ink); outline:1px solid var(--ink); outline-offset:3px; background:#fffdf5; margin:26px 0 34px; }
+.example header { display:flex; justify-content:space-between; gap:12px; padding:10px 16px; border-bottom:1px solid var(--rule); flex-wrap:wrap; }
+.ex-grid { display:grid; grid-template-columns:1.45fr 1fr; gap:0; }
+.ex-grid figure { margin:0; padding:14px; border-right:1px solid var(--rule); }
+.ex-grid img { width:100%; display:block; border:1px solid var(--rule); }
+figcaption { display:flex; gap:14px; align-items:center; margin-top:8px; flex-wrap:wrap; }
+.toggle { font:600 12px "IBM Plex Sans Condensed", sans-serif; text-transform:uppercase; letter-spacing:.12em; background:var(--truth);
+  color:white; border:0; padding:7px 12px; cursor:pointer; }
+.toggle.on { background:var(--ink); }
+.ex-side { padding:16px 18px; }
+.q { font-size:15.5px; margin-top:0; }
+.replies { display:grid; gap:8px; margin:14px 0; }
+.reply { display:grid; grid-template-columns:150px 1fr auto; align-items:center; gap:10px; padding:8px 10px; border-left:5px solid; background:var(--paper); }
+.reply .cap { font-size:12px; }
+.reply .big { font-size:18px; font-weight:600; }
+.reply .mark { font:12px "IBM Plex Mono", monospace; }
+.reply.truth { border-color:var(--truth); } .reply.truth .big { color:var(--truth); }
+.reply.bad { border-color:var(--model); } .reply.bad .big, .reply.bad .mark { color:var(--model); }
+.reply.ok { border-color:var(--ink-2); }
+details summary { cursor:pointer; font-size:14px; }
+ul.honest li { margin:6px 0; max-width:900px; }
+pre.cmd { background:var(--night); color:#e9e3d0; padding:16px 18px; overflow:auto; font:13.5px/1.6 "IBM Plex Mono", monospace; }
+pre.cmd .c { color:#9aa39a; }
+footer { padding:28px 0 60px; font-size:13px; color:var(--ink-2); }
+#tip { position:fixed; pointer-events:none; background:var(--ink); color:var(--paper); font:13px "IBM Plex Mono", monospace;
+  padding:5px 9px; opacity:0; transition:opacity .12s; z-index:10; }
+@media (max-width:900px) { .two, .ex-grid, ol.stages { grid-template-columns:1fr; } .stats { grid-template-columns:1fr 1fr; }
+  .f-row { grid-template-columns:150px 1fr 50px; } .f-note { display:none; } header.hero h1 { font-size:36px; } }
+</style></head>
+<body>
+<div id="tip"></div>
+<div class="wrap">
+<div class="collar"><span class="cap">Innodata hackathon · Track 2 · Visual Task Factory</span>
+<span class="mono muted">built from commit fa6f0f5 (14:00) · every number read from results/ and tasks/</span></div>
+
+<header class="hero">
+  <h1>A factory for questions<br>AI can't see through</h1>
+  <p class="lede">We turn real data into realistic images, ask a question that takes several steps of reasoning,
+  compute the answer from the data in code, check every task automatically, and evaluate Claude Haiku 5.5 and GPT-6 Luna, the two models the organizers set, on it.</p>
+  <div class="stats">
+    <div class="stat"><div class="n red">4/30</div><div class="l">Claude Haiku 5.5 right on the topo pilot (3 templates × 10 seeds)</div></div>
+    <div class="stat"><div class="n red">4/30</div><div class="l">GPT-6 Luna right on the same tasks</div></div>
+    <div class="stat"><div class="n blue">60/60</div><div class="l">pilot tasks that passed all 7 automatic checks</div></div>
+    <div class="stat"><div class="n">$0.30</div><div class="l">total model cost for these 120 evaluation calls</div></div>
+  </div>
+</header>
+
+<section id="idea">
+  <h2>The idea</h2><h3>Data first, picture second, answer from code</h3>
+  <p class="beat">The model only sees the picture. We hold the data it was drawn from.</p>
+  <div class="flowline"><span class="n">structured data</span><span class="a">→</span><span class="n">PNG drawn by code</span>
+  <span class="a">→</span><span class="n">chained question</span><span class="a">→</span><span class="n">answer computed twice</span>
+  <span class="a">→</span><span class="n">7 checks</span><span class="a">→</span><span class="n">Haiku + Luna</span>
+  <span class="a">→</span><span class="n">results row</span></div>
+  <p>No image is AI-generated and no answer comes from a person or a model reading the picture. Because the picture
+  is rendered from the data, we know the right answer exactly, can prove the picture shows it (pixel probes), and can
+  rebuild the same task byte for byte from its seed. The question is built to chain reasoning: read several things
+  off the image, apply a textbook rule (Naismith's rule, water flows perpendicular to contours, a load needs a path of
+  closed breakers), and combine them into one exact answer.</p>
+</section>
+
+<section id="pipeline">
+  <h2>The factory</h2><h3>Eight stations, one command line</h3>
+  <p class="beat">Each station either adds something or throws a task out, and says why.</p>
+  <ol class="stages"><li class='stage'><span class='num mono'>01</span><div><h4>Real data in</h4><p>Elevation from USGS 3D Elevation Program tiles (4 real places) for topo; a randomly built switchgear system for power. Stored in the repo with checksums, nothing downloaded at run time.</p><code>gen/topo/tiles/</code></div></li><li class='stage'><span class='num mono'>02</span><div><h4>Generate from a seed</h4><p>The seed picks the place, the window and the marks under fairness rules. The data JSON is written first, then the picture is drawn from it by code.</p><code>factory generate --family topo --template crossings --seeds 0-9</code></div></li><li class='stage'><span class='num mono'>03</span><div><h4>Compute the answer twice</h4><p>The answer and its reasoning chain come from the data. A second solver, written a different way, must agree or the draw is thrown away.</p><code>solve_independent()</code></div></li><li class='stage'><span class='num mono'>04</span><div><h4>Seven automatic checks</h4><p>Format, data first, two solvers, pixels match data, legibility, no answer leak, byte-identical rebuild. A task that fails one is out.</p><code>factory validate --tasks …</code></div></li><li class='stage'><span class='num mono'>05</span><div><h4>Advisory review</h4><p>Claude Sonnet reads each task like a careful human and flags ambiguity or legibility. It never changes an answer; its flags go to the human hand check.</p><code>validate.review</code></div></li><li class='stage'><span class='num mono'>06</span><div><h4>Evaluate Haiku and Luna</h4><p>The two models the organizers set. Same prompt, temperature 0, reasoning high, 64k tokens, cached replies, scored by the same code. Every reply and its cost is logged.</p><code>factory eval --tasks … --out results/…</code></div></li><li class='stage'><span class='num mono'>07</span><div><h4>Keep only what stays hard</h4><p>A question template survives only if at least one model gets 5 of 10 or fewer right, with failures that come from reasoning, not from a bad picture.</p><code>pilot rule</code></div></li><li class='stage'><span class='num mono'>08</span><div><h4>Anyone can rebuild it</h4><p>Judges regenerate every task from its seed and get the same bytes. A live demo builds, checks and scores a fresh task from a seed the judges pick.</p><code>factory rebuild · factory fresh</code></div></li></ol>
+</section>
+
+<section id="funnel">
+  <h2>Quality gates</h2><h3>What survived each check</h3>
+  <p class="beat">All 6 pilot sets (3 topo, 3 power), counted from the validator's own reports.</p>
+  <div class='f-row' data-tip='Seeds attempted: 60'><span class='f-name'>Seeds attempted</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>60</span><span class='f-note muted'>generation_log.json</span></div><div class='f-row' data-tip='Tasks generated: 60'><span class='f-name'>Tasks generated</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>60</span><span class='f-note muted'>generation_log.json</span></div><div class='f-row' data-tip='passed schema: 60'><span class='f-name'>passed schema</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>60</span><span class='f-note muted'>Every field the organizers require, with the right types; the image exists</span></div><div class='f-row' data-tip='passed data first: 60'><span class='f-name'>passed data first</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>60</span><span class='f-note muted'>The data JSON was written before the picture and is unchanged since</span></div><div class='f-row' data-tip='passed two solvers: 60'><span class='f-name'>passed two solvers</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>60</span><span class='f-note muted'>A second, independent solver computes the same answer</span></div><div class='f-row' data-tip='passed render matches data: 60'><span class='f-name'>passed render matches data</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>60</span><span class='f-note muted'>Pixels at known points match the data (contour colour, breaker symbol)</span></div><div class='f-row' data-tip='passed legibility: 60'><span class='f-name'>passed legibility</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>60</span><span class='f-note muted'>Every label is at least 8 px tall, none overlap, none cut off</span></div><div class='f-row' data-tip='passed answer not in question: 60'><span class='f-name'>passed answer not in question</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>60</span><span class='f-note muted'>The question does not give the answer away</span></div><div class='f-row' data-tip='passed reproducible: 60'><span class='f-name'>passed reproducible</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>60</span><span class='f-note muted'>Rebuilding from the seed gives byte-identical PNG and data</span></div><div class='f-row' data-tip='Evaluated on both models: 60'><span class='f-name'>Evaluated on both models</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>60</span><span class='f-note muted'>responses.csv</span></div><div class='f-row last'><span class='f-name'>Templates kept by the rule</span><span class='f-track'></span><span class='mono f-val'>3 / 6</span><span class='f-note muted'>kept: topo.crossings, topo.sunset, topo.flood</span></div>
+  <p class="muted" style="margin-top:14px">Draws that break a fairness rule (labels overlapping, solvers disagreeing,
+  a trail running along a contour) are thrown away inside the generator before a task is written, so they don't show
+  up as rejected seeds here.</p>
+</section>
+
+<section id="results">
+  <h2>Results</h2><h3>Topo maps break both models</h3>
+  <p class="beat">Real terrain, real places. The models read every label and do the arithmetic, then lose count tracing a line through the contours.</p>
+  <div class="chart" role="img" aria-label="Topo pilot: correct answers out of 10 per template for Haiku and Luna">
+<div class="axis-top"><span></span><span class="ax"><b style="left:0">0</b><b style="left:50%">5</b><b style="right:0">10 right</b></span><span></span></div>
+<div class="grp"><div class="grp-label"><span class="cap">Rescue carry</span><span class="muted">crossings · topo-2.1.0</span></div><div class="bars">
+<div class="bar-row" data-tip="Haiku · Rescue carry: 1 of 10 right"><span class="who">Haiku</span><span class="track"><span class="rule5"></span><span class="bar haiku" style="width:10.0%"></span></span><span class="val mono">1/10</span></div>
+<div class="bar-row" data-tip="Luna · Rescue carry: 0 of 10 right"><span class="who">Luna</span><span class="track"><span class="rule5"></span><span class="bar luna" style="width:0.0%"></span></span><span class="val mono">0/10</span></div>
+</div><div class="verdict keep">KEEP</div></div>
+<div class="grp"><div class="grp-label"><span class="cap">Hiker vs sunset</span><span class="muted">sunset · topo-2.1.0</span></div><div class="bars">
+<div class="bar-row" data-tip="Haiku · Hiker vs sunset: 0 of 10 right"><span class="who">Haiku</span><span class="track"><span class="rule5"></span><span class="bar haiku" style="width:0.0%"></span></span><span class="val mono">0/10</span></div>
+<div class="bar-row" data-tip="Luna · Hiker vs sunset: 1 of 10 right"><span class="who">Luna</span><span class="track"><span class="rule5"></span><span class="bar luna" style="width:10.0%"></span></span><span class="val mono">1/10</span></div>
+</div><div class="verdict keep">KEEP</div></div>
+<div class="grp"><div class="grp-label"><span class="cap">Dam failure</span><span class="muted">flood · topo-2.1.0</span></div><div class="bars">
+<div class="bar-row" data-tip="Haiku · Dam failure: 3 of 10 right"><span class="who">Haiku</span><span class="track"><span class="rule5"></span><span class="bar haiku" style="width:30.0%"></span></span><span class="val mono">3/10</span></div>
+<div class="bar-row" data-tip="Luna · Dam failure: 3 of 10 right"><span class="who">Luna</span><span class="track"><span class="rule5"></span><span class="bar luna" style="width:30.0%"></span></span><span class="val mono">3/10</span></div>
+</div><div class="verdict keep">KEEP</div></div>
+<div class="chart-foot"><span class="key"><i class="sw haiku"></i>Haiku 5.5</span><span class="key"><i class="sw luna"></i>GPT-6 Luna</span><span class="key"><i class="rule-key"></i>keep rule: a model at 5/10 or lower</span></div></div>
+  <h3 style="margin-top:40px">Power diagrams: hard in the spike, too easy once the wording was fair</h3>
+  <p>The single-line diagram family scored 22/30 (Haiku) and 23/30 (Luna) on its current pilot. With
+  ambiguous wording removed, both models trace these diagrams well, so no power template meets the keep rule yet.
+  We report it anyway: it shows the rule working.</p>
+  <div class="chart" role="img" aria-label="Power pilot: correct answers out of 10 per template for Haiku and Luna">
+<div class="axis-top"><span></span><span class="ax"><b style="left:0">0</b><b style="left:50%">5</b><b style="right:0">10 right</b></span><span></span></div>
+<div class="grp"><div class="grp-label"><span class="cap">Breaker trip</span><span class="muted">trip · power-1.1.0</span></div><div class="bars">
+<div class="bar-row" data-tip="Haiku · Breaker trip: 9 of 10 right"><span class="who">Haiku</span><span class="track"><span class="rule5"></span><span class="bar haiku" style="width:90.0%"></span></span><span class="val mono">9/10</span></div>
+<div class="bar-row" data-tip="Luna · Breaker trip: 9 of 10 right"><span class="who">Luna</span><span class="track"><span class="rule5"></span><span class="bar luna" style="width:90.0%"></span></span><span class="val mono">9/10</span></div>
+</div><div class="verdict drop">TOO EASY</div></div>
+<div class="grp"><div class="grp-label"><span class="cap">Double trip</span><span class="muted">dbl · power-1.1.0</span></div><div class="bars">
+<div class="bar-row" data-tip="Haiku · Double trip: 6 of 10 right"><span class="who">Haiku</span><span class="track"><span class="rule5"></span><span class="bar haiku" style="width:60.0%"></span></span><span class="val mono">6/10</span></div>
+<div class="bar-row" data-tip="Luna · Double trip: 7 of 10 right"><span class="who">Luna</span><span class="track"><span class="rule5"></span><span class="bar luna" style="width:70.0%"></span></span><span class="val mono">7/10</span></div>
+</div><div class="verdict drop">TOO EASY</div></div>
+<div class="grp"><div class="grp-label"><span class="cap">Isolate for work</span><span class="muted">iso · power-1.1.0</span></div><div class="bars">
+<div class="bar-row" data-tip="Haiku · Isolate for work: 7 of 10 right"><span class="who">Haiku</span><span class="track"><span class="rule5"></span><span class="bar haiku" style="width:70.0%"></span></span><span class="val mono">7/10</span></div>
+<div class="bar-row" data-tip="Luna · Isolate for work: 7 of 10 right"><span class="who">Luna</span><span class="track"><span class="rule5"></span><span class="bar luna" style="width:70.0%"></span></span><span class="val mono">7/10</span></div>
+</div><div class="verdict drop">TOO EASY</div></div>
+<div class="chart-foot"><span class="key"><i class="sw haiku"></i>Haiku 5.5</span><span class="key"><i class="sw luna"></i>GPT-6 Luna</span><span class="key"><i class="rule-key"></i>keep rule: a model at 5/10 or lower</span></div></div>
+  <p><button class="toggle-table" onclick="document.getElementById('tbl').hidden=!document.getElementById('tbl').hidden">Show / hide the table</button></p>
+  <div id="tbl" hidden><table class='data'><tr><th>Family</th><th>Template</th><th>Version</th><th>Haiku</th><th>Luna</th><th>All replies complete</th><th>Cost</th><th>Verdict</th></tr><tr><td>topo</td><td>crossings</td><td class='mono'>topo-2.1.0</td><td class='mono'>1/10</td><td class='mono'>0/10</td><td>yes</td><td class='mono'>$0.0574</td><td>keep</td></tr><tr><td>topo</td><td>sunset</td><td class='mono'>topo-2.1.0</td><td class='mono'>0/10</td><td class='mono'>1/10</td><td>yes</td><td class='mono'>$0.0691</td><td>keep</td></tr><tr><td>topo</td><td>flood</td><td class='mono'>topo-2.1.0</td><td class='mono'>3/10</td><td class='mono'>3/10</td><td>yes</td><td class='mono'>$0.0426</td><td>keep</td></tr><tr><td>power</td><td>trip</td><td class='mono'>power-1.1.0</td><td class='mono'>9/10</td><td class='mono'>9/10</td><td>yes</td><td class='mono'>$0.0593</td><td>too easy</td></tr><tr><td>power</td><td>dbl</td><td class='mono'>power-1.1.0</td><td class='mono'>6/10</td><td class='mono'>7/10</td><td>yes</td><td class='mono'>$0.0357</td><td>too easy</td></tr><tr><td>power</td><td>iso</td><td class='mono'>power-1.1.0</td><td class='mono'>7/10</td><td class='mono'>7/10</td><td>yes</td><td class='mono'>$0.0312</td><td>too easy</td></tr></table></div>
+</section>
+
+<section id="examples">
+  <h2>Look inside</h2><h3>Real tasks, real misses</h3>
+  <p class="beat">This is what the AI sees. Press "Show the truth overlay" to see what the code knows.</p>
+  
+<article class="example">
+  <header><span class="cap">topo · Rescue carry</span>
+  <span class="mono muted">topo-crossings-000000 · seed 0 · difficulty 3</span></header>
+  <div class="ex-grid">
+    <figure><a href="../tasks/pilot_topo_crossings/images/topo-crossings-000000.png" target="_blank"><img id="ex0" src="../tasks/pilot_topo_crossings/images/topo-crossings-000000.png" alt="task image topo-crossings-000000"></a>
+      <figcaption><button class='toggle' data-target='ex0' data-a='../tasks/pilot_topo_crossings/images/topo-crossings-000000.png' data-b='../tasks/pilot_topo_crossings/overlays/topo-crossings-000000_truth.png'>Show the truth overlay</button><span class="muted">click the image to open it full size</span></figcaption></figure>
+    <div class="ex-side">
+      <p class="q">This is a topographic map of a real place (Bear Mountain, New York), drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 20 meters, index contours (heavy brown lines, some labeled) are every 100 meters, and elevations are in meters. Rescue carry: a stretcher team carries a casualty along the Aspen Trail (solid magenta line) from the magenta square S to the magenta square E. To pace the carry, the team leader logs every contour line the trail crosses. How many contour lines (index contours included) does the trail cross between S and E? Neither square stands on a contour line, so count only the crossings between the two squares. If the trail crosses the same contour line more than once, count every crossing. Answer with a whole number, for example 7.</p>
+      <div class="replies">
+        <div class="reply truth"><span class="cap">Computed answer</span><span class="mono big">12</span>
+        <span class="mark">from the data, twice</span></div>
+        <div class='reply bad'><span class='cap'>Haiku 5.5</span><span class='mono big'>6</span><span class='mark'>✗ wrong</span></div><div class='reply bad'><span class='cap'>GPT-6 Luna</span><span class='mono big'>11</span><span class='mark'>✗ wrong</span></div>
+      </div>
+      <details><summary>The reasoning chain the code recorded (<code>steps</code>)</summary><table class='steps'><tr><td class='k'>trail length m</td><td class='mono'>1068.8</td></tr><tr><td class='k'>uphill crossings</td><td class='mono'>6</td></tr><tr><td class='k'>downhill crossings</td><td class='mono'>6</td></tr><tr><td class='k'>index contour crossings</td><td class='mono'>2</td></tr><tr><td class='k'>contour crossings</td><td class='mono'>12</td></tr><tr><td class='k'>wrong if index contours left out</td><td class='mono'>10</td></tr><tr><td class='k'>levels crossed</td><td class='mono'>[60, 80, 100, 120, 140, 160, 160, 140, 120, 100, 80, 60]</td></tr></table></details>
+    </div>
+  </div>
+</article>
+<article class="example">
+  <header><span class="cap">topo · Hiker vs sunset</span>
+  <span class="mono muted">topo-sunset-000000 · seed 0 · difficulty 3</span></header>
+  <div class="ex-grid">
+    <figure><a href="../tasks/pilot_topo_sunset/images/topo-sunset-000000.png" target="_blank"><img id="ex1" src="../tasks/pilot_topo_sunset/images/topo-sunset-000000.png" alt="task image topo-sunset-000000"></a>
+      <figcaption><button class='toggle' data-target='ex1' data-a='../tasks/pilot_topo_sunset/images/topo-sunset-000000.png' data-b='../tasks/pilot_topo_sunset/overlays/topo-sunset-000000_truth.png'>Show the truth overlay</button><span class="muted">click the image to open it full size</span></figcaption></figure>
+    <div class="ex-side">
+      <p class="q">This is a topographic map of a real place (Bear Mountain, New York), drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 20 meters, index contours (heavy brown lines, some labeled) are every 100 meters, and elevations are in meters. A lost hiker at the magenta square S must reach the hut at the magenta square H along the Basin Trail (solid magenta line) before dark. The incident box on the map gives the time now, the time of sunset and the walking time for the trail&#x27;s length on flat ground. By Naismith&#x27;s rule the climb adds time: add 4 minutes for every contour line the trail crosses going uphill (each one is 20 m of climb, at 300 m of climb per hour). Contour lines crossed going downhill add no time, and neither square stands on a contour line. How many minutes before sunset does the hiker reach the hut? Give a negative number if the hiker arrives after sunset. Answer with a whole number of minutes, for example 12 or -7.</p>
+      <div class="replies">
+        <div class="reply truth"><span class="cap">Computed answer</span><span class="mono big">63</span>
+        <span class="mark">from the data, twice</span></div>
+        <div class='reply bad'><span class='cap'>Haiku 5.5</span><span class='mono big'>83</span><span class='mark'>✗ wrong</span></div><div class='reply bad'><span class='cap'>GPT-6 Luna</span><span class='mono big'>91</span><span class='mark'>✗ wrong</span></div>
+      </div>
+      <details><summary>The reasoning chain the code recorded (<code>steps</code>)</summary><table class='steps'><tr><td class='k'>flat walk min</td><td class='mono'>17</td></tr><tr><td class='k'>uphill crossings</td><td class='mono'>13</td></tr><tr><td class='k'>downhill crossings</td><td class='mono'>0</td></tr><tr><td class='k'>minutes for ascent</td><td class='mono'>52</td></tr><tr><td class='k'>walking minutes</td><td class='mono'>69</td></tr><tr><td class='k'>daylight minutes</td><td class='mono'>132</td></tr><tr><td class='k'>arrival</td><td class='mono'>17:39</td></tr><tr><td class='k'>wrong if every crossing counted</td><td class='mono'>63</td></tr><tr><td class='k'>wrong if climb ignored</td><td class='mono'>115</td></tr></table></details>
+    </div>
+  </div>
+</article>
+<article class="example">
+  <header><span class="cap">topo · Dam failure</span>
+  <span class="mono muted">topo-flood-000000 · seed 0 · difficulty 3</span></header>
+  <div class="ex-grid">
+    <figure><a href="../tasks/pilot_topo_flood/images/topo-flood-000000.png" target="_blank"><img id="ex2" src="../tasks/pilot_topo_flood/images/topo-flood-000000.png" alt="task image topo-flood-000000"></a>
+      <figcaption><button class='toggle' data-target='ex2' data-a='../tasks/pilot_topo_flood/images/topo-flood-000000.png' data-b='../tasks/pilot_topo_flood/overlays/topo-flood-000000_truth.png'>Show the truth overlay</button><span class="muted">click the image to open it full size</span></figcaption></figure>
+    <div class="ex-side">
+      <p class="q">This is a topographic map of a real place (Bear Mountain, New York), drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 20 meters, index contours (heavy brown lines, some labeled) are every 100 meters, and elevations are in meters. Flash flood: the dam at the magenta square D has failed. The water runs downhill from D, always in the direction of steepest descent, so its path crosses every contour line at a right angle. 6 campsites are marked with magenta points, C1 to C6, all lower than the dam. Exactly one of them lies in the water&#x27;s path. Which campsite does the water reach? Answer with the campsite name, for example C2.</p>
+      <div class="replies">
+        <div class="reply truth"><span class="cap">Computed answer</span><span class="mono big">C2</span>
+        <span class="mark">from the data, twice</span></div>
+        <div class='reply bad'><span class='cap'>Haiku 5.5</span><span class='mono big'>C4</span><span class='mark'>✗ wrong</span></div><div class='reply bad'><span class='cap'>GPT-6 Luna</span><span class='mono big'>C4</span><span class='mark'>✗ wrong</span></div>
+      </div>
+      <details><summary>The reasoning chain the code recorded (<code>steps</code>)</summary><table class='steps'><tr><td class='k'>dam elev m</td><td class='mono'>326.2</td></tr><tr><td class='k'>water sets off bearing deg</td><td class='mono'>136</td></tr><tr><td class='k'>water route length m</td><td class='mono'>1470.0</td></tr><tr><td class='k'>flooded camp</td><td class='mono'>C2</td></tr><tr><td class='k'>dry camp most directly below dam</td><td class='mono'>C1</td></tr><tr><td class='k'>nearest campsite to dam</td><td class='mono'>C5</td></tr><tr><td class='k'>lowest campsite</td><td class='mono'>C6</td></tr><tr><td class='k'>camps</td><td class='mono'>6 entries (see data JSON)</td></tr></table></details>
+    </div>
+  </div>
+</article>
+<article class="example">
+  <header><span class="cap">power · Double trip</span>
+  <span class="mono muted">power-dbl-000000 · seed 0 · difficulty 3</span></header>
+  <div class="ex-grid">
+    <figure><a href="../tasks/pilot_power_dbl/images/power-dbl-000000.png" target="_blank"><img id="ex3" src="../tasks/pilot_power_dbl/images/power-dbl-000000.png" alt="task image power-dbl-000000"></a>
+      <figcaption><span class="muted">click the image to open it full size</span></figcaption></figure>
+    <div class="ex-side">
+      <p class="q">This is the as-found single-line diagram of a building&#x27;s 480 V switchgear. Breakers 52-M2 and CB-03 both trip at the same moment. Nothing else changes: no other breaker opens or closes, normally-open (N.O.) breakers stay open, and Generator G1 keeps running. A load has power only if a path of closed breakers connects it to a running source. Which loads that were running before the event have no power afterwards? A load behind an open breaker was not running. Answer with the load tags (for example CH-2), in the order they appear on the drawing from left to right, separated by commas.</p>
+      <div class="replies">
+        <div class="reply truth"><span class="cap">Computed answer</span><span class="mono big">RP-3, EL-1, CT-1, KP-1, EV-1, AC-1, DH-A</span>
+        <span class="mark">from the data, twice</span></div>
+        <div class='reply bad'><span class='cap'>Haiku 5.5</span><span class='mono big'>RP-3, EL-1, CT-1, KP-1, EV-1, AC-1</span><span class='mark'>✗ wrong</span></div><div class='reply bad'><span class='cap'>GPT-6 Luna</span><span class='mono big'>PR-3, EL-1, CT-1, KP-1, EV-1, AC-1, DH-A</span><span class='mark'>✗ wrong</span></div>
+      </div>
+      <details><summary>The reasoning chain the code recorded (<code>steps</code>)</summary><table class='steps'><tr><td class='k'>1 running before</td><td class='mono'>[&quot;LP-2&quot;, &quot;CRAH-4&quot;, &quot;LAB-2&quot;, &quot;RP-3&quot;, &quot;EL-1&quot;, &quot;CT-1&quot;, &quot;KP-1&quot;, &quot;EV-1&quot;, &quot;AC-1&quot;, &quot;DH-A&quot;, &quot;FP-1&quot;]</td></tr><tr><td class='k'>1 off before</td><td class='mono'>[&quot;CH-2&quot;, &quot;PP-2&quot;]</td></tr><tr><td class='k'>2 lost from 52M2 alone</td><td class='mono'>[&quot;RP-3&quot;, &quot;EL-1&quot;, &quot;CT-1&quot;, &quot;KP-1&quot;, &quot;EV-1&quot;, &quot;AC-1&quot;]</td></tr><tr><td class='k'>3 lost from CB-03 alone</td><td class='mono'>[&quot;DH-A&quot;]</td></tr><tr><td class='k'>4 alive though drawn under bus2</td><td class='mono'>[]</td></tr><tr><td class='k'>5 answer left to right</td><td class='mono'>[&quot;RP-3&quot;, &quot;EL-1&quot;, &quot;CT-1&quot;, &quot;KP-1&quot;, &quot;EV-1&quot;, &quot;AC-1&quot;, &quot;DH-A&quot;]</td></tr></table></details>
+    </div>
+  </div>
+</article>
+</section>
+
+<section id="why">
+  <h2>How we got here</h2><h3>Seven families tried, two picked</h3>
+  <p class="beat">We tested families cheaply first and kept the ones where accuracy actually drops.</p>
+  <table class="spikes"><tr><th>Family / question</th><th>Haiku · Luna</th><th>Verdict</th></tr><tr><td>Topo: contour lines a trail crosses (L3)</td><td>0/3 · 0/3 at 32k and 64k</td><td><strong>Reliably hard</strong></td></tr><tr><td>Topo: elevation of one point (L2)</td><td>3/3 · 2/3 at 64k</td><td>Single reads not reliably hard</td></tr><tr><td>Topo missions (SAR sight, flood, base camp, hiker, wildfire)</td><td>see <code>missions/summary.md</code></td><td>Mixed; 3 seeds per type is noise</td></tr><tr><td><strong>Power v2: dense crossings, long cross-sheet feeds</strong></td><td>6/9 · 5/9</td><td><strong>Hard</strong>; Luna mis-traces crossings, invents backfeeds</td></tr><tr><td>Power (clean layout)</td><td>9/9 · 9/9</td><td>Too easy: clutter is the knob</td></tr><tr><td>Calendar v2 (Outlook Scheduling Assistant, chained rules)</td><td>9/9 · 8/9</td><td>Out</td></tr><tr><td>Subway v2 (service change + times, accessible routes, worst closure)</td><td>svc 0/3 · 2/3, others 12/12</td><td>Weak; the svc gap is a 2-minute trick</td></tr><tr><td>Gantt, ECG</td><td>9/9 · 8/9, 12/12 · 12/12</td><td>Out</td></tr></table>
+  <p><strong>The finding:</strong> these models read labels, do arithmetic and follow rule chains on clean layouts. They break
+  when they have to <em>trace a path through clutter</em>: counting contours along a winding trail, following water
+  around a bend, telling a crossing from a junction. That became our difficulty knob.</p>
+</section>
+
+<section id="trust">
+  <h2>Why you can trust the numbers</h2><h3>Proof over claims</h3>
+  <div class="two">
+  <ul class="honest">
+    <li><strong>Two solvers.</strong> Every answer is computed twice, by different code; a disagreement discards the task.</li>
+    <li><strong>Pixels match data.</strong> Probes check that the picture shows what the data says (a contour's colour, a breaker's symbol).</li>
+    <li><strong>Byte-identical rebuilds.</strong> Same seed, same PNG and data, checked by SHA-256.</li>
+    <li><strong>One fixed eval.</strong> Temperature 0, reasoning effort high, max 64,000 tokens, identical prompt for both models,
+      replies cached and logged raw. Every reply in these pilots finished normally (none cut off).</li>
+  </ul>
+  <ul class="honest">
+    <li><strong>Where it's weak (said out loud).</strong> Pilots are 10 seeds per template. Topo uses four real places, so hills repeat.
+      Flood has 6 camps, so guessing gets about 1 in 6.</li>
+    <li><strong>Sunset.</strong> On real slopes most trails climb one way, so the uphill count often equals the total count.</li>
+    <li><strong>Fairness.</strong> A human baseline (a teammate solving tasks from the image only, timed) is in progress.</li>
+    <li><strong>Power.</strong> Not yet hard enough to keep; we show it as a negative result.</li>
+  </ul></div>
+</section>
+
+<section id="run">
+  <h2>Run it yourself</h2><h3>One command per station</h3>
+<pre class="cmd"><span class="c"># build 10 tasks from seeds 0-9, check them, score both models</span>
+uv run python -m factory generate --family topo --template crossings --difficulty 3 --seeds 0-9 --out tasks/pilot_topo_crossings
+uv run python -m factory validate --tasks tasks/pilot_topo_crossings
+uv run python -m factory eval     --tasks tasks/pilot_topo_crossings --out results/pilot_topo_crossings
+<span class="c"># judges: regenerate every task from its seed and compare bytes</span>
+uv run python -m factory rebuild  --tasks tasks/pilot_topo_crossings
+<span class="c"># live demo: a judge picks a seed; build, check and score one fresh task</span>
+uv run python -m factory fresh    --seed 7 --show</pre>
+</section>
+
+<footer>Generated by <code>explainer/build.py</code> from commit fa6f0f5. Sources:
+<code>results/pilot_topo_crossings/</code>, <code>results/pilot_topo_sunset/</code>, <code>results/pilot_topo_flood/</code>, <code>results/pilot2_power_trip/</code>, <code>results/pilot2_power_dbl/</code>, <code>results/pilot2_power_iso/</code>, <code>results/spikes/README.md</code>. Pilot numbers, not the final evaluation.</footer>
+</div>
+<script>
+const tip = document.getElementById('tip');
+document.querySelectorAll('[data-tip]').forEach(el => {
+  el.addEventListener('mousemove', e => { tip.textContent = el.dataset.tip; tip.style.opacity = 1;
+    tip.style.left = (e.clientX + 14) + 'px'; tip.style.top = (e.clientY + 14) + 'px'; });
+  el.addEventListener('mouseleave', () => tip.style.opacity = 0);
+});
+document.querySelectorAll('.toggle').forEach(b => b.addEventListener('click', () => {
+  const img = document.getElementById(b.dataset.target); const on = b.classList.toggle('on');
+  img.src = on ? b.dataset.b : b.dataset.a; b.textContent = on ? 'Show what the AI sees' : 'Show the truth overlay';
+}));
+</script>
+</body></html>
