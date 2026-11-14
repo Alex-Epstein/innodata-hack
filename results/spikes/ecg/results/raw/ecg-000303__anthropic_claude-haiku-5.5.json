@@ -1,0 +1,99 @@
+{
+ "key": "6baf95f861140af8c707ff56bd5696f361c059be58858c5ca19e403c8fb84ff1",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a lead II rhythm strip on standard ECG paper recorded at 25 mm/s: one small box is 0.04 s and one large box (5 small boxes) is 0.20 s. The square pulse at the far left is the 1 mV calibration mark, not a heartbeat. The rhythm is irregular. Number the heartbeats (QRS complexes) from left to right, starting at 1. The longest R-R interval lies between which two consecutive beats? Answer with the number of the earlier of the two beats, for example 4.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "ecg-000303.png",
+       "sha256": "db9af431f1a8a3807969a8f8d3f36b5189da8b3845352a7a27522a82c819a394"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673179-2yk4RpTDO1JYu5aYNTtx",
+  "object": "chat.completion",
+  "created": 1794673179,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Locating the R peaks**\n\nThe grid is 40 px per large box (0.20 s), so 1 px is about 0.005 s. Reading the R-wave positions from left to right gives 12 beats, at approximately these x-positions:\n\n1. ~216\n2. ~344\n3. ~448\n4. ~639\n5. ~775\n6. ~919\n7. ~1103\n8. ~1215\n9. ~1327\n10. ~1512\n11. ~1743\n12. ~1951\n\n**R-R intervals (pixels, then seconds)**\n\n- 1→2: 128 px (≈0.64 s)\n- 2→3: 104 px (≈0.52 s)\n- 3→4: 191 px (≈0.96 s)\n- 4→5: 136 px (≈0.68 s)\n- 5→6: 144 px (≈0.72 s)\n- 6→7: 184 px (≈0.92 s)\n- 7→8: 112 px (≈0.56 s)\n- 8→9: 112 px (≈0.56 s)\n- 9→10: 185 px (≈0.93 s)\n- 10→11: 231 px (≈1.16 s)\n- 11→12: 208 px (≈1.04 s)\n\nThe longest pause is between beats 10 and 11, at about 1.16 s. That is the largest interval, ahead of 11→12 at about 1.04 s.\n\nFINAL ANSWER: 10",
+     "refusal": null,
+     "reasoning": "I need to pin down the x-coordinates of the R peaks in the image, and I'm picking out twelve of them, roughly at 216, 344, 448, 639, 775, 919, 1103, 1215, 1327, 1512, 1743, and 1951.\n\nI'm working through the RR intervals in pixels, and the largest gap is between beats 10 and 11, at 231 pixels, which is longer than the others.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I need to pin down the x-coordinates of the R peaks in the image, and I'm picking out twelve of them, roughly at 216, 344, 448, 639, 775, 919, 1103, 1215, 1327, 1512, 1743, and 1951.\n\nI'm working through the RR intervals in pixels, and the largest gap is between beats 10 and 11, at 231 pixels, which is longer than the others.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "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.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 1272,
+   "completion_tokens": 984,
+   "total_tokens": 2256,
+   "cost": 0.0006192,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0006192,
+    "upstream_inference_prompt_cost": 0.0001272,
+    "upstream_inference_completions_cost": 0.000492
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 525,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 5.85,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": true,
+ "mock": false,
+ "created": "2026-11-14T16:19:39+00:00"
+}

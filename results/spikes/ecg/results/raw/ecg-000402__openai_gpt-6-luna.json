@@ -1,0 +1,118 @@
+{
+ "key": "1ba3f7b8716ef5541aa3a9c9442c5f63bb923de00aa7157dac17617cbb87e255",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a lead II rhythm strip on standard ECG paper recorded at 25 mm/s: one small box is 0.04 s and one large box (5 small boxes) is 0.20 s. The square pulse at the far left is the 1 mV calibration mark, not a heartbeat. The rhythm is irregular. What is the difference between the longest and the shortest R-R interval on this strip, in milliseconds? R peaks are a whole number of small boxes apart, so give a multiple of 40, for example 360.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "ecg-000402.png",
+       "sha256": "31f531b9155127a368fd195bf34b4a759e4367144d63bb6fb902f92f8271e92f"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673221-8RDLekTdQ3OXFvJI4yPo",
+  "object": "chat.completion",
+  "created": 1794673221,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "The longest R–R interval is 25 small boxes, and the shortest is 10 small boxes. Their difference is 15 boxes:\n\n15 × 40 ms = 600 ms\n\nFINAL ANSWER: 600",
+     "refusal": null,
+     "reasoning": "**Calculating R peak intervals**\n\nI need to calculate the intervals between R peaks based on an image grid. I'll count the small boxes between the longest and shortest differences on the x-coordinates of the grid. After identifying the positions of the R peaks, which are around x 212, 388, and so on, I can determine the distances in small boxes, each approximately 8 pixels. The longest interval is 25 small boxes, while the shortest is 10, which I’ll ensure correlates with the actual grid spacing.**Counting intervals step by step**\n\nI think I should start by calculating the x-coordinates with a spacing of approximately 8.0 px, using relative indices. For example, the index for 212 is around 21.5; for 388, it's 43.5, and so on. I'm noting that half indices might be used because of the R peak offset. The maximum interval is 25 small boxes, while the minimum is 10. I'll show all calculations clearly, explaining each step to make it easy for the user to follow. The difference of 15 small boxes translates to 600 ms.",
+     "reasoning_details": [
+      {
+       "type": "reasoning.summary",
+       "summary": "**Calculating R peak intervals**\n\nI need to calculate the intervals between R peaks based on an image grid. I'll count the small boxes between the longest and shortest differences on the x-coordinates of the grid. After identifying the positions of the R peaks, which are around x 212, 388, and so on, I can determine the distances in small boxes, each approximately 8 pixels. The longest interval is 25 small boxes, while the shortest is 10, which I’ll ensure correlates with the actual grid spacing.**Counting intervals step by step**\n\nI think I should start by calculating the x-coordinates with a spacing of approximately 8.0 px, using relative indices. For example, the index for 212 is around 21.5; for 388, it's 43.5, and so on. I'm noting that half indices might be used because of the R peak offset. The maximum interval is 25 small boxes, while the minimum is 10. I'll show all calculations clearly, explaining each step to make it easy for the user to follow. The difference of 15 small boxes translates to 600 ms.",
+       "format": "openai-responses-v1",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": "gAAAAABq-IpOSG1iO51YRVkzUxII7pY96qmuIVE6EYvGEwmNSKTgMOv7n9618sJYwkTR6k-21gb4rbh-jTmvKuofLdt0vJHiODV1x6gVPFnn3ZUr6VrBK2BvP48EUPkUXpJRSYBdiOsViBQZawnjpw8MHeIW-XTbT6HbPG8jl0JuT8yyQOvadhQ1D2lpgqqHsWUzz65wOJQbwz7w260Fv1UVho-Ju6meDpTlPh9nz_GEHZLS_G-mk6JQ1Lk3pTex844BB40F76vhkjE5cJjgi1ezkpLe84Zd2Jcm-CKIsgXkisvq_Cxy77uA7NcCAKhwIl9DNLI8AB6gY0sHaMCzPcK5K69gXJkgBvXAGIT2W_uGvVBw8TY0qlzPyDyMZyXqjn5pvmVNU3VO-Z0Y1ZjnKQLMM28SjiZlEMgL9PtzjXdVc7NlCYTAfR2krYzYeFsuh9tcnoUa5uDP1LvfcAW1QzQ6oPbZzkyZ2C-iI_Z-jMeJ1pRQgxlg-IqAs636InKLjwMFf1f3bgypFntEYF4v-xt3SnYvhthbtNh2-QeX4ilHTuVeqiTWHpqq9TbPwFr-q7z-Um4dPk4GLpV_xccKJBV1gWmhq_wXxUPQGc73Yk5BbEMiSoewWu4VVWzzV0vzx3_-9t8_zJ5KWs9xlIET2-moQWXF4NFFJKrp1xup_VE747fYcpMglteyAaY-iTBJO7rwk-Bf8rmIX2GIlhqeVKeaYXZgaAyCDs478UcFlHHVvnWKdqD55c4A4mmEZvRiE99Js6qVc9bhxvHJ5NuWKP-Ggkpecjavcd-m4I6dq6le_eVjm77JExvlXq_4KGiOhKeXtGUYBcm7ylUPTkDlYBbSOFCYdKmWZKq94LsX6KczJII8o9Y78UTaumaMESBsN6vPn3OIcUCB2xns0hc4x9GIYUG8xP7LM7mu4uyNstu2mQoIfgDcTqCrIIUQMga10xbLj3zxyW3viCVuYXP8HkROsURPQIESK_iWnYrhwF4UUxSyDEMnhO-qbjicWddfYXDTm3M0nQ37zaU4fjaqSG3cs1KxbS_eE-hvtz5oarXY4TS7IOoDnb32xHMD5UHuTM_gjmOWWmmiUv7NR4dI3DnISepc-rXCNr0s-E6Q8pfLjZqJC-lt-2NvxXJ3T1bzEzSW-bjUiWxeF7xhqFa1ixKodyTKFhqvxbIY0wOArHjyqJSje728ny4kCM1zxMWExo_nN7KiZkPioHzLDY3-uPZhKwnkqOChfF8BAYaFmfeWaVHHuxDupLTu9lvYsktI4_6IEQbIDTHNGLNsBDtSSDS6mzg9N66DOc-0hderUUCOhX5mmjFtsv2ocuY0y9GhvZviRtY4kBk0YuvaOql4V6SFKlklGJjJysjmQib5Dta0ZesxOHEazuuyC_1xYWje3Eiwnk7jnN_YBLa1rvIN4QAaHI277bSk93EEvve_qOjjbs5ahBy2M05I7qnDx-C-dfuoCevhvY05xAb4987R4Up5u4QsSZQ8bGXpsMGcp50MCvwOJ7-5GIgIN30CdenzrypHb4v31nOoQqtUlGR2OpjXBLGx7_Jyq_ivoq83hf-EUORO8dzXlqOcn53mVhxTdYSe-MS9W52fGFEYdtIJ4PBIkwV3qTxtF76wAU6l8TbF2jyBIU6GdjkyICcPdNPF6KBb04RDDypeyrqtrlcBNGfPahkoqRhrHleRT-ZGeoGBAFgTGtiba6BtjcDA8ccxrd-3c_52qdsVkfh_rsjleN48ozJiMaZdiD-AaPft3Gl6-hTA7cP1xpp1rvMH3SgBupUpfht2VwqR7UTN7upePA6n2z3TPURL3To_L2w0LrVOGe-rtubBPcrn5M5eKeEcQ9BphQl29usVDQcXAapjISZmaSZoa4LW_etY6FFD-s6pIgWPN7f-c3YGJl8RlDadarDkYr6VoHSNsXiBhhOm7NxXFpyzhOeowgmQe3IhfV95aXpzuk6niD4LRQ4B3863pcnEnXdR6K-Vo0ba_dp0vEV5YoVsvmiCzleHWC1q1CgQxC7cpdWmXjc2LAxiemdzcPoyekj3chaUYPk8mK2-f2C55g9Z6_FOAQRVEsOyJ5EzsbnUk-tKbtn45qmS9W-PGyvdMf6wbJJtoEorgkOjSiOuqM41r9NJ_MXr4feL62s6F2JiGQbepxG5GyJdVX3BnQobFSmgK_bxXgZD7OR47SgCjW3rSUOaRhsTVMTTAP2leVKJJLVnBdEgB0EFI13aUNvlrgb9hU2GPArKitsuWRbckDaG6ocmICf6cjIu0av4f0Ehd9RLzSoqZmfZp1TB4OCfO8ySjbQuPzatcJppLRhpg2rFDzLmHnEvFIJoAhTNlLeUrzS99U8fLVgM6gWHegndHD5ie30N55Fq2cK7B8vxuNQ1S71omIXQ8lUKVVq0OIe23qdvaNPfO9LigrywO4ybKx79iGq_CUmuBprQbzv6-UXLEDAOm6-mD5HLlj1I2N3DHXIBm9TJszmhQv5wEOimibvX2rXQKS7x77dQosgLn1BVztQH6B6quQQwJvYUS0Y0EfllPyJHRn-JlI_oO8mLhP-hGOQLBg-wsWVdjTcrzLSpMonZkX_-pLScKOtqxDusnVnwGcrMzeszZkZbjy6reXrhg3p_NdFdqREJ_L_T1ZE1zqrEHHG3tHCIdZ5v6UCR55GRK0NzEaDa2mFMNbr_u4jgLx8SnEGxZaJ4crmLeg7ZsNC_jZ9tojo6G87dpozOBcV3FHPpeUfEgL8gDO0PWhcowjaxkfEyup56sYbh7X_7OFC7sXrxKaFHo76Nt8ddfKH3OOufYXEtcciztNtGEk0IZba17BP_a8UzNLlhA5LrxDT7_P-fTq9Yddlb94VgMwf35uXCeIMp49i0lvzZmX66lJsh1RHewheLd3DFe84qAV-VBMKg-363iivNSTJdZVm0OWf8FaQOD1iuy6C5rrQNUSe9NTN6eYwbLHEZV9BXngQh2OrqgcdFQOivx5bfJjb0Vut6YNCOUBCRGbtVfo1SXVI-tSzA17FsBeTAp_yvdM0IhYSkfLlviJVfiahUO3PHSQa-v8f9LqAG-lQl27ZMLdVkGhHNb6QoA6bgyPLc9oYbQWdniyivFmdc7Y57ETHIstKFEtwHUqk2BXM_nn9ksfMILt_1i81K66TKOV3wCWAD6vo5TWltMdR09NNKjTuUYBAlBVnFuhQhRgFxrV3-ytzbOMAlY8NWVF44Qphf8LjJSlf2mX-sXlxjqs4m1HUBueXOu4YY5F2hHHEZ23VD5hCb1UyWtYP9eWQWQvJYf5fVj-PQS-pYLYQfLqh2IMbMHO51ai4JiM4zZ38U3f0ZvLvm7EJW6Tus1Tpy7NJlM-9piC0E1pqb7rSxxHztzmpPEq0RJN_3_G7oOSN7tANNRpLZlY5ZBSrnVQXNs0P12oc4fgZSpFqYKWE02494IugbUL9K4jsc_502CqaT_M_-R1wsAuZ8djaZ-LtCY0AtqIlnLBQbT6KPANJPh3oUxVxtt6QtM8VQhY9hChNSiVF61ce-RjRcrxWjATZ_7B9FzpROUdXeZai3TOn50y8g0rRmjBrRXY9Lu00sZicVmMYVv6nglcsPx6psQDkWpFdtvKwqAreaTfXTU2vCrR76w5shyU-Gtp4diWldrC3zqXA4gfLsNqbXQUi0Y-u0w8LCtiGQwRxqbcxCvB05dGHY4yyXbOPObw_rPILc1mjLnzERTNhlZaIqHOlFISJQao7YKCv1_0O-vcqNQzCGHWR1MSaHFj0LIRDKAxAisJ3QiKU3JR8VVbGF4Mxy9-CXS_39NaAEvsfXu_vfG77lKXSp7CjxKR3g73tMX-NpDa7bWej9GJfUx0_TcgFfrDk6Hzfzy80JXmzxu_rFkDv12h6pSzK07sU2NGvMa6_RjodyoJpzrO5ak5wSNn3QATsGiUELhbB7XVVYs_Gj09viCp6lovw72JGyu64jJ76AQzZXcFlwclUbanGhZGioXItHfMEppXS5nYh0paT3rErZ3TESU43EOQFkSJK6m8ypsjv4AjNafYAxVeDToLPae5uYe4ABCCDCy4lFEC1sI-71pu47mQhyMCShuJh0GMWEO7owa5iCzOhYOGXkiDczljB3ELgcFkyYlcIpvtWE2WwP60vEmuLZMkQ_QHmZ7VVncT456FxBauiMsoMMYsAk44OW3TfjemCUmW2y4AZ4js_vM6d0mVFv-9CBn6-n7awr73i9UyenW5M_voSREjHdeOeM6yvtqU-Lc_Ay-fAYztrGsvekcg2v9gZLWDlWgCarmSCppSOThn4I7S_jul3hShgbD6sAUOdCrL95-Vtiai1vCvN7XSNfXcaHFnFzN88xUo9QQ2NTi8QhgyLAuXySp2JHhvi83a0nbAnkp4peyp6A2D8NXIGINoGlKvJQmcJthGyl07IR7wsGWGSNJpTyMdlKN1AdazcUTPSfmDlOehwDkRtPAjrTz-CYKdSD7i1G5WCuFLEyKexwiiXaK-px4azMu0hNBA-egp5FXbNuuyiVne4r19GccBRFXaUSFto_FRgzHxBrAJUGDs352Mh15lsuHA1iXcYgtqV8qNJDIRGfm-aGFzMQ3GfD4kpIZlFjSsD_EdPcFSjeBmpE930m5eaam_vRJG_DKC4IO8B4T5T2xPmajw2stcsB_wdzdH8BDFrcZZL2daRB6N1QD-IhU4UE6mkwXLezZV9bib4T5EVKCIlPCpYba67CeXZ-ilLFtq1IchE2vMasFqdYeJimExeE3vesEP15rjC8OyWVk4vX_xIPbZiWAWnh_W57R3RVFdJ-Fja6YLtFozJ--pTeHusP5vl5YJazlJcBoszlvyS0F0LJ4CaboO7K5oijwyGYdqGjI3Rq26oYvpSgdD10Pbkmc5a58JXUb54F_IbNoXvhyLo6aYwKaEe6QCColxjTKAxNXdtx3s_QSmga4pi5UdNOTLAhmDaVXZ0KQNiRtTbMsQxGcal9lOaXX4godgYIyIefuo7xOzjCJRvEas68f1_Yyow1grFc9hSVPa3BsUWAi8Ad-G--IBSU8dh24i0ViJ__6y_sobBCrrQg1tjOSeCS3uzjWSA2DOQBzwuqRYDC09N6WPPr7odh-uKAVkGIq5JlFEYfC_xFvaUWk6e4A4-AGCUqcYOdfBMI-PnavpRY7y8UZDZL9_XXDoMkJgr_dDiypamprWtDW6LVpyh3q0CJ2pWKWs_OYjpzpCHONOIaHAVyS5l1_x1xQ3atm-qucwlNELQkLEkGfcVHI0eHj7HzhdqQLLH1Oq29ID3YjKjgsKasyiVLLeo7wasZKQOKuVhQPxepQyjFcBFnUKFmuLJA3VuUSkXO6yz1yzsPjXRckK7Z-XLYleEroIdvEztilpMzbDpN__y7pdh21ZAgJ0-ASgmAazhhAB6TdBccdqebCX6PVExz30rehJdBwYp4OLlYw5uTr2Bv28GOCoapgBEWs66VWSdFSqDTyu7PKMnZC2nEgI5tOx4gHxivOU_AP_WOLIG436GUeckYqj5xpzjKW6n7_UaEpbyf-VkInCxrgzXaFTKscFbe4Rl3TW1-Yx8yrgn8ontpLVRbg_a33nzjzdNtaBO9wLvapZGUCIIVQbpqogerxCno4jtIRjWBw2jlvCwOIAK_wCLLbYWeI8qbyHlYxGzoM5Ue1RgLk5bEKHtP9JceAsf29HvQjb6zEcU9xOZFBDyd5G34FbWhlFIvnm5dGBxETILt_vOO2-Lb-oww2oY8BklAfDiLWh16-GARZA-VImJ4Q7yKRJabaS1fCl1JbOqHUfYSZxvfpHMRinHVifL4b0jRIgvTIlQiIAadKIkN87chCP7MqmVm4CXg0cWKNpgK0msnvpqQtIJMmq2olKYhCdY6qMgkmUFIcUlf7nKkAKD9PmWSmPi3yoV8aB4nFOuZYRu2ZjrBXB29iVFPV3IZwwy8ikGjWyFc4H0yLxxTPPA5w3NuSPhuSRlL3_qedfgav0gKTqDioNoZia_b366tqGkX7bhcZ41lwZzpMQYoGhzUUUn19-bZGJI9oxf60JFHWeWjsxqY_zELpFoU2I8GmZ-f8AmMI8UYiYl48BPSHaedMbTdm2yO6VGQeqxFNDAA47YPhkNh2f0lIHuhEiQaQfmCLPTqHNC_5xCuhlaYYSDlvPdKUu_4SqRQDH954qb522Hthb6kTvh46Lmf6kTnE0Z7tn4ArBgA8_RPzVsWfsYU1bQnG4VDLfUiFE3xUHpiuP8ndDyU0XALEnT31BLAymQeIPPQF5op0RKypQ60h5pFJw1qBEEyIEGq2FUdkk19DPhE5qnONJ2V8kAC5owyGUl438W_He982cuh89ws7pIMpZXmd5dvYAt7JJwNnYLeCJVL_Ip4cTMMn4jLG1Op6lpHYNl5V_9ghl9__lBCmvnyCyJryM9QoP9u9rpNipnbmmGbFOJ1txrSaeiHJfO_ZCb7oaSeje-n7LkKty91KXD3TvX1hGOW9OS7AMMmU5j62Iprrpq2UVFg1UxvIb3L8RmHYvwZIOClT2Gk9Ggk1c0n-0WNbgdMqxM6TeD9AHBJSHTUNpidDuL8IO0m6tsejqIZCakXcTBLTI3a7QFA2nbtuJNU4XzeAsKVkcqsQxZrhRPsyp2REQ1UyydQVjFKnC5cDFgypx0-F6KuBPiZ6Hifzlk3QrW3cKC_1LFVydtpVQNIHz15QYcXwIhNd8h-fF8TTaaAhUPjJrPo5tT7cTkfBw74yMKkT7yq1p7DUYpRvPGtlCbFvVyb5tsYgWll1pAVKcmW38gocfd8E2rW7xFsKzRP6Hv8Pyeai8CNfT_R6xNnKslHpMcjylDhrOCG5EtnS54NJrIejAgat_wLUWyuzYWBEBVX5ZkdDkmU_bvZpvHcfpuckLtVG3CtkSc_5NQaQu5PaZiJRStz6B-7bqr2RIwQfq6hX2THhmvGYS8Vc1rzNP3RNIrGN43cUFkcIhs=.eyJlbmRwb2ludF9zbHVnIjoib3BlbmFpL2dwdC02LWx1bmEtMjAyNjA5MjJ8b3BlbmFpIn0",
+       "format": "openai-responses-v1",
+       "id": "rs_0853545368a66616016af88a46a4d887d1bf339a4586560f51",
+       "index": 1
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Clarifying numbers and intervals**\n\nI’m calculating some numbers here. So, 788 and 988 sum to 25, and the shortest range from 1860 to 1940 gives me 10. Then, one interval from 500 to 596 results in 12. Alright, that all seems straightforward. I need to make sure to get the final line exactly right before I wrap this up. I don't want to miss any detail in this calculation!",
+       "format": "openai-responses-v1",
+       "index": 2
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": "gAAAAABq-IpPtV36VW6m8N-B7L9B6bPajF9_YQtz8YftsbcrYYRB34lN9kY-4nX7O2YEOfuy8Yqr-oGT3QAaw0g2MNLXZ7E1Etc3oqsNpyHHX9lXSPqUM5Hr3vazR6SSBuoUXsyFY4NuhXH_QcXOEqVISVaZVSYTUsq-Rx8-ixcJC3VHYIbIXeS41lwAdNHbrjLP3vFUfcGcWd9Z6WB1dHWbplJccRxbbofzyW4CN0zRoS1eDPHA9WNRvACVVxdFhdnjw_N-KG443m19eOE3DFZ-EVVsHrWJXIU4vnDbSPITxf4CdYQvOhweXI_bdZjb0H7NdzDwnfVqNv21kNobwfAU13-1pVYniFDL3OPwd4RwyNl2l7Dea1ZnuQ26upLy31-voDtLOeE0Kj3AerI5kD2Mfvjecn6n1nOGNbo5kEnpzjc4LEG9yVQ68OSy2xIJwKHeoejGdxnPQoEq766TtOLLfoBSlQqMz_HMYU976Tb74-80vszFWdj7a_64lFec99spDwFkaDrzutac7zSvc2n8LGnE0EsCteJbj3PVwTggh4KS-bdDWI5oFSqBE3HivjjIWsT-e5tc0jHgk0sKwLj5jTvtxeHKZ8E8gU-chZkJR_ZQdJDf3NITlRGRyIK1Dhs6oSVnyqHd7j_RHvkzGFLjwK2x2-XXKxY6Tb3UD3e-P73CBwE6ZgGcumxpkW8DFdNfZEfI8TaJB67oILsIvN1dVZBvtVa0Wmn3Ro-cQg4fZd6nC5petP1txLtl4HPjKlwXfgnEiOHA9ih8KIT7HbOsSg4dussOCH2gz_KWypmCpnurtj6K-7Z6jIv408oOJBlh7F0Z7n2s5865MFt0AOyIQa4TBbzuZShG1so4231o8utx4BKcSQKZSO0bzZIX_TZkSes15upe-W2tLPM42y-3NGlGLwMzUL55xqycOMmFcOSiJ5_f4lPHJh6QPooH55xOblidMyhPu0Ju2ZMD2uHp7zySB7Ns8tu4BIfFd_RMREAjntOUBQn0jnv9qsiWaD1YLTzwYLODQ60EUOoXUwvoBaMC1uS_WHXqnbQS5pYpbEMFPEiLMm5P_R5RRNAocMny9Zw9ikv30vkg7-DBJkfPtvRsGsFllr-JCMTNR7lZWhlQLieD8hCwzI3mjEBvQ6KAU0QIyZZvv8nA7DRfpPDpfu76C_wGkBiOW5DNa8mJpxylOL2K-FlT34UqDd6yKO-wiYljkkWafwwathUisFH79ILvaMWchFTLzOHWR6hfEyBzY_Q57_Gc25djoyQw5MhSzf2LDbH3EhDsMOaMJIvfGa_e-d2jI15NQiLCc3OzeZPcCSmljlEJY5B1TtAdLwhvD1d_auG8JFzXCsbEoYpUXWrR7zY9lOhkXKCIHVHSl8LP12qUW87ElZhjk8GbRzTgrerAPxSZIfJgSNEOgdfBbSTFfKmRdQeSr7da9rXegiNB0kY08tyQzpXabCztfTVHdiBj7N6gou0OWfYuYFvCvlR4rWn1JUVcdlDb_zeget4D_nKQjj9FKi8-fEoxnE9fLwjQWiNM_tLYfIGl7TALyGmrLPvPZrdtkIIA86S-x54W_K02KH5PTLoizGi0VX2NcZFeHiFACDR8V7nNGwFpEjdexCs5iicV-GuQ4BxewN2FbOvrZiiEAiGcPhMjvbj9xtJhKEt6T5gUxL5EBR7zyY3HQ9HrWOU6D0rKDP7ODExWFGTs-Zm_778qM0-HE9AydmfzQTV2aRHCCfwAxNC38umrSpVjKEO3W93fI0PeTcOK4jEJ5tD93YQ4ChUkAv_WR5U5flKQ8VvR10TM72RBS8mkEDCpfdnMqGIu8Keu4apfmEuEKM7_e-XL5eOcbPsCQqYblEV3LcPQpsJpx6_NFgkEMneaAUp20YDrgeaJD2Xznma0n21WCVH0YIWDLIRo0Ft439ny_k9UO1gIuGSvz5x2tUOvWXSFkEchG7_ECKaO6aWEy3fDIPD2lVDDClQ6BhloA9iZw9tYT6aVRDN2ouGx-sCGy8Khq8uUENGbFYRs3HwKiycADNc_8qIV97F7yUyBpD5tRuyajDVHmsmnBCgjiz-RsTXUFRsHW7rvITeQ7__LQ8kUrB7ZiiTDPbMA4mYYDw7gcW1V7mh7j5mf6bbWC9iZkY8J5wiED0lehbLSDflL-_DZ_9awnp5KcrLU5BbyH4QDu-b9DWfBq7zOHqtl662Log==.eyJlbmRwb2ludF9zbHVnIjoib3BlbmFpL2dwdC02LWx1bmEtMjAyNjA5MjJ8b3BlbmFpIn0",
+       "format": "openai-responses-v1",
+       "id": "rs_0853545368a66616016af88a4e0c5887d1aeb7fbbefd5613e8",
+       "index": 3
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 1081,
+   "completion_tokens": 608,
+   "total_tokens": 1689,
+   "cost": 0.00043905,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 1078,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.00043905,
+    "upstream_inference_prompt_cost": 0.00013505,
+    "upstream_inference_completions_cost": 0.000304
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 558,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 10.07,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:20:21+00:00"
+}

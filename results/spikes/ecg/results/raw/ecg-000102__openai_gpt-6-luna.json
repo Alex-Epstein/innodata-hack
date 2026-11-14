@@ -1,0 +1,105 @@
+{
+ "key": "7ae6a7f49ccf8069632ea0fb1d75d9904ba152c66cef7bd911781fad94e1592d",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a lead II rhythm strip on standard ECG paper recorded at 25 mm/s: one small box is 0.04 s and one large box (5 small boxes) is 0.20 s. The square pulse at the far left is the 1 mV calibration mark, not a heartbeat. The rhythm is regular. What is the heart rate in beats per minute? An answer within 3 bpm of the true value is accepted. Give one number, for example 64.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "ecg-000102.png",
+       "sha256": "5aa41c5e556ca620a73b90cf49beaabcb8df07e8b2ac8ba06d74d5b20a1b39b4"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673163-FS1TS6fc52VHue7rkQoH",
+  "object": "chat.completion",
+  "created": 1794673163,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "The R–R interval is about 16 small boxes, or 0.64 seconds. The heart rate is 60 ÷ 0.64 ≈ 94 bpm.\n\nFINAL ANSWER: 94",
+     "refusal": null,
+     "reasoning": "**Calculating heart rate**\n\nI need to figure out the heart rate from the ECG strip by counting the R-R intervals. The strip seems to be around 10 seconds long with markers at 3, 6, and 9 seconds. I have R peaks at specific pixel positions and need to calculate the intervals. With small boxes being approximately 8 pixels, I realize that 16 of these small boxes equal 0.64 seconds, leading to a heart rate of around 94 beats per minute. I'll present the answer numerically as requested.",
+     "reasoning_details": [
+      {
+       "type": "reasoning.summary",
+       "summary": "**Calculating heart rate**\n\nI need to figure out the heart rate from the ECG strip by counting the R-R intervals. The strip seems to be around 10 seconds long with markers at 3, 6, and 9 seconds. I have R peaks at specific pixel positions and need to calculate the intervals. With small boxes being approximately 8 pixels, I realize that 16 of these small boxes equal 0.64 seconds, leading to a heart rate of around 94 beats per minute. I'll present the answer numerically as requested.",
+       "format": "openai-responses-v1",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": "gAAAAABq-IoQe2AI83Esz9xUhIriEOiuGp1v_g01G4IBodeNbsKJXwjZ9EBVS83DzjVK1W0xG3puEpIvVcNpqOcmf-22AkofkHMxm66Kle--7maMNDWSR3cQdim-xbF7ilpW2h5iJVKo9LO-hbsuuw8B5BBRiakEqTIAfI001NuCLqNUNmMgPjtiZBHKworQDN2-sMSmtENfCgdJa8IltbQGqPt4MU_AysH04EyPxLxiwLmBT3vihBwJHFRgCCSCmQz7Li5WTFkYPgd9D-3MxdjYIO7qNDKkPg7Es9qMiMa_WOfDl5VJ5T64AxiJiDK6w0qWGEeIQ01f5HFyEoq7zq9HeUmwviR9yoUzrV_2mc8akGfBBUpc0K3ro1g2RL3XVsuTYaSSL2N744Oa-1sf_vHXyzA9lGCGO79GjQOqcZD_b_24lbvmpw-s-RpuzpDvc4SURzZz8ssdM70v9kD8DTqAHLasdIIlhMmO7msTzDq6XY23sgVY7qt8Y0RSUvDfW9aRCBd8BZJSMl_ttOO7CqT2l3sMyjxGa6i1BlSUCBNkayqk6Kg3TerGQHPG90A606nDf1RZtu-EF6kzhEMZwT-XEZevfTu1r2Ty9Eek1pBFdefLZKBglw6TSvlJPx7dAN3scXRZ9Ih4xRsphywLepA1Wx_SvLuCxsvDOdBVfCDS1QBAFwwUn6HjC5GWqkF3mCItjCei9LsRsvRCtwIukcre7no0mTxtK-a-Trksc1PUPLyAAwvLxlWnQVFjga17ySTNPn2k0H8JC_n0zMFcKb9KLuqdJe9hn9RBWqFtepA7gTAsOZNnlD0QntIds8RpvkSYk9IxhtCqAh0favLs7LJqUHrBaDDtnsrTGUXY_ObAPMKNYjEgWBGawFPzrCP0RGWitlHb6avxqQWiID1kj8VOuOB40M5Xerc6_eK1si2rJ-S60cnLpC898etL521nsHcLr6EAQ0fn0cccL6FfWO1jlhVWzb3dRYQ-g8BmGPq88D2EASgjhrJUbA-sr7wNk87kUaloQAoYcm9d04YgOwD3xS31HKo16FS1jQ6YiTYk2IOmNB1asEKRHgczydqFEEBz0g0aaDdY2nRFSz4tUbIsURHwr87Jty_dbWOYElZmxYZJ_Gv8dPghobNg_Aq1mcvtYsFBD79B-5s_jZFDtUxLBeXna3kGXPpq3uzdBlLJt3iyxPn0BTcFJGfVgZnx9qGa5FO5l6e-u2CjAx3XyejD-CecujAdc0ClysARdG2Q5RMUzM1xP76CRk84rfeU6pt7Gkj6wzFveJRCjjGipKGWy08fTxiOEFP7TB1v3BSJH7fXKbnGFyUJ1ipwtu6clr4uhaWpaoMNxD70Jjz9HAJKVKgApuW4IdXgfr0xraCvss_N3zC_pqftrPvenScpl5NskXej2wl_FjJQ5RHw45uXsJ8Dh6IxgMt7wajjO4PlN5ht8ikJK_FyyFzCVVk8GKqrvdeuE3fNCWYhSs8ODXOIpEe9CK-stGIIMFgT9N-RkOZUtDBV6Y-lPfvlZISSwx8SkFBDOHaViXLqMgKFcwep0N-nSr3iB4ikk2HVAW52t-LoLdWiy5xWm31mYhrMbPtMf8HJHp3KB-wlMhOmrOXVRlSvJXqfLufaW5h6P-FmLVrtnnGZLuAcOsek6dKotobAqbSwYkqWMHSMqMfaLgFYklaHNKftv7MaxgpehUP4fmUYoD7gDszDt01-y7LWW-lQMpvKOJ55Iyn1UqSEuIDmgtLClBW9ifUhZMEbbtFtPdiH0ESjj95Xbi-0_4FWzXSLt2pK3qfD_aeTGSpCyBpk_MAe6rZEStz30q9Xqnmr3Tv8V6-AtT89aG1VqHaplbbKJnBEeTcR1iz_a3lGpql1PdK42ZtcVYbbS4ASogFwdlRmLNQiYKGFcBAqT_7x9IH45MxrFBdO_Ls-6r2R-DpXrqZPeKRHO50zpAkMQg-Ru8w54G8U623WTMFFUBJi_WRP6NF5rOVhernmplqA2SrePsA7MXKIUpNbFUoWvocO8E4yrBoADj8t0vzlMZkIFPbL0eyLQtG2BwvthPLAW5oeEmqQShQOtclNsli9akcg_vo7pO4fzR3_rZeAMslyvjWgSoMmfUQOxI1V8BewFMkFhqcdQkIdWvxkZHX10KxydYHG1QWkQaCMuhD7p0joVSQ6PWuwisU5F2CO8aEJth7AuVE84i1g3uutsOdXccjdKgnJ1oa4ZmalCyiCE9SavLBzvPJMA8gDIAYF-X2-TLnzpM-oyowKM1mE0ohX7qjQnd6GYXBkhtn7jo4w_7gpDwwzsf7oo5jlBkyyQ0wSdbMPMt04nnmsjoR5nCmUVNwxFqxP515qa6QPywU0ymbmYQElVSplR3s4Ol3iEfVVhDCg9iABfTL4pfh48BXk49ycajXlmgDQKxLthxMHyLXYpP1hXaVKwl_eYEnpz83CL9QGH39mWOxVsCcCr5sPjTPUFoSgXMFGpz9S2uyL5IvV5YzcTw0a6af8zGSW9HdwjVpRFYTVNsYcULp2g9au9qgZjrVrqMBWKfk5QMsbOhKgs2u6WnPG68axi8kHWA-fkuDY5xaZMa_z4Nfljh1DRsfwvpft_sgjQIUiaqSlbT5Ed1NLuHkGb67Bk82BQgyfLyzx4LcHBTD-UzLl48MoHkAbGNAnqkgFtGRcqlzIqOevC4y7eNx76uckQq3W1FBR59CFE7NMLvioi1XB5gAdVQFmUEzb4-xU49MdxsOJ8iwjMSD0M3tFK6FBg-3gj-KWxmqbJda7WulBNZ7mE64fcayH1YIRT1HhDYwOGLCSdZzm6_1LNTByhDYH-ZzjtMkJ7nOieTcwPhkFFM8duxRysLH-wDmvB3NGOPq1LnQipI4Ujkzzlcs4wDRyHmUnsilWjk4W6_11xMXbjKXFsfjmu-Juyfxh3M2bvbE9lS4xKnbomipvA__YskB_xMDuV0dLP-eZ4J3ggCaZX8hdVYZIJX09SAA01I16tQlkwKTRlBfYeotEcJ0vcvwYpaHvjGWU1-2jPe5JjUU8BNXSfjIwNK8B-B027GOT3O629hrzZBZLvWe4jt3jubwbOnsWW6_fbbh-eujyaQoOcraPfWZ4bkWdxv70UzFkzsmKlRGhUtKvASRDu7splMuFcnx4NNJ8GrVQCVw6h6MSfzQaof9gDFVwB2kst73-mvxKkiv61O2l3FURQhmbSUOApzj994e7TA_DWh4m5rVAz0qZTUm_N2cAxjFEOa0wI_xjlCM7C-0wlHgCG3zsIeys_d4q7K9z3PMlQKD61kFQ-tk1HxQIP33rbrlUtYOzhdni-eLkTpuC70-36M7mJhn946LGoQa1RF387sN-fsFX_hYzA4yoE0wvdftahB3tWxNKpxDxxvmgYpXflFMhZXHoTo0xWoqAEOIx69v6qcdeSuGgICvgwHWIqSo2dF4lpxi2Lc9xCApASVbkPyIc55iPzbPq-X5Rakavrr0137HJ_LMPy_NJViDEGFLm4DoDKlLg6hPx73MVgoJvWaNnHsWqwcrQ2EZG-kl1TrnK25Jpw5Yzn1bTwmTEeYkPtGfBoR5kDOZ_P_aiD16XNwvnOwz2XpOLL6xUX_3_kYkodnuly3HsDz-IKNKfu8fak805ZZTyB4OZ7_PVoO1_RPcEn9MM-o7nlFK_gzufUGHbFe8x1d5i2rwfPx9WXHEGZqqkfUp49YlEv8XzKhyPbVuswX1ShS5Bdwe1GqymBG_K6-yjIvCIPCOjKp2zhBO64yWyl7BGzu-LQQxac_HXhd4jz00v0xBcd79K5o-1aBHu6IXZEV0Ad1beZKGzNSu_wx8BDZDJ6B1PO0rTSLEDuL9-vvWkTMOinlkdbVoDZ7lZ4DzD0VT1IrLFpnTuDN1Xan8-ev08JACEUpmCEsokK4MmyQJSznzRELZp2jzMtYZOc8dHcU15m_9qxdZOYRv5QUjpxE3hSDViaRT_PCdS87c5fcJMhG9JfG3wutvSbxUsah5dsTmR7HvXXTL2oRAjm3sH4DscbioRHVi2sqZ6C_5fMiigHo9ouT9MbwNJ9e6WDWPSl-mqUe_7x-aHliFE6YcrkzKgxUvgEtAwVijHxzZjeIpaYq9p93uGE_MHh5zEazOk7_r_CK-dwF7byaDZvi75RWdsMVck7ONb2iBSD6A1QISkoChVmkMdX-K2-Dmn1xmRRmHUABQcUk2SlWW2W7XP-9kWDdBdUSLBLBw6J37JMDZDFPzBfxzNb-V8X1mheuXiF3OJH9PwTzq_9uccd7ow_A9mTRaFwW2P28YAXqS4V7dpcFl_m3za2zwp_KgrKVGairsUN-pKPfKYsrmlS8VPloo4Neh0KK8lDOm6EiTlrkFCvbr4COhRhlEvo9gqmkx0Lst0cW-1ZPNJj8P6xIigKFgPb8ovfbSekYkuIe9jPU84.eyJlbmRwb2ludF9zbHVnIjoib3BlbmFpL2dwdC02LWx1bmEtMjAyNjA5MjJ8b3BlbmFpIn0",
+       "format": "openai-responses-v1",
+       "id": "rs_0f46e1afef6cf090016af88a0c825087d18e3caf41048e8fa2",
+       "index": 1
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 1069,
+   "completion_tokens": 303,
+   "total_tokens": 1372,
+   "cost": 0.00028505,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 1066,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.00028505,
+    "upstream_inference_prompt_cost": 0.00013355,
+    "upstream_inference_completions_cost": 0.0001515
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 254,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 5.68,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": true,
+ "mock": false,
+ "created": "2026-11-14T16:19:22+00:00"
+}

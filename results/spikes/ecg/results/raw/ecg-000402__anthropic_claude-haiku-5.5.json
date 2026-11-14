@@ -1,0 +1,99 @@
+{
+ "key": "f2885b5f74e273b2881b19673a9ca244962d962f088e359bd78715fa36bfd35e",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a lead II rhythm strip on standard ECG paper recorded at 25 mm/s: one small box is 0.04 s and one large box (5 small boxes) is 0.20 s. The square pulse at the far left is the 1 mV calibration mark, not a heartbeat. The rhythm is irregular. What is the difference between the longest and the shortest R-R interval on this strip, in milliseconds? R peaks are a whole number of small boxes apart, so give a multiple of 40, for example 360.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "ecg-000402.png",
+       "sha256": "31f531b9155127a368fd195bf34b4a759e4367144d63bb6fb902f92f8271e92f"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673221-aSOt1odHI2YWVSmNoTQ7",
+  "object": "chat.completion",
+  "created": 1794673221,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Method**\n\n1. **Scale:** One large box is 0.20 s and spans about 40 px in the image, so one small box is about 8 px (0.04 s).\n2. **R-peak positions:** Estimating the x-pixel position of each R peak (excluding the calibration pulse) gives roughly 212, 388, 499, 596, 788, 988, 1100, 1276, 1395, 1580, 1771, 1859, and 1940 px.\n3. **R-R intervals in small boxes:** Dividing the pixel differences by 8 gives approximately 22, 14, 12, 24, 25, 14, 22, 15, 23, 24, 11, and 10 small boxes.\n4. **Extremes:**\n   - Longest: about 25 small boxes (788 → 988 px, about 200 px) = 25 × 40 ms = 1000 ms.\n   - Shortest: about 10 small boxes (1859 → 1940 px, about 81 px) = 10 × 40 ms = 400 ms.\n5. **Difference:** 1000 ms − 400 ms = 600 ms (15 small boxes).\n\nThese positions are read by eye from the image, so the individual boundary intervals (10 vs. 11 boxes, 24 vs. 25 boxes) carry some uncertainty.\n\nFINAL ANSWER: 600",
+     "refusal": null,
+     "reasoning": "I'm estimating the x-positions of the R peaks from the image, using the grid spacing to get the scale. Large boxes are about 40 px apart, so 200 px per second, and I've listed the approximate R peak positions from 212 through 1771.\n\nNow I'm working through the interval lengths between consecutive R peaks, converting pixels to milliseconds at 5 ms per pixel, and checking the small-box spacing to see whether the gaps fall on clean multiples.\n\nNow I'm mapping the R peak positions onto small-box units and checking the intervals between them. The shortest gap works out to about 10 boxes, or 400 ms, and the longest to 25 boxes, or 1000 ms.\n\nNow I'm checking the longest gaps against the others, and 788→988 at 200 px, or 25 small boxes, looks like the strongest candidate for the 1000 ms interval. Working out the difference between the longest and shortest intervals gives 600 ms.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm estimating the x-positions of the R peaks from the image, using the grid spacing to get the scale. Large boxes are about 40 px apart, so 200 px per second, and I've listed the approximate R peak positions from 212 through 1771.\n\nNow I'm working through the interval lengths between consecutive R peaks, converting pixels to milliseconds at 5 ms per pixel, and checking the small-box spacing to see whether the gaps fall on clean multiples.\n\nNow I'm mapping the R peak positions onto small-box units and checking the intervals between them. The shortest gap works out to about 10 boxes, or 400 ms, and the longest to 25 boxes, or 1000 ms.\n\nNow I'm checking the longest gaps against the others, and 788→988 at 200 px, or 25 small boxes, looks like the strongest candidate for the 1000 ms interval. Working out the difference between the longest and shortest intervals gives 600 ms.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "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.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 1266,
+   "completion_tokens": 1489,
+   "total_tokens": 2755,
+   "cost": 0.0008711,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0008711,
+    "upstream_inference_prompt_cost": 0.0001266,
+    "upstream_inference_completions_cost": 0.0007445
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1049,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 6.63,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:20:21+00:00"
+}
