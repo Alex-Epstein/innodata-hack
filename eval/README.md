@@ -2,7 +2,7 @@
 
 | File | What it does |
 |---|---|
-| `client.py` | One OpenRouter call: fixed settings (temperature 0, reasoning effort high, max_tokens 32000), disk cache in `cache/eval/` keyed by hash(model, prompt, image hash, settings), retries on 429/5xx/timeouts, key from `OPENROUTER_API_KEY`. `MOCK=1` returns a canned reply with no network call. |
+| `client.py` | One OpenRouter call: fixed settings (temperature 0, reasoning effort high, max_tokens 64000), disk cache in `cache/eval/` keyed by hash(model, prompt, image hash, settings), retries on 429/5xx/timeouts, key from `OPENROUTER_API_KEY`. `MOCK=1` returns a canned reply with no network call. |
 | `scoring.py` | `PROMPT_TEMPLATE` (question + "end with `FINAL ANSWER:`"), `parse_final_answer`, `score` per `answer_type`. |
 | `run.py` | Task folder → `responses.csv`, `run_config.json`, `raw/`, `summary.json`. |
 | `test_eval.py` | `uv run python -m unittest eval.test_eval` (no network). |
