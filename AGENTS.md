@@ -24,6 +24,7 @@ and `openai/gpt-6-luna` on them. **ZIP uploaded by 3:10 PM (hard deadline 3:30).
 | File | What it is |
 |---|---|
 | `docs/BRIEFING.md` | **Now**: current plan, the order to claim issues in, next gate |
+| `docs/DEMO.md` | The 5-minute demo, second by second. We build exactly this |
 | `docs/BRIEF.md` | The organizers' requirements and rubric (they win over anything else) |
 | `contracts/SCHEMA.md` | Folder layout and file formats everyone builds against |
 | `docs/ARCHITECTURE.md` | How the pipeline works; decisions D1 to D9 under discussion (issue #9) |
