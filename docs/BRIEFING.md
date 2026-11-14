@@ -2,18 +2,15 @@
 
 ## Now
 **~11:05 · Spike round 2: every family gets the same test, then we pick the 2 with the best accuracy drop.**
-Scoreboard so far (L1 / L2 / L3, Haiku · Luna):
-| Family | L1 | L2 | L3 | Verdict |
-|---|---|---|---|---|
-| **Topo map** (#18) | 3/3 · 3/3 | 1/3 · 1/3 | **0/3 · 0/3** | **Leading.** Clean drop, failures are tracing and counting, answers double-computed, byte-identical rebuild |
-| Calendar (32k rerun) | 2/3 · 3/3 | 3/3 · 3/3 | 0/3 (2 cut off) · **3/3** | Luna solves it with enough tokens; needs to be harder |
-| ECG (#15) | 12/12 both | | | Ruled out: sharp marks on a grid are read to the pixel |
-| Circuit | 9/9 both | | | Ruled out |
-| Subway (#17) | running | | | WindHurtLZ |
-| Gantt (#16) | ? | | | dl3832 |
-| Power (#5) | ? | | | tech-cosmos Codex |
-**Decision at 11:50:** topo + the best of subway / Gantt / power / a harder calendar.
-**Eval issue:** Haiku still hits the token limit on hard tasks (all 32k spent reasoning). Both models allow up to 128k output, so go to 64000 (about $0.03 per call worst case).
+**11:45 · Family 1 = TOPO MAP (locked).** Family 2 = a 12:20 bake-off of chained versions (mentor's advice, #29).
+| Family | Result so far (L3, Haiku · Luna) | Next | Owner |
+|---|---|---|---|
+| **Topo** | 0/3 · 0/3 at 32k | rerun at 64k to confirm; chained templates (#29) | tech-cosmos |
+| Calendar | 2/3 · 3/3 at 64k (too easy) | v2 chained (#33) | **dl3832 owns** |
+| Subway | 3/3 · 1/3 at 64k (weak) | v2 chained (#34) | **WindHurtLZ owns** |
+| Power | running (#5) | L3 already chained (trip + tie close + kW unserved) | tech-cosmos |
+| Gantt, ECG, circuit | ruled out (too easy) | | |
+max_tokens is 64000 (both models allow 128k). Every run from now on uses it.
 Meanwhile: #8 packaging (tech-cosmos), #6 core + #7 validator (Alex).
 
 **Demo plan: "Beat the AI."** Judges solve our exemplar task on screen (60 s), then we reveal both models' wrong
