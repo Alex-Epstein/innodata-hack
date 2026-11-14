@@ -1,0 +1,1 @@
+done: explainer page now shows the final 10 (Haiku 2/10, Luna 3/10), the few-shot test (8/48 vs 6/48) and the hand-check status, all read from results/; examples are final tasks. next: rebuild if final results change. blocked: none

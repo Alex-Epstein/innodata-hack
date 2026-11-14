@@ -80,12 +80,72 @@ def tot(sets, m):
     return sum(s["score"][m] for s in sets), sum(s["n"][m] for s in sets)
 
 
+# ------------------------------------------------------------------------------------------ the final 10
+FINAL = {"family": "topo", "template": "final", "tasks": "tasks/final", "results": "results/final"}
+FINAL["task_list"] = jl("tasks/final/tasks.jsonl")
+FINAL["val"] = json.loads(show("tasks/final/validation_report.json"))
+FINAL["gen"] = FINAL["val"]["generation"]
+FINAL["rows"] = rows("results/final/responses.csv")
+FINAL["cfg"] = json.loads(show("results/final/run_config.json"))
+FINAL["score"] = {m: sum(r["correct"] == "1" for r in FINAL["rows"] if r["model"] == m) for m in (HAIKU, LUNA)}
+FINAL["n"] = {m: sum(1 for r in FINAL["rows"] if r["model"] == m) for m in (HAIKU, LUNA)}
+FINAL["complete"] = all(r["finish_reason"] == "stop" and not r["error"] for r in FINAL["rows"])
+FINAL["version"] = sorted({t["generator_version"] for t in FINAL["task_list"]})[0]
+final_by_t = {}
+for t in FINAL["task_list"]:
+    final_by_t.setdefault(t["template"], []).append(t)
+TITLES = {s["template"]: s["title"] for s in SETS}
+final_sets = []
+for tpl, ts in final_by_t.items():
+    ids = {t["task_id"] for t in ts}
+    rr = [r for r in FINAL["rows"] if r["task_id"] in ids]
+    final_sets.append({"title": TITLES.get(tpl, tpl), "template": tpl, "version": FINAL["version"], "keep": None,
+                       "score": {m: sum(r["correct"] == "1" for r in rr if r["model"] == m) for m in (HAIKU, LUNA)},
+                       "n": {m: sum(1 for r in rr if r["model"] == m) for m in (HAIKU, LUNA)}})
+fh, fn = FINAL["score"][HAIKU], FINAL["n"][HAIKU]
+_by = {}
+for r in FINAL["rows"]:
+    _by.setdefault(r["task_id"], {})[r["model"]] = r["parsed"]
+cross_facts = "; ".join(f"{t['answer']} became {_by[t['task_id']][HAIKU]} and {_by[t['task_id']][LUNA]}"
+                        for t in final_by_t.get("crossings", [])
+                        if all(_by[t["task_id"]][m] != str(t["answer"]) for m in (HAIKU, LUNA)))
+flood_miss = flood_decoy = 0
+for t in final_by_t.get("flood", []):
+    decoys = {t["steps"].get("dry_camp_most_directly_below_dam"), t["steps"].get("nearest_campsite_to_dam")}
+    for m in (HAIKU, LUNA):
+        if _by[t["task_id"]][m] != t["answer"]:
+            flood_miss += 1
+            flood_decoy += _by[t["task_id"]][m] in decoys
+fl = FINAL["score"][LUNA]
+
+# few-shot experiment (results/extra/fewshot): the results table, read from its summary
+fs_cfg = json.loads(show("results/extra/fewshot/run_config.json"))
+fs_rows, in_fs = [], False
+for line in show("results/extra/fewshot/summary.md").splitlines():
+    if line.startswith("| Mission | Model | Zero-shot"):
+        in_fs = True
+        continue
+    if in_fs:
+        if not line.startswith("|"):
+            break
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        if not set(cells[0]) <= set("-"):
+            fs_rows.append(cells)
+
+# hand check of the final 10 (results/human/hand_check.md): rows and how many are confirmed by eye
+hc_rows = [l for l in show("results/human/hand_check.md").splitlines() if l.startswith("| topo-")]
+hc_total = len(hc_rows)
+hc_fair = sum(1 for l in hc_rows if l.split("|")[5].strip().lower().startswith("yes"))
+hc_confirmed = sum(1 for l in hc_rows if l.rstrip().rstrip("|").split("|")[-1].strip() not in ("☐", ""))
+has_baseline = (REPO / "results/human/baseline.csv").exists()
+
 th, tn = tot(topo, HAIKU)
 tl, _ = tot(topo, LUNA)
 ph, pn = tot(power, HAIKU)
 pl, _ = tot(power, LUNA)
-cost = sum(s["cfg"]["totals"]["cost_usd_all_calls"] for s in SETS)
-calls = sum(s["cfg"]["totals"]["calls"] for s in SETS)
+cost = sum(s["cfg"]["totals"]["cost_usd_all_calls"] for s in SETS + [FINAL]) + fs_cfg["totals"]["cost_usd_all_calls"]
+calls = sum(s["cfg"]["totals"]["calls"] for s in SETS + [FINAL]) + fs_cfg["totals"]["calls"]
+all_complete = all(s["complete"] for s in SETS + [FINAL])
 
 # ------------------------------------------------------------------------------------------ the funnel
 CHECKS = ["schema", "data_first", "two_solvers", "render_matches_data", "legibility", "answer_not_in_question",
@@ -99,11 +159,12 @@ CHECK_TEXT = {
     "answer_not_in_question": "The question does not give the answer away",
     "reproducible": "Rebuilding from the seed gives byte-identical PNG and data",
 }
-attempted = sum(s["gen"]["attempted"] for s in SETS)
-generated = sum(s["gen"]["kept"] for s in SETS)
-funnel = [(c, sum(s["val"]["cumulative_funnel"][c] for s in SETS)) for c in CHECKS]
-all_passed = sum(s["val"]["all_passed"] for s in SETS)
-evaluated = sum(s["n"][HAIKU] for s in SETS)
+GATED = SETS + [FINAL]
+attempted = sum(s["val"]["generation"]["attempted"] for s in GATED)
+generated = sum(s["val"]["generation"]["kept"] for s in GATED)
+funnel = [(c, sum(s["val"]["cumulative_funnel"][c] for s in GATED)) for c in CHECKS]
+all_passed = sum(s["val"]["all_passed"] for s in GATED)
+evaluated = sum(s["n"][HAIKU] for s in GATED)
 kept_templates = sum(s["keep"] for s in SETS)
 
 # ------------------------------------------------------------------------------------------ examples
@@ -132,7 +193,10 @@ def example(s, prefer_both_wrong=True):
             "haiku": rr[HAIKU], "luna": rr[LUNA], "set": s}
 
 
-examples = [example(s) for s in topo] + [example(next(s for s in power if s["template"] == "dbl"))]
+FINAL_EX = []
+for tpl, ts in final_by_t.items():
+    FINAL_EX.append(dict(FINAL, title=TITLES.get(tpl, tpl), template=tpl, task_list=ts))
+examples = [example(s) for s in FINAL_EX]
 
 # ------------------------------------------------------------------------------------------ spike history
 spike_md = show("results/spikes/README.md")
@@ -158,10 +222,12 @@ def md_inline(s):
 
 
 # ------------------------------------------------------------------------------------------ html pieces
-def bar_chart(sets, label):
-    out = [f'<div class="chart" role="img" aria-label="{esc(label)}">']
-    out.append('<div class="axis-top"><span></span><span class="ax"><b style="left:0">0</b><b style="left:50%">5</b>'
-               '<b style="right:0">10 right</b></span><span></span></div>')
+def bar_chart(sets, label, rule=True):
+    out = [f'<div class="chart{"" if rule else " norule"}" role="img" aria-label="{esc(label)}">']
+    mid = "5" if rule else "half"
+    top = "10 right" if rule else "all right"
+    out.append(f'<div class="axis-top"><span></span><span class="ax"><b style="left:0">0</b><b style="left:50%">{mid}</b>'
+               f'<b style="right:0">{top}</b></span><span></span></div>')
     for s in sets:
         out.append(f'<div class="grp"><div class="grp-label"><span class="cap">{esc(s["title"])}</span>'
                    f'<span class="muted">{esc(s["template"])} · {s["version"]}</span></div><div class="bars">')
@@ -171,11 +237,14 @@ def bar_chart(sets, label):
                        f'<span class="who">{nm}</span><span class="track"><span class="rule5"></span>'
                        f'<span class="bar {cls}" style="width:{100 * k / n:.1f}%"></span></span>'
                        f'<span class="val mono">{k}/{n}</span></div>')
-        verdict = "KEEP" if s["keep"] else "TOO EASY"
-        out.append(f'</div><div class="verdict {"keep" if s["keep"] else "drop"}">{verdict}</div></div>')
+        if s["keep"] is None:
+            out.append(f'</div><div class="verdict final">{s["n"][HAIKU]} TASKS</div></div>')
+        else:
+            verdict = "KEEP" if s["keep"] else "TOO EASY"
+            out.append(f'</div><div class="verdict {"keep" if s["keep"] else "drop"}">{verdict}</div></div>')
+    rule_key = '<span class="key"><i class="rule-key"></i>keep rule: a model at 5/10 or lower</span>' if rule else ""
     out.append('<div class="chart-foot"><span class="key"><i class="sw haiku"></i>Haiku 5.5</span>'
-               '<span class="key"><i class="sw luna"></i>GPT-6 Luna</span>'
-               '<span class="key"><i class="rule-key"></i>keep rule: a model at 5/10 or lower</span></div></div>')
+               f'<span class="key"><i class="sw luna"></i>GPT-6 Luna</span>{rule_key}</div></div>')
     return "\n".join(out)
 
 
@@ -187,6 +256,30 @@ def table(sets):
         f"<td class='mono'>{s['score'][HAIKU]}/{s['n'][HAIKU]}</td><td class='mono'>{s['score'][LUNA]}/{s['n'][LUNA]}</td>"
         f"<td>{'yes' if s['complete'] else 'NO'}</td><td class='mono'>${s['cfg']['totals']['cost_usd_all_calls']:.4f}</td>"
         f"<td>{'keep' if s['keep'] else 'too easy'}</td></tr>" for s in sets)
+    return f"<table class='data'>{head}{body}</table>"
+
+
+def final_table():
+    by = {}
+    for r in FINAL["rows"]:
+        by.setdefault(r["task_id"], {})[r["model"]] = r
+    out = ["<table class='data'><tr><th>Task</th><th>Place</th><th>Computed answer</th><th>Haiku 5.5</th>"
+           "<th>GPT-6 Luna</th></tr>"]
+    for t in FINAL["task_list"]:
+        m = re.search(r"real place \(([^)]+)\)", t["question"])
+        cells = []
+        for mod in (HAIKU, LUNA):
+            r = by[t["task_id"]][mod]
+            ok = r["correct"] == "1"
+            cells.append(f"<td class='mono {'ok' if ok else 'bad'}'>{esc(r['parsed'] or '-')} {'✓' if ok else '✗'}</td>")
+        out.append(f"<tr><td class='mono'>{esc(t['task_id'])}</td><td>{esc(m.group(1) if m else '')}</td>"
+                   f"<td class='mono truthc'>{esc(str(t['answer']))}</td>{''.join(cells)}</tr>")
+    return "".join(out) + "</table>"
+
+
+def fewshot_table():
+    head = "<tr><th>Mission</th><th>Model</th><th>No examples</th><th>2 worked examples</th></tr>"
+    body = "".join("<tr>" + "".join(f"<td>{md_inline(c)}</td>" for c in r[:4]) + "</tr>" for r in fs_rows)
     return f"<table class='data'>{head}{body}</table>"
 
 
@@ -344,7 +437,9 @@ ol.stages {{ list-style:none; padding:0; margin:0; display:grid; grid-template-c
 .bar.luna {{ background:repeating-linear-gradient(135deg, var(--model) 0 3px, #f6d3cc 3px 6px); outline:1.5px solid var(--model); outline-offset:-1.5px; }}
 .val {{ text-align:right; font-size:14px; }}
 .verdict {{ font-size:12px; text-align:center; padding:4px 0; border:1px solid currentColor; margin-left:14px; }}
-.verdict.keep {{ color:var(--truth); }} .verdict.drop {{ color:var(--ink-2); }}
+.verdict.keep {{ color:var(--truth); }} .verdict.drop {{ color:var(--ink-2); }} .verdict.final {{ color:var(--ink-2); border-style:dotted; }}
+.chart.norule .rule5 {{ display:none; }}
+td.ok {{ color:var(--ink-2); }} td.bad {{ color:var(--model); font-weight:600; }} td.truthc {{ color:var(--truth); font-weight:600; }}
 .chart-foot {{ display:flex; gap:22px; flex-wrap:wrap; font:13px "IBM Plex Mono", monospace; color:var(--ink-2); padding-top:10px; border-top:1px solid var(--rule); }}
 .sw {{ display:inline-block; width:14px; height:10px; margin-right:6px; vertical-align:middle; }}
 .sw.haiku {{ background:var(--model); }}
@@ -406,10 +501,10 @@ footer {{ padding:28px 0 60px; font-size:13px; color:var(--ink-2); }}
   <p class="lede">We turn real data into realistic images, ask a question that takes several steps of reasoning,
   compute the answer from the data in code, check every task automatically, and evaluate Claude Haiku 5.5 and GPT-6 Luna, the two models the organizers set, on it.</p>
   <div class="stats">
-    <div class="stat"><div class="n red">{th}/{tn}</div><div class="l">Claude Haiku 5.5 right on the topo pilot (3 templates × 10 seeds)</div></div>
-    <div class="stat"><div class="n red">{tl}/{tn}</div><div class="l">GPT-6 Luna right on the same tasks</div></div>
-    <div class="stat"><div class="n blue">{all_passed}/{generated}</div><div class="l">pilot tasks that passed all 7 automatic checks</div></div>
-    <div class="stat"><div class="n">${cost:.2f}</div><div class="l">total model cost for these {calls} evaluation calls</div></div>
+    <div class="stat"><div class="n red">{fh}/{fn}</div><div class="l">Claude Haiku 5.5 right on our final {fn} tasks</div></div>
+    <div class="stat"><div class="n red">{fl}/{fn}</div><div class="l">GPT-6 Luna right on the same final tasks</div></div>
+    <div class="stat"><div class="n blue">{FINAL['val']['all_passed']}/{FINAL['val']['checked']}</div><div class="l">final tasks that passed all 7 automatic checks</div></div>
+    <div class="stat"><div class="n">${cost:.2f}</div><div class="l">model cost for all {calls} calls on this page (final, pilots, few-shot test)</div></div>
   </div>
 </header>
 
@@ -435,16 +530,40 @@ footer {{ padding:28px 0 60px; font-size:13px; color:var(--ink-2); }}
 
 <section id="funnel">
   <h2>Quality gates</h2><h3>What survived each check</h3>
-  <p class="beat">All {len(SETS)} pilot sets ({len(topo)} topo, {len(power)} power), counted from the validator's own reports.</p>
+  <p class="beat">The final set plus all {len(SETS)} pilot sets ({len(topo)} topo, {len(power)} power), counted from the validator's own reports.</p>
   {funnel_html}
   <p class="muted" style="margin-top:14px">Draws that break a fairness rule (labels overlapping, solvers disagreeing,
   a trail running along a contour) are thrown away inside the generator before a task is written, so they don't show
   up as rejected seeds here.</p>
 </section>
 
+<section id="final">
+  <h2>Final results</h2><h3>The final {fn}: Haiku {fh}/{fn}, Luna {fl}/{fn}</h3>
+  <p class="beat">Fresh seeds ({min(t['seed'] for t in FINAL['task_list'])} and up, never used in a pilot), every one through all 7 checks, then both models once.</p>
+  {bar_chart(final_sets, "Final set: correct answers per mission for Haiku and Luna", rule=False)}
+  {final_table()}
+  <p>On the trail missions both models <strong>undercount crossings</strong> (where both missed: {cross_facts}). On the
+  floods, {flood_decoy} of {flood_miss} wrong answers name a <strong>planted decoy</strong> (the camp nearest the dam or
+  the dry camp most directly below it). Every reply finished normally
+  ({'none cut off' if FINAL['complete'] else 'SOME INCOMPLETE'}); the run cost ${FINAL['cfg']['totals']['cost_usd_all_calls']:.4f}
+  for {FINAL['cfg']['totals']['calls']} calls.
+  <strong>Hand check:</strong> {hc_fair} of {hc_total} final tasks judged visible, unique and fair in
+  <code>results/human/hand_check.md</code> (pre-checked by an agent against the overlays; confirmed by eye: {hc_confirmed} of {hc_total} so far).</p>
+</section>
+
+<section id="fewshot">
+  <h2>Can prompting fix it?</h2><h3>Two worked examples didn't help</h3>
+  <p class="beat">If showing the model our step-by-step solutions fixed it, nobody would need the data.</p>
+  {fewshot_table()}
+  <p>Per mission, seeds 0 and 1 of the pilot were the worked examples and seeds 2 to 9 the test tasks, with the same
+  eval settings ({fs_cfg['totals']['calls']} calls, ${fs_cfg['totals']['cost_usd_all_calls']:.4f}). Luna copied the
+  examples' answers; Haiku copied the solution layout and still estimated. With 8 tasks per cell this rules out a big
+  effect, not a small one (<code>results/extra/fewshot/summary.md</code>).</p>
+</section>
+
 <section id="results">
-  <h2>Results</h2><h3>Topo maps break both models</h3>
-  <p class="beat">Real terrain, real places. The models read every label and do the arithmetic, then lose count tracing a line through the contours.</p>
+  <h2>Pilots</h2><h3>How we chose which missions to keep</h3>
+  <p class="beat">10 seeds per mission on both models. A mission stays only if it stays hard.</p>
   {bar_chart(topo, "Topo pilot: correct answers out of 10 per template for Haiku and Luna")}
   <h3 style="margin-top:40px">Power diagrams: hard in the spike, too easy once the wording was fair</h3>
   <p>The single-line diagram family scored {ph}/{pn} (Haiku) and {pl}/{pn} (Luna) on its current pilot. With
@@ -456,7 +575,7 @@ footer {{ padding:28px 0 60px; font-size:13px; color:var(--ink-2); }}
 </section>
 
 <section id="examples">
-  <h2>Look inside</h2><h3>Real tasks, real misses</h3>
+  <h2>Look inside</h2><h3>Final tasks, real misses</h3>
   <p class="beat">This is what the AI sees. Press "Show the truth overlay" to see what the code knows.</p>
   {''.join(example_html(e, i) for i, e in enumerate(examples))}
 </section>
@@ -478,13 +597,13 @@ footer {{ padding:28px 0 60px; font-size:13px; color:var(--ink-2); }}
     <li><strong>Pixels match data.</strong> Probes check that the picture shows what the data says (a contour's colour, a breaker's symbol).</li>
     <li><strong>Byte-identical rebuilds.</strong> Same seed, same PNG and data, checked by SHA-256.</li>
     <li><strong>One fixed eval.</strong> Temperature 0, reasoning effort high, max 64,000 tokens, identical prompt for both models,
-      replies cached and logged raw. Every reply in these pilots finished normally (none cut off).</li>
+      replies cached and logged raw. {'Every reply in the final run and the pilots finished normally (none cut off).' if all_complete else 'Some replies did not finish normally; see responses.csv.'}</li>
   </ul>
   <ul class="honest">
-    <li><strong>Where it's weak (said out loud).</strong> Pilots are 10 seeds per template. Topo uses four real places, so hills repeat.
+    <li><strong>Where it's weak (said out loud).</strong> The final set is {fn} tasks and pilots are 10 seeds per template: enough to show the gap, not for tight error bars. Topo uses four real places, so hills repeat.
       Flood has 6 camps, so guessing gets about 1 in 6.</li>
     <li><strong>Sunset.</strong> On real slopes most trails climb one way, so the uphill count often equals the total count.</li>
-    <li><strong>Fairness.</strong> A human baseline (a teammate solving tasks from the image only, timed) is in progress.</li>
+    <li><strong>Fairness.</strong> Hand check: {hc_fair} of {hc_total} final tasks judged fair, {hc_confirmed} confirmed by eye so far. {'A timed human baseline is in <code>results/human/baseline.csv</code>.' if has_baseline else 'The timed human baseline is not in the repo yet.'}</li>
     <li><strong>Power.</strong> Not yet hard enough to keep; we show it as a negative result.</li>
   </ul></div>
 </section>
@@ -502,7 +621,7 @@ uv run python -m factory fresh    --seed 7 --show</pre>
 </section>
 
 <footer>Generated by <code>explainer/build.py</code> from commit {commit}. Sources:
-{', '.join(f'<code>{s["results"]}/</code>' for s in SETS)}, <code>results/spikes/README.md</code>. Pilot numbers, not the final evaluation.</footer>
+{', '.join(f'<code>{s["results"]}/</code>' for s in SETS)}, <code>results/spikes/README.md</code>. results/final/, results/extra/fewshot/, results/human/hand_check.md.</footer>
 </div>
 <script>
 const tip = document.getElementById('tip');
