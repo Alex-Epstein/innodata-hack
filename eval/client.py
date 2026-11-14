@@ -47,7 +47,7 @@ def api_key() -> str:
     key = os.environ.get("OPENROUTER_API_KEY", "").strip()
     env_file = ROOT / ".env"
     if not key and env_file.exists():
-        for line in env_file.read_text().splitlines():
+        for line in env_file.read_text(encoding="utf-8").splitlines():
             if line.startswith("OPENROUTER_API_KEY="):
                 key = line.split("=", 1)[1].strip().strip("\"'")
     if not key:
@@ -84,7 +84,7 @@ def call(model: str, prompt: str, image_path=None, *, settings: dict | None = No
     mock = os.environ.get("MOCK") == "1"
     path = cache_dir() / f"{key}.json"
     if use_cache and not mock and path.exists():
-        rec = json.loads(path.read_text())
+        rec = json.loads(path.read_text(encoding="utf-8"))
         rec["cached"] = True
         return rec
 
@@ -115,7 +115,7 @@ def call(model: str, prompt: str, image_path=None, *, settings: dict | None = No
     if use_cache:
         path.parent.mkdir(parents=True, exist_ok=True)
         tmp = path.with_suffix(f".{os.getpid()}.{random.randrange(1 << 30)}.tmp")
-        tmp.write_text(json.dumps(rec, ensure_ascii=False, indent=1))
+        tmp.write_text(json.dumps(rec, ensure_ascii=False, indent=1), encoding="utf-8")
         os.replace(tmp, path)                        # atomic, safe with several threads
     return rec
 

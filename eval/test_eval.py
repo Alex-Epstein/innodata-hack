@@ -99,18 +99,18 @@ class ClientTest(unittest.TestCase):
             self.assertNotEqual(base, client.cache_key(*other))
 
     def test_second_call_comes_from_cache_and_no_secret_or_image_is_stored(self):
-        good = {"choices": [{"finish_reason": "stop", "message": {"content": "FINAL ANSWER: 4"}}],
-                "usage": {"cost": 0.004}}
+        good = {"choices": [{"finish_reason": "stop", "message": {"content": "A → B, 12 Ω\nFINAL ANSWER: 4"}}],
+                "usage": {"cost": 0.004}}     # non-ASCII on purpose: the cache must be UTF-8 on every OS (#27)
         with mock.patch.object(client, "_post_with_retries", return_value=(good, [{"attempt": 1}])) as post:
             first = client.call("m", "prompt", self.img)
             second = client.call("m", "prompt", self.img)
         self.assertEqual(post.call_count, 1)
         self.assertFalse(first["cached"])
         self.assertTrue(second["cached"])
-        self.assertEqual(client.reply(second)["text"], "FINAL ANSWER: 4")
+        self.assertEqual(client.reply(second)["text"], "A → B, 12 Ω\nFINAL ANSWER: 4")
         sent = post.call_args.args[0]
         self.assertEqual((sent["temperature"], sent["reasoning"], sent["max_tokens"]), (0, {"effort": "high"}, client.SETTINGS["max_tokens"]))
-        stored = next((Path(self.tmp.name) / "cache").glob("*.json")).read_text()
+        stored = next((Path(self.tmp.name) / "cache").glob("*.json")).read_text(encoding="utf-8")
         self.assertNotIn("test-key", stored)
         self.assertNotIn("base64", stored)
 
@@ -160,7 +160,7 @@ class RunTest(unittest.TestCase):
             (tasks_dir / "images").mkdir(parents=True)
             (tasks_dir / "images" / "t.png").write_bytes(PNG)
             tasks = [task("mock", "label"), {**task(["L3", "L4"], "sequence"), "task_id": "t-000002"}]
-            (tasks_dir / "tasks.jsonl").write_text("\n".join(json.dumps(t) for t in tasks) + "\n")
+            (tasks_dir / "tasks.jsonl").write_text("\n".join(json.dumps(t) for t in tasks) + "\n", encoding="utf-8")
             with mock.patch.dict(os.environ, {"MOCK": "1", "EVAL_CACHE_DIR": str(Path(d) / "cache")}):
                 summary = run.evaluate(tasks_dir, out)
             with open(out / "responses.csv", newline="", encoding="utf-8") as f:
@@ -171,7 +171,7 @@ class RunTest(unittest.TestCase):
             self.assertEqual([r["correct"] for r in rows], ["1", "1", "0", "0"])
             self.assertEqual(rows[2]["ref_answer"], '["L3", "L4"]')
             self.assertEqual(len(list((out / "raw").glob("*.json"))), 4)
-            cfg = json.loads((out / "run_config.json").read_text())
+            cfg = json.loads((out / "run_config.json").read_text(encoding="utf-8"))
             self.assertEqual((cfg["temperature"], cfg["max_tokens"]), (0, client.SETTINGS["max_tokens"]))
             self.assertIn("FINAL ANSWER", cfg["prompt_template"])
             self.assertEqual(summary["by_model"][client.MODELS[0]]["correct"], 1)
