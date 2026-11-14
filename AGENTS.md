@@ -14,6 +14,22 @@
 >
 > Check who you're working for with `git config user.name` / `gh api user --jq .login`. If unsure, assume you are a ticket-taker.
 
+## ▶ Start here (first session, ~5 minutes)
+1. **Setup check** (fix anything missing, tell your user what you did):
+   - `gh auth status` works (scripts use the `gh` CLI). If not: your user runs `gh auth login`.
+   - `uv --version` and `docker info` work.
+   - `.env` exists at the repo root with `OPENROUTER_API_KEY=` and `ANTHROPIC_API_KEY=` filled in. The keys come from
+     Alex in the team chat, never from the repo. Never print, log or commit them.
+2. Run **`scripts/catchup`**: it tells you who you're working for, the current plan, open directives, the live log and open issues.
+3. Read `docs/BRIEFING.md` ("Now") and the issue your user is on. Skim `docs/BRIEF.md` (the organizers' rules) and
+   `contracts/SCHEMA.md` (file formats) before writing code.
+4. **No ticket yet?** List open issues with no "claim" comment (`gh issue list --repo Alex-Epstein/innodata-hack`),
+   recommend one to your user based on their skills, and once they agree, comment `claim (<their GitHub name>)` on it.
+5. Work loop: branch `<area>/<topic>` → small commits inside the issue's folder → `scripts/log "..."` at each
+   milestone → PR (template) with a `status/` line → squash-merge once it meets the issue's "Done when".
+6. Stuck for more than 10 minutes, or need another folder changed? Comment on the issue, add the `blocked` or
+   `request` label, and `scripts/log` it. Don't work around it in someone else's folder.
+
 **What we're building:** a pipeline that renders realistic images from structured data, asks a question that needs
 real reasoning, computes the answer from the same data in code, checks every task automatically, and evaluates
 `anthropic/claude-haiku-5.5` and `openai/gpt-6-luna` on them. The idea (which image family) is being picked now:
@@ -68,7 +84,7 @@ to take one. Branch `<area>/<topic>`, PR with the template, status line, squash-
 `scripts/check` passes.
 
 ## Read next
-`docs/BRIEFING.md` (now) · `docs/BRIEF.md` (organizer requirements) · `contracts/SCHEMA.md` (formats) ·
+`docs/ONBOARDING.md` (paste prompt for teammates) · `docs/BRIEFING.md` (now) · `docs/BRIEF.md` (organizer requirements) · `contracts/SCHEMA.md` (formats) ·
 `docs/ARCHITECTURE.md` · `docs/IDEATION.md` · `docs/DECISIONS.md` · `docs/EVIDENCE.md` (numbers) ·
 `docs/context/` (everything from before: kickoff talk, game plan, idea bank, process playbook, history) ·
 `docs/organizer/` (kickoff slides, slide template, full visual brief) · `tools/track2-format-check/`
