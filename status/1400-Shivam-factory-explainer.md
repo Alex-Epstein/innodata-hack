@@ -1,0 +1,1 @@
+done: explainer/ page (build.py + index.html) explaining the factory stations, check funnel, pilot scores per template and real misses, all numbers read from results/ and tasks/. next: rebuild after the final eval. blocked: none
