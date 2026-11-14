@@ -1,0 +1,1 @@
+done: calendar spike rerun at max_tokens 32000 via eval/client.py; luna 9/9, haiku 5 right, 2 wrong, 2 cut off; 5 of 18 results changed vs the 16000 run (results/spikes/calendar_32k/summary.md). next: decide max_tokens and tasks per level for pilot 1. blocked: none

@@ -1,0 +1,99 @@
+{
+ "key": "1500f7f24806ed4a3520f5d0b248685390ed0d6d19f74675dab6bf7a0d809f50",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This image shows the calendars of Daniel Park, Aisha Khan and Tom Becker for one work week (Mon to Fri, 8:00 to 18:00). What is the earliest time when all of them are free for 30 consecutive minutes? Think step by step, then end your reply with a final line exactly in the form `FINAL ANSWER: <Day> <HH:MM>` (for example `FINAL ANSWER: Tue 13:30`)."
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "L1_s3.png",
+       "sha256": "d3377ae17fed24fd4a91860446b487db7f8c8710d25c97f1a67ba5f4148486e6"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794672296-18TDRgABM0gEC8u4sGO0",
+  "object": "chat.completion",
+  "created": 1794672296,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Step 1: Monday 16 busy times**\n\n- **Daniel:** Customer demo 10:15–10:45, Interview 11:45–12:15, 1:1 with Aisha 12:15–13:15, Code review 16:00–17:00.\n- **Aisha:** Hiring sync 8:00–8:30, 1:1 with Tom 10:00–10:30, Dentist 10:45–11:45, Hiring sync 12:30–13:00, Design review 13:45–14:15, Training 16:00–16:30, Offsite prep 16:30–17:15, Team lunch 17:15–17:45.\n- **Tom:** 1:1 with Daniel 8:30–8:45, Roadmap review 9:00–9:30, Training 9:30–10:00, Vendor call 12:00–12:15, 1:1 with Daniel 13:15–13:30, 1:1 with Daniel 14:15–14:45, 1:1 with Aisha 15:45–16:15, Design review 16:15–16:30, 1:1 with Daniel 16:30–17:00, Interview 17:30–18:00.\n\n**Step 2: Check Monday for a common 30-minute gap, from earliest to latest**\n\n- **Before 10:00:** Tom's free gaps are only 8:00–8:30 (Aisha busy) and 8:45–9:00 (too short). No match.\n- **10:00–12:00:** Daniel is busy 10:15–10:45, and Aisha is busy 10:45–11:45. Aisha's only free stretch here, 10:30–10:45, overlaps Daniel's busy block. No match.\n- **12:00–13:15:** Daniel is busy from 11:45 to 13:15. No match.\n- **13:15–14:15:** Daniel is free 13:15–16:00 and Aisha is free 13:00–13:45. Tom is free 13:30–14:15. The overlap is 13:30–13:45, only 15 minutes. No match.\n- **14:45 onward:** Tom is free 14:45–15:45. Daniel is free 13:15–16:00 and Aisha is free 14:15–16:00. All three are free 14:45–15:15, which is 30 minutes.\n\nMonday comes before Tuesday, and Monday 14:45 is the first slot that works. (Tuesday 9:45 also works, but it is later in the week.)\n\nFINAL ANSWER: Mon 14:45",
+     "refusal": null,
+     "reasoning": "I'm looking for the earliest half-hour slot between 8:00 and 18:00, Monday through Friday, when all three of them are free. I'm starting by listing each person's busy blocks for Monday, beginning with Daniel's customer demo, interview, 1:1 with Aisha, and code review, and Aisha's hiring sync and 1:1 with Tom.\n\nI'm now working through Aisha's and Tom's busy blocks on Monday, mainly around their late-morning and early-afternoon meetings. The 10:00 to 12:00 stretch looks like a possible window for Tom, but Aisha has a dentist appointment and a hiring sync that break it up.\n\nI'm moving past Monday now, since Daniel is busy during the only window where Aisha and Tom overlap, so nothing works that morning. Tuesday's blocks are the next thing to check: Daniel's board prep and partner call, Aisha's dentist appointment and her afternoon 1:1s, and Tom's dentist visit, offsite prep, and all hands.\n\nI'm checking Tuesday, and 9:45 to 10:15 looks like it works: Daniel is free once his board prep ends, Aisha is free from 9:00 to 14:30, and Tom has nothing until his dentist visit at 10:15. That gives a full half hour when all three are available.\n\nI'm checking whether Monday morning could beat Tuesday's 9:45 slot, and it can't: Aisha is busy until 8:30 and again from 9:00 to 10:00 is blocked for Tom, so no 30-minute stretch lines up before 10:00. Between 10:00 and 10:15 Daniel's demo breaks the overlap I'd need, so Monday fails there too.\n\nI'm still checking Monday after 10:30 and find that Daniel and Aisha have no shared window there, since Aisha's 10:45 to 11:45 block overlaps everything Daniel could do. Tuesday's 9:45 slot comes before any Monday candidate that survives, but I need to confirm no Monday slot works at all before settling on it.\n\nI'm checking the Monday late morning and noon stretch next. Tom is free from 10:00 to 12:00, but Daniel's demo and Aisha's dentist appointment block any overlap, and Daniel's 1:1 with Aisha starts at 12:15, so no shared window appears there either.\n\nI'm checking Monday afternoon now, and Daniel, Aisha, and Tom all look free together from 14:45 to 15:45, which makes Monday at 14:45 a candidate that comes before Tuesday's 9:45 slot.\n\nI'm still going through Monday's afternoon and early evening, comparing Aisha's and Tom's free time against Daniel's. Monday's 13:30 to 13:45 overlap is only 15 minutes, so it doesn't qualify, and Aisha's late-morning gap is too narrow once Daniel's 1:1 starts.\n\nI'm ruling out Monday's early morning, since Tom and Aisha only share 8:45 to 9:00, which is too short. That leaves Monday at 14:45 as the first candidate, and I need to confirm nothing earlier that day works.\n\nI'm confirming that Monday comes before Tuesday, so Monday 14:45 is the earliest candidate. Daniel, Aisha, and Tom all look free from 14:45 to 15:15, and Tom's 1:1 with Daniel ends at 14:45 just as his next block starts at 15:45.\n\nI'm checking the afternoon window on Monday: Tom's free stretch from 13:30 to 14:15 only overlaps with Daniel and Aisha for about 15 minutes, and Aisha is in a meeting from 13:45 to 14:15, so nothing earlier works. That leaves Monday at 14:45 as the earliest slot.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm looking for the earliest half-hour slot between 8:00 and 18:00, Monday through Friday, when all three of them are free. I'm starting by listing each person's busy blocks for Monday, beginning with Daniel's customer demo, interview, 1:1 with Aisha, and code review, and Aisha's hiring sync and 1:1 with Tom.\n\nI'm now working through Aisha's and Tom's busy blocks on Monday, mainly around their late-morning and early-afternoon meetings. The 10:00 to 12:00 stretch looks like a possible window for Tom, but Aisha has a dentist appointment and a hiring sync that break it up.\n\nI'm moving past Monday now, since Daniel is busy during the only window where Aisha and Tom overlap, so nothing works that morning. Tuesday's blocks are the next thing to check: Daniel's board prep and partner call, Aisha's dentist appointment and her afternoon 1:1s, and Tom's dentist visit, offsite prep, and all hands.\n\nI'm checking Tuesday, and 9:45 to 10:15 looks like it works: Daniel is free once his board prep ends, Aisha is free from 9:00 to 14:30, and Tom has nothing until his dentist visit at 10:15. That gives a full half hour when all three are available.\n\nI'm checking whether Monday morning could beat Tuesday's 9:45 slot, and it can't: Aisha is busy until 8:30 and again from 9:00 to 10:00 is blocked for Tom, so no 30-minute stretch lines up before 10:00. Between 10:00 and 10:15 Daniel's demo breaks the overlap I'd need, so Monday fails there too.\n\nI'm still checking Monday after 10:30 and find that Daniel and Aisha have no shared window there, since Aisha's 10:45 to 11:45 block overlaps everything Daniel could do. Tuesday's 9:45 slot comes before any Monday candidate that survives, but I need to confirm no Monday slot works at all before settling on it.\n\nI'm checking the Monday late morning and noon stretch next. Tom is free from 10:00 to 12:00, but Daniel's demo and Aisha's dentist appointment block any overlap, and Daniel's 1:1 with Aisha starts at 12:15, so no shared window appears there either.\n\nI'm checking Monday afternoon now, and Daniel, Aisha, and Tom all look free together from 14:45 to 15:45, which makes Monday at 14:45 a candidate that comes before Tuesday's 9:45 slot.\n\nI'm still going through Monday's afternoon and early evening, comparing Aisha's and Tom's free time against Daniel's. Monday's 13:30 to 13:45 overlap is only 15 minutes, so it doesn't qualify, and Aisha's late-morning gap is too narrow once Daniel's 1:1 starts.\n\nI'm ruling out Monday's early morning, since Tom and Aisha only share 8:45 to 9:00, which is too short. That leaves Monday at 14:45 as the first candidate, and I need to confirm nothing earlier that day works.\n\nI'm confirming that Monday comes before Tuesday, so Monday 14:45 is the earliest candidate. Daniel, Aisha, and Tom all look free from 14:45 to 15:15, and Tom's 1:1 with Daniel ends at 14:45 just as his next block starts at 15:45.\n\nI'm checking the afternoon window on Monday: Tom's free stretch from 13:30 to 14:15 only overlaps with Daniel and Aisha for about 15 minutes, and Aisha is in a meeting from 13:45 to 14:15, so nothing earlier works. That leaves Monday at 14:45 as the earliest slot.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "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.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2245,
+   "completion_tokens": 3816,
+   "total_tokens": 6061,
+   "cost": 0.0021325,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0021325,
+    "upstream_inference_prompt_cost": 0.0002245,
+    "upstream_inference_completions_cost": 0.001908
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 3010,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 15.31,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:04:56+00:00"
+}

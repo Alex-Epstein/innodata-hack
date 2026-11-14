@@ -1,0 +1,99 @@
+{
+ "key": "ac1604a31edf094bd2f9db8fcc88c7726206076c530b7eba13d686ece2cfd26f",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This image shows the calendars of Aisha Khan, Priya Shah and Daniel Park for one work week (Mon to Fri, 8:00 to 18:00). What is the earliest time when all of them are free for 30 consecutive minutes? Think step by step, then end your reply with a final line exactly in the form `FINAL ANSWER: <Day> <HH:MM>` (for example `FINAL ANSWER: Tue 13:30`)."
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "L1_s2.png",
+       "sha256": "eb724e63255be5d7a71271c93b63b2ae5203ee337fdd992993d2b1732ef763ea"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794672284-glRnaeUZAz8K4nBrAULo",
+  "object": "chat.completion",
+  "created": 1794672284,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "## Step-by-step search\n\nI checked each day in order, looking for a 30-minute window where all three calendars are free.\n\n**Monday 16:** Aisha, Priya and Daniel are never free together for 30 minutes. The closest overlaps are 10:00–10:15 (only 15 min), 12:00–12:30 (Daniel is busy from 12:00), 14:30–15:00 (Daniel is busy from 14:15), and 16:30–16:45 (only 15 min).\n\n**Tuesday 17:** The first common window is 14:30–15:00. Before that, Aisha's 1:1 with Priya blocks 8:45–9:15, and the only overlaps around 9:30–10:45 are 15 minutes or are blocked by Daniel's Data sync at 10:15.\n\n**Wednesday 18:**\n- Aisha: Vendor call 8:00–9:30, then free until Team lunch at 15:30.\n- Priya: free until her 1:1 with Daniel at 11:15.\n- Daniel: free until his 1:1 with Priya at 10:30.\n\nThe window 9:30–10:30 is clear for all three, so 9:30–10:00 is the first 30-minute slot.\n\nSince Monday and Tuesday have no earlier common slot, Wednesday 9:30 is the earliest time.\n\nFINAL ANSWER: Wed 09:30",
+     "refusal": null,
+     "reasoning": "I need the earliest 30-minute slot where all three are free between 8:00 and 18:00, so I'm going through each person's busy blocks for Monday, starting with Aisha's calendar.\n\nNow I'm checking Priya's and Daniel's busy blocks against the open windows, which are where the candidate slots could be.\n\nPriya's free window is too short before 11:00 to fit a 30-minute slot, and after lunch Aisha's calendar blocks the only time Priya and Daniel are both free. I'm now checking the afternoon, where Priya seems free from 15:15 onward while Aisha is still busy until 16:15.\n\nNow I'm checking Monday's leftover gaps and ruling it out, since the only overlap for all three is 15 minutes. I'm moving on to Tuesday and listing each person's busy blocks, starting with Aisha's and Priya's.\n\nNext I'm checking Tuesday's calendars for the same kind of overlap, and it looks like Priya and Daniel only share a gap around 10:15 to 10:45 that Aisha doesn't have.\n\nI'm checking Tuesday's gaps for a 30-minute window where all three are free, and Priya's 9:30 to 9:45 stretch is only 15 minutes, so it doesn't fit. I'm now looking at whether Daniel's earlier opening lines up with Aisha's and Priya's free time around 9:15 to 9:45.\n\nTuesday's stretch from 14:30 onward looks promising, since Aisha is free and Priya is free until her 15:00 block. I'm checking whether Daniel's 15:45 busy time leaves a usable window with them.\n\nI'm reconsidering Tuesday's 14:30 to 15:00 window, where Aisha's vendor call has just ended and Priya's sprint planning hasn't started, which would give a full 30 minutes. Before settling on it, I want to recheck Monday's gaps and see whether anything earlier works.\n\nI'm going back through Monday's free windows for each person, and comparing Aisha's with Priya's, the only overlap I can find is a 15-minute stretch around 10:00 to 10:15.\n\nI'm ruling out the rest of Monday: the Aisha–Priya overlaps that remain either fall inside Daniel's busy blocks or come to only 15 minutes. Next I'll check Tuesday's early hours to see whether any 30-minute window opens before the 14:30 slot.\n\nNow I'm checking Aisha's and Priya's free windows on Tuesday morning, where 8:45 to 9:15 looks like a possible overlap, and I'm seeing whether Daniel's availability covers it too.\n\nI'm rechecking Tuesday morning, where Priya looks free from 8:45 to 9:15, but Aisha's 1:1 with Priya seems to cover that same stretch, so the overlap I thought I had may not be real.\n\nI'm ruling out Tuesday's 10:15–10:45 window too, since Daniel's 10:15 block cuts it to 15 minutes, which leaves 14:30 as the earliest slot. Now I'm moving on to Wednesday and starting with Aisha's and Priya's busy blocks.\n\nWednesday looks promising: Aisha is free from 9:30 and Daniel is free until 10:30, and Priya has no blocks before 11:15, so 9:30 to 10:00 could work for all three.\n\nI'm ruling out Monday and Tuesday before 14:30, since every overlap there is either 15 minutes or blocked by someone's meeting. Wednesday morning looks clear for all three: Aisha's vendor call ends around 9:30, Priya has no blocks until 11:15, and Daniel is free until 10:30, so 9:30 to 10:00 works.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I need the earliest 30-minute slot where all three are free between 8:00 and 18:00, so I'm going through each person's busy blocks for Monday, starting with Aisha's calendar.\n\nNow I'm checking Priya's and Daniel's busy blocks against the open windows, which are where the candidate slots could be.\n\nPriya's free window is too short before 11:00 to fit a 30-minute slot, and after lunch Aisha's calendar blocks the only time Priya and Daniel are both free. I'm now checking the afternoon, where Priya seems free from 15:15 onward while Aisha is still busy until 16:15.\n\nNow I'm checking Monday's leftover gaps and ruling it out, since the only overlap for all three is 15 minutes. I'm moving on to Tuesday and listing each person's busy blocks, starting with Aisha's and Priya's.\n\nNext I'm checking Tuesday's calendars for the same kind of overlap, and it looks like Priya and Daniel only share a gap around 10:15 to 10:45 that Aisha doesn't have.\n\nI'm checking Tuesday's gaps for a 30-minute window where all three are free, and Priya's 9:30 to 9:45 stretch is only 15 minutes, so it doesn't fit. I'm now looking at whether Daniel's earlier opening lines up with Aisha's and Priya's free time around 9:15 to 9:45.\n\nTuesday's stretch from 14:30 onward looks promising, since Aisha is free and Priya is free until her 15:00 block. I'm checking whether Daniel's 15:45 busy time leaves a usable window with them.\n\nI'm reconsidering Tuesday's 14:30 to 15:00 window, where Aisha's vendor call has just ended and Priya's sprint planning hasn't started, which would give a full 30 minutes. Before settling on it, I want to recheck Monday's gaps and see whether anything earlier works.\n\nI'm going back through Monday's free windows for each person, and comparing Aisha's with Priya's, the only overlap I can find is a 15-minute stretch around 10:00 to 10:15.\n\nI'm ruling out the rest of Monday: the Aisha–Priya overlaps that remain either fall inside Daniel's busy blocks or come to only 15 minutes. Next I'll check Tuesday's early hours to see whether any 30-minute window opens before the 14:30 slot.\n\nNow I'm checking Aisha's and Priya's free windows on Tuesday morning, where 8:45 to 9:15 looks like a possible overlap, and I'm seeing whether Daniel's availability covers it too.\n\nI'm rechecking Tuesday morning, where Priya looks free from 8:45 to 9:15, but Aisha's 1:1 with Priya seems to cover that same stretch, so the overlap I thought I had may not be real.\n\nI'm ruling out Tuesday's 10:15–10:45 window too, since Daniel's 10:15 block cuts it to 15 minutes, which leaves 14:30 as the earliest slot. Now I'm moving on to Wednesday and starting with Aisha's and Priya's busy blocks.\n\nWednesday looks promising: Aisha is free from 9:30 and Daniel is free until 10:30, and Priya has no blocks before 11:15, so 9:30 to 10:00 could work for all three.\n\nI'm ruling out Monday and Tuesday before 14:30, since every overlap there is either 15 minutes or blocked by someone's meeting. Wednesday morning looks clear for all three: Aisha's vendor call ends around 9:30, Priya has no blocks until 11:15, and Daniel is free until 10:30, so 9:30 to 10:00 works.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "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.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2245,
+   "completion_tokens": 4333,
+   "total_tokens": 6578,
+   "cost": 0.002391,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.002391,
+    "upstream_inference_prompt_cost": 0.0002245,
+    "upstream_inference_completions_cost": 0.0021665
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 3882,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 17.25,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:04:43+00:00"
+}
