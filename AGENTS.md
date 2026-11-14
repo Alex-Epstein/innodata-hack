@@ -1,5 +1,19 @@
 # Innodata Hackathon, Visual Task Factory: read before doing anything (every agent: Claude, Codex, Cursor, Copilot, Gemini)
 
+> ## 👤 Roles: who leads, who takes tickets
+> **Alex Epstein (GitHub `Alex-Epstein`) is the team lead.** Alex and his Claude session plan the work, create and
+> assign issues, send directives, and own `AGENTS.md`, `contracts/`, `docs/DECISIONS.md`, `docs/BRIEFING.md` and
+> `docs/ARCHITECTURE.md`.
+> **Everyone else (`tech-cosmos`, `dl3832`, `WindHurtLZ`, and their agents) takes tickets.** If your user is not
+> Alex, you:
+> 1. work only on an issue your user has claimed (comment "claim"), inside that issue's folder;
+> 2. don't invent new scope, re-plan the project, or edit the lead-owned files above. Propose changes in an issue
+>    labeled `request` (or comment on the discussion issue) and let Alex decide;
+> 3. follow open `directive` issues first;
+> 4. post progress with `scripts/log` and finish with a PR that meets the issue's "Done when".
+>
+> Check who you're working for with `git config user.name` / `gh api user --jq .login`. If unsure, assume you are a ticket-taker.
+
 **What we're building:** a pipeline that renders realistic images from structured data, asks a question that needs
 real reasoning, computes the answer from the same data in code, checks every task automatically, and evaluates
 `anthropic/claude-haiku-5.5` and `openai/gpt-6-luna` on them. The idea (which image family) is being picked now:

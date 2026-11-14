@@ -2,6 +2,9 @@
 # Everything that happened recently: decisions, live log, commits on main, open issues, newest status lines.
 REPO=Alex-Epstein/innodata-hack
 cd "$(dirname "$0")/.." || exit 0
+me=$(gh api user --jq .login 2>/dev/null)
+if [ "$me" = "Alex-Epstein" ]; then echo "👤 You are working for Alex, the TEAM LEAD."; else echo "👤 You are working for ${me:-a teammate}: a TICKET-TAKER. Only work on a claimed issue, in its folder. Alex (Alex-Epstein) leads and decides. See the Roles box in AGENTS.md."; fi
+echo
 echo "== BRIEFING (docs/BRIEFING.md, Now) =="; awk '/^## Now/{f=1;next} /^## /{f=0} f' docs/BRIEFING.md 2>/dev/null
 echo; echo "== OPEN DIRECTIVES (do these first) =="; bash scripts/directives-check
 echo; echo "== Decisions =="; tail -n 8 docs/DECISIONS.md 2>/dev/null

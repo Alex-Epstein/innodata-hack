@@ -1,73 +1,126 @@
-# Architecture (proposed; the team confirms each line, then it moves to DECISIONS.md)
+# Architecture: team discussion (decide by ~11:20)
 
-Most of this doesn't depend on which image family we pick, so it can be locked now and everyone starts in parallel.
-Each decision lists the options, a recommendation and why. **Bold = recommended.**
+Same approach as the idea doc: options and trade-offs are on the page, everyone weighs in, then Alex decides and
+each decision becomes one line in `docs/DECISIONS.md` (after that, nobody re-argues it).
 
-## The pipeline
+**How to weigh in (5 min):** read Part 1, then comment on the **Architecture discussion issue** (https://github.com/Alex-Epstein/innodata-hack/issues/9) with the decision
+numbers, e.g. `D2: B, because ...` or `D5: worried about X`. Silence = OK with the recommendation.
+Part 2 is defaults that stand unless someone objects.
+
+## The pipeline (whatever idea wins)
 
 ```
  seed + difficulty
         │
         ▼
  gen/<family>.sample(seed, difficulty) ──► data JSON (saved first)
-        │
-        ├─► gen/<family>.render(data) ──► PNG  +  layout.json (pixel boxes of every drawn element)
-        ├─► gen/<family>.ask(data, rng) ──► question + question_type
-        └─► gen/<family>.solve(data, question_type) ──► reference answer
-        │
+        ├─► render(data) ──► PNG  + layout.json (pixel boxes of every drawn element)
+        ├─► ask(data, rng) ──► question + question_type
+        └─► solve(data, question_type) ──► reference answer
         ▼
- validate/  ── every check returns (name, pass, detail); a task is kept only if all pass
-   1 schema          fields, types, tolerance stated in the question
-   2 two solvers     validate/solvers/<family>.py recomputes the answer a different way; must match
-   3 unique answer   no ties; nearest wrong answer is outside the tolerance
-   4 render check    sample pixels at layout boxes (right color/shape where data says) + OCR stretch
-   5 legibility      min text height in px, no overlapping text boxes, contrast
-   6 needs the image blind run (question, no image) on both models; flag if it's answered right
-   7 reproducible    re-render from the seed → same SHA-256
-        │
+ validate/  every check → (name, pass, detail); keep a task only if all pass; count the funnel
         ▼
- eval/  ── one client for every model call
-   OpenRouter chat completions · image as base64 · temperature 0 · reasoning effort high · fixed max_tokens
-   disk cache keyed by hash(model, prompt, image hash, settings) · retry 429/5xx/timeouts with backoff
-   parse "FINAL ANSWER: ..." · score per answer_type · write responses.csv, run_config.json, raw/
-        │
+ eval/      one cached OpenRouter client → parse "FINAL ANSWER:" → score → responses.csv, run_config.json, raw/
         ▼
- report  ── README tables, pilot ladder chart, failure gallery (static HTML), funnel counts
+ report     README tables, pilot ladder chart, failure gallery (static HTML), funnel counts
 ```
 
-## Decisions to confirm
+---
 
-| # | Decision | Options | Recommendation | Why |
-|---|---|---|---|---|
-| A1 | Language / env | Python, JS, R | **Python 3.12 + `uv` (pinned `uv.lock`)** | Everyone knows it; matplotlib/numpy/networkx; uv makes Docker installs reproducible |
-| A2 | Rendering | matplotlib Agg · SVG templates → PNG (cairosvg) · HTML + headless browser | **matplotlib Agg** (plus a domain library if the idea needs one, e.g. `schemdraw` for circuits) | Deterministic byte-for-byte with pinned versions and bundled fonts. A browser in Docker is heavy and less deterministic |
-| A3 | Family plugin interface | free-form scripts · one interface | **One interface:** `sample(seed, difficulty) → data`, `render(data, out) → layout`, `ask(data, rng) → (question, qtype, answer_type, tolerance)`, `solve(data, qtype) → answer`, plus `REFERENCES` and `VERSION`. Registered in `gen/__init__.py` | 5 people build in parallel; validate/eval never care which family it is; adding a family is one file |
-| A4 | Randomness | `random` · `numpy` global · per-task generator | **`numpy.random.default_rng(seed)` passed down, nothing global** | Same seed, same task, on any machine |
-| A5 | Determinism of PNGs | trust it · prove it | **Prove it:** pin matplotlib, use its bundled DejaVu fonts, `savefig(..., metadata={"Software": None})`, fixed DPI and size; store SHA-256 per image; `rebuild` command checks hashes | "Rebuild the identical 10 tasks" is a judged requirement; most teams won't prove it |
-| A6 | Answer types | numbers with tolerance · exact (integer, label, sequence) · multiple choice | **Prefer exact** (integer, label like `Wed 10:15`, sequence). Tolerance only where reading a continuous scale is the point. **Avoid multiple choice** | Exact answers are unambiguous to score; multiple choice gives 25% free from guessing |
-| A7 | Answer format in the prompt | free text · JSON · a fixed last line | **Last line `FINAL ANSWER: <answer>`**, with the exact format spelled out (e.g. "a time like Wed 10:15") | Easy to parse, reasoning stays free above it. The parser normalizes case, spaces and units |
-| A8 | Render check depth | none · layout-box pixel sampling · OCR | **Pixel sampling at layout boxes (must have) + text bounding boxes from matplotlib for overlap and min size; OCR (`tesseract`) as stretch** | The brief asks to check the image against the data; pixel sampling is fast and Alex's lane |
-| A9 | "Needs the image" check | heuristic only · blind model run | **Blind run on both models** (cheap: no image tokens), plus a check that the answer string isn't in the question | It's on the kickoff slide's 5-step list |
-| A10 | Model calls | sequential · async with a cap | **Async (`httpx`), max 4 concurrent, disk cache** | Pilots finish in minutes, reruns cost $0 |
-| A11 | Eval settings | | **temperature 0, `reasoning: {effort: "high"}`, max_tokens 16000** (raise if any `length`), request `usage` so cost is logged per call | Required settings; cost per call lets us budget |
-| A12 | Difficulty | per-family ad hoc · shared levels | **`difficulty` 1 to 5 per family, mapped to knob values** (people, tasks, nodes, hops) | Gives the pilot ladder chart and the required "how difficulty changed" story |
-| A13 | Single entry point | scripts per step · one CLI | **`python -m factory <cmd>`:** `generate`, `validate`, `eval`, `report`, `rebuild` (from seeds, hash check), `fresh --seed N` (generate + validate + eval one task, for the demo) | The README's Docker commands and the live demo use the same commands |
-| A14 | Docker | python slim · full | **`python:3.12-slim` + uv sync; ENTRYPOINT `python -m factory`; outputs to a mounted `/out`**; key only via `-e OPENROUTER_API_KEY` | Matches the README requirements the checker looks for |
-| A15 | Final 10 selection | best stumps · fixed rule | **A rule written in DECISIONS.md before the final run** (e.g. first valid seeds at the final difficulty, a fixed split per family) | No cherry-picking accusations; the brief forbids best-of-N on responses |
-| A16 | Demo UI | CLI only · static HTML report · Streamlit | **CLI for `fresh` + one static HTML report** (gallery: image, question, truth, both answers, checks) | No server to break on stage; the HTML is also the failure gallery |
-| A17 | Extras | none · separate | **`results/extra/`** for blind runs, low-vs-high reasoning, one open-weight model, transcription probe | Interesting findings without touching the reported numbers |
+## Part 1: decisions to discuss
 
-## Folder ownership (proposal)
-| Path | Owner | First milestone |
+### D1. How many image families?
+| Option | For | Against |
 |---|---|---|
-| `factory/` (CLI, registry, task schema dataclasses) | Alex | Interface + CLI stubs on main by 10:30 so everyone imports the same thing |
-| `validate/` | Alex | Checks 1, 2, 3, 5, 7 on a hand-made task |
-| `eval/` | teammate | One real call per model with cost logged; cache and parser |
-| `gen/<family_a>/` | teammate | `sample/render/ask/solve` for one task end to end |
-| `gen/<family_b>/` | teammate | same |
-| `Dockerfile`, `README.md`, `report/`, slides | teammate | Docker build + checker passing on a dummy task by 11:00 |
+| A. One family, 4 or 5 question types | Most reliable; everyone polishes one generator; realism can be excellent | Variation (10%) capped; "one trick" risk if models ace it |
+| **B. Two families** | Variation across genuinely different reasoning; still deep; one generator owner each | Two realism bars to clear |
+| C. Three families | Most variation, best story | Three generators in ~3 hours with strangers; likely shallow |
 
-## Open questions (decide with the idea)
-- How many families: 2 deep or 3 shallower? (IDEATION.md section 3)
-- Any domain library needed (schemdraw, networkx)? Pin it.
-- Final split of the 10 tasks across families and question types.
+**Recommendation: B.** Reliability and realism are 40% together; variation is 10%. Two done well beats three done thin.
+**Question for the team:** does the spike data change this (e.g. one family is so hard it carries everything)?
+
+### D2. How do we render?
+| Option | For | Against |
+|---|---|---|
+| **A. matplotlib (Agg)** + a domain library if needed (schemdraw, networkx layouts) | Byte-identical rebuilds are easy; everyone knows it; text boxes available for checks | Takes effort to look like real software |
+| B. SVG templates → PNG (cairosvg) | Pixel-perfect "real software" look; layout control | Font rendering differences across machines; more code |
+| C. HTML/CSS + headless browser | Most realistic UI look (calendars, dashboards) | Heavy Docker image; harder to make deterministic; slow |
+
+**Recommendation: A**, but realism is 20%, so if a spike shows matplotlib can't look real for our family, B is the fallback.
+
+### D3. What kind of answers?
+| Option | For | Against |
+|---|---|---|
+| **A. Exact answers** (integer, a label like `Wed 10:15`, a list) | Unambiguous scoring; no tolerance arguments; a clear fairness story | Questions must be designed so the exact answer is reachable |
+| B. Numbers with a stated tolerance | Natural for reading scales and measurements | Tolerance has to be justified ("a careful human could meet it"); more ways to be called unfair |
+| C. Multiple choice | Easy to parse | 25% free from guessing; weaker difficulty evidence |
+
+**Recommendation: A, with B only where reading a continuous value is the point.**
+
+### D4. How do we prove the image matches the data? (render check, judged under "fair, verifiable")
+| Option | For | Against |
+|---|---|---|
+| A. Layout sidecar: the renderer records where it drew everything; validate samples those pixels | Fast, exact, easy | Not fully independent: the same code drew it and described it |
+| **B. A + independent CV re-detection**: OpenCV finds the elements from the PNG alone (colored blocks, line endpoints, filled vs hollow symbols) and recomputes key facts | Truly independent of the generator; a strong tie-break argument; Alex's CV lane | 30 to 60 min more work per family |
+| C. A + OCR of labels (tesseract) | Proves text is readable as rendered | Adds tesseract to Docker; OCR noise on small fonts gives false fails |
+
+**Recommendation: B** (validity is the tie-break). OCR only if time is left.
+
+### D5. How do we make tasks hard, honestly?
+| Option | For | Against |
+|---|---|---|
+| **A. Difficulty ladder by design**: knobs that add reasoning steps (more people, more breakers, deeper chains); pilot each level; final set uses the hardest level that stays fair | Clean story ("accuracy fell from X to Y as steps went from 2 to 5"); no selection bias | Models might still pass at the top level |
+| B. Adversarial filtering: generate many, keep the ones the models fail | Guarantees "hard" tasks | Selection bias: judges may see it as cherry-picking; can keep tasks that are hard by accident (ambiguous) |
+| C. Failure-driven redesign: read pilot failures, add more of what broke the models (a new question type, a distractor), re-pilot | The "pilot results → generator changes" section writes itself | Needs 2 pilot rounds on the clock |
+
+**Recommendation: A + C.** No filtering on model outcomes for the final 10; the selection rule is fixed before the final run (D7).
+
+### D6. The prompt
+| Option | For | Against |
+|---|---|---|
+| **A. Image + question + "Think step by step, then end with `FINAL ANSWER: <format>`"**, the same for both models | Reasoning stays visible (great for the "why it failed" analysis); trivial to parse | Longer replies, more tokens |
+| B. Answer only, no reasoning | Cheap | We lose the failure analysis; reasoning effort "high" happens anyway |
+
+**Recommendation: A.** Reasoning tokens are where our findings come from.
+
+### D7. Picking the final 10
+| Option | For | Against |
+|---|---|---|
+| **A. A fixed rule, written in DECISIONS.md before the final run** (e.g. seeds 1000 to 1009 at the final settings, alternating families, skipping any that fail validation) | Honest, reproducible, defensible in Q&A | Might include a task both models get right |
+| B. Hand-pick the most interesting ones | Best showcase | Looks like cherry-picking; the brief warns about selective reporting |
+
+**Recommendation: A.** A task the models get right is fine to report; we say so honestly.
+
+### D8. What do we show in the live demo?
+| Option | For | Against |
+|---|---|---|
+| A. CLI only | Nothing to break | Hard for judges to see |
+| **B. CLI `fresh --seed N` + one static HTML report** (image, question, truth, both answers, all checks) | Judges see everything; doubles as the failure gallery; no server | A bit of HTML work |
+| C. Streamlit app with knobs | Most interactive | A server on stage; time sink |
+
+**Recommendation: B.**
+
+### D9. Who owns what? (set after the idea is picked)
+| Path | Owner |
+|---|---|
+| `factory/` (CLI, registry, schemas), `validate/` | Alex |
+| `eval/` | ? |
+| `gen/<family 1>/` | ? |
+| `gen/<family 2>/` | ? |
+| Dockerfile, README, `report/`, slides | ? |
+
+---
+
+## Part 2: defaults (stand unless someone objects)
+| # | Default | Why |
+|---|---|---|
+| E1 | Python 3.12 + `uv`, pinned `uv.lock` | Reproducible installs in Docker |
+| E2 | One plugin interface per family: `sample(seed, difficulty)`, `render(data, out) → layout`, `ask(data, rng)`, `solve(data, qtype)`, plus `REFERENCES`, `VERSION` | Parallel work; validate and eval never care which family it is |
+| E3 | `numpy.random.default_rng(seed)` passed down, nothing global | Same seed, same task everywhere |
+| E4 | Byte-identical PNGs: pinned matplotlib, bundled DejaVu fonts, `metadata={"Software": None}`, fixed size and DPI, SHA-256 stored and checked by `rebuild` | Judges rebuild the 10 tasks |
+| E5 | Validator checks: schema · two independent solvers agree · unique answer (no ties, nearest wrong answer outside tolerance) · render check (D4) · legibility (min text px, no overlaps) · needs the image (blind run on both models) · reproducible hash | One check per line of the organizers' "make it verifiable" slide, plus ours |
+| E6 | Eval: OpenRouter via `httpx`, async, max 4 concurrent, disk cache keyed by hash(model, prompt, image hash, settings), retry 429/5xx/timeouts, temperature 0, `reasoning: {effort: "high"}`, max_tokens 16000 (raise if any `length`), `usage` logged per call | Required settings; cost is tracked |
+| E7 | One CLI: `python -m factory generate | validate | eval | report | rebuild | fresh --seed N` | The README's Docker commands and the demo use the same thing |
+| E8 | Docker: `python:3.12-slim` + uv; ENTRYPOINT `python -m factory`; outputs to a mounted `/out`; key only via `-e OPENROUTER_API_KEY` | What the format checker looks for |
+| E9 | Extras (blind runs, low vs high reasoning, an open-weight model, transcription probe) go in `results/extra/`, never mixed into reported numbers | Interesting findings without touching the required evaluation |
+| E10 | `difficulty` 1 to 5 per family, mapped to knob values | Gives the pilot ladder chart |

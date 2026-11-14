@@ -13,6 +13,8 @@ believable after 15 min of work. Pass all three wins; ties go to the more distin
 In parallel (needed whatever we pick): eval client (#2), factory core + CLI (#6), validate skeleton (#7),
 Docker + README + format checker (#8).
 
+**Architecture:** weigh in on https://github.com/Alex-Epstein/innodata-hack/issues/9 (docs/ARCHITECTURE.md, D1 to D9) by 11:20; Alex decides.
+
 **Deadline:** ZIP uploaded by 3:10 (hard 3:30). Next gate: **one task end to end on main by 11:45.**
 
 ## Where things are
