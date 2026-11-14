@@ -1,0 +1,103 @@
+{
+ "key": "07e8be2823eacfe31ec236c32ed0e0d93f6a53ac9d8bf5cad076121756f0d3c4",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map of a real place, drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 10 meters, index contours (heavy brown lines, some labeled) are every 50 meters, and elevations are in meters. A hiking trail is drawn as a dashed red line from the magenta square S to the magenta square E. How many contour lines (including index contours) does the trail cross between S and E? If it crosses the same contour line more than once, count every crossing. Answer with a whole number, for example 7.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "realtopo-cross-000007.png",
+       "sha256": "fd51721bf4a26d653f8474c8284eb4e63907d5f349da47abc85d99962c50763c"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794678119-f8Hnpc97oK7SlQgWoEar",
+  "object": "chat.completion",
+  "created": 1794678119,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "I estimated the crossings by tracing the dashed trail from S (about 788, 932) up to E (about 730, 722) against the contour lines in the image. The coordinates are approximate, so the count is an estimate.\n\nThe trail leaves S heading left and up, climbs through the closed contours of the small hill near (750, 850), then bends right and crosses the heavy 350 m index contour near (778, 790). It then turns back left-up and passes a few more thin contours before reaching E on the slope near the lake.\n\nCounting each contour the trail crosses, including the index line, gives roughly 7.\n\nFINAL ANSWER: 7",
+     "refusal": null,
+     "reasoning": "I'm tracing the trail from S at (788,932) up through a series of points to E at (730,722), and I'm checking where it crosses the nearby contour lines, starting with the index contour that runs through the area around (600,850).\n\nI'm checking which contour lines the trail crosses, and the index line labeled 350 runs close to the path around (760,790) to (790,780). I'm still working out where the contour loops near S and E sit relative to the trail.\n\nI'm checking whether the trail crosses the index line near (770,790) twice, since it dips up to about (778,795) and then back down toward (765,775). I'm also weighing how many thin contours sit between S and the 350 line, which I estimate at around six to eight crossings, though I can't pin down the elevations from here.\n\nI'm going through the contour lines the trail would cross on its way up from S toward E, counting the thin lines at roughly y≈915, 900, 870, 840, 820, and 805 before reaching the index line at 350 near y≈785. I'm also checking whether a contour sits right near S around y≈925, and I'm trying to pin down the crossings near x≈752–775 without being sure of their exact positions.\n\nI'm settling on a rough estimate of around seven contour crossings between S and E, and I'll go with seven.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm tracing the trail from S at (788,932) up through a series of points to E at (730,722), and I'm checking where it crosses the nearby contour lines, starting with the index contour that runs through the area around (600,850).\n\nI'm checking which contour lines the trail crosses, and the index line labeled 350 runs close to the path around (760,790) to (790,780). I'm still working out where the contour loops near S and E sit relative to the trail.\n\nI'm checking whether the trail crosses the index line near (770,790) twice, since it dips up to about (778,795) and then back down toward (765,775). I'm also weighing how many thin contours sit between S and the 350 line, which I estimate at around six to eight crossings, though I can't pin down the elevations from here.\n\nI'm going through the contour lines the trail would cross on its way up from S toward E, counting the thin lines at roughly y≈915, 900, 870, 840, 820, and 805 before reaching the index line at 350 near y≈785. I'm also checking whether a contour sits right near S around y≈925, and I'm trying to pin down the crossings near x≈752–775 without being sure of their exact positions.\n\nI'm settling on a rough estimate of around seven contour crossings between S and E, and I'll go with seven.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 5129,
+        "sha256": "f122d0a9543e4de4a2a1a921b0a96cf91cdc2582d8e69aacd47acd3d56b6a0ba"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2716,
+   "completion_tokens": 1418,
+   "total_tokens": 4134,
+   "cost": 0.0009806,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0009806,
+    "upstream_inference_prompt_cost": 0.0002716,
+    "upstream_inference_completions_cost": 0.000709
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1215,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 9.65,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:41:58+00:00"
+}

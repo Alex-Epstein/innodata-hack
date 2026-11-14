@@ -1,0 +1,103 @@
+{
+ "key": "46e82baaedb791bdfd5b817cb8d415e478f21eae43c884eb2a0d20539f6ac768",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map of a real place, drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 20 meters, index contours (heavy brown lines, some labeled) are every 100 meters, and elevations are in meters. A hiking trail is drawn as a dashed red line from the magenta square S to the magenta square E. How many contour lines (including index contours) does the trail cross between S and E? If it crosses the same contour line more than once, count every crossing. Answer with a whole number, for example 7.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "realtopo-cross-000004.png",
+       "sha256": "e19707556cc0d87a88a15ada912a5cfcce1e953bec0c0515e2fb946ae928fd1b"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794678038-tRmVR8ZyVMNfGQ0auGMK",
+  "object": "chat.completion",
+  "created": 1794678038,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "I estimated this from the map by eye, so the count is approximate.\n\n1. **Locate the trail.** S's square is at about (833, 598), and E's square is at about (927, 818). The dashed trail runs south, bends west around (820, 665), then turns southeast toward E.\n2. **Index contours near the trail.** A heavy index line crosses the trail near (845, 695). The \"600\" index contours near S and near E suggest both endpoints sit near 600 m, so the trail likely crosses the 600 m index line more than once.\n3. **Thin contours.** The 20 m contours are about 10–15 px apart in this stretch. The trail crosses a few of them on the initial descent south of S, and more between about (850, 700) and E.\n4. **Total.** Adding the index crossing(s) and the thin-contour crossings gives roughly six.\n\nFINAL ANSWER: 6",
+     "refusal": null,
+     "reasoning": "I'm tracing the trail from the start point S near (833,598) to the end point E near (948,845), following each waypoint down through the path. At the bottom it's unclear whether the last trail square at (927,818) is the end marker or just a point before it, since the E label sits slightly off that spot.\n\nNow I'm counting how many contour lines the trail crosses, but the lines near the start are hard to pin down, so I'm estimating from the nearby index contours.\n\nNow I'm estimating the elevation from the nearby index contours, since the start sits just below one of them and the exact contour near the trail is hard to make out. I'm also checking whether the thin contours crossed along the way, around 620, 580 and 560, really line up with the trail as it heads southeast toward the end point.\n\nNow I'm estimating how many contour lines the descent crosses, guessing that the drop runs from about 600 to 540. I'm checking the thin contours in the strip between the start and the end, where they look spaced roughly 15 to 20 pixels apart.\n\nNow I'm picking up the trail near the bottom, where the path runs southeast toward E, and I'm pinning down the spot where it crosses a thick index contour around (845,690). I'm also expecting a few thin contours along the way, but I haven't counted them yet.\n\nNow I'm checking the thin contours between the trail's midpoint and E, and I'm roughly guessing about six crossings. The spacing looks around 12 pixels, so I'll keep working through that estimate more carefully.\n\nNow I'm settling on a rough count of six crossings, since the index line near S and the one near E both seem to sit around 600 and the trail may dip across it a few times.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm tracing the trail from the start point S near (833,598) to the end point E near (948,845), following each waypoint down through the path. At the bottom it's unclear whether the last trail square at (927,818) is the end marker or just a point before it, since the E label sits slightly off that spot.\n\nNow I'm counting how many contour lines the trail crosses, but the lines near the start are hard to pin down, so I'm estimating from the nearby index contours.\n\nNow I'm estimating the elevation from the nearby index contours, since the start sits just below one of them and the exact contour near the trail is hard to make out. I'm also checking whether the thin contours crossed along the way, around 620, 580 and 560, really line up with the trail as it heads southeast toward the end point.\n\nNow I'm estimating how many contour lines the descent crosses, guessing that the drop runs from about 600 to 540. I'm checking the thin contours in the strip between the start and the end, where they look spaced roughly 15 to 20 pixels apart.\n\nNow I'm picking up the trail near the bottom, where the path runs southeast toward E, and I'm pinning down the spot where it crosses a thick index contour around (845,690). I'm also expecting a few thin contours along the way, but I haven't counted them yet.\n\nNow I'm checking the thin contours between the trail's midpoint and E, and I'm roughly guessing about six crossings. The spacing looks around 12 pixels, so I'll keep working through that estimate more carefully.\n\nNow I'm settling on a rough count of six crossings, since the index line near S and the one near E both seem to sit around 600 and the trail may dip across it a few times.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 7369,
+        "sha256": "41a474eff20e1613e74ff54a22d7a64e0df242bf282eaa95e307043d7e97a195"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2716,
+   "completion_tokens": 2119,
+   "total_tokens": 4835,
+   "cost": 0.0013311,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0013311,
+    "upstream_inference_prompt_cost": 0.0002716,
+    "upstream_inference_completions_cost": 0.0010595
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1833,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 12.48,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:40:38+00:00"
+}

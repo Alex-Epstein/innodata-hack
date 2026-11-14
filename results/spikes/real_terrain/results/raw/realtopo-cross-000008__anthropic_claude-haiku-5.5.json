@@ -1,0 +1,103 @@
+{
+ "key": "99b6e1e6219ca8c4c60417f506381d6f1026ee950b288821baa3714e9c669177",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map of a real place, drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 20 meters, index contours (heavy brown lines, some labeled) are every 100 meters, and elevations are in meters. A hiking trail is drawn as a dashed red line from the magenta square S to the magenta square E. How many contour lines (including index contours) does the trail cross between S and E? If it crosses the same contour line more than once, count every crossing. Answer with a whole number, for example 7.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "realtopo-cross-000008.png",
+       "sha256": "af4fa9b69e194b801960b79482aad6376a73a95e5fda4e050db89b418fb32504"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794678128-KAmzxsnlJf0dpSm9RQVr",
+  "object": "chat.completion",
+  "created": 1794678128,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "I estimated this by eye from the map, so the count is approximate.\n\n1. **Trail route:** From S (about 785, 556) the trail heads south-southeast to roughly (790, 690), bends southwest to about (750, 780), then turns east to E (about 816, 818).\n2. **Elevations:** S sits west of the labeled 400 m index contour, and E lies between the 300 m and 400 m contours. That suggests a net descent of roughly 80–100 m, or about 4–5 contour intervals at 20 m each.\n3. **Crossings:** The descent is not perfectly monotonic. The trail's bend near the lower end, where it runs back west before turning east, likely adds a crossing. Counting the crossings along the drawn route gives about 5.\n\nThis is a visual estimate, so the exact figure could differ by one or two crossings.\n\nFINAL ANSWER: 5",
+     "refusal": null,
+     "reasoning": "I'm working out which contour lines the trail from S to E will cross, starting with the path's waypoints and the index and minor contour intervals.\n\nI'm checking the elevation labels around the trail: 400 near S, 300 near E's area, with other index values scattered farther off, and trying to place S between the 400 and 300 contours.\n\nI'm estimating how many contours the trail crosses, reasoning that S sits above E by roughly 80 meters, so the count depends on whether the path climbs or dips. S looks to be on the west side of the 400 contour, with the trail veering away from it, so I'm guessing somewhere around four to six crossings.\n\nI'm estimating where E sits relative to the 300 and 400 contours, guessing E around 320 to 340 meters and S nearer 420. I'll count the minor contours the trail crosses, since a rough elevation gap of about 90 meters should give somewhere around four crossings.\n\nI'm guessing the trail crosses about six contour lines, though the wiggles near the lower section could change that. The trail seems to dip southwest and then turn east toward E, so it may cross a brown index line near the middle of the descent, somewhere around (750–820, 690–720).\n\nI'm settling on five as the crossing count, while noting that the lower wiggles could shift it.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm working out which contour lines the trail from S to E will cross, starting with the path's waypoints and the index and minor contour intervals.\n\nI'm checking the elevation labels around the trail: 400 near S, 300 near E's area, with other index values scattered farther off, and trying to place S between the 400 and 300 contours.\n\nI'm estimating how many contours the trail crosses, reasoning that S sits above E by roughly 80 meters, so the count depends on whether the path climbs or dips. S looks to be on the west side of the 400 contour, with the trail veering away from it, so I'm guessing somewhere around four to six crossings.\n\nI'm estimating where E sits relative to the 300 and 400 contours, guessing E around 320 to 340 meters and S nearer 420. I'll count the minor contours the trail crosses, since a rough elevation gap of about 90 meters should give somewhere around four crossings.\n\nI'm guessing the trail crosses about six contour lines, though the wiggles near the lower section could change that. The trail seems to dip southwest and then turn east toward E, so it may cross a brown index line near the middle of the descent, somewhere around (750–820, 690–720).\n\nI'm settling on five as the crossing count, while noting that the lower wiggles could shift it.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 5841,
+        "sha256": "e6457534d7f1271a02aada569d173003885ebee6644e3f20a2ef27ef74bba305"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2716,
+   "completion_tokens": 1709,
+   "total_tokens": 4425,
+   "cost": 0.0011261,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0011261,
+    "upstream_inference_prompt_cost": 0.0002716,
+    "upstream_inference_completions_cost": 0.0008545
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1422,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 10.41,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:42:08+00:00"
+}

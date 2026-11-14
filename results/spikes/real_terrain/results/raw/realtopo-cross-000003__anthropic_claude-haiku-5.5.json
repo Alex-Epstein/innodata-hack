@@ -1,0 +1,103 @@
+{
+ "key": "3ad9b7d98716f4b69ab67e67054c9b471a259397d69297bdba6633e354c14994",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map of a real place, drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 10 meters, index contours (heavy brown lines, some labeled) are every 50 meters, and elevations are in meters. A hiking trail is drawn as a dashed red line from the magenta square S to the magenta square E. How many contour lines (including index contours) does the trail cross between S and E? If it crosses the same contour line more than once, count every crossing. Answer with a whole number, for example 7.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "realtopo-cross-000003.png",
+       "sha256": "afad784bdb6018b4c1bcfd61b22b3534f5ae763f2dcb695a10d17ac17e1a0e59"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794678028-TX1FCYqySrB07ro2V084",
+  "object": "chat.completion",
+  "created": 1794678028,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Tracing the trail from S to E**\n\nS sits at about (600, 762) on the southwest flank of a small hill. The trail runs southeast to a low point near (625, 783), then turns north-northeast, passing roughly (660, 710) and (655, 670), and ends at E around (637, 596) on the north side of the hill.\n\n**Estimating crossings**\n\n- **Leaving S:** the trail dips to about (625, 783), which crosses the lowest closed ring of the hill's contours.\n- **Climbing the hill:** the trail heads north through the tightly spaced contours on the hill's east side. It crosses roughly four thin 10 m contours between about y = 770 and y = 695.\n- **Index contour:** the heavy 350 m index contour crosses the trail near (658, 670).\n- **Final approach:** the trail crosses about two more thin contours between y = 645 and y = 620 before reaching E at y = 596.\n\nCounting these gives about 7 crossings. The contour positions here are estimated by eye from the map, so the count is approximate.\n\nFINAL ANSWER: 7",
+     "refusal": null,
+     "reasoning": "Now I'm working out which contour lines the path from S to E crosses, starting from the hill near S.\n\nI'm checking which contour lines the trail crosses near the hill around S, including the index 350 contour that runs past it. The route dips slightly below S, then climbs through several inner hill contours toward E.\n\nNow I'm estimating how many contour lines the trail crosses between S and E. The path has to clear several ring contours near the hill, including an index 350 line, before it reaches the water-side lines near E. I'm guessing about eight crossings, since the spacing is tight and the exact count is hard to pin down from the map.\n\nI'm going through the contour rings on both sides of the trail near E, counting the lines it passes between the index 350 line and the water. I'm listing the crossings one by one, roughly every 20 to 30 pixels, and I'll settle on a total from there.\n\nI'm settling on a count of 7 crossings, since E sits at y 596 and I'd stop before reaching another contour above 610.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "Now I'm working out which contour lines the path from S to E crosses, starting from the hill near S.\n\nI'm checking which contour lines the trail crosses near the hill around S, including the index 350 contour that runs past it. The route dips slightly below S, then climbs through several inner hill contours toward E.\n\nNow I'm estimating how many contour lines the trail crosses between S and E. The path has to clear several ring contours near the hill, including an index 350 line, before it reaches the water-side lines near E. I'm guessing about eight crossings, since the spacing is tight and the exact count is hard to pin down from the map.\n\nI'm going through the contour rings on both sides of the trail near E, counting the lines it passes between the index 350 line and the water. I'm listing the crossings one by one, roughly every 20 to 30 pixels, and I'll settle on a total from there.\n\nI'm settling on a count of 7 crossings, since E sits at y 596 and I'd stop before reaching another contour above 610.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 4821,
+        "sha256": "d01f94b87f385cbd1f7564b6254b0c75e8dfbd982a19c7b1c85aced29f2e826a"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2716,
+   "completion_tokens": 1544,
+   "total_tokens": 4260,
+   "cost": 0.0010436,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0010436,
+    "upstream_inference_prompt_cost": 0.0002716,
+    "upstream_inference_completions_cost": 0.000772
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1188,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 9.84,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:40:28+00:00"
+}
