@@ -40,6 +40,25 @@ Dockerfile + README + format checker + slides.
 11. **Insights, limitations, weird model behavior** go in `NOTES.md` as you hit them. Slide 5 and the README come from there.
 12. **Disclose** reused components and any manual step (the README has a section for both). All code is written today.
 
+## Team lead and directives (agreed by the team)
+Alex coordinates (his Claude session acts as the lead's staff). Issues labeled **`directive`** are agreed team
+tasks. Claude Code shows open ones on every message (hook in `.claude/settings.json`); every other tool runs
+`scripts/directives-check` before each task. If one is for your person or for "everyone": comment **ack**, do it
+before other work, log it, close it when done (or comment why you can't). Need something from another folder?
+Open an issue labeled **`request`** and mention its owner (never only a DM: agents can't read DMs).
+`docs/BRIEFING.md` ("Now") is the latest shared context; read it at the start of every session.
+
+## Tasks
+One GitHub issue = one person or agent session, with an owner, a folder and an acceptance test. Comment "claim"
+to take one. Branch `<area>/<topic>`, PR with the template, status line, squash-merge your own once
+`scripts/check` passes.
+
+## Read next
+`docs/BRIEFING.md` (now) · `docs/BRIEF.md` (organizer requirements) · `contracts/SCHEMA.md` (formats) ·
+`docs/ARCHITECTURE.md` · `docs/IDEATION.md` · `docs/DECISIONS.md` · `docs/EVIDENCE.md` (numbers) ·
+`docs/context/` (everything from before: kickoff talk, game plan, idea bank, process playbook, history) ·
+`docs/organizer/` (kickoff slides, slide template, full visual brief) · `tools/track2-format-check/`
+
 ## Live log
 Post after every meaningful step (started, decided, finished, stuck, learned):
 `LOG_WHO="Alex's agent" scripts/log "validate: pixel check passing on calendar tasks (#7)"`.

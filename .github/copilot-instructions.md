@@ -1,0 +1,1 @@
+Read AGENTS.md first (it is the team rules for every AI tool). Before each task run `scripts/catchup` and `scripts/directives-check`. After each meaningful step run `scripts/log "<what happened>"`.

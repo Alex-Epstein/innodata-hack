@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Golden path check: run before every merge. Fills in as the pipeline lands (issue #6).
+# Target: generate seed 0 -> validate -> eval with the mock model -> one results row.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+if [ ! -f factory/__main__.py ]; then echo "scripts/check: pipeline not built yet (issue #6)"; exit 0; fi
+MOCK=1 uv run python -m factory fresh --seed 0 --out /tmp/innodata-check

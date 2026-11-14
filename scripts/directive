@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Team lead only: open a directive (an agreed team task). Usage: scripts/directive "dl3832: merge the eval PR, then run the pilot"
+set -euo pipefail
+[ $# -ge 1 ] || { echo 'usage: scripts/directive "<who>: <what>"' >&2; exit 1; }
+url=$(gh issue create --repo Alex-Epstein/innodata-hack --label directive --title "DIRECTIVE: $*" --body "Agreed team task. Agents: comment ack, do this before other work, log it with scripts/log, close when done (or comment why you can't).")
+LOG_WHO="${LOG_WHO:-Director}" "$(dirname "$0")/log" "📌 New directive: $* ($url)"
+echo "$url"

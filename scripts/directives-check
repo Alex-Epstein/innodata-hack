@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Prints open directives (quiet when none). Claude Code runs this on every prompt; other tools run it before each task.
+out=$(gh issue list --repo Alex-Epstein/innodata-hack --label directive --state open --limit 20 --json number,title --jq '.[] | "#\(.number) \(.title)"' 2>/dev/null)
+[ -n "$out" ] && printf '📌 OPEN DIRECTIVES (if one is for you or everyone: comment "ack", do it first, close when done):\n%s\n' "$out"
+exit 0

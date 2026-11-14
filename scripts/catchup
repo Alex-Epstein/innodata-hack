@@ -2,7 +2,9 @@
 # Everything that happened recently: decisions, live log, commits on main, open issues, newest status lines.
 REPO=Alex-Epstein/innodata-hack
 cd "$(dirname "$0")/.." || exit 0
-echo "== Decisions =="; tail -n 8 docs/DECISIONS.md 2>/dev/null
+echo "== BRIEFING (docs/BRIEFING.md, Now) =="; awk '/^## Now/{f=1;next} /^## /{f=0} f' docs/BRIEFING.md 2>/dev/null
+echo; echo "== OPEN DIRECTIVES (do these first) =="; bash scripts/directives-check
+echo; echo "== Decisions =="; tail -n 8 docs/DECISIONS.md 2>/dev/null
 echo; echo "== Live log (latest 20, issue #1) =="
 gh api "repos/$REPO/issues/1/comments?per_page=100" --jq '.[-20:][] | .body' 2>/dev/null || echo "(gh not signed in: run gh auth login)"
 echo; echo "== main (latest 10) =="
