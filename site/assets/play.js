@@ -70,8 +70,7 @@
     }, 40);
   }
 
-  img.src = task.image;
-  try { await img.decode(); } catch (e) { /* drawn when ready */ }
+  img.src = task.image;                                   // the answer buttons do not wait for the image
 
   // the 3D stage loads in the background; the answer buttons work right away
   const stageReady = !task.has3d ? Promise.resolve(null) : BTAStage.create(mapbox, task, { frameRect })
@@ -188,7 +187,7 @@
     caption("", false);
   }
 
-  if (intro) await stageReady;
+  if (intro) { try { await img.decode(); } catch (e) { /* drawn when ready */ } await stageReady; }
   if (intro && stage) {
     $("panel").style.visibility = "hidden";
     await runIntro();
