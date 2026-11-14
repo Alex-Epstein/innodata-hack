@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Beat the AI</title>
+<meta name="description" content="Topographic map missions on real terrain. You answer from the same map the AI saw, then see the truth on the 3D mountain.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F3EEDF'/%3E%3Cpath d='M2 26 L11 12 L16 19 L21 9 L30 26 Z' fill='none' stroke='%239A5B2E' stroke-width='2.4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<script>
+  // ?intro=1 on the landing page goes straight to the projector intro of the opening task
+  if (new URLSearchParams(location.search).get("intro") === "1") document.documentElement.style.visibility = "hidden";
+</script>
+</head>
+<body>
+<header class="collar">
+  <a class="brand" href="./">Beat the <b>AI</b></a>
+  <span class="place">Visual task factory · topographic missions</span>
+  <span class="coord" id="score"></span>
+</header>
+<div class="land">
+  <section class="hero">
+    <div>
+      <h1 class="caps">The map<span class="vs">versus</span>The mountain</h1>
+      <p class="lede">The AI only ever sees the flat map. A hiker lives on the mountain. Answer from the exact image the
+        models saw, in 60 seconds, then watch the truth play out on the real terrain.</p>
+      <div class="btns">
+        <a class="btn primary" id="playFeatured" href="play.html">Play the opening map</a>
+        <a class="btn" id="introLink" href="play.html?intro=1">Projector intro</a>
+      </div>
+    </div>
+    <a class="shot" id="heroShot" href="play.html"><img id="heroImg" alt="The opening map"></a>
+  </section>
+  <section class="facts">
+    <p class="truthline">Every answer here is <b>computed from the elevation data by code</b>, never by a model or a
+      person reading the map. The models' answers are their real, parsed replies.</p>
+    <div class="qr">
+      <img src="img/qr.png" alt="QR code for this page" onerror="this.style.display='none'">
+      <div><div class="caps" style="font-size:12px">Play on your phone</div><div class="u" id="url"></div></div>
+    </div>
+  </section>
+  <div id="groups"></div>
+  <footer class="foot">
+    <span>Terrain: USGS 3D Elevation Program (public domain). Maps drawn by our generator in the style of USGS 7.5-minute quadrangles.</span>
+    <span><a href="#" id="resetTally">Reset my tally</a></span>
+  </footer>
+</div>
+<script src="assets/common.js"></script>
+<script>
+(async function () {
+  "use strict";
+  const { el } = BTA;
+  let idx;
+  try { idx = await BTA.loadIndex(); }
+  catch (e) { document.getElementById("groups").textContent = "No tasks built yet: run scripts/build-site."; return; }
+  if (BTA.qs("intro") === "1") { location.replace(`play.html?t=${encodeURIComponent(idx.featured)}&intro=1`); return; }
+  const feat = idx.tasks.find((t) => t.task_id === idx.featured) || idx.tasks[0];
+  if (feat) {
+    const href = `play.html?t=${encodeURIComponent(feat.task_id)}`;
+    document.getElementById("playFeatured").href = href;
+    document.getElementById("heroShot").href = href;
+    document.getElementById("introLink").href = href + "&intro=1";
+    document.getElementById("heroImg").src = feat.thumb.replace("_thumb.jpg", ".png");
+  }
+  document.getElementById("url").textContent = idx.url;
+  const t = BTA.tally();
+  if (t.n) document.getElementById("score").textContent = `You ${t.you}/${t.n} · Haiku ${t.haiku}/${t.n} · Luna ${t.luna}/${t.n}`;
+  const groups = {};
+  for (const x of idx.tasks) (groups[x.title] = groups[x.title] || []).push(x);
+  const host = document.getElementById("groups");
+  for (const [title, list] of Object.entries(groups)) {
+    const missed = list.filter((x) => Object.values(x.models).length && Object.values(x.models).every((m) => !m.correct)).length;
+    host.append(el("div", { class: "section-h caps" }, el("span", {}, title),
+      el("span", { class: "mono", style: "letter-spacing:0;text-transform:none;font-weight:400" }, `${list.length} maps · both models missed ${missed}`)));
+    const grid = el("div", { class: "grid" });
+    for (const x of list) {
+      const p = BTA.played(x.task_id);
+      const chips = [];
+      if (p) {
+        chips.push(el("span", { class: "chip you" }, p.ok ? "you ✓" : "you ✗"));
+        for (const k of ["haiku", "luna"]) if (x.models[k]) chips.push(el("span", { class: "chip " + (x.models[k].correct ? "truth" : "model") }, `${BTA.SHORT[k].toLowerCase()} ${x.models[k].correct ? "✓" : "✗"}`));
+      } else {
+        chips.push(el("span", {}, "not played yet"));
+      }
+      grid.append(el("a", { class: "card", href: `play.html?t=${encodeURIComponent(x.task_id)}` },
+        el("img", { src: x.thumb, alt: "", loading: "lazy" }),
+        el("div", { class: "meta" },
+          el("span", { class: "t caps" }, x.title),
+          el("span", { class: "a" }, x.area || ""),
+          el("span", { class: "r" }, el("span", {}, x.task_id), ...chips))));
+    }
+    host.append(grid);
+  }
+  document.getElementById("resetTally").addEventListener("click", (e) => { e.preventDefault(); BTA.resetTally(); location.reload(); });
+})();
+</script>
+</body>
+</html>
