@@ -8,3 +8,7 @@
 - 11:00 · eval · Same image and prompt with max_tokens 32000 instead of 16000: `openai/gpt-6-luna` wrote
   `["L3","L4"]` this time (it wrote `[3, 4]` before). Its answer format is not stable across runs even at
   temperature 0, which is why the disk cache matters: one stored reply per (model, prompt, image, settings).
+- 11:08 · calendar rerun · At max_tokens 32000, `anthropic/claude-haiku-5.5` still returned no text on 2 of the 3
+  hardest calendar images (all 32000 tokens went to reasoning). `openai/gpt-6-luna` got all 9 right. 5 of 18
+  results differ from the 16000 run on identical images and questions, so single runs with 3 tasks per level are
+  noise-prone. Source: `results/spikes/calendar_32k/summary.md`.
