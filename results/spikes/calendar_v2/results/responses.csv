@@ -1,0 +1,254 @@
+model,task_id,status,parsed,question_type,response,ref_answer,correct,finish_reason,error
+anthropic/claude-haiku-5.5,cal2-reqopt-000001,ok,Tue 10:15,cal2.required_optional_room,"**Monday (Nov 16):**
+- Priya and Marcus are both free only in 9:45-10:45, 11:30-12:00 (too short), and 14:30-15:30.
+- 9:45-10:45 conflicts with the room's ""Exec staff"" block (10:00-11:00).
+- 14:30-15:30 works for Priya, Marcus and the room, but Grace (busy 15:00-16:00), Elena (busy 15:00-15:30) and Sofia (busy 14:30-15:15) are unavailable. Only Tom is free, so this fails the two-of-four rule.
+
+**Tuesday (Nov 17):**
+- Priya is free 8:45-12:00. Marcus is free 8:30-12:45. The room is busy 9:45-10:15, 14:00-15:30 and 16:00-17:30.
+- Starts from 8:45 to 10:00 all overlap the room's 9:45-10:15 block, except 8:45, which fails the two-of-four rule (Grace is busy 9:00-9:30, Elena and Tom are busy, so only Sofia is free).
+- **10:15-11:15:** Priya, Marcus and the room are all free. Grace is free (her next block starts at 11:15). Sofia is free (her block is tentative). Elena is busy (Data sync, 10:00-11:00) and Tom is busy until 11:00. That gives two of the four optional attendees, which satisfies the rule.
+
+The earliest valid start is therefore Tuesday at 10:15.
+
+FINAL ANSWER: Tue 10:15",Tue 10:15,1,stop,
+openai/gpt-6-luna,cal2-reqopt-000001,ok,Tue 10:15,cal2.required_optional_room,"Monday has no valid slot: the room’s morning availability is too short, the 11:00–12:00 slot conflicts with Marcus, and the first afternoon slot that works for both required attendees, 14:30–15:30, leaves only Tom available among the other four.
+
+On Tuesday, the room is busy from 09:45 to 10:15, so the earliest possible one-hour start after that is 10:15. Priya and Marcus are free then; Grace is free through 11:15, and Sofia is also free for the full meeting. The slot avoids lunch and is within working hours.
+
+FINAL ANSWER: Tue 10:15",Tue 10:15,1,stop,
+anthropic/claude-haiku-5.5,cal2-reqopt-000002,ok,Tue 15:15,cal2.required_optional_room,"**Monday (Nov 16):** Priya and Marcus share free time only in 10:30-11:45, 13:30-14:00, 15:00-15:30 and 16:00-17:00.
+- 10:30-11:30 is blocked because the room is busy (Exec staff) until 11:15.
+- Any start from 11:15 runs into lunch.
+- 13:30-14:00 and 15:00-15:30 are only 30 minutes.
+- 16:00-17:00 has only Jamal free. Elena (Standup from 16:45), Kenji (Training to 17:15) and Grace (busy from 16:30) are all unavailable.
+
+Monday has no valid slot.
+
+**Tuesday (Nov 17):**
+- Marcus is free 9:15-10:45, 11:15-12:00 and 13:45-17:00 (tentative blocks count as free).
+- Priya is free 9:45-13:15 (tentative 11:00-11:30 counts as free), 14:15-14:45 and 15:15-16:15.
+- Priya and Marcus together are free at 9:45-10:45, 11:15-12:00 (too short because of lunch), 14:15-14:45 (too short) and 15:15-16:15.
+- **9:45-10:45:** The room is free (Recruiting ends at 9:45). Elena is busy from 10:30, Kenji from 10:15, Grace from 10:30 and Jamal until 10:00. Nobody is free for two of the four, so this fails.
+- **15:15-16:15:** The room is free (busy 14:15-15:00, next block 16:30). Priya and Marcus are both free. Grace is free (her 15:30-16:30 block is tentative). Jamal is free (his next block starts 16:45). Elena (busy 15:30-16:00) and Kenji (busy 15:00-16:00) are unavailable, but Grace and Jamal satisfy the two-of-four rule.
+
+The earliest valid slot is Tuesday 15:15.
+
+FINAL ANSWER: Tue 15:15",Tue 15:15,1,stop,
+openai/gpt-6-luna,cal2-reqopt-000002,ok,Tue 15:15,cal2.required_optional_room,"On Monday, the earliest required-attendee and room opening is 16:00–17:00, but only Jamal is available among the four optional attendees for that full hour. So Monday has no valid slot.
+
+On Tuesday, the pre-lunch opening at 11:15 would overlap lunch, and the room and Priya’s busy time rule out earlier post-lunch starts. At 15:15, Priya and Marcus are available, the room is free, and Grace and Jamal can attend; the meeting ends at 16:15.
+
+FINAL ANSWER: Tue 15:15",Tue 15:15,1,stop,
+anthropic/claude-haiku-5.5,cal2-reqopt-000003,ok,Tue 10:15,cal2.required_optional_room,"## Step-by-step check
+
+**Required rule:** Priya Shah and Marcus Lee must attend. At least two of Nate, Elena, Rachel and Kenji must also attend. Tentative blocks count as free.
+
+**Room NYC-14 Liberty (busy blocks, approximate):**
+- Mon: busy 8:00–8:30, 10:15–11:30, 13:15–14:00, 15:00–15:45, 16:15–17:15
+- Tue: busy 8:30–9:30, 13:30–14:00, 14:15–15:15, 16:00–17:00, 17:15–17:45
+
+**Monday:** The room is free only in 9:00–10:15, 11:30–13:15, 14:00–15:00 and 15:45–16:15. Each candidate fails:
+- 9:00–10:00: Nate is free, but Elena, Rachel and Kenji are busy. Only one of the four is available.
+- 9:15–10:15: Elena is free, but Nate (10:00), Rachel (busy until 9:30) and Kenji (9:15–10:00) conflict. Only one is available.
+- 9:30 or later: the room is busy at 10:15.
+- 14:00–15:00: Marcus is busy from 14:45.
+- The other windows are shorter than 60 minutes once lunch is excluded.
+
+Monday has no valid slot.
+
+**Tuesday:** The room is free in 9:30–12:00 (lunch excluded), 13:00–13:30, 14:00–14:15, 15:15–16:00 and 17:00–17:15. Only 9:30–12:00 can hold a 60-minute meeting. Marcus is busy from 11:15, so the meeting must end by 11:15 or start by 10:15 at the latest.
+- 9:30–10:30: Nate is busy 10:00–10:45, Elena is busy 9:45–11:15, Kenji is busy 9:30–10:15. Only Rachel is available.
+- 9:45–10:45: Nate, Elena and Kenji all conflict. Only Rachel is available.
+- 10:00–11:00: Nate, Elena and Kenji conflict (Kenji is busy until 10:15). Only Rachel is available.
+- **10:15–11:15:**
+  - Priya is free (her Data sync is tentative and ends at 10:15; she is busy from 11:30).
+  - Marcus is free (his tentative block ends at 10:45; he is busy from 11:15, which is exactly the end).
+  - The room is free (busy from 9:30 to 13:30 only, outside this window).
+  - Nate is busy 10:00–10:45, so he is out.
+  - Elena is busy until 11:15, so she is out.
+  - Rachel is free (her only morning block ends at 9:15; her Training is tentative).
+  - Kenji is free (his busy block ends at 10:15; 10:15–11:00 is tentative).
+  - Rachel and Kenji together satisfy the ""at least two of four"" rule.
+
+The earliest valid start is **Tue 10:15**.
+
+FINAL ANSWER: Tue 10:15",Tue 10:15,1,stop,
+openai/gpt-6-luna,cal2-reqopt-000003,ok,Tue 10:15,cal2.required_optional_room,"- Monday’s room is free at 09:00 and 09:15, but neither full hour has two available optional attendees. Later morning slots are blocked by the room or the lunch-hour rule, and the afternoon has no hour when both required attendees and the room are free.
+- On Tuesday, the room is busy until 09:30. The 09:30 and 09:45 starts don’t work: only Rachel is available for the full hour among the four optional attendees.
+- At 10:15, Priya and Marcus are free (Marcus’s block is tentative), the room is free through 11:15, and Rachel and Kenji can attend. This is the earliest qualifying slot.
+
+FINAL ANSWER: Tue 10:15",Tue 10:15,1,stop,
+anthropic/claude-haiku-5.5,cal2-tz-000001,ok,Tue 09:45,cal2.timezone_earliest_slot,"**Converting the grid:** The time scale is shared, but Oliver's row is in London time (ET + 5 h). Everyone must be within 9:00-17:00 in their own time, so the valid ET start times are limited by Oliver's window. His London 9:00-17:00 is ET 4:00-12:00, and the NY attendees' 9:00-17:00 narrows this to a 45-minute slot starting between 09:00 and 11:15 ET.
+
+**Monday:** Oliver is free (London 14:30-17:00, ET 09:30-12:00) only after his 14:00-14:30 London block. Jamal's blocks cover 09:45-10:00, 10:15-11:00 (tentative) and 11:30-12:15, so no 45-minute window from 09:30 to 11:15 ET is open to him. No Monday slot works.
+
+**Tuesday (ET, with Oliver's London times shifted by -5 h):**
+- Jamal free 09:30-10:45
+- Marcus free 09:15-11:15 (busy 08:15-09:15)
+- Grace free 09:30-11:15 (busy 09:00-09:30)
+- Sofia free 09:30-11:15 (busy 08:45-09:30)
+- Nate free from 09:45 to 11:30 (busy about 09:15-09:45)
+- Oliver free ET 09:30-12:00 (London 14:30-17:00)
+
+The intersection starts at 09:45. Checking 09:45-10:30 ET against each attendee:
+- Jamal, Marcus, Grace, Sofia, Nate and Oliver are all free for the full 45 minutes.
+
+09:30 fails because Nate is still busy until 09:45, so 09:45 is the earliest start.
+
+FINAL ANSWER: Tue 09:45",Tue 09:45,1,stop,
+openai/gpt-6-luna,cal2-tz-000001,ok,Tue 09:45,cal2.timezone_earliest_slot,"Oliver’s working day of 09:00–17:00 London time corresponds to 04:00–12:00 ET, so any joint slot must fit within 09:00–12:00 ET. On Monday, Oliver is busy 09:00–09:30 ET, and the attendees’ remaining free periods do not overlap for 45 minutes.
+
+On Tuesday, Oliver is free from 09:30 ET onward. The other attendees’ free periods overlap from 09:45 to at least 10:30 ET, making the earliest qualifying quarter-hour start 09:45.
+
+FINAL ANSWER: Tue 09:45",Tue 09:45,1,stop,
+anthropic/claude-haiku-5.5,cal2-tz-000002,ok,Tue 10:45,cal2.timezone_earliest_slot,"**Setting up the constraints**
+
+- Five attendees are in New York time, so the slot must fall within 09:00-17:00 ET.
+- Oliver is in London, where GMT = ET + 5. His 09:00-17:00 London window is 04:00-12:00 ET.
+- The intersection is therefore 09:00-12:00 ET. In Oliver's London row, that is 14:00-17:00.
+
+**Monday (ET 09:00-12:00)**
+
+Oliver's London row is busy 13:45-14:45, 15:15-15:45 and 16:15-17:15. His only free stretches in the window are 14:45-15:15 and 15:45-16:15 London, which is 30 minutes each. No 45-minute slot fits, so Monday is ruled out.
+
+**Tuesday**
+
+Oliver's London row is busy 08:15-09:15, 10:30-11:30, 11:45-12:45 (tentative), 13:30-14:30 (tentative, Retro) and from 17:00. Free London 14:30-17:00, which is **09:30-12:00 ET**.
+
+Within 09:30-12:00 ET, the others' busy times are:
+
+- **Rachel:** tentative 09:30-10:15, busy 10:15-10:45, then free until 12:30.
+- **Nate:** busy 09:45-10:15 and 11:30-12:00. Free 10:15-11:30.
+- **Grace:** busy until 10:00, then tentative from 12:00. Free 10:00-12:00.
+- **Sofia:** tentative 10:00-10:30, busy 11:45-12:45. Free 10:30-11:45.
+- **Marcus:** busy/tentative 09:00-10:45, then free until 13:30.
+
+Checking quarter-hour starts from 09:30 onward:
+
+- 09:30, 09:45, 10:00, 10:15 and 10:30 all collide with Rachel's or Nate's busy blocks or Marcus's and Sofia's blocks.
+- 10:45-11:30 is free for everyone: Rachel is free from 10:45, Nate from 10:15 to 11:30, Grace from 10:00, Sofia from 10:30 to 11:45, Marcus from 10:45, and Oliver from 09:30 to 12:00 ET.
+
+The earliest slot is Tuesday 10:45-11:30 ET.
+
+FINAL ANSWER: Tue 10:45",Tue 10:45,1,stop,
+openai/gpt-6-luna,cal2-tz-000002,ok,Tue 10:45,cal2.timezone_earliest_slot,"Oliver’s row uses London time, five hours ahead of ET. On Monday, his available gaps within the shared working-hours overlap don’t yield a 45-minute slot once the other attendees’ busy blocks are considered.
+
+On Tuesday, Marcus is busy until 10:45 ET, ruling out earlier starts. From 10:45 to 11:30 ET, all six attendees are free; Nate’s next busy block starts at 11:30.
+
+FINAL ANSWER: Tue 10:45",Tue 10:45,1,stop,
+anthropic/claude-haiku-5.5,cal2-tz-000003,ok,Tue 10:00,cal2.timezone_earliest_slot,"**Answer: Tue 10:00 ET**
+
+**Working windows in ET**
+- The five New York attendees are available 09:00–17:00 ET.
+- Oliver is on GMT, so his 09:00–17:00 GMT window is 04:00–12:00 ET. Oliver's row is drawn in GMT, so each of his displayed times must be shifted by −5 hours to get ET.
+- The common window is therefore 09:00–12:00 ET.
+
+**Monday (ET 09:00–12:00)**
+- Rachel and Grace are busy or tentative at 10:15–10:45, and Sofia is busy at 10:15–10:45.
+- Kenji is tentative at 11:00–11:45, and Oliver is busy at ET 09:30–10:00 and 11:30–12:00.
+- Between 09:00 and 12:00, no 45-minute gap is free for everyone, so Monday fails.
+
+**Tuesday (ET 09:00–12:00)**
+- Jamal is free until 11:00.
+- Kenji is busy 09:30–10:00 and from 11:15.
+- Rachel is busy 09:00–09:30 and 10:45–11:15, then in an offsite block.
+- Grace is busy until 09:15 and tentative 10:45–11:45.
+- Sofia is busy/tentative until 10:00 and tentative from 11:45.
+- Oliver's displayed (GMT) busy blocks at 13:00–14:30 and 16:30–17:30 map to ET 08:00–09:30 and 11:30–12:30. He is free from ET 09:30 to 11:30.
+
+**Earliest slot**
+- 09:00 and 09:15 fail because Rachel and Kenji are busy.
+- 09:45 fails because Kenji is busy until 10:00.
+- 10:00–10:45 ET works: Rachel's and Grace's next conflicts begin at 10:45, and Oliver is free (his GMT 15:00–15:45 is clear).
+
+FINAL ANSWER: Tue 10:00",Tue 10:00,1,stop,
+openai/gpt-6-luna,cal2-tz-000003,ok,Tue 10:00,cal2.timezone_earliest_slot,"ET attendees’ working hours are 09:00–17:00. Oliver’s London working hours convert to 04:00–12:00 ET, so any shared slot must fall between 09:00 and 12:00 ET.
+
+On Monday, the first 45-minute opening for the five ET attendees is 09:30–10:15, but Oliver is busy in London from 14:30 to 15:00 during that slot. On Tuesday, Sofia is busy until 10:00, so no earlier start works. From 10:00 to 10:45 ET, the five ET attendees are free, and Oliver is free from 15:00 to 15:45 London time.
+
+FINAL ANSWER: Tue 10:00",Tue 10:00,1,stop,
+anthropic/claude-haiku-5.5,cal2-move-000001,ok,Design review,cal2.move_one_meeting,"**Step 1: Map busy time (including tentative) within 9:00-17:00**
+
+- **Priya:** 9:30-10:15 (1:1), 10:45-11:45 (Release check), 14:15-15:00 (tentative Sprint planning), 16:45-17:45
+- **Elena:** 10:00-11:00 (unlabeled blocks), 11:45-12:45 (Design review), 12:45-13:15 (tentative), 14:30-15:00 (Standup), 17:00-17:30
+- **Jamal:** 9:00-10:30 (Training and a block), 10:30-11:00, 11:45-12:45 (Design review), 13:30-14:15 (Vendor call), 14:30-15:15 (Data sync)
+- **Sofia:** 9:15-9:45, 10:15-11:45 (QBR prep), 13:30-14:15 (Vendor call), 14:15-15:00 (Partner call), 16:45-17:30
+- **Tom:** 9:30-10:15 (1:1), 11:00-11:30 (Retro), 14:30-15:00, 15:00-15:30 (Retro), 17:00-18:00
+- **Marcus:** 9:15-9:45, 10:15-10:45, 11:00-11:30, 11:45-12:45 (Design review), 14:30-15:30 (Staff meeting), 16:45-17:30 (tentative)
+- **NYC-09 Battery:** 9:30-10:30 (Recruiting), 12:45-13:15 (Exec staff), 15:00-15:30 (Recruiting), 16:45-17:30 (Town hall prep)
+
+**Step 2: Find the current earliest slot**
+
+Sofia's QBR prep (10:15-11:45) blocks every start from 10:15 to 11:45. The room is busy 9:30-10:30 and Elena is busy 10:00-11:00, so nothing opens before 11:45 without a move. Without any move, the first free 60-minute window is 15:30-16:45.
+
+**Step 3: Evaluate each allowed move**
+
+- **Design review (11:45-12:45; Elena, Jamal, Marcus):** Freeing this block leaves 11:45-12:45 open for everyone. Priya and Sofia are free from 11:45, Elena's next block is the tentative one at 12:45, and the room is free until its 12:45 Exec staff block. Earliest start: **11:45**.
+- **Vendor call (13:30-14:15; Jamal, Sofia):** This opens 13:15-14:15 once Elena's tentative block and the room's Exec staff block end at 13:15. Earliest start: **13:15**.
+- **1:1 Priya / Tom (9:30-10:15; Priya, Tom):** The room is still busy 9:30-10:30, and Sofia blocks 10:15-11:45 anyway. The earliest start stays after 11:45, and the design review block then pushes it later.
+
+**Step 4: Compare**
+
+Design review gives 11:45, which is earlier than the 13:15 from moving Vendor call. No move can produce a start before 11:45, because Sofia's QBR prep and the room's 9:30-10:30 booking are fixed.
+
+FINAL ANSWER: Design review",Design review,1,stop,
+openai/gpt-6-luna,cal2-move-000001,ok,Design review,cal2.move_one_meeting,"Sofia is busy with QBR prep until 11:45, so no quarter-hour start before then can work. From 11:45 to 12:45, the room and the other attendees are available, but Elena, Jamal, and Marcus have Design review. Moving it frees that time, making 11:45 the earliest possible start.
+
+FINAL ANSWER: Design review",Design review,1,stop,
+anthropic/claude-haiku-5.5,cal2-move-000002,ok,Design review,cal2.move_one_meeting,"**Step 1: Map the busy blocks** (8:00 at x≈281, 130 px per hour, 15-minute steps ≈ 32.5 px)
+
+- **Sofia:** 8:15–9:15, 9:15–10:15, 10:30–11:00, 12:30–13:00, 14:00–14:30, 15:00–16:00 (tentative), 17:00+ outside hours
+- **Tom:** 8:45–10:15, 11:15–12:15 (Design review), 12:30–13:00 (Data sync), 13:00–14:00 (Vendor call), 15:00–16:00 (tentative)
+- **Rachel:** 8:30–10:30 (tentative), 14:15–15:45
+- **Kenji:** 8:15–8:45, 9:00–10:00, 10:30–11:00, 11:15–12:15 (Design review), 14:00–14:30, 14:45–15:15, 17:00+
+- **Nate:** 8:00–9:45, 10:15–11:00, 12:15–12:45, 14:15–15:45, 17:15+
+- **Priya:** 8:30–9:00, 9:30–10:15 (1:1), 10:45–11:15 (tentative), 11:15–12:15 (Design review), 13:00–14:00 (Vendor call), 17:00+
+- **NYC-12 Hudson:** 8:30–9:30, 10:15–11:00, 12:15–12:45, 14:45–15:30
+
+With no moves, the only common free hour is 16:00–17:00.
+
+**Step 2: Test each movable meeting**
+
+- **Design review** (Tom, Kenji, Priya; 11:15–12:15). Freeing it leaves the group's constraints as follows: Sofia free 11:00–12:30, Tom free 10:15–12:30, Rachel free 10:30–14:15, Kenji free 11:00–14:00, Nate free 11:00–12:15, Priya free 11:15–13:00 (her 10:45–11:15 tentative block still applies), room free 11:00–12:15. The overlap is 11:15–12:15, a 60-minute slot. Nothing earlier works, because Priya is busy until 11:15 and the room until 11:00.
+- **Vendor call** (Tom, Priya; 13:00–14:00). Tom's 12:30–13:00 Data sync still blocks Sofia and Tom until 13:00, so the earliest start is 13:00.
+- **1:1 Priya / Tom** (9:30–10:15). Priya's tentative block at 10:45–11:15 and Sofia's commitments keep the earliest start at 11:15 or later. At 11:15, Tom is in Design review, so this option cannot start that early.
+
+**Step 3: Compare**
+
+Moving Design review gives an earliest start of 11:15, which beats 13:00 (Vendor call) and the later option for the 1:1.
+
+FINAL ANSWER: Design review",Design review,1,stop,
+openai/gpt-6-luna,cal2-move-000002,ok,Design review,cal2.move_one_meeting,"Moving **Design review** frees Tom, Kenji, and Priya from 11:15 to 12:15. At that time, Sofia, Rachel, and Nate are also free, and NYC-12 Hudson is available.
+
+No earlier quarter-hour start works: before 11:15, an overlapping attendee or the room remains busy even after moving any one of the three listed meetings.
+
+FINAL ANSWER: Design review",Design review,1,stop,
+anthropic/claude-haiku-5.5,cal2-move-000003,ok,Vendor call,cal2.move_one_meeting,"**Vendor call**
+
+I read each attendee's row and the room row against the 9:00-17:00 window, treating busy, tentative, and out-of-office blocks all as busy.
+
+**Current availability (no moves):** No 60-minute slot works before 16:00. The first common free hour is 16:00-17:00. The constraint is Marcus Lee, who is blocked from 10:30 to 11:30 and again from 12:45 to 13:15. Tom Becker is blocked 11:15-11:45, so no slot starts before 11:45 even if Marcus were free.
+
+**Option 1: Design review** (Elena, Tom, Grace, 13:30-14:30). Freeing it gives a common slot starting at 13:30, since Marcus is free 13:15-14:30 and Tom is free from 13:30 onward.
+
+**Option 2: Vendor call** (Daniel and Grace, 11:45-12:45). Freeing it opens 11:45-12:45 for everyone:
+- Marcus is free 11:30-12:45.
+- Tom is free 11:45-12:45.
+- Elena is free 11:00-13:30.
+- Priya is free 11:30-14:45.
+- Daniel and Grace are free after the call is removed.
+- The room is free 11:00-15:30.
+
+This gives a 60-minute slot starting at 11:45.
+
+**Option 3: 1:1 Priya / Tom** (Priya and Tom, 9:15-10:15). This cannot help, because Tom's 11:15-11:45 block is unmovable and Marcus is busy until 11:30. The earliest start it could allow is 11:45, and it doesn't reach that.
+
+The earliest possible start is 11:45, achieved only by moving the Vendor call.
+
+FINAL ANSWER: Vendor call",Vendor call,1,stop,
+openai/gpt-6-luna,cal2-move-000003,ok,Design review,cal2.move_one_meeting,"The earliest possible start after moving **Design review** is 13:30. Moving it clears Elena, Tom, and Grace for 13:30–14:30; the other attendees and the room are available then.
+
+No earlier slot works: Marcus is busy or tentative through 11:30, and from 11:30 until 13:00 other attendees have overlapping commitments, including Daniel and Grace’s Vendor call. Moving either of the other listed meetings would not clear the 13:30–14:30 Design review conflict.
+
+FINAL ANSWER: Design review",Vendor call,0,stop,

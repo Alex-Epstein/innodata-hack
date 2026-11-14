@@ -1,0 +1,137 @@
+{
+ "key": "c32019be0834e69ad85d2e057965fd63efba2201eaee9c878ab2bac956952d9c",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is the as-found single-line diagram of a building's 480 V switchgear. Breakers 52-M2 and CB-09 both trip at the same moment. Nothing else changes: no other breaker opens or closes, N.O. ties stay open, and Generator G1 keeps running. Which loads that were running before the event lose power? A load behind an open breaker was not running. Answer with the load tags (for example CH-2), in the order they appear on the drawing from left to right, separated by commas.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "pwr2-dbl-000001.png",
+       "sha256": "c889189303278712ddd4f30433e931ecf35dbf68af8da830eee9beebf33a0e87"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794675461-3FLBYpaXqlnxsQzAVjqQ",
+  "object": "chat.completion",
+  "created": 1794675461,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "52-M2 opens the utility feed to Bus 2. With both normally open ties still open, Bus 2 has no alternate source, so its running loads LP-2, EF-4, LAB-2, and EV-1 lose power. PP-2 was already off because CB-17 was open. CB-09 also isolates EMCC-1; its running loads RP-3 and HP-2 lose power. G1 continues to supply the loads still connected to Bus E.\n\nFINAL ANSWER: LP-2, EF-4, LAB-2, EV-1, RP-3, HP-2",
+     "refusal": null,
+     "reasoning": "**Exploring connections for feeds**\n\nI'm thinking about the connections for these feeds—CB02 is open, and it seems to feed EMCC1 from Bus 1, which is intriguing. Then there's CB04 that‘s routing to PNL-2B, which is an alternate bus feed. I'm wondering if there's clarity needed on CB? Maybe I should grab a map to visualize this better. It feels like there's a lot going on here, and I want to ensure I have everything straight!",
+     "reasoning_details": [
+      {
+       "type": "reasoning.summary",
+       "summary": "**Exploring connections for feeds**\n\nI'm thinking about the connections for these feeds—CB02 is open, and it seems to feed EMCC1 from Bus 1, which is intriguing. Then there's CB04 that‘s routing to PNL-2B, which is an alternate bus feed. I'm wondering if there's clarity needed on CB? Maybe I should grab a map to visualize this better. It feels like there's a lot going on here, and I want to ensure I have everything straight!",
+       "format": "openai-responses-v1",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7572,
+        "sha256": "dfc77889e3f2ca4b9b70f5dd8920fbbf340cb3133be880e5a7b9333367a8fe43"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_029c5db680ad1a03016af8930666d487d19e488b2d519f8adc",
+       "index": 1
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7444,
+        "sha256": "591ab30990f5510ba9e2a4aada280415a24e41c0820851bd1b4ddc1972409900"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_029c5db680ad1a03016af8930cef8087d1b763b770476ec6c1",
+       "index": 2
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Organizing bus and feeder details**\n\nI’m noting that G1 supports Bus E and CB10 FP1 without any issues. It's important to list them out clearly. I’ll also make sure to note the status of the CB07 feeder and branch. It seems Bus2 might operate with CB04 as an alternate from Bus1, but there's still some uncertainty. I'll focus on providing a final, precise answer with a clear layout, likely using bullet points for better clarity and ensuring that the tags are in the correct order.",
+       "format": "openai-responses-v1",
+       "index": 3
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 5312,
+        "sha256": "1946917c53734e79614f8aec628b83e8aeb1ecf9429200e89905a9504c572fa2"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_029c5db680ad1a03016af893109e0087d19c806b03bedd4950",
+       "index": 4
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2243,
+   "completion_tokens": 1476,
+   "total_tokens": 3719,
+   "cost": 0.0010183,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 2240,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0010183,
+    "upstream_inference_prompt_cost": 0.0002803,
+    "upstream_inference_completions_cost": 0.000738
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1343,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 15.14,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:57:41+00:00"
+}

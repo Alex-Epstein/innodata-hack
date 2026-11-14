@@ -1,0 +1,131 @@
+{
+ "key": "2483350ccb7fb8e6628c74657b390f00ba46bd5fba6561aca9d6bdf0b9b7ea4c",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is the as-found single-line diagram of a building's 480 V switchgear. A crew must work on BUS 2B (panel PNL-2B). Bus 2B must be isolated: afterwards there may be no path through closed breakers from any source (utility services, generator G1, or the PV-1 solar inverter) to Bus 2B. Breakers that are already open need no action. Open as few breakers as possible, and do not cut power to any running load that is not fed from Bus 2B. Which breakers must be opened? Answer with the breaker IDs sorted alphabetically, separated by commas.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "pwr2-iso-000000.png",
+       "sha256": "ade3cef03db9950eceb7e33553243d62041cb46b6744afcf3fb9c9564e7253d8"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794675492-ttflFiyYzcN2DtJVKxml",
+  "object": "chat.completion",
+  "created": 1794675492,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "CB-05, the utility-side feeder to Bus 2B, is already open. The utility ties 52-T and 52-ET are also open, so they provide no path to the bus. The closed PV-1 feeder CB-18 is a source connected directly to Bus 2B; opening it removes the remaining source path. CB-16 and CB-17 feed loads on Bus 2B and need not be opened.\n\nFINAL ANSWER: CB-18",
+     "refusal": null,
+     "reasoning": "**Analyzing bus isolation steps**\n\nI’m working on isolating Bus2B from the sources utility/generator/PV. Since the bus feed breaker CB-05 is already open, I don’t need to do anything there. However, I need to take action on source PV breaker CB-18, which is currently closed. I have to open this breaker because it directly connects the PV source to Bus2B. It’s important to get this right for proper isolation.",
+     "reasoning_details": [
+      {
+       "type": "reasoning.summary",
+       "summary": "**Analyzing bus isolation steps**\n\nI’m working on isolating Bus2B from the sources utility/generator/PV. Since the bus feed breaker CB-05 is already open, I don’t need to do anything there. However, I need to take action on source PV breaker CB-18, which is currently closed. I have to open this breaker because it directly connects the PV source to Bus2B. It’s important to get this right for proper isolation.",
+       "format": "openai-responses-v1",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7764,
+        "sha256": "c386d28cfea591c754353e850df3ed946a2d289c5b0a79887ff746d9bf332fab"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_06eb3cd822f3f3c3016af893255cec87d1ad72413312fc0f81",
+       "index": 1
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7596,
+        "sha256": "dd72cc1156c5fbd4be9d186e61d52a6ff28e673de666b8a98cdfce076fe530c9"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_06eb3cd822f3f3c3016af8932ad98087d19c193583f796abf7",
+       "index": 2
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 4268,
+        "sha256": "29be37b00ce3b841da3883b9df14044350f2ea9270f8b163118a31da2d4296b3"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_06eb3cd822f3f3c3016af8932dca4c87d19ade1406bd755922",
+       "index": 3
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2265,
+   "completion_tokens": 1348,
+   "total_tokens": 3613,
+   "cost": 0.00095705,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 2262,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.00095705,
+    "upstream_inference_prompt_cost": 0.00028305,
+    "upstream_inference_completions_cost": 0.000674
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1245,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 11.63,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:58:12+00:00"
+}

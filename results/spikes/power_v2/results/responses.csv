@@ -1,0 +1,237 @@
+model,task_id,status,parsed,question_type,response,ref_answer,correct,finish_reason,error
+anthropic/claude-haiku-5.5,pwr2-trip-000000,ok,134,pwr.trip_transfer_shed,"## Step 1: Trace the as-found topology
+
+- **Sources:** 52-M1 is closed, so Utility 1 feeds Bus 1. 52-M2 is open, so Utility 2 is out. 52-G1 and 52-ET are closed, so G1 feeds Bus E and Bus 2.
+- **Bus 1** (closed breakers): CB-01 (EF-4 direct), CB-02 (Bus 1B), CB-04 (junction feeding CT-1 and AHU-3). CB-03 and the tie 52-T are open.
+- **Bus 2** (closed breakers): CB-05 (RP-3 direct), CB-07 (Bus 2B), CB-08 (Bus EB). CB-06 is open.
+- **Bus E** (closed breakers): CB-09 (Bus EB), CB-10 (ELP-1 direct).
+- **Bus 1B:** CHWP-1 (51), PP-2 (143), KP-1 (82).
+- **Bus 2B:** EL-1 is behind open CB-16, so it was not running. UPS-1 (160), LAB-2 (70), BP-1 (29) are running.
+- **Bus EB:** LP-2 (48), DH-B (370).
+
+## Step 2: G1 load before the trip
+
+Bus 2 is fed only by G1, so every running load downstream of Bus 2 or Bus E is on G1:
+
+- ELP-1: 38
+- Bus EB (LP-2 + DH-B): 418
+- RP-3: 45
+- Bus 2B (UPS-1 + LAB-2 + BP-1): 259
+
+Total = 760 kW.
+
+## Step 3: Loads lost when 52-M1 trips
+
+All of Bus 1 is de-energized:
+
+- EF-4: 23
+- CHWP-1: 51
+- PP-2: 143
+- KP-1: 82
+- CT-1: 60
+- AHU-3: 63
+
+Total lost = 422 kW.
+
+## Step 4: Close 52-T and shed
+
+Bus 2 is energized by G1, so closing 52-T restores Bus 1. The load on G1 becomes 760 + 422 = 1182 kW, which exceeds 950 kW. Shed the lost loads largest first:
+
+1. Shed PP-2 (143): 1182 − 143 = 1039 kW, still above 950.
+2. Shed KP-1 (82): 1039 − 82 = 957 kW, still above 950.
+3. Shed AHU-3 (63): 957 − 63 = 894 kW, at or below 950. Stop.
+
+Shed total = 143 + 82 + 63 = 288 kW.
+
+Still without power = 422 − 288 = 134 kW (CT-1 60, CHWP-1 51, EF-4 23).
+
+FINAL ANSWER: 134",225,0,stop,
+openai/gpt-6-luna,pwr2-trip-000000,ok,225,pwr.trip_transfer_shed,"G1 is initially carrying the loads on Bus 2 and the emergency bus: 45 + 160 + 70 + 29 + 48 + 370 + 38 = 760 kW.
+
+The running Bus 1 loads total 23 + 51 + 143 + 82 + 60 = 359 kW. Restoring all of them would bring G1 to 1,119 kW, so at least 169 kW must be shed.
+
+Shed the largest loads first: PP-2 at 143 kW leaves G1 at 976 kW, still over its rating. Shed the next-largest, Kitchen Panel at 82 kW, and G1 falls to 894 kW. The load still without power is therefore 143 + 82 = 225 kW.
+
+FINAL ANSWER: 225",225,1,stop,
+anthropic/claude-haiku-5.5,pwr2-trip-000001,ok,475,pwr.trip_transfer_shed,"**Answer: 475 kW**
+
+**Before the trip, what G1 carries (closed breakers):**
+- Bus E: FP-1 (89 kW) via CB-10.
+- Bus EB via CB-08: CHWP-1 (50 kW) and CH-1 (400 kW).
+- Bus 2B via CB-09: AC-1 (128 kW) and HP-2 (76 kW). LP-2 sits behind open CB-17, so it was not running.
+- Bus 2 via closed 52-ET: RP-3 (67 kW) via closed CB-05.
+- Total running before the trip: 89 + 450 + 204 + 67 = 810 kW.
+
+**Loads that lose power when 52-M1 trips (Bus 1 de-energized):**
+- Bus 1B (MCC-1B via CB-01): CH-2 360, UPS-1 160, CT-1 75, PP-2 152 kW (747 kW total).
+- CB-03 feeds DH-B 395 and BP-1 19 kW directly (414 kW).
+- CB-04 feeds KP-1 69 kW.
+- Total lost: 1230 kW.
+
+**Transfer:** Bus 2 is energized through 52-ET from G1, so closing 52-T restores Bus 1. Without shedding, G1 would carry 810 + 1230 = 2040 kW, which exceeds 1350 kW.
+
+**Shedding, largest first:**
+1. Open CB-15 (DH-B, 395 kW): load becomes 2040 − 395 = 1645 kW, still above 1350.
+2. Open CB-11 (CH-2, 360 kW): load becomes 1645 − 360 = 1285 kW, at or below 1350, so stop.
+
+**Still unpowered after the transfer:** UPS-1 160 + PP-2 152 + CT-1 75 + KP-1 69 + BP-1 19 = 475 kW.
+
+FINAL ANSWER: 475",755,0,stop,
+openai/gpt-6-luna,pwr2-trip-000001,ok,755,pwr.trip_transfer_shed,"With 52-ET closed, G1 supplies Bus 2 and Bus E. The running loads there are the 67 kW receptacle panel and the three Bus E loads (50 + 400 + 89 kW), for **606 kW**. Bus 2B loads are excluded because feeder CB-07 is open.
+
+The running Bus 1 loads that lose power when 52-M1 trips total **1,297 kW**. After transfer, the generator would carry 606 + 1,297 = **1,903 kW**, so at least 553 kW must be shed. Shedding largest first opens the 395 kW Data Hall B load, then the 360 kW chiller load; together they shed 755 kW and bring the generator to 1,148 kW.
+
+FINAL ANSWER: 755",755,1,stop,
+anthropic/claude-haiku-5.5,pwr2-trip-000002,ok,565,pwr.trip_transfer_shed,"## Reading the as-found diagram
+
+**Breaker states (filled = closed, hollow = open):**
+- Closed: 52-M1, 52-ET, 52-G1, CB-01 through CB-05, CB-07, CB-10, CB-11 to CB-19, CB-21
+- Open: 52-T (N.O.), 52-M2, CB-06 (N.O.), CB-08, CB-09 (N.O.), CB-20
+
+**Loads running before the trip (closed breaker to a load):**
+
+| Bus | Breaker | Load | kW |
+|---|---|---|---|
+| Bus 1 | CB-02 | DH-A | 390 |
+| Bus 1B (via CB-01) | CB-11, CB-12, CB-13 | CRAH-4, EF-4, AHU-3 | 38 + 24 + 73 = 135 |
+| Bus 1 (via CB-04) | CB-14, CB-15 | LAB-2, RP-3 | 77 + 53 = 130 |
+| Bus EB (via CB-03) | CB-21 | UPS-1 | 175 |
+| Bus E | CB-10 | FP-1 | 81 |
+| Bus 2 (via 52-ET) | CB-05 | EV-1 | 165 |
+| Bus 2B (via CB-07) | CB-16 to CB-19 | CT-1, AC-1, LP-2, KP-1 | 60 + 131 + 29 + 79 = 299 |
+
+CH-2 (400 kW) is behind the open CB-20, so it was not running and is excluded.
+
+**After the trip:** 52-M1 opens, and 52-T is open, so Bus 1 is dead. Bus EB connects to Bus 1 only through CB-03, and CB-08 is open, so Bus EB has no path to G1. Bus 1, Bus 1B, Bus EB and their loads all lose power. The lost loads are DH-A (390), CRAH-4, EF-4, AHU-3 (135), LAB-2, RP-3 (130) and UPS-1 (175), totaling 830 kW.
+
+Bus 2 is still energized from G1 through the closed 52-ET. That makes it a valid source for the tie. G1 is carrying 165 + 299 + 81 = 545 kW.
+
+**Transfer:** Closing 52-T would restore all 830 kW, giving 545 + 830 = 1375 kW on G1, which exceeds 950 kW. The operator sheds lost loads largest first:
+1. Open DH-A (390 kW): total = 1375 − 390 = 985 kW, still above 950, so continue.
+2. Open UPS-1 (175 kW): total = 985 − 175 = 810 kW, at or below 950, so stop.
+
+**Still without power after the transfer:** DH-A (390 kW) and UPS-1 (175 kW), which is 565 kW. The remaining lost loads (LAB-2, RP-3, AHU-3, CRAH-4, EF-4; 265 kW) are restored, giving 810 kW on G1.
+
+FINAL ANSWER: 565",565,1,stop,
+openai/gpt-6-luna,pwr2-trip-000002,ok,565,pwr.trip_transfer_shed,"1. G1 initially supplies the loads on Bus 2 and Bus E: \(165 + 299 + 81 = 545\) kW.
+2. The running loads that lose power when 52-M1 trips total \(830\) kW: \(135\) kW on MCC-1B, \(390\) kW DH-A, \(130\) kW on the lab/receptacle panel, and \(175\) kW UPS-1. The 400 kW chiller is behind an open breaker, so it was not running.
+3. After transfer, the unshed total would be \(545 + 830 = 1{,}375\) kW. Shed the largest loads first: DH-A at 390 kW leaves 985 kW, still above the limit; shedding UPS-1 at 175 kW brings the total to 810 kW.
+4. Those two shed loads remain without power, totaling 565 kW.
+
+FINAL ANSWER: 565",565,1,stop,
+anthropic/claude-haiku-5.5,pwr2-dbl-000001,ok,"LP-2, EF-4, LAB-2, EV-1, RP-3, HP-2",pwr.double_fault_list,"**Tracing each lost source:**
+
+- **52-M2 opens:** Bus 2 (SWGR-2) loses its only energized source. The tie 52-T is open, and CB-06 and CB-04 are N.O. ties that stay open, so nothing re-feeds Bus 2 or Bus 2B (PNL-2B).
+  - CB-07 feeds PNL-2B directly. Running loads there: LP-2 (CB-16 closed), EF-4 (CB-18 closed), and LAB-2 (CB-19 closed). PP-2 is not running because CB-17 is open.
+  - CB-08 feeds EV-1 directly, and CB-08 is closed, so EV-1 loses power.
+- **CB-09 trips:** Bus EB (EMCC-1) is fed only from Bus E through CB-09. The N.O. tie CB-02 (to Bus 1) stays open, so nothing re-feeds it. Running loads there: RP-3 (CB-20 closed) and HP-2 (CB-21 closed). FP-1 is on CB-10 and stays energized from Generator G1, which keeps running.
+- **Unaffected:** Bus 1 remains fed from Utility 1 through 52-M1, so BP-1, KP-1, CH-2, and CT-1 stay on. AC-1 is on Bus 1 directly, and CB-12 (CH-1) is open, so it was not running anyway.
+
+**Loads that were running and lose power, in drawing order (left to right):** LP-2, EF-4, LAB-2, EV-1, RP-3, HP-2.
+
+FINAL ANSWER: LP-2, EF-4, LAB-2, EV-1, RP-3, HP-2","[""LP-2"", ""EF-4"", ""LAB-2"", ""EV-1"", ""RP-3"", ""HP-2""]",1,stop,
+openai/gpt-6-luna,pwr2-dbl-000001,ok,"LP-2, EF-4, LAB-2, EV-1, RP-3, HP-2",pwr.double_fault_list,"52-M2 opens the utility feed to Bus 2. With both normally open ties still open, Bus 2 has no alternate source, so its running loads LP-2, EF-4, LAB-2, and EV-1 lose power. PP-2 was already off because CB-17 was open. CB-09 also isolates EMCC-1; its running loads RP-3 and HP-2 lose power. G1 continues to supply the loads still connected to Bus E.
+
+FINAL ANSWER: LP-2, EF-4, LAB-2, EV-1, RP-3, HP-2","[""LP-2"", ""EF-4"", ""LAB-2"", ""EV-1"", ""RP-3"", ""HP-2""]",1,stop,
+anthropic/claude-haiku-5.5,pwr2-dbl-000002,ok,"CRAH-4, AC-1, CHWP-1, EF-4, RP-3",pwr.double_fault_list,"**Tracing the two tripped breakers**
+
+**52-M2 opens:** It is the only closed source feeding BUS 2 (SWGR-2). The tie 52-T is N.O. and open, so BUS 2 is de-energized. Everything fed from BUS 2 loses power:
+- **CB-08** (closed) feeds EF-4 directly, so **EF-4** is lost.
+- **CB-06** (closed) is the feed to BUS 1B (MCC-1B). BUS 1B's other feed, CB-03, is open, and CB-02 is an open tie that goes to EMCC-1, not MCC-1B. So BUS 1B loses its only source, and **CRAH-4** (CB-11), **AC-1** (CB-12), and **CHWP-1** (CB-13) lose power.
+- **CB-07** is open, so nothing changes there.
+
+BUS 2B stays energized through CB-04 from BUS 1, so LP-2, LAB-2, CH-2, and DH-A keep running. CB-05 from BUS 1 keeps HP-2 running (CB-14 is open, so EL-1 was not running anyway).
+
+**CB-09 opens:** It is the closed feed from BUS E (the emergency bus, still energized by G1) to EMCC-1 (BUS EB). The only other tie to EMCC-1 is CB-02, which is N.O. and open. So BUS EB is de-energized:
+- **CB-20** (closed) feeds RP-3, so **RP-3** is lost.
+- **CB-21** is open, so PP-2 was not running.
+
+EL-2 stays on through CB-10 from BUS E, and CH-1 stays on through CB-01 from BUS 1.
+
+**Loads lost, in left-to-right drawing order:** CRAH-4 (x≈207), AC-1 (x≈297), CHWP-1 (x≈387), EF-4 (x≈1143), RP-3 (x≈1307).
+
+FINAL ANSWER: CRAH-4, AC-1, CHWP-1, EF-4, RP-3","[""CRAH-4"", ""AC-1"", ""CHWP-1"", ""EF-4"", ""RP-3""]",1,stop,
+openai/gpt-6-luna,pwr2-dbl-000002,ok,RP-3,pwr.double_fault_list,"CB-04 remains closed and feeds BUS 2B from BUS 1; closed CB-06 also connects BUS 2B to BUS 2, so the loads on those buses retain power after 52-M2 trips. CB-09 isolates BUS EB from the generator-fed BUS E, and the alternate feed through normally open CB-02 remains unavailable. RP-3 was running through closed CB-20; PP-2 was not running because CB-21 was open.
+
+FINAL ANSWER: RP-3","[""CRAH-4"", ""AC-1"", ""CHWP-1"", ""EF-4"", ""RP-3""]",0,stop,
+anthropic/claude-haiku-5.5,pwr2-dbl-000003,ok,"CHWP-1, EV-1, AHU-3, UPS-1, PP-2, KP-1, CH-2, DH-A",pwr.double_fault_list,"**Tracing the sources**
+
+- **52-M2** feeds BUS 2 from T2. BUS 2 ties to BUS 1 through 52-T (N.O., open) and to BUS E through 52-ET (N.O., open), so BUS 2 has no other source. Tripping 52-M2 de-energizes it.
+- **CB-09** feeds BUS EB from BUS E, which is supplied by G1 through 52-G1. G1 keeps running, so BUS E stays energized. Only BUS EB loses its feed.
+
+**What BUS 2 feeds**
+
+- **CB-06** (closed) runs to BUS 1B (MCC-1B). BUS 1B's other connections are CB-02 (open) and CB-01 tie (open), so BUS 1B loses power.
+  - CB-11 (CHWP-1), CB-12 (EV-1), CB-13 (AHU-3) lose power.
+- **CB-07** (closed) feeds BUS 2B (PNL-2B). Its only other route, the CB-01 N.O. tie, is open, so BUS 2B loses power.
+  - CB-16 (UPS-1), CB-17 (PP-2), CB-18 (KP-1), CB-19 (CH-2) lose power.
+- **CB-08** is open, so CT-1 was not running.
+
+**What BUS EB feeds**
+
+- BUS EB is fed from BUS E through CB-09. Its tie to BUS 1 through CB-04 is N.O. (open), so it has no alternate source.
+  - CB-20 (DH-B) is open, so DH-B was not running.
+  - CB-21 (DH-A) is closed, so DH-A loses power.
+
+**Loads that stay powered**
+
+- BUS 1 is still fed by T1 through 52-M1, so LP-2 (CB-03) and CRAH-4 and AC-1 (via CB-05) keep running.
+- EL-2 (CB-10) is on BUS E, which stays energized from G1.
+
+**Loads that lose power, in left-to-right drawing order:** CHWP-1, EV-1, AHU-3, UPS-1, PP-2, KP-1, CH-2, DH-A
+
+FINAL ANSWER: CHWP-1, EV-1, AHU-3, UPS-1, PP-2, KP-1, CH-2, DH-A","[""CHWP-1"", ""EV-1"", ""AHU-3"", ""UPS-1"", ""PP-2"", ""KP-1"", ""CH-2"", ""DH-A""]",1,stop,
+openai/gpt-6-luna,pwr2-dbl-000003,ok,DH-A,pwr.double_fault_list,"52-M2 trips, but Bus 2 can still be backfed from Bus 1 through the closed CB-02 and CB-06 path, so its running loads remain powered. CB-09 isolates Bus EB; the open CB-04 provides no alternate feed, so the running load on Bus EB loses power. CB-20 is already open, so its load was not running.
+
+FINAL ANSWER: DH-A","[""CHWP-1"", ""EV-1"", ""AHU-3"", ""UPS-1"", ""PP-2"", ""KP-1"", ""CH-2"", ""DH-A""]",0,stop,
+anthropic/claude-haiku-5.5,pwr2-iso-000000,ok,"CB-09, CB-18",pwr.isolation_min_set,"**Tracing the sources to Bus 2B (PNL-2B):**
+
+- **Utility 1** feeds BUS 1 through 52-M1 (closed). BUS 1 feeds Bus 1B through CB-04 (closed), and Bus EB through CB-03 (closed).
+- **Utility 2** feeds BUS 2 through 52-M2 (closed). CB-05 (open) is the only direct Bus 2 connection to Bus 2B, so it is not a path. The tie 52-T (open) separates Bus 1 from Bus 2.
+- **Generator G1** feeds BUS E through 52-G1 (closed). BUS E connects to Bus 2B through **CB-09 (closed)**. The line from CB-09 drops to the Bus 2B bar at x≈964, which is within the Bus 2B span. This is a live path to Bus 2B.
+- **Bus 2B to Bus 1B** is through CB-06 (N.O., open), so it is not a path.
+- **PV-1 solar inverter** connects to Bus 2B through **CB-18 (closed)**. The inverter is a source, so this path must be cut.
+- **CB-16** (RP-3) and **CB-17** (AC-1) are loads fed from Bus 2B, so they may lose power and need not be opened.
+
+**Opening CB-09 and CB-18** removes both live paths. Bus 2B then connects only to open breakers (CB-05, CB-06) and its own load breakers. Opening CB-09 does not drop any load other than those on Bus 2B, since its only downstream connection is Bus 2B. No fewer breakers will work: CB-18 is the sole link to the PV source, and CB-09 is the only closed link from G1/Bus E to Bus 2B. Bus E's other connections (CB-10 to Bus EB, which is fed from Bus 1 via CB-03) do not reach Bus 2B.
+
+FINAL ANSWER: CB-09, CB-18","[""CB-09"", ""CB-18""]",1,stop,
+openai/gpt-6-luna,pwr2-iso-000000,ok,CB-18,pwr.isolation_min_set,"CB-05, the utility-side feeder to Bus 2B, is already open. The utility ties 52-T and 52-ET are also open, so they provide no path to the bus. The closed PV-1 feeder CB-18 is a source connected directly to Bus 2B; opening it removes the remaining source path. CB-16 and CB-17 feed loads on Bus 2B and need not be opened.
+
+FINAL ANSWER: CB-18","[""CB-09"", ""CB-18""]",0,stop,
+anthropic/claude-haiku-5.5,pwr2-iso-000001,ok,"CB-06, CB-09, CB-18",pwr.isolation_min_set,"**Tracing the feeds into BUS 2B (PNL-2B):**
+
+1. **From BUS 2 (SWGR-2) via CB-06 (closed).** CB-06 sits directly on Bus 2 and drops to Bus 2B. Bus 2 is energized from Utility 2 through 52-M2 (closed).
+2. **From BUS E (EMERG SWGR) via CB-09 (closed).** CB-09 comes off Bus E, runs left along the y≈532 line, and drops to Bus 2B at x≈1080. Bus E is energized from Bus 2 through the closed tie 52-ET, so this is a second path back to Utility 2. Generator G1 is not connected, since 52-G1 is open.
+3. **From PV-1 via CB-18 (closed).** The solar inverter connects directly to Bus 2B through CB-18.
+
+**Breakers that are already open and need no action:** 52-T, CB-05, CB-07, 52-G1, and CB-14.
+
+**Breakers that are not needed:**
+- CB-16 and CB-17 are load breakers on Bus 2B. Their loads are fed only from Bus 2B, so losing them is acceptable and they can stay as they are.
+- Opening upstream devices such as 52-M2 or 52-ET would cut power to other running loads on Bus 2 and Bus E, which is not allowed.
+
+**Minimum set:** The three feeders into Bus 2B are independent, so each must be opened: CB-06, CB-09, and CB-18. Opening these three leaves no closed path from any source to Bus 2B, and it does not de-energize any load outside Bus 2B.
+
+FINAL ANSWER: CB-06, CB-09, CB-18","[""CB-06"", ""CB-09"", ""CB-18""]",1,stop,
+openai/gpt-6-luna,pwr2-iso-000001,ok,"CB-06, CB-09, CB-18",pwr.isolation_min_set,"Bus 2B has closed connections to Bus 2 through CB-06 and Bus E through CB-09, plus the PV-1 source through CB-18. Open all three to remove those paths. CB-05 and CB-07 are already open. Verify absence of voltage and apply appropriate lockout/tagout before work.
+
+FINAL ANSWER: CB-06, CB-09, CB-18","[""CB-06"", ""CB-09"", ""CB-18""]",1,stop,
+anthropic/claude-haiku-5.5,pwr2-iso-000002,ok,"CB-05, CB-09, CB-18",pwr.isolation_min_set,"**Tracing the paths into BUS 2B (PNL-2B)**
+
+Bus 2B has four connections: CB-05, CB-16, CB-17, and CB-18. CB-16 and CB-17 are load feeders (LP-2 and AHU-3), so they lead away from the bus and cannot carry source power into it. Also, CB-09 reaches Bus 2B through the jog at x≈964, so it must be counted as a fourth connection, giving three source-side breakers: CB-05, CB-09, and CB-18.
+
+1. **Utility Service 2 (via Bus 2):** Bus 2 is fed from 52-M2. Its other ties are open: 52-T, 52-ET, and CB-06. Opening CB-05 cuts this path. Opening 52-M2 would also de-energize EV-1 (fed from Bus 2 via CB-07), which is not allowed, so CB-05 is the correct point.
+
+2. **Generator G1 (via Bus E):** G1 feeds Bus E through 52-G1. Bus E reaches Bus 2B through CB-09, which is closed. Opening 52-G1 would de-energize AC-1, CT-1, and EL-2, which are not on Bus 2B, so CB-09 is the correct point. CB-08 feeds Bus EB, not Bus 2B, so it does not need to open.
+
+3. **PV-1 solar inverter:** PV-1 connects directly to Bus 2B through CB-18, which is closed. Opening CB-18 isolates it.
+
+**Checking for other paths:** Bus 1 and Bus 1B connect to Bus 2B only through open tie breakers (52-T, CB-06, CB-03, 52-ET), so none of these is a back-feed path. Opening CB-05, CB-09, and CB-18 leaves no closed path from any source to Bus 2B, and each opened breaker serves only the bus or Bus 2B, so no unrelated running load is interrupted.
+
+Three breakers is the minimum, since each of the three sources needs its own isolation point.
+
+FINAL ANSWER: CB-05, CB-09, CB-18","[""CB-09"", ""CB-18""]",0,stop,
+openai/gpt-6-luna,pwr2-iso-000002,ok,"CB-05, CB-09, CB-18",pwr.isolation_min_set,"CB-05 is the closed connection from Bus 2 to Bus 2B, so opening it blocks the utility-service path. CB-09 connects Bus E, which is supplied by generator G1, to Bus 2B. CB-18 connects the PV-1 inverter directly to Bus 2B. The other relevant ties shown are already open, and these three breakers isolate Bus 2B without interrupting loads on other buses.
+
+FINAL ANSWER: CB-05, CB-09, CB-18","[""CB-09"", ""CB-18""]",0,stop,
