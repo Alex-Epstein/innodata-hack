@@ -1,0 +1,1 @@
+Done: final 10 generated in Docker per the final-10 rule (crossings 100-102, sunset 100-102, flood 100-103, 0 rejected), validate 10/10, eval Haiku 2/10, Luna 3/10 (all ok/stop), rebuild 10/10 identical. next: report + site on tasks/final, human baseline (#55), scripts/package --fill-readme. blocked: none
