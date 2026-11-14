@@ -1,0 +1,99 @@
+{
+ "key": "c6d2f3896a8d4dc6afc97c016efb314b885866f3e01ca632c8317376398a48d1",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a lead II rhythm strip on standard ECG paper recorded at 25 mm/s: one small box is 0.04 s and one large box (5 small boxes) is 0.20 s. The square pulse at the far left is the 1 mV calibration mark, not a heartbeat. The rhythm is irregular. What is the difference between the longest and the shortest R-R interval on this strip, in milliseconds? R peaks are a whole number of small boxes apart, so give a multiple of 40, for example 360.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "ecg-000403.png",
+       "sha256": "3828fe4c28829c8e784bdcda539cac0aa5a195dd53e406e2a25b1348c6622eae"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673227-KhwTdxjJRook2mb5xvIn",
+  "object": "chat.completion",
+  "created": 1794673227,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Method**\n\n1. **Scale.** One large box is 0.20 s and one small box is 0.04 s, so 1 small box = 8 px in the image (large boxes are about 40 px apart).\n\n2. **R-peak positions (approximate x-pixels):** 203, 371, 476, 563, 763, 939, 1051, 1250, 1451, 1530, 1691, 1875.\n\n3. **R-R intervals in pixels, converted to small boxes (÷8):**\n\n| Interval | px | Small boxes | ms |\n|---|---|---|---|\n| 1→2 | 168 | 21 | 840 |\n| 2→3 | 105 | 13 | 520 |\n| 3→4 | 87 | 11 | 440 |\n| 4→5 | 200 | 25 | 1000 |\n| 5→6 | 176 | 22 | 880 |\n| 6→7 | 112 | 14 | 560 |\n| 7→8 | 199 | 25 | 1000 |\n| 8→9 | 201 | 25 | 1000 |\n| 9→10 | 79 | 10 | 400 |\n| 10→11 | 161 | 20 | 800 |\n| 11→12 | 184 | 23 | 920 |\n\nAs a check, the 11 intervals sum to 209 small boxes, which matches the full span from the first to the last R peak (1672 px ÷ 8 = 209).\n\n4. **Extremes.**\n   - Longest R-R: 25 small boxes = 1000 ms.\n   - Shortest R-R: 10 small boxes = 400 ms.\n\n5. **Difference:** 1000 ms − 400 ms = 600 ms (15 small boxes).\n\nFINAL ANSWER: 600",
+     "refusal": null,
+     "reasoning": "I'm working out the R peak pixel positions from the grid, where a large box is about 40 px, which means 1 px is 5 ms. I'm reading off the first four R peaks from the image, at roughly x=203, 371, 476, and 563, and now starting on the fifth.\n\nNow I'm listing the remaining R peak positions, through the twelfth at about x=1875.\n\nI'm converting the gaps between the R peaks into small-box counts, where each small box is 8 px. Most land near whole numbers, and the longest interval comes out at 25 boxes (1000 ms) and the shortest at 10 boxes (400 ms), so the difference is 600 ms. I'm now checking the total span of 209 boxes against the sum of the intervals.\n\nI'm checking that the summed box counts match the total span of 209 boxes, and they do, so the answer of 600 ms holds.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm working out the R peak pixel positions from the grid, where a large box is about 40 px, which means 1 px is 5 ms. I'm reading off the first four R peaks from the image, at roughly x=203, 371, 476, and 563, and now starting on the fifth.\n\nNow I'm listing the remaining R peak positions, through the twelfth at about x=1875.\n\nI'm converting the gaps between the R peaks into small-box counts, where each small box is 8 px. Most land near whole numbers, and the longest interval comes out at 25 boxes (1000 ms) and the shortest at 10 boxes (400 ms), so the difference is 600 ms. I'm now checking the total span of 209 boxes against the sum of the intervals.\n\nI'm checking that the summed box counts match the total span of 209 boxes, and they do, so the answer of 600 ms holds.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "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.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 1266,
+   "completion_tokens": 1495,
+   "total_tokens": 2761,
+   "cost": 0.0008741,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0008741,
+    "upstream_inference_prompt_cost": 0.0001266,
+    "upstream_inference_completions_cost": 0.0007475
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 927,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 6.17,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:20:27+00:00"
+}

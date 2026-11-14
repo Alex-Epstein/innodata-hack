@@ -1,0 +1,99 @@
+{
+ "key": "b33600e05dbf1896dd0f1d01ba247e222bab5a724ef54e8edfbc0c2354130119",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a lead II rhythm strip on standard ECG paper recorded at 25 mm/s: one small box is 0.04 s and one large box (5 small boxes) is 0.20 s. The square pulse at the far left is the 1 mV calibration mark, not a heartbeat. The rhythm is regular. What is the heart rate in beats per minute? An answer within 3 bpm of the true value is accepted. Give one number, for example 64.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "ecg-000103.png",
+       "sha256": "3ede9e787a19da4cabec9a3e0f89bf65f3148054368b926cdc3476312d6fb8d1"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673166-GjQHNQAd19PpfxSw6ykP",
+  "object": "chat.completion",
+  "created": 1794673166,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Step 1: Find the time scale.** The strip spans about 2000 px (x ≈ 40 to 2040), which is 10 s at 25 mm/s, so 200 px per second. Equivalently, one large box (40 px) is 0.20 s, and the calibration pulse width of about 40 px confirms this.\n\n**Step 2: Locate the R peaks.** The tall QRS spikes sit at approximately x ≈ 216, 352, 488, 624, 760, 896, 1032, 1168, 1304, 1440, 1576, 1712, and 1848.\n\n**Step 3: Measure the R-R interval.** Consecutive peaks are separated by about 136 px:\n\nRR ≈ 136 px ÷ 200 px/s ≈ 0.68 s\n\n**Step 4: Convert to heart rate.**\n\nHR = 60 ÷ 0.68 ≈ 88 bpm\n\nThe rhythm is regular, so this value applies across the strip.\n\nFINAL ANSWER: 88",
+     "refusal": null,
+     "reasoning": "The R peaks sit at about 136 px apart, and the large grid boxes repeat every 40 px, each worth 0.20 s. That puts the scale at roughly 200 px per second, so I'm checking whether the spacing converts to a sensible R-R interval.\n\nThe strip works out to 200 px per second, so the 136 px R-R spacing is 0.68 s. That gives a heart rate of about 88 bpm. The calibration pulse and the timing ticks at the bottom agree with that scale.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "The R peaks sit at about 136 px apart, and the large grid boxes repeat every 40 px, each worth 0.20 s. That puts the scale at roughly 200 px per second, so I'm checking whether the spacing converts to a sensible R-R interval.\n\nThe strip works out to 200 px per second, so the 136 px R-R spacing is 0.68 s. That gives a heart rate of about 88 bpm. The calibration pulse and the timing ticks at the bottom agree with that scale.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "CAQS9wkKEAgTGAI4AUIIdGhpbmtpbmcSDCJfHZtBtnYFdTGazhoMIXH2DQAQgtP3J1EBIjA4ZRHxv46/0PCDnWU19nzVp5SJUOEg+sw4tspJEvDfDhrZkpqa3dQcuvwGAdB8u40qlAkNU2KsMiaBD5gn9CLNKr47s1yiGg4YuKRlYW15pRR4Yu7e2tntKrNaa3TXTvyYRI0sonzE/+/F/byNdeTrwlbVwHCumHluGs7PV5AvES6aryzd5PegEUneRtDt3cuIM/RaLPfvo16xtCGEjH7pGv15bicJxx61HCHOHVLA2L+0M5zWQ+3AmRxLsekY9dbQR5IPBbjYU/DGpqglPoQFEC4XBLUSHbWWkCX4EfgcGHZtZ0u4cwp1JaK19m7ku9UG/sOHe3e2Sx416eL7te9FBlsUPxzbJMQm+WeXx3NC7BBUo98QLD2obimpW0CzLJws96fkZQ7hQb13WIIP2iW8JhNNrfKP1WBSec2OkwcbpYmBzPNmolfy0PJXkwLIj8GxAcocFNIGPvniot8hh034huooDaTzgrN6Pt3uGTNctgbEr8b57Api7KtCmfXLccTuhXE5tc40+IGcDpb8WZBDxXachWcTI3oxK472MlEDTsOXJZPrrKmN0xGloRRJgesfJvUhiy/Bf2ZE0VyzX0G8MBK+NidxjoQu6TKJtVllMgILrmmQVcqToLMbXFXk9ft6/klqIaAqCtFhl+4pYHHQhr1fpynLq8RS5elVCNnj7bpwm+SSwCToWlRkKMnlX2aja7QkI1CLu/Ra8ZRyewvYU6FR2SWt09eFWYwruEF/P0/fBN6nb6Wj0fFwBzR60l7mO7f2rxMGHQlH5aW0cTkXvpshVQ83sjmAQvKrp/dRd2i2XFxHwWIVusICaKMwKwqUpDe3WSCdukT7M0+/Vkf+WZ1ogZE4npwV00m/STsK9AAEWrQclrFsoTRZgy/r2gZzc8t7+EbzlaeYlPxhX6ctzN6mksgROAhzeVDbzDgqigjDM5qAIM4MKRuVj6uI5274Q8gybQE3SYocD4ubNBp1N0YRJnfpkp1Yzf3bu/oB2ZII2gKbUrEbA45r+2DR1Z78KpboEJKLnfMv0XZhXztvOCBMONfReTi58AZBg1S2l1MnYZobnAP7dYqJLerj2YoUlJSyP/k/TywUVd8abm0gy3dcVXNoUEjazUhDq3cNf6bIEHtr+KhrsCHOrwX1IQa0pch+epcBoc+sf2zy4bOwla+gvySRb+fZMS83DWj1nE0HFTn67QEOW49uwOloikj2PIVG/REpq+pHhAWnrcJ+da9nemgXNKAC5TaM36eFL+SYN68kRkRCb6J5IwbQAq1I7aMCteckyHWSTE74fe/5hfjffs4pyHhZ7vCSPdDnezBmYiraj/kxxykcGg7ohYxtrTIquLuDciNLvj7/CI+sixi+7I22/+BWySKVbKbT6GrAJTVid6jnQAeW1GUfpSMz53tx/RTRAE8bHda+hnuTen4urB/cEWJCuKHJPOr/AThxqnOXeTBuOhB2RiNHRDhdpWr7nV+rFhc7NNE92ICvIQrd36XsW1jBzrWbmdqfxMIwQJ2mWqYTrJ23GEFAShRbIRoJTW9QD9vAk+z+7TYGXhAlGt/grNhc6hYR17+U0hLP3l9sc4Uc+xLGpJxb4NRYU/4fzY2OvIsr6TKITS+0YofjbtqXmhgB.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 1245,
+   "completion_tokens": 688,
+   "total_tokens": 1933,
+   "cost": 0.0004685,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0004685,
+    "upstream_inference_prompt_cost": 0.0001245,
+    "upstream_inference_completions_cost": 0.000344
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 355,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 3.48,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": true,
+ "mock": false,
+ "created": "2026-11-14T16:19:26+00:00"
+}

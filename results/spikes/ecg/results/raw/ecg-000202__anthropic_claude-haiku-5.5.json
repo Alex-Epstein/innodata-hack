@@ -1,0 +1,99 @@
+{
+ "key": "fc12469cb3f516deea012402eccb3d193f7e60337247d1bdb5febbd21a92ff48",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a lead II rhythm strip on standard ECG paper recorded at 25 mm/s: one small box is 0.04 s and one large box (5 small boxes) is 0.20 s. The square pulse at the far left is the 1 mV calibration mark, not a heartbeat. Two consecutive beats are marked A and B above their R waves. What is the R-R interval from A to B in milliseconds? R peaks are a whole number of small boxes apart, so give a multiple of 40, for example 760.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "ecg-000202.png",
+       "sha256": "1e26d6a6deba20919604712236a64a20236df8ed93e68745ac5a8021f3dab9ff"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673170-1SBihnIieYjmVyOu0OOv",
+  "object": "chat.completion",
+  "created": 1794673170,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Step 1: Establish the scale.** The calibration pulse spans one large box (5 small boxes), which equals 0.20 s. On this strip that pulse is about 40 px wide, so 1 small box ≈ 8 px and 1 large box ≈ 40 px. Each small box is 0.04 s, so 1 px ≈ 5 ms.\n\n**Step 2: Locate the R peaks.** Beat A's R wave is at about x ≈ 1411 px and beat B's R wave is at about x ≈ 1539 px.\n\n**Step 3: Measure the interval.** The R-R distance is 1539 − 1411 = 128 px.\n\n**Step 4: Convert to time.** 128 px ÷ 8 px per small box = 16 small boxes. Then 16 × 0.04 s = 0.64 s = 640 ms.\n\n**Check:** The neighbouring R-R intervals on the strip are roughly 120–140 px, consistent with a rate near 90–95 bpm and an irregular rhythm. A 16-small-box interval is a whole-number multiple of 40 ms, as the question requires.\n\nThe R-R interval from A to B is 640 ms.\n\nFINAL ANSWER: 640",
+     "refusal": null,
+     "reasoning": "I'm estimating pixel positions from the grid, which looks like large boxes every 40 px with small boxes at 8 px. I'm checking that against the calibration pulse, which spans about 40 px, and wondering whether that matches its usual 0.2 s width.\n\nI'm converting the 128 px gap between the two R peaks into time, which works out to 16 small boxes, or 0.64 s. I'm checking the other peak spacings against multiples of 8 px, and the 128 px gap still comes out to 640 ms.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm estimating pixel positions from the grid, which looks like large boxes every 40 px with small boxes at 8 px. I'm checking that against the calibration pulse, which spans about 40 px, and wondering whether that matches its usual 0.2 s width.\n\nI'm converting the 128 px gap between the two R peaks into time, which works out to 16 small boxes, or 0.64 s. I'm checking the other peak spacings against multiples of 8 px, and the 128 px gap still comes out to 640 ms.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "CAQSugsKEAgTGAI4AUIIdGhpbmtpbmcSDPNNQDFTfWDQoWy33BoMT1JJ2CycAxEOTigYIjA4EoII+GhWaxeOHywKm9yD1dXktUufwapUIiY0ecoZQAg6iyuzCG8Uo3VAsgJgJWgq1wq+NztT547itZTtbYpMmSfK4xrglNNfCqRxM17C6ew9LE8iZ+tnBqiQWbFLrn+q3XvdJIy07zAj+sW467H1f4JqUpLLsxMguCb+yRk/stLrWI3jfCLApuhpfk/31RJzM5dkfNF+mcUl7DPIOvmLFhVLA4Yva3g4137lBi5kJZ+HkzWZjnZZxadCVIVncRVj02P2Aoiejqu3S0JS2l7aXKbj3/SxRRWK5qyTJnNyHmz67Jp9lO5WZ5qtOYEaButI3OODbPp5xJTcfsINFpvp1g/xDnTX+rNih0tlpOv6Pt6AZkQgXe1ovedQfArelcIhQwgMo+oAa4vYSt7n7FIlopOykIsZjKr6YbO2/xMeLIs8GFiqQf8HKEH/3Sp8K4lOqAtiKGhT66odtc0k1ZbRdzu9bmCSo+W5rSN5UDuH4COWqanm3VJ2GYJCqln585YJlwB7VB2igIEaWYlEwhlMhR+RrErgJaG/SQQJ47dJ/RAr/sC8OjMPo5bgkEGwSOqOFLrX30GVeGw1cXPQnQna9Cxu3NhKfUXUxac1i8L+bRpZzHRfdtrXKqp3SS6RpchOFhH7hA2G7BT3BVu1NanilVqGiTl2ojJ1tKDffOYZoYBq3MnneQQZk6zbYxglZ0F3uwaWM6Y14u2SvIsHv+UJ4E6x5ickZegauk7njX3DWWM6zq3nOWh0B/gFDozkYn14KUy/tcHnV30I2bE/clf68SM38T3I/yHne5ONyW2M4/Q+toYGkr3m+qJDqKS9a4TAqUELJatWVNp8JQNG0DxkgYRnfVHGxvgVWTkClcVMYlmOrAwV8t77rwxR7w5V5kM53DPDpVrkAB6ZDU92cTK7eCp+xBSJzhUFjOUGt+gh/x9Z7aoNQ8PklAkz4q4M19/rmItjWOuVsvAwiO+zTqxbuP7Nd/JCfm0wmurHW2Xb0PC1wACzII4a7cVpsvZ7IsnFCATDeP20A6xVznqVTm9GMyD6FQ0Pqs+eezMVd9YGcHO5Mbpx1ta4L8APizgam03uVESoPaHPMea0o7NhQb/Z0rAUiGc1DOJEgTZ6DjJSC7g/+PnEQ7EL6YgVEqW+7Qne91M3QhTTTASFHDYCxHOQNm0Lo80M3eqe4GPufDvWxU9+jxim1Ji3PArRHTBOlXbbCbMzwUQubgrq0gYHLBRzEO/exQ3pyFFKpETYxoPggIRW5f06iz5BXlnV72b6k7NulJ7ieZnrj4ex7QIByXS+dmqbV7VEVndbpkgi42e8nUSWnWqhu/+kMcwt9qJJGERxYtY6H/YtjzZKPj8MJ54YrN0ezpHeLFIvCympwfS0Csv6WVlPS3j0ha4giSmqfPJWQ3l4A7Zz9kN7Rh4AHA9cjmmWuTqunOErDP9ASHpEAgOu+MJSQ5VdFQaba3Xx2UKDUkQwKiCV8SbAGlNh4HCxhQL0/7OI/68xrS/fRqKU5cIE1mZqMP/DCzr9Y7S+se0IRCB8FauF3MwUOv4hEaCi5h6f8tOGROdGfoztff9f3i4NqULAdbvMwV6ugZEDvfECr5saXVTkpns3mUzuR9P2RQcTD9L9YQ64+EXJETm0tfPhj3SYfWZjidLrsh9J8fh//n8eSxsTqO6wxrugoLoA5FbXpUhod/zIUZMIzFRN/UH+3ARchDlMSd1JIwypIBjXis8yoHY/FQWZiInkJiMFTipZUjrHd0fkXhNttby2c1rqKsvnYNShBgRMDaDzjQgCNJGR3AHU7QmxPQrBBtFIK2drta/vtr7JRoMfYS3E3k7KuUCeDRuhUbQ9YgzvZT3E4LsfCFYEcDiHBJx74ewYmOlaguIKv38iCxgB.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 1264,
+   "completion_tokens": 825,
+   "total_tokens": 2089,
+   "cost": 0.0005389,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0005389,
+    "upstream_inference_prompt_cost": 0.0001264,
+    "upstream_inference_completions_cost": 0.0004125
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 424,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 4.21,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": true,
+ "mock": false,
+ "created": "2026-11-14T16:19:30+00:00"
+}

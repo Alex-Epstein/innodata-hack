@@ -1,0 +1,105 @@
+{
+ "key": "dd99a3bd8e02ab845b55fcb125934fd966a1630eefb76d37ab1d99000dfe3fff",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a lead II rhythm strip on standard ECG paper recorded at 25 mm/s: one small box is 0.04 s and one large box (5 small boxes) is 0.20 s. The square pulse at the far left is the 1 mV calibration mark, not a heartbeat. The rhythm is regular. What is the heart rate in beats per minute? An answer within 3 bpm of the true value is accepted. Give one number, for example 64.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "ecg-000101.png",
+       "sha256": "77e80c8c58a0782f7126640235465c0643938b5f03187dcb54a0b02b572a06fa"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673163-MWDsLWO6LIjguzMtnnkA",
+  "object": "chat.completion",
+  "created": 1794673163,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "The R–R interval is about 3 large boxes, or 0.60 s. The rate is 60 ÷ 0.60 = 100 bpm.\n\nFINAL ANSWER: 100",
+     "refusal": null,
+     "reasoning": "**Calculating heart rate**\n\nI need to determine heart rate from an R-R interval grid. A standard rhythm strip is likely 10 seconds long, with a grid consisting of 2000 horizontal pixels. Each small box represents approximately 8 pixels. \n\nI find 15 beats over this duration. The first R peak is at 260 pixels, and the last is at 1940, giving 14 R-R intervals over about 8.4 seconds, resulting in a heart rate of 100 bpm. If I count all beats across strip boundaries, it could average to 90 bpm. Let's provide a clear final explanation for the user!**Clarifying R-R intervals**\n\nI need to explain that each large box on the grid represents a duration of 0.2 seconds. So, if there are 3 large boxes, that sums up to 0.6 seconds. This means that if I calculate the heart rate from this timing, I can derive a rate of 100 beats per minute. It’s important to clarify this to avoid any confusion about the intervals and ensure the user understands how the calculations relate to the heart rate!",
+     "reasoning_details": [
+      {
+       "type": "reasoning.summary",
+       "summary": "**Calculating heart rate**\n\nI need to determine heart rate from an R-R interval grid. A standard rhythm strip is likely 10 seconds long, with a grid consisting of 2000 horizontal pixels. Each small box represents approximately 8 pixels. \n\nI find 15 beats over this duration. The first R peak is at 260 pixels, and the last is at 1940, giving 14 R-R intervals over about 8.4 seconds, resulting in a heart rate of 100 bpm. If I count all beats across strip boundaries, it could average to 90 bpm. Let's provide a clear final explanation for the user!**Clarifying R-R intervals**\n\nI need to explain that each large box on the grid represents a duration of 0.2 seconds. So, if there are 3 large boxes, that sums up to 0.6 seconds. This means that if I calculate the heart rate from this timing, I can derive a rate of 100 beats per minute. It’s important to clarify this to avoid any confusion about the intervals and ensure the user understands how the calculations relate to the heart rate!",
+       "format": "openai-responses-v1",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": "gAAAAABq-IoRmvOqpcErkZ3GFmUAa_ktdJoxxaSE_rRUSTHVMpIT5LhGltATsCSlgXxr-U6_I0GZ6OuRNc5Nz-FayeYMo00WrUHkH3WGrpn5xrbXaxmotfRnAKdG-Wby0GwJx0VLsAzVx5ytJNLixD2LcgtJRGBZQbjJIJ--Xu9siHNlqN48-PrY5jArNVKKEHqL0869iKBYb727fm-D9OjrIcqCrgjtj1S6PD_IKDCGiGWaKJo6exfe1BhO6XcGsvPfGTPCB52wHLtHaE0BCvIyGQaAEyCxTvVfcqLmJNe-Upk-1NJQ3gqDuhTKNyThvsBAL_KnY7pn7kBMAJqkYOqN_dew8f6rmN6QRq3Rtj_qbl1oroTRyEBBPOZ8pZ-lzoiy1uGO-8iGp7lxzURoPlVs2KUI7f8CsSaAM0VQB8PfQyoTI4X0Xs2Vqz8herc8FouJO2LlEHlWKoI5kQab9x90bA62QH6UE5-Ji-wAUoQXrxcPX6a8XELbcoJiB6JBomY8mdEOXYdESAvHLCLgpBq7SYPAJqxfMcWq7f8sU12tD-kTeuNL-lAKcY_4PtSWW1kDQwrpVZQA0o_Hzn2Rrji1OL8mptdyWWW_y3hp8LVGymmX7vosRq3Fg-GuI_Wro6hhiuPxMf0uqek8oZiteNl_LTmhYb5FHZFmaXPwwYPFadnSINWE3OOVwGvLlPwFI_8-sIuwXYSXMJTQ5IG2HQthavNV3_lBXhqR31NR6jTJJamJ-UzaD-OPUrP6izEj1T9jc0dMaJYvXURBRp2O350FhqOLjp1Ctj0wHQmkmrN917FIzxVXTtBGdoOzY860PnD8DRFC84zE9CnmNYas5P4EppEU5DsWctWEFHY6G_xPNmuo0J8MYcJsjIaFPWvZlWd6jSPwQ8-f-TRSZBfy2oTLDcM4q7QntCozfnH9MDuu23JYxXDUZ2Uu136F98pYrH9YOseSZK-Yura8nFxY6-Mo0F8V7VSNBxlR2mqVA3fp5DjTwiRLuC5l5bKZk4K_Bco8OyH1iv7378N4LnsiM_w61B43kywnDq5wKHUKvvnSxtMXk-vF48T0-OXrmvJgfpMvc3E0fwsJjmbuTxyuqadoT-0_pteacq3E46vRyOrgnR2hNZjeHbtFm62y9F8WiIaE5OxbsgMz1cbR2oM0upQ0CfrrYDB181koTO0StUGgmIIO1hthEK9nrmL-P0XAMSjJfSsSBj6zodqOXcxh7CNq7R8h1WJl28fZXdJ2eerHw7biRoVKQ4oNItJgfRbWZgJXzrhsFQ8oYhtNLFuzCVnXcUlp1gQkyimHX9PpQ1nvsE5KIZvyXP8V733kG7-E5UvRMnpkUHx-iptB-vLOJCRBI4pOQR04JNRkGUj1qT5repmZPtU9o1k5hewtFb22hPgDiz38PDQBu9DDM3S3p3KWeZJ2KugmpVjUUhZ_GPX92WOVo_sySQa7o3xP69FiHbdjPDTt3OmXzXQryBHBFFOj1QuuG7HSnM3sBJzqld_ZLa02AjClu6aXdhmZwnM5TlNIc1aD2TYN_ZaLz4dQK51Q4EymFM-fAHkMVl2Q0OgP03bGhlQI2_CoTkbKZ8-V0LByhdLpeJHdhd-3Hic8xFdcPHIJsgaCLWOsjtLkpsdHa1zOzGAoR-CXYnk_ynorsR9dXyowWPug1IBbZ0-Jt3kFe_ssgd4QczTv6Xm8NbwNeO1SqaPj0HgV8eALRX3UpI0kS_m_jJtVAEHkSscS9ShNy5TvEC8vlglwjs2K1HeFfwgQ-oBO1NjWSuQwyVD6xlYauKHud9uLTLgImwMBRTUWFc6vPpmrwIZ5bo4Gk-r8H93gxyZ7_pAhnNTaBUViU4ACwnQJrzDNW7aTKYWnFApFR2nibw87IfA3Z4amdTIxqqmY6oXQpOxxdWIg4qezOOypClchaZC7-hdyQcLbOMzIelEDausIjtLfhuEXAfUS30lfAuNNsjuNfdqo5ZZoimrr1xU8JuCow2IpQAkFWWzKBkTc9QQd6xPAn4DmwmQmiG_Bz0qOJthp5CAmlsPuYXDzz2tpTeUEA1qAA3nDhxNB_3LZmclXK871dwPobC3KXXrJiH59WtfRqgzHHsHv_kkmG65H55RhXMH31JpFxGZEedNZ3-dNC93THGZbzyFFQfszU8Mi1hSWqDf4vO_3qZDLOorpbCzpYpHBk6yPrixjgUB_Wwj8VKws30aJZ5jLUmR0ruFC9zBZBzWNQ2NwkElnXEFswA6STRYlO49VNrHe77tZoOzW9CgjMIDZMR5pxelykT739Qjv2Pf2BAR5iyejA5XQeQdKZjMuS1uG8lP_PXmWA-8ldd75Fl3fDovPkmiXMfZFvcdKYqY56qm3sgGyEAaJOpL_aAHlS2WS9RO8SMBz6Ysx3e1fbdxNyZKywULiUJ0F061zBRWW7BkjwU6R3NV6gRDyczZp9c1vFagoxeGJe1e7V4YDLkGC1aGoEFcfAc7_xoKuzfte9ua3rz1Ax74vfgVGAmlgUdkD9WangHCgH0lsGhJZtUR-AUbbnQG2mADf-EftLemMnd2OQs8nr_pWEtExjJPYC-xVPW795_78GeTNptZz0Kdu0QvVktZiS_otnaYfflCB6Ei9bRJul5Wnh0Kugip_PtnL8H6g9QwV_aiJKwL1N-Akm2nNHNg742nFLW8OvKbPnicm31cVWTt6-fysCtgRO2LtpNl256PWlD-UZK8gTQ06fnX440calvdafZOx04G6n7I3gU_6QpLhT4O21aIrqVqfMxgWB-ym7s-L_YWuHy8aZ4jjh5II73_-FR0ztUUwkroQ46_z_y_ee38jGcuucuX7hdqWMHRVojvmaegFbpEnt_LBK6FHWKiCn40ZwHTH4bl8E0VoIvqWoujKeqLJg2eUapJXte7sfoJ-jR8AMOOsl4jcSJCk-JqtnEPgk_2IgDpf0ynEtiWT1DlATAsC4jVfDzKdpIzsNG0wNd9UkahZPIFdd0jBN4aFYm_YonzYpap5tZXGBzuSykClcjepvZLlf479CRqVOlb2fSvqO4yJ-PH8GQIErNU6-2HtbJIejOI-ih_ubknE1bwV3EREeNpP2-m8OQaOxaN03E2MT6xpU68No5W1yhVn2R1vXQ7n7CWbYUaYEBm0gGrfgX75v90O71W_0ypk-PLzFpRuZ-_lPU_IwGCjgxS9_vG4intPc29aH8PxHMGofkPqHAqgsj9lk2lpAQnaDBgFOtnpS_nPuDh8kuRz53u9PqG09dEYGlDu-1f903GWCkzFX7q_SfM73kSr2jwH7JPrYUqbuF6MrksH1xNqn7GXZamf0dJlE1wYVjM8JuLY8_bw--UCcKaD5hwiQ0GPkl5mX15SXRdX_jgf3CKJmghq1qxI8BVknJnlyx85zLDnUDKSNKuLKbEHwiohb0dPlJBpuKMxW2-9dn2DkqNkUd8mVav-3b2tC4ffDsg6pvlL5fnrU4vXsbF1WU0Yg3iFMhkiAPDnEfIMg-adQkr7-BODlSM-xJkA1PbjQjkjqdUPgn-KlgtQmKaCLfheRUOtF4fthZNNg94amNH02x7T2jS2LSF-tdYgi2wdZrnovvWLuc6Tugde_kNf43Di-dGB1-zAUSP6ddLvRtY2975Cj85LGhK6hHkBgEU_pDVlF3c012BRIHr9y_LJvj4gJBLwDPV6iEWyxeM4si5X6mzMGSi-QNGFvJB2vrsqPHOrTvqABHfZKkq9urcDrsW_CUVu5Oi4Hh1PT9wayWUTK_la1TiqhWIiB1Yot-1pYd6Z5QEsecniVWu2IsfYMDWb-4X5N8rDkKGPbRtnzpkkz4EstkUpqq-Hwtcsln6voW9WysOFXFAEGz44nr5XdptARoxpI2Igl9mAQfGa-U9ivePqR1WnBcKVgd9Kbo5N0_THQ7QulaplbtrtsYOYEonuWQJsbjm8KcyfgDkSdmpZyFkyJl91RYaXalzqCPjo94ykgBZJFVa09OUuqkhBY32nnc2ytQYvAHTKwbzVtiGXs7BLMiqnu3QUGrnjXOZeDlvVxHe4HmF3d2DsO6Bum7VZc6e8bOT4jG2LCo98BVxHtffoA2R1hE8OqV8x_KyBmzw_JoBNvivdnXzIGmqC7IMLsXBL2V5TP9FVCjHc1dbZNvZJzFvWs64DxvVPcHpI6jy_YOF3URcAghxYtc2PouJi-4K4c6n_MWiF7clYWVWLAUy0oN-JXUEvI2UF5lou90W2yRRA1cpE0nEGdVA-M2NHOvC4YYmWHb8ajmBvWdrIzNrpuDIlt0cEQ6wiGMs-MixSk84ZvVJLivg5CW0SdfaA5HSiBXRgDJFh_L6W4q1eNwZlnPqI4TxADmzz4MJN_wXptkuF5CYSMQDv1Tb4KsCzU0UEkzWul_z_XHr4YR46pGW5BJCH5G-NBcW8AX48K2zNl1pWsGJ5DefTAz0u5rom7KH6-cNQuG-AVchCJHinrUU4Br0l1H2J26x-IQHznKRcJpb4ShWL2KfGZJaEgEYUPFYC28KWfZ2uiyVxVaJ1KZNiCyX_REtt737gPrHtpCBpId4ToenVxEN-madNwpP6wuJYwIMAKdHG0V_At_Ugutw41fKQlbZZIhykHcE1bQrGUfm33UkVhbhBrIU7PCCPS13zr3RrjYd1Gh5Z5OW0jFoTFfwnHLBpuhbEuYLsBNhgtTTEN7vqj79kVirnXrri9WsJhK4tpQDnHBvF0QleDWjEqjP0bxfxYy_e3Cf9dJj-QwuU4Q0A6oUrDoriXU08Z2Sf39ZSLfkb9NVc0NnAW1tqUdAzY5o=.eyJlbmRwb2ludF9zbHVnIjoib3BlbmFpL2dwdC02LWx1bmEtMjAyNjA5MjJ8b3BlbmFpIn0",
+       "format": "openai-responses-v1",
+       "id": "rs_064189aee6af89d6016af88a0c69bc87d1802d7d028c61f032",
+       "index": 1
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 1069,
+   "completion_tokens": 335,
+   "total_tokens": 1404,
+   "cost": 0.00030105,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 1066,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.00030105,
+    "upstream_inference_prompt_cost": 0.00013355,
+    "upstream_inference_completions_cost": 0.0001675
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 288,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 7.4,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": true,
+ "mock": false,
+ "created": "2026-11-14T16:19:22+00:00"
+}

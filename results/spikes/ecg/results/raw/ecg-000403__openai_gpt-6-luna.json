@@ -1,0 +1,105 @@
+{
+ "key": "9ba483347a4f416b3b412f85a93ccbe404419f9c798eb6a2ebac4d9b58f080d2",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a lead II rhythm strip on standard ECG paper recorded at 25 mm/s: one small box is 0.04 s and one large box (5 small boxes) is 0.20 s. The square pulse at the far left is the 1 mV calibration mark, not a heartbeat. The rhythm is irregular. What is the difference between the longest and the shortest R-R interval on this strip, in milliseconds? R peaks are a whole number of small boxes apart, so give a multiple of 40, for example 360.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "ecg-000403.png",
+       "sha256": "3828fe4c28829c8e784bdcda539cac0aa5a195dd53e406e2a25b1348c6622eae"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673228-DSNUR50PPGGxxZ87jETF",
+  "object": "chat.completion",
+  "created": 1794673228,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "Ignoring the calibration pulse, the R–R intervals are 21, 13, 11, 25, 22, 14, 25, 25, 10, 20, and 23 small boxes. The longest is 25 boxes and the shortest is 10, a difference of 15 boxes. At 40 ms per box, that is 15 × 40 = 600 ms.\n\nFINAL ANSWER: 600",
+     "refusal": null,
+     "reasoning": "**Calculating peak positions**\n\nI'm working through the peak positions and their corresponding intervals. For instance, the position at 203 corresponds to 20.5, and I'm calculating differences for positions like 372, 476, and others. Each position seems to have a distinct difference, and I want to explain how these intervals are identified clearly. The user wants me to think step by step, so I’ll ensure I include all relevant R peaks. I’ll finalize with a concise answer that sums it up.",
+     "reasoning_details": [
+      {
+       "type": "reasoning.summary",
+       "summary": "**Calculating peak positions**\n\nI'm working through the peak positions and their corresponding intervals. For instance, the position at 203 corresponds to 20.5, and I'm calculating differences for positions like 372, 476, and others. Each position seems to have a distinct difference, and I want to explain how these intervals are identified clearly. The user wants me to think step by step, so I’ll ensure I include all relevant R peaks. I’ll finalize with a concise answer that sums it up.",
+       "format": "openai-responses-v1",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": "gAAAAABq-IpTPwQpl8aZmXp7mBe147HwIX9vJPIZMBM86O0oyeyxbVCDz0M2Bks5n_Aazk4je7BvjO0O8_BMjCuOMz-icuU1x9x_ds8utPTieenSQ2_IkAMqBssiCJFPHg5E_9SZBbdp2__IKWU_1pjIHP3HZHGALKyYKzqBF-oIVhW9UCsnUZ2kI9v_Ldzih8tkmnZAhHLAMizgTLeLQlhRVoLhEgygfS5wlC8eVtUo9PK46XMnE8wp5pmKMVG6aGAsF5D2t2DYFN8vOKYil4aEWnnXsK3E3SN8aWoa-3MGEEHwT-UVuGQjgBamaONjmho84saCApNpd_gAj3aotbs9Ri6isZiElwODGtHAY4ebrO-2I25BjknuyIfsTbdK7nQGwi2fusYhnKUUy05RfWnBL7Qd2fvuY5w4vF0mdQMt4Z88OLtimjbHp6n7ElHKXOIdAx2c7Scn1o0b3t8S-GSIlTT8bMRo_OhO4n8Gx-dvTDcU2t4Gm40UwfWeJ7qgBTndrNu3TXPj5cEfoK_QsMhhsUUqvH-zjjVSOvtlu3i9s8EMqMJXSlnxZb8cBtLca1Lq5NTErylAvfAi9ySNaxM5eiT_VLgF9_gpcOwnkxyEweSBrllhjuQbiKYN_gn7N0Q6aRbU1ZZmD-s8IzY_n9FWzCHaU7XBEua2qk0XbBIaBqw1doy11AIFmrDJ5wwgs-jiWQ4-svUfDUgSrnCsFgy8_0MLG8Yp9nxAA74gW36lcM6EBsb5fJarTz3z2Kv_dG0OImXBcuU7S4GkqukXT4J9gx6I0pwLjETEtlA24O3eIlfOKAnijC0fxhLyesLSqV59fqgE1ld3IUnIjkF7qjIGV5ySF0_ShUIt4RfZcDMCS5SDgkziigWOLVYO0Fc5wNGb5WSm1thSFh56LYLp_5JIJ5OgHAIkt9msQiMt7s4HwoLveqyc7cz0ZQUZijwyshhdkZEpK_yv3qRYXYsSDoHBn8TqgTaVjOp43fxb56kaX2yltnL1JIstkwguza8fMJyzADNXQrCZW0odzNm4MKYClwjgmuQN-YUpJfmx-iXrvyUF7FrrNQwQibJT2e8JFtsqcZTBULE5ZsdOIKqWKZ8pE8P-BbD-VJbGPMuDUH8I4AVDx6islWOYpDxcZ4dRHC3PZLxIthXjQiR5nUvbucFuccodxa0SJC9IeAUSxwSYKFo-EqqJ8q8eihmbRj9t8eF6RLkc6_6DldCbgq4KJD3-Ar5gf0xh4tciOdErcRJj-uxmX6exA46KiN0EbPaDeqKUECyhldqEpKfwdgkrhG9Axu9aSScPqwXqnOTJQW8nRig48ygxPR8Usi_6OsVSA1m5HSw3c0ZdhEmCyq3H-NdN4ZGW3xUbmi15YNp4u1UMUq2hqwW4sIdHvuP-xEI7ar75f8dNx_rWANXPzGSSogZ5VT0plLmavMWtcs-WTNKfih8Hhdqvxd54UyuUnJuRnCxnzz-DJphuTvga_wP8nEukMlhQLxqGEvDMc7fx73LaNZz507KwbUhHZRoUTGmYZP82meOrud5H6xkmVoURe36xvDvldIS6DLB8HIBdKX-On8xwvJ2Tt-q2wLBUS1d6lpcKpKuH4bP_AZpkDtOReeiPKDqAcDJ9upzVFr21vl_lf7PWL9o67DkPFM_nOK7UQgXszYH8U5bS4Wtf-17wbdrx1QppDygpqhd6zf3IR57en7ky3XdAB6yF7fYvW0ZbmQpCimoAdnDmmjdxSFAU4Z_KpO5oQjjRkcBIdK7nE2MG9IkEg4QOv0amyVTenKa5qEfVxB64fJQGsiLJ2c-zh8ZW0yfsP8-EZ0wKpqbMWK0tJZkNYph6Q85feCYWnikglUkL6nXOJkoN8EWX_l_aVxX5N4KVZMYf4_Lm_WD_j1R7BEsqIdbuy64_3Pqf4Cr80__8Rnfa0hjSrJaWFtz1xMyrg_qqYpCipsMSsfQ7OXMupfhFsTnobMjIOlT9O8jEz4Mq-CbVZb_Sj4nMvY5oLh1dUs2pqn6dgai-ZlGuE8sPSyhLCghc_UxAELH3I0PlRJVQzvfbb5C2wT3_4rCfdoUIYoMncHlla8J-qb89k8WJsIXdsgZyaQ8ppuHKHWWP-irBO63S5TlrHR2baV5YfV94z5y77gMVGsPL0e4NCwaALD2BFrazesn_ohizCgOCtwkGAmEJ_hZTR8jZTn4E6fWtUtOUb_LmlGJQ87KRdzWaXytFeYhPqAnS7jtnVpCAGKBbN_d5W4a7E0QKMIVVkzA8jKh0JvAbipvNTWeSPmyERO4hcD66Gkx14vmP-xBTzbwUx_HrMlhPiqkPzLa4xPlRge0kgX4zyr9tmPKNSA6VqKwvXDv73iM41lhTksYiHWVLBXHbHkzNZ_LxKgtuvcTT4U8VKsdQ6d1XydDlk1o8qkJvtQYwL07zQnnu24s6V86gsCwJ50oE4Pj0RP9xJSw1_cuNvWyl45iJyNYbTLpAKnGiAYZp72x_imjnOlT0Rg5F1cOqVNtNaiCC-ba2PvZgrbpeVXI0e_Lgi7QcFMXCmFxLoCfM-EW8Wne54L7nFiT5acWeCsYNYJ5pT8SujfQfc2y-op2gHMoYD52XDJWo21WQsFnnRc2nn_myo5IbRd5CR9CFRmSdB83PUJGVjC_CJaxWSqSHtC7DkTLg9c57G1BwRR8zbxlfRWMXjwukmcBPXAUo3q_eeBM5kB4SMiL66zjrLXHqslU6k3FwynE4i6U-xBXhxHIBvD7zlhMOZwgRKep1-hJ5yntCx1h4mn-eq6KbFMR8Jvcivc6f5NlW4OlbSuKpENBFM-9I-OhN4hUmoAwltFyIgnlWt3mAWi-YsSvdUehAtBU8aZG2k-9BTv7TReCv3zohz3zFOyeqGz1TduIqVMUGw5qtcRB0LLfZ7GlK0lRHDjBngMmlELLkk-enB7-K4Ob6bt38iYOBENUBt3v8sU1HtPkcA_KjsHIJ8qs1Xar1bBsAVbg2kEf1UEETlow8RWiFZHJQIHLzsPGHKaIaqYJ6Hbd0U1hVUxW5LYKOWH9erk3q38xg6VCTgFj8QHSCOK43SMMrjPO7gPk_x42YkAFWg8UTtKHcHDRUQJvLxBD3CcmMNkBtr7d9xxOtApJfiqgNXOIamJvUkFGESqNnSNG1lxpGVqdTpM27nsjM65K8Bm6k0W8PA5NQGp-Ccytq3bFXh7Ys66oiea0oNjfrxr-lXkr9COzmFQePShzNS22pdypANBrrnS4XidFni1C9XzyrjhS0biA76x1YH7hZe-FKC8jDhNRzBovSzDDTEYrdSRS7H9PNzF_zUSS0d_0ZrK9C1iGqAO3Ar2gGWm6NFwI_QDeZRVgUIkThrQWr5yOgPtPClTA42_Cyn5-WAceKnXdZDAfEkqcRwqZYuq2f7G3tmfa12EG9tP3wWGDaJ6WMSi6tQQFaMNDuklMlzCPA-sgo_2QOd2nvNCwTloNuqYRyA7YIz2bvkpcRK3o8haJNHB3XZLoNztS5mbc3opkmbNZ9taXclX9umRtubDswaQMzyHEv96Xr0teQ0M9HlOK5ma8WOpQtTWIj_qsLiSr2c35f2z0WlZZTuCY3rhwuRqHlIEZkC0HDn3qMtxf4M3Es4Zk2JDyXr4wNpuTH1IiwG3j9mTHq3kFGxbcGVQ-YkGiSa05NHsIOZGDiXmMHReGUPWN1HoOHmAIphkWae8Jt9cvFR0te5ORyQ5QDUSkkipOUSfmkLnBmwNCx_ZqVJlPcu-hejzwaLq4rMX4_FGV8hSILyhhw1Rx5qDEFn-Ke-3c1poxsOEFxF9YuN0JaF3q8sa8MLWz8gY_hMSHp-QrGUmduXtAt_EjYPofkNCsnvHAQeE_tF3_6u13JYCadaFCRuCsdu709znXBx1Xf7Lx9yvcGvkcF58eH2hq1btjd3eypBN49vOVjygcMZMqwquP1BcEDbmQsmbABHjGIEteTG9FuTarM-AeZjTokSqEIZUPWAO48V2ujZEUej6Y7WLFcjrmVxUjy_2eve73GuSv9yRKq_G6KVlK9rS9rwiP672n29FoHsoZaMGb_li8T6SX3saVFXkMLxXHtaXqUAQMcU0sIT_yq1jF-MP1k2ZFc8ETMPDw-l3emgH7jA1_Yd82Rt58wYADJz8Hq6qY7zMMVUWCXLdeRLDxrve660F2McG6Ar8AZNysJ1keKBX981ASw_Mdt72FAvlTNAdKigOi21sCEncPQbD2lzhokTSpBTCI074tGlooRl4rMCdyHjqXNbXZiPG-2lvSWZEEkCIRwtrs9fEiJdLWYamc4lh1PDAMZIpjVCnpmiknEQtjERsw7WEy50aSFNPD8dOImzLIh7qXsSZ-PyVAtuoIyynRkCJXmGJd8-RRlSxJsHY4Y7sYFrgwU0nppR1nc-0eorMe70t0-dmwwZT46e816wqtWKm0nf_c84gT2CH50KHT_BRw9uBlaKFosOfDMB-te5LlcVvwtuIO8gwtIIDpzHGI2iBryAJ_PlRa8wb3gf-nNNdOQSqSD2MUag1vjsRueUtl682FRMt8vULlDpGVqNTufVbL5In_aJtzY9B1hHf1L6Yq60dF0gH6UKdDsFi6NTfiOVIppA8T4liBhC27XGYMaakVL28HK0V6hb5b5bB3NEp_XjH3nO4eCcwCYCDX7Wo5WYBg848ZJMEogNnPNR5L1r-YOgiPzsoJhAWlW5J1SqG-k_Ce0BG5JJO-x7i3JeNr6QbadNOixyMw2tdL3lv6HPLTED_uVsj0CfjkGgMHcA0iRWzjNPTdgsLgWtDIw5pu5tj6auWyMK8L6Jy4zndH94PICWhrQibbJA0KroZS53yjNjG43fLf9rnJwIiC5M17Ls0NPqFuzP0XTFz34q_nx8Dgbi2-q-LaPywMrHStumPrRKuXC3BSgBgEoqM1TiaOyYIdlJ2SQNi_yUnw_gca5HHXwW_wXIZc8I4A5wATYPn7Ftvp3mD070_6SUYNbZUUdkwg9HdVqrkXbVUNu1pvHf65DgxeldOxUYZZdlE9N1uUJy_V0UjPeu-v5wYRw6HVuaBItG-j_EhVDgJQuPNjhteXrjuj2tKcJbi6MlTpNyv-rrvgLO22kMyd_OoxYwLVJlKvholxH6VZDQwpMFMUVrSD9D8o0Br79HdSMe9N3I_5SqcYjZTktE7eeNJOFtigctX-SXlCVKqUJ0T4kNKX9P3HsmhTh41ODMjsDKdvGP4kEOWlpOCuHDG0VPYsdRHilYD7kjsA0thzc46mhXKZAGOr_K6w1WyYwc7NE2tvhH9gXtYPzTWDst_4H7QJ_ZcLbXHZ3vD-3zzJTjaw6aN8X5lNgDz_wNsfhKQqCrPCv5akuecTS3eoM-K1lx8wixkzGhFvfZUVEeuGArZVWUesd94gwgw-E_DZ03v9kY76OpasDR5NM9K-zmyGyegQf5qt3hJFkFaoTaelB4GVV9p4soFfSPy_W4sTD3OxJub6qwijfnxTbHEF6GRHQ_Pn5oXKPnpiT2egLPLITEBpU1nzJxouCQcBAPXTKosQVxkmZT7RSUhkNVaI87oUZR4yamc4vkr7yepK6s1iRW9weHLcqjVhtr0DrbrVXGrYBFBpqC5KVy1U7eHArTd-qvCGMazXAsiB-nD0HykTXjSZ5Zl6LlpDleyaDIH4IolWVUbl1q0gKXjM19-4TWWR8EnBXtu99gOjlNBOrHcCJlN9HoRTpVP7z4zJa8uJV7pqSOiBmvELzwmrRBgVxMz1zLiHAGr1Q8rF6okZSBIuj31LvATbWpfm0kecSAUrwFyTE1id6R0sRMmAYKigiPD8aNdHftWAAQDyqrhx1VCJ5t3LWlKLOy6PyXuG__f1GOZbJRCnsMVaCY6RFgHp2Bc4evZYSA9ptrYm66sjiC9h_5q-Bg8PRQiTTVz14et2EbUuq_zBWy_rfMDQ_DN6KE9KWu0J0NgLAIIaqHiBnv3Nnnd1qMzMzyFGKVo0D4zNBZJl0IvRGrZ6XasS89z2EQtzrDM6eeTZ5DR9KI_MdXVjqJ_IKGHhTK-wTksNVibQ3sCifPf-yD8qQSQY3mWzcZQIJdexu9soUcgfelFh4KA9A1pn-XDkhXOv3-YAtVAlHU9JEm5GUyL4hLHe5sTv3f3xZBdf4TmaitaV5h-WDC0sS0oVhmMXy9R3IBN7v7BRIHGtTK_St4wmrInt_RVWLJY0sB5S2ryVySItUO4c4qXTtpNyXT9gRl814FdbfTwCfLBrsaifHFZQEKVqh24PrfWdQz8MAm1gfvS00DsW8seb8mW84QuitH5wPtWYoVtizdl5HibQ9cV7Zwz2fWkM7IXAkGqhoNsOf9Zyds-czq13oXvOjnqG8qwJCRg3-W3lyJseJDk74a1Ci3UhU7EJx4ZJqNZQPZZSWY6olJwU77Feb4qJWVbX8DHs1l-pszCsHPZ3_zVLskGAOpMNbTYZFjin2MPtzwTUcYA9wpzIKYBtyNM82GTt3NkbKmy68yH8XbNl_iqYSAxs2ktI1IIZawMqfhXWNc58MsxmjktCBobaqkJPGEuYX8yYb1-nOw4gtxV_uiGL7jeJA8xqBaJGaiCS-oNyPM0gBe89tdrHbD34nZniA361DvFO1XkKmyQa9xtOdWwRutKQGTbd1AHxRw0QiY7_ItiUTzVnMOyveh8gLtFtZE0ALFRTiigZywvQYcu-fj5M11mDveHU2tlf9wg6qjkx-8LEE6q4HOQrU0piHDlTBFuNHuyUCcT-P2VWUuYZF9E7Dau7T9m2oiifokkjFMbmpkMql2j6mDfoQNoAzA2vLTBUiuNc70N1YFMGdTUrCFF_vyeCypggZeVyKInxh7frElke_3oDMtWkGRjATRfDIIy7rXmnZbHbO9-9sy_2xDLysaFCm9he-gekTvzyrVlCABp8NUTqyYXqfpAl6YM9c3uKquv6fIcVxvs98qQKHIs1g2WuRUjcgP1y1ViDejxS85oMO_Rzy7VUfGHebfqpuS_JqTlgNrtgRZRLPk9Iix2oSn84aEQ==.eyJlbmRwb2ludF9zbHVnIjoib3BlbmFpL2dwdC02LWx1bmEtMjAyNjA5MjJ8b3BlbmFpIn0",
+       "format": "openai-responses-v1",
+       "id": "rs_057f4189fef8e560016af88a4e016087d1923347b2e73d09ea",
+       "index": 1
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 1081,
+   "completion_tokens": 583,
+   "total_tokens": 1664,
+   "cost": 0.00042655,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 1078,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.00042655,
+    "upstream_inference_prompt_cost": 0.00013505,
+    "upstream_inference_completions_cost": 0.0002915
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 485,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 7.17,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:20:28+00:00"
+}

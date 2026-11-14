@@ -1,0 +1,105 @@
+{
+ "key": "dc7b7142c883a21de2a6246d2b5fd003472afd4a0ff74e1f0382fe151b8dd55a",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a lead II rhythm strip on standard ECG paper recorded at 25 mm/s: one small box is 0.04 s and one large box (5 small boxes) is 0.20 s. The square pulse at the far left is the 1 mV calibration mark, not a heartbeat. Two consecutive beats are marked A and B above their R waves. What is the R-R interval from A to B in milliseconds? R peaks are a whole number of small boxes apart, so give a multiple of 40, for example 760.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "ecg-000202.png",
+       "sha256": "1e26d6a6deba20919604712236a64a20236df8ed93e68745ac5a8021f3dab9ff"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673170-2uN7pTn2Xo8GVaLMcM7T",
+  "object": "chat.completion",
+  "created": 1794673170,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "The R peaks at A and B are 16 small boxes apart. At 40 ms per small box, the R–R interval is \\(16 \\times 40 = 640\\) ms.\n\nFINAL ANSWER: 640",
+     "refusal": null,
+     "reasoning": "**Calculating small box count**\n\nI need to count the small boxes from point A to point B on an image grid. It looks like the peaks are marked at x1412 and x1540, with a difference of 128 pixels between them. Each small box has a spacing of about 8 pixels, which gives us 16 boxes for a total of 640 milliseconds. I should ensure everything's counted precisely and that the spacings are correct. My final output needs to be exact before I finish up.",
+     "reasoning_details": [
+      {
+       "type": "reasoning.summary",
+       "summary": "**Calculating small box count**\n\nI need to count the small boxes from point A to point B on an image grid. It looks like the peaks are marked at x1412 and x1540, with a difference of 128 pixels between them. Each small box has a spacing of about 8 pixels, which gives us 16 boxes for a total of 640 milliseconds. I should ensure everything's counted precisely and that the spacings are correct. My final output needs to be exact before I finish up.",
+       "format": "openai-responses-v1",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": "gAAAAABq-IoWrRHG_Ii9OXD4gdYVBEg9GdwJ9m4XxEcdQi2EslRuelyhWOn3zxI1oTUoPuQFPxphIqrHK2T56GXCmknFyRG6fDx3gZ65xYZO1y0dXBZCYk-38khBh5TvXHbbdhfJE1dOtiwOe7sxdiFRoo4CCGYenXGRSOVbYQ4rJpDon9qXOVNdoqOggXLeCAwP9NeQJ8dagKmh_qplayaG2eXE_2GTWwnJEhclFqPJ0-bjNMfCZODCd18ruXwx9eWJiS2aotQyPLIS_dl3mhx3VKBA5CMYS-R6kGCL6yox1K04OLcyGislkQUJl8u0ird54pMYKr54-gdHRw9LNUsFIH28s2HgYdMGmt3a7cwke5lRfwZwoN0_qtAL7V8MHVzEVz8lXcbwT8h0UKY0yEIzWqxo3vTnbVWYNH82HjbBRhk1KCbJXgUKHkZ9llGPD8SEjrmxmQDxOnqAwvKYgXu9mxOIkFpLMALLKgib7Fzsmq-fMrOfICWrI7WEXeIykqgfQc92fW_ox_KZJtgU0FMEyg7WhqrAEqXH_3Wan_SGyJiqrY2JyPmgzuULEe-qloWJRY6t66-WXgUKwmlYYLDEICkY6lH7AUoyOicsCXkkLASmmqOKjC6gIXHQjm11SJ8AAoswBN_szKXo9NPsK8u514yFzcUeTECx2PnS8bqU3IIqmMdp9OfiW8Fr2KYEPXDZMuX4BHv-NhEeiET17bXP6F06Ybg39ICNvyXCsS9VdxSQ6wkU9TBaFj-0aHPqCbeJyfx-BdauWrttfitFLOQSzVEBff7dfsUbiCP6kYuj-i124KsoRgS4ECYt43Smynr7RlxtG8zV2y0qDVnrVo8f2n2GRN_F9rYpv85IaU-ogpwsKwTPnuxtdRZ8ZOYGEwNQZC8fYjHLxrAKFFi4hQ-75IqFw6inU4VUHbKNF0F3dnku4EBC0CJfxDoZeJZdCqC9m3zCQBNf8BC71bR7f6EI0v_5aKfgvvIENRkhX2JWpMLSmQNYE32zPjffVSfnpyWI9Lz1dGQs_ldSRQvDqaWO7Wx-5TAv4u1KGLkXRfdwujayrYe0C4Yt0bRpemeGw0sATgRofsa3_JDmJB584WnHRDx3kEqT-Mqsieffj_e_ije2f_qWw4jMx0bPR22ezIvjpLsRU1nSRvtX8-HjSyFS_oPZDqSKLg8E7wMfD3JNXhViB1i_xRZGiilC85pq3DdUDXf8EUimqQukUjBMc2PxvjjFYYRSB5aG5Bdf4ghn5FZMe2qYwMGnXoCXshv6tvFpv_9D3SvypQzMMyymSXYNhD9g8_PpO8E6LIrFNPPEF_C7aORf37FAumH0JAZ6RtJSxt2zPZ53PadSJ8aC8F2KCsrkJ7SLiYmujaYJKLGb0cOQWxbXxY9TGDRG_8qCJRJLwzYrvF2xZIi8DA5XDAjCmSJnlZd-X-6dfGynX96m0AefJ2etGbnlxkIXMByoYX5_WikjUdXpFFa7VMhALqYPH_oQBlBPB4PBErUE5pepBMFoA-o2CStwO7fTo-5gTaDjd8ocWdLjxvHJm86vkuTSkiP4cikjxpRg-hOnHsgYz8jcYsn7l0HEeWmeZKJqQRu8aSdvSvZAjhjbnO5_Qges5YFMZWaacV66qrd7PV7Q0NqfR8pa8nHhTe_NPfTqfs_vO8mJS3-u7C4ShqVmL-S2_1rkH7S_WMRgW8OlMsopuA5mosfgdOgyHcQp6HmMlh2elWCbKEmR2YQre5kV5gxmLg-406mO_CjLY4maxxCsmj7Ycnnk6YlTjSdiO61rqbgwjVUAuGMkGhzejf9lKjT7h_TjmdDnHPayNW-rFfB46J3YIIDdoQPK8dZ3xVSCEOYeaKhnz4n-Tg67v7_LHm88fVeFtCanm6ABHlNfooNvAhOFZ1bBteBAEyFnQUoJBj7Q8HrBLyFIlP0eUUchw5RiUUvtn5IHEJLQC3JzLUFEN5cOQZ8j6IxLTy_apBApYo64NaebCB2pQWu-dbK9DuZjArIK87flAs3iWHc7PP5Z4WyWnq585cSpK4QyadZRkm47yct6_Nat9uZIGJcOJlwcWqAo5zpGqmnAqtJH8X67jq5VpF9ZHB8uaooPL7BBi_bKWosvHEiGeWEZza3LL_TyvXL8_44-M7RzqdX3u95NxbNFXCVvAnmj4UbXWqpQAkDJSGhad0Lpw7BOxjYS6soubrwUbRce3AFBuvHl4qS9ozdbNKeBaTxh6a2OL-JZhunpX1E_dRJx_unMve9PUen1b3s4LWOP2GQlVuW7KX9jOL2kcYlU4Vr9lyRiUghJg90bKrYR1lEa5uF2x4KXaCTurClnUM6Yj4y6p8pUghrBrZA2bZH9gXWI2s_bIXkSawMsv1FVKrVet7Ru5uZZEoQUwHm7KamZ--m6w9sM0Gaq6AWBEsetkvwuJ3xCCC_mF5JX9a7dt8DN0qeYD3gOTLFfXyqyr-Q6VVd4gat5u59hjjoez__SscAMsQqt9MnkPrpf56WNJ0fo5hNaqoUVdfO4vth8bOfzjhmsWZ_6r6rVjJNCk4DI7p-8kprxD2Ix1GXmbH7j2TxUf1yEBlRYtRZY22aspIpyaud_cqcoXMt5qBMn7ezdrbGHql_bT9zSwFIMnFsVYr4tSbGQBOezJ7tyI2cX3lyl-pMy0H_5koIkW8_gXZoy1GbzdIel-AgU6EjkfJgIgmOJe7-1kQDEbDBO3jS0vhj2-_XNIYjuGvFdeYqF5xAF9K7-WwZolIf-b4GkspqAvU9xPl2tmC_eF1KfETPUWNAKOJJqQd2I47-7vgR3rYgGJmORQL-oViGtp_-o_sh4lSRKFK3Luk3qzQlyXcwNkoycWZXpNdvFxAKfJ8WZXYT5ZsZscUATfuD7NtQBhi9SVmA5Wat1Zl-O7m-Tn9aQH73VcJ4hrY1bvENNtcQErwGqJ4-Uzy5BZVA5Sch-7btvzOxVVyopV69RRitOz2FArM_Vx2DW50sO6MtCZnKiRQwHIX949M0zw7sbkZN3dkcnx5wFFlZes1CWmgNHHu-oz3zVlZOQ_H9hr2FnIeu4cytsmtbfob_xViZiTCuotvf7W-p3sbTRCMjmC1Cz_TYZRZ8alPbcpbkavYGatqh2qFw9vcha-MP-hcbxObuV-ZzVlWtFJBvIJ0IKvYEKmP117v54XCZghjGp5IU2Hmiko_nampMUN3-90Dv7QOyVzgHaa5aC_GUSUZCBIhlKpt2vImvFGnXs2qbfXGs6Jk5MgMgwkp6p2rDQuAxdAGbCVMCSWQJMOZAco70cPEK3-P5Alo5efnlfgMwUBS4pxyAPoLfP0Vgdd7Y1LLzc8MgA0xpZiEoPKLfG5IEL649abvJGQzu4ApmA3XFFAbolRBbIcgIU_yQ=.eyJlbmRwb2ludF9zbHVnIjoib3BlbmFpL2dwdC02LWx1bmEtMjAyNjA5MjJ8b3BlbmFpIn0",
+       "format": "openai-responses-v1",
+       "id": "rs_095df8a64306a013016af88a13ba8087d18a35a7fea10bf502",
+       "index": 1
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 1082,
+   "completion_tokens": 195,
+   "total_tokens": 1277,
+   "cost": 0.000232675,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 1079,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.000232675,
+    "upstream_inference_prompt_cost": 0.000135175,
+    "upstream_inference_completions_cost": 9.75e-05
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 142,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 4.13,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": true,
+ "mock": false,
+ "created": "2026-11-14T16:19:30+00:00"
+}

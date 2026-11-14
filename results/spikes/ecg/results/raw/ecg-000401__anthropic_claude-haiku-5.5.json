@@ -1,0 +1,99 @@
+{
+ "key": "07bf5d73a9ec2d3883b3e4bf8c3c055e67a6bf3d708b713de22adfa00add69b9",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a lead II rhythm strip on standard ECG paper recorded at 25 mm/s: one small box is 0.04 s and one large box (5 small boxes) is 0.20 s. The square pulse at the far left is the 1 mV calibration mark, not a heartbeat. The rhythm is irregular. What is the difference between the longest and the shortest R-R interval on this strip, in milliseconds? R peaks are a whole number of small boxes apart, so give a multiple of 40, for example 360.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "ecg-000401.png",
+       "sha256": "501ee536b34a50582bd644f72ab3ec274d7788224a81ad63a076e469a8c2d038"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673221-IqIW99xuFdsZcMYDUD3o",
+  "object": "chat.completion",
+  "created": 1794673221,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Estimating the R-peak positions**\n\nThe large grid boxes are about 40 px apart, so 1 small box (0.04 s) is about 8 px, and 1 px ≈ 5 ms. Reading the R peaks across the strip gives approximate x-positions of 252, 388, 556, 660, 788, 996, 1076, 1244, 1436, 1580, 1780 and 1884 px.\n\n**R-R intervals (px → small boxes → ms)**\n\n| Interval | px | Small boxes | ms |\n|---|---|---|---|\n| 1→2 | 136 | 17 | 680 |\n| 2→3 | 168 | 21 | 840 |\n| 3→4 | 104 | 13 | 520 |\n| 4→5 | 128 | 16 | 640 |\n| 5→6 | 208 | 26 | 1040 |\n| 6→7 | 80 | 10 | 400 |\n| 7→8 | 168 | 21 | 840 |\n| 8→9 | 192 | 24 | 960 |\n| 9→10 | 144 | 18 | 720 |\n| 10→11 | 200 | 25 | 1000 |\n| 11→12 | 104 | 13 | 520 |\n\n**Longest and shortest**\n\n- Longest: 1040 ms (between the R peaks near 788 px and 996 px)\n- Shortest: 400 ms (between the R peaks near 996 px and 1076 px)\n\n**Difference:** 1040 − 400 = 640 ms\n\nThese values are read by eye from the image, so each peak position may be off by a few pixels (about ±5 ms per interval).\n\nFINAL ANSWER: 640",
+     "refusal": null,
+     "reasoning": "I'm estimating the x-positions of the R peaks from the image, using the grid where 40 px equals 0.2 s. I've listed roughly six peak positions so far, and I still need to locate the seventh.\n\nI'm now working through the remaining peak positions, comparing the intervals between successive R peaks, and converting pixel gaps to milliseconds at 200 px per second. The longest gap is 208 px, or 1040 ms, and the shortest is 80 px, or 400 ms, so I'm computing their difference next.\n\nThe longest interval is 1040 ms and the shortest is 400 ms, so their difference works out to 640 ms.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm estimating the x-positions of the R peaks from the image, using the grid where 40 px equals 0.2 s. I've listed roughly six peak positions so far, and I still need to locate the seventh.\n\nI'm now working through the remaining peak positions, comparing the intervals between successive R peaks, and converting pixel gaps to milliseconds at 200 px per second. The longest gap is 208 px, or 1040 ms, and the shortest is 80 px, or 400 ms, so I'm computing their difference next.\n\nThe longest interval is 1040 ms and the shortest is 400 ms, so their difference works out to 640 ms.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "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.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 1266,
+   "completion_tokens": 1220,
+   "total_tokens": 2486,
+   "cost": 0.0007366,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0007366,
+    "upstream_inference_prompt_cost": 0.0001266,
+    "upstream_inference_completions_cost": 0.00061
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 674,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 5.58,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:20:21+00:00"
+}

@@ -1,0 +1,99 @@
+{
+ "key": "a6e31901654b647f91380df7946d6815ed51d1dbc22b33c2b4b69ccf3965e6aa",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a lead II rhythm strip on standard ECG paper recorded at 25 mm/s: one small box is 0.04 s and one large box (5 small boxes) is 0.20 s. The square pulse at the far left is the 1 mV calibration mark, not a heartbeat. Two consecutive beats are marked A and B above their R waves. What is the R-R interval from A to B in milliseconds? R peaks are a whole number of small boxes apart, so give a multiple of 40, for example 760.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "ecg-000203.png",
+       "sha256": "61f6ca0848650124e19c6f155410bb13f12645c2600d307ef9345dc92a885c79"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673173-Hoj4Vyn71GyV2gwo1GDV",
+  "object": "chat.completion",
+  "created": 1794673173,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Step 1: Establish the time scale.** The large grid boxes are about 40 px apart in the image, so 1 small box (0.04 s) is about 8 px. That gives 200 px per second.\n\n**Step 2: Locate the R peaks.** Approximate R-peak x-positions across the strip are about 212, 364, 523, 660, 820, 916, 1084, 1220, 1372, 1508, 1636, 1797, and 1957.\n\n**Step 3: Locate A and B.** The marker A sits over the R wave at about x = 1508, and B over the next R wave at about x = 1636.\n\n**Step 4: Measure the interval.**\n- Distance: 1636 − 1508 = 128 px\n- In small boxes: 128 ÷ 8 = 16 small boxes\n- In time: 16 × 0.04 s = 0.64 s = 640 ms\n\nThe result is a multiple of 40 ms, as the question expects.\n\nFINAL ANSWER: 640",
+     "refusal": null,
+     "reasoning": "Working out the scale first: the large grid boxes look about 40 px wide, so each one is 0.20 s and each small box 0.04 s, which puts the timescale at roughly 200 px per second. Next I'm estimating the x-positions of the R peaks from the image, which fall somewhere between about 212 and 1636 px.\n\nI'm checking the R-peak positions against the 200 px-per-second scale: A sits at about x=1508 and B at x=1636, a gap of 128 px. That works out to 0.64 s, or 640 ms.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "Working out the scale first: the large grid boxes look about 40 px wide, so each one is 0.20 s and each small box 0.04 s, which puts the timescale at roughly 200 px per second. Next I'm estimating the x-positions of the R peaks from the image, which fall somewhere between about 212 and 1636 px.\n\nI'm checking the R-peak positions against the 200 px-per-second scale: A sits at about x=1508 and B at x=1636, a gap of 128 px. That works out to 0.64 s, or 640 ms.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "CAQShQoKEAgTGAI4AUIIdGhpbmtpbmcSDJ3D1uCG3w4/BJOm7xoMPQHTNljWGoD7ZE/MIjDhu2fWdf8uAYeFl3Nw38WGDLKBzojK/eUJffOJl9+IgcJwtGCbxgxzeIwlvszY06cqogmWkwiFkjt38kJImFnr9AhWbbV4TSB9yIr+nWLQ7Rgn7NQRGz0cuVoNSAsDPJzseiCwXvii/ioxQHo4DraIMYCPY6GqgQPma3bR1SX91cO5yq5vOSJdk4KCXfPWj19j5tta7JcWRp+RchO+SMOe9KBZVlY4Q1S3U37M4oyO46dkBJfp/ZEhG9X0mDoPXmbbQUsiivQkvHLGP+LZ46bNku7FxpIUZ3K4Mk1SLrSuxmeTLw3skLEvupHoI7sEmorNCbZyqD4IWxOqFVMaFl/V3D613mqYYhNh2acWWjskRtkSBWEwKc0nW0Fy0SlPY0hcoRBqzERtDcXhARE/nll8Wz5obAz9UaQnUZ8d87flqufVfKUdjHToQvjlqmAzkP3Sp22afDICPO+0RThoD5N96BbIsX/vclj4U/imlpIeWG7hEf4hi/w4fdnx2HkzeRzzUEENZdtnd85e54UXtI1e8afpSezlibRHD2pSzsfWOeABVldzejTZmjXHTwW92qY/rw6QzgLntB9aTHe/TmrIbHlc1yexBhyuQEb9tI0UgfjtihdrT4cYhRNHUYvd2q+0m3p+G/EN7XPXhxMRiuzofVbwNg5nzjPO2e0ft//OikGOBcHbfNSf7+hAv1pPDEuGWGuSU8EAw2IUfme976HBuLzHBUx7CZ7oddxUWcNTpqObUu9ePaJupVgmWXMZIWQyj0AehjsRZYFOD66xNx/wSM2TFS9HB9U2ph/JEZlu4L9RGws5a6A+oKGcvWp73uoMV95C8V9LsyONbguewP+ukymQMi47k2X2groFfGkfjUwFCgrgc/7W7oESz8EyPHtRK0mkco1GDiSmSFMtmSEzKcijVq39Xz+Lg43nFQKBcx6xi+ANN3lq4oa2H4DOTgfZxqRYHuV0WZR1F0ufTqVFjVsQVifrYD3Ca4+ihMAu+tZLmb+elyhpIZYnKVOaMlwofSUfZ8MDbk01SXmVBYT6zURnUU6Uuo9RixTQTY+VtK8kYfjD/ALJGEEaDQuzgT2uVMDn6TiyDMTYiQF3ZoRfe/Nxu+Fr/qWgGAQk08cR2VNavkjkyO1CNac2tp/rKZj8xfPhRHsY4fwRQwHgBO7LAHwMeC2h0HRoBnIiSWm0FrCgzUN8JoT6ds2cQM8Pe9p+kQkT65QJcBgqIxBXhakpMN+4xX675N0fb+BZZlU8f7sKS2zUNggAofBjOIAYacBaN8m4dsv2yp0f6Kn81XuXnMmy4mS+ZO/MVg2HbDzr9dS1h3It7mfNeVaVO/QIWM7BKIAJC3kH9i23aQo6wkcW/os8qOUByKCJ3TkkgWCJ/OeyKHRnh4dSoWYmWA6+ScxpWXuVSEn1XSKwdzObhbC4OiF/4ffVimbSsvlEAYNJjqKYcxn4P0bfpjw3R7x23RiZ3ZSdgGTABSMOsI+G98GNiVBIB5PzgXc6UBG6DUy2c8++68pfd74RtVlrdM2nhjeMCf7CrWwA8X5rWdhSVyl20bLzQZjHmHw8fmFxMxBAIfqwLPxqSbvxdNROd8trrBZ8YugdMNTDoCGJDNTAm6nejJJ7ci4S7Gtd0h3jIn04DLyADE7WGAE=.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 1264,
+   "completion_tokens": 666,
+   "total_tokens": 1930,
+   "cost": 0.0004594,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0004594,
+    "upstream_inference_prompt_cost": 0.0001264,
+    "upstream_inference_completions_cost": 0.000333
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 345,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 3.97,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": true,
+ "mock": false,
+ "created": "2026-11-14T16:19:33+00:00"
+}
