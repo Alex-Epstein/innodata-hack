@@ -1,0 +1,103 @@
+{
+ "key": "0ec72a317f2f217cc780b02083b432881867462d12970c08fbf1d8bbffadc596",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. Wildfire: a fire is burning at the magenta square F and a crew is at the magenta square S. Fire spreads fastest uphill, so the crew is safe only on a route that stays below the elevation of F the whole way. 4 escape trails (dashed black lines) leave S: Aspen Trail, Birch Trail, Ridge Trail and Basin Trail. Exactly one of them never climbs to the elevation of F. Which trail should the crew take? Answer with the trail name, for example Aspen Trail.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-wildfire-000001.png",
+       "sha256": "775ceec84ec5e548d2a58ea1d4458bbc8dbfcf1046c1d46484119ebff5615f1b"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794677958-HyQryPguNe1Qged1bFrn",
+  "object": "chat.completion",
+  "created": 1794677958,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Ridge Trail** is the route that stays below the fire.\n\n1. **Elevation of F:** F sits between the heavy 600 m and 700 m index contours on the slope of the large northwest hill, so its elevation is roughly 620–680 m.\n2. **Birch Trail:** It runs northwest from S and then west to about (485, 515), which lies inside the 800 m contour ring. It climbs well above F.\n3. **Basin Trail:** It runs southwest from S, then west across the slope to about (240, 648). It crosses the heavy 700 m contour, so it climbs above F.\n4. **Aspen Trail:** It runs northeast from S toward the eastern hill and reaches the 600 m contour ring, so it climbs to or above the level of F.\n5. **Ridge Trail:** It runs north from S through the valley between the two hills. Its highest point is near (982, 268), which sits around the 500 m contour, and its other points are at or below about 540 m. It stays below F the whole way.\n\nFINAL ANSWER: Ridge Trail",
+     "refusal": null,
+     "reasoning": "I'm working out the elevation of point F, which sits at roughly pixel (685, 653). The index contours are 500 through 900, and I'm checking whether F falls between the 600 and 700 lines near the heavy 700 contour.\n\nI'm checking the contour lines around F and weighing the 600 and 700 heavy lines to see where F sits between them. The label positions suggest the 700 line runs through the area near F, so I'm estimating F's elevation to be around 640.\n\nI'm checking whether the Aspen trail climbs past the 600 contour on the east hill, since that would help place F's elevation. The Basin trail also looks like it runs between the 600 and 700 lines near its western bend.\n\nI'm checking the trails against the contours now. Basin Trail seems to cross the 700 line on its way up toward the western slope, so it likely climbs above F. Birch Trail reaches inside the 800 ring, so it climbs high. Ridge Trail looks like it stays in the 500 to 600 range.\n\nI'm weighing the trail elevations against F's likely elevation of around 640. Ridge Trail tops out near 540 in the valley between the hills, so it never reaches that height, which makes it the answer.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm working out the elevation of point F, which sits at roughly pixel (685, 653). The index contours are 500 through 900, and I'm checking whether F falls between the 600 and 700 lines near the heavy 700 contour.\n\nI'm checking the contour lines around F and weighing the 600 and 700 heavy lines to see where F sits between them. The label positions suggest the 700 line runs through the area near F, so I'm estimating F's elevation to be around 640.\n\nI'm checking whether the Aspen trail climbs past the 600 contour on the east hill, since that would help place F's elevation. The Basin trail also looks like it runs between the 600 and 700 lines near its western bend.\n\nI'm checking the trails against the contours now. Basin Trail seems to cross the 700 line on its way up toward the western slope, so it likely climbs above F. Birch Trail reaches inside the 800 ring, so it climbs high. Ridge Trail looks like it stays in the 500 to 600 range.\n\nI'm weighing the trail elevations against F's likely elevation of around 640. Ridge Trail tops out near 540 in the valley between the hills, so it never reaches that height, which makes it the answer.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 5533,
+        "sha256": "3b9ea41f91f1e8fd64d09e0330f04959afb924a780b42216968405736706360f"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2898,
+   "completion_tokens": 1721,
+   "total_tokens": 4619,
+   "cost": 0.0011503,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0011503,
+    "upstream_inference_prompt_cost": 0.0002898,
+    "upstream_inference_completions_cost": 0.0008605
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1374,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 10.21,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:39:18+00:00"
+}

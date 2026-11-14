@@ -1,0 +1,1 @@
+done: #46 topo family on real terrain (USGS 3DEP tiles in gen/topo/tiles), templates crossings, sunset, flood; 10-seed pilots validate 10/10 each; crossings Haiku 1/10 Luna 0/10, sunset 0/10 0/10, flood 2/10 3/10; wildfire dropped (8/10, 7/10); synthetic pilot evidence in results/spikes/topo_synthetic. next: #8 packaging + final eval. blocked: none

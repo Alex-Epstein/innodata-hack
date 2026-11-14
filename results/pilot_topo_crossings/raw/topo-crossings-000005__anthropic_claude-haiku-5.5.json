@@ -1,0 +1,103 @@
+{
+ "key": "be9aa3b88fc5b8a1b6d9ad1293f10aae37b7788d43d7b00d13b858f76b800c9d",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map of a real place (Mount Tamalpais, California), drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 20 meters, index contours (heavy brown lines, some labeled) are every 100 meters, and elevations are in meters. Rescue carry: a stretcher team carries a casualty along the Pack Trail (dashed red line) from the magenta square S to the magenta square E. To pace the carry, the team leader logs every contour line the trail crosses. How many contour lines (index contours included) does the trail cross between S and E? If it crosses the same contour line more than once, count every crossing. Answer with a whole number, for example 7.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-crossings-000005.png",
+       "sha256": "9a3a43b8cc54698e907a0714710de60dea9fa73f4e32d2c72557391930f81c08"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794678936-olybS351HQiAFAU3lece",
+  "object": "chat.completion",
+  "created": 1794678936,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "## Reasoning\n\nI can't measure the contours exactly, so this is an estimate from the map's visual layout.\n\n1. **Trail route:** The Pack Trail runs from S (near the lower-middle left, about 37°55'50\"N) north-northwest to E (near the upper left, about 37°56'20\"N). It is a fairly direct climb with a few bends, so it should cross each contour between the two elevations about once.\n\n2. **Elevation range:** S sits in the 600–700 m zone near the small ring-shaped hill, while E lies somewhere around 440–460 m, just below the labeled 400 index contour to its upper left. The trail therefore climbs or descends roughly 150–200 m overall.\n\n3. **Contour count:** At a 20 m interval, a change of about 160 m implies roughly 8 contour lines. Index contours (100 m steps, such as the 500 m and 600 m lines) are included in that count. Small wiggles in the trail could add an extra crossing or two, but the net change sets the minimum.\n\nMy best estimate is 8 crossings. This is not a precise measurement, since the trail-to-contour intersections are hard to read exactly at this scale.\n\nFINAL ANSWER: 8",
+     "refusal": null,
+     "reasoning": "I'm estimating how many contour lines the trail crosses between the start point near (322, 670) and the end point at (302, 295). The trail heads north-northwest, and I'm checking the nearby contour labels, including the 700 line to the left, to judge how the elevation changes along the route.\n\nI'm trying to count how many contour lines the trail crosses, but I can't read the exact positions reliably from this picture. I'm estimating the terrain around the start point instead, looking for the small loop near the bottom and the index contours that might sit between the trail and the summit.\n\nTypically these maps show the trail crossing six to eight contours, so I'm leaning toward an estimate around seven. Near the start, the trail seems to pass a thick index contour around y≈625, and the elevation at the top looks like it could be near 460, given the 400 label nearby.\n\nI'm weighing whether the start point sits near 600 and the end near 440, which would make the climb about 160 metres. At a 20-metre contour interval that suggests roughly eight crossings, plus any extra from a route that doesn't climb steadily.\n\nI'm settling on eight as the total, counting the index contours that fall between the trail and the summit.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm estimating how many contour lines the trail crosses between the start point near (322, 670) and the end point at (302, 295). The trail heads north-northwest, and I'm checking the nearby contour labels, including the 700 line to the left, to judge how the elevation changes along the route.\n\nI'm trying to count how many contour lines the trail crosses, but I can't read the exact positions reliably from this picture. I'm estimating the terrain around the start point instead, looking for the small loop near the bottom and the index contours that might sit between the trail and the summit.\n\nTypically these maps show the trail crossing six to eight contours, so I'm leaning toward an estimate around seven. Near the start, the trail seems to pass a thick index contour around y≈625, and the elevation at the top looks like it could be near 460, given the 400 label nearby.\n\nI'm weighing whether the start point sits near 600 and the end near 440, which would make the climb about 160 metres. At a 20-metre contour interval that suggests roughly eight crossings, plus any extra from a route that doesn't climb steadily.\n\nI'm settling on eight as the total, counting the index contours that fall between the trail and the summit.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 5201,
+        "sha256": "91f9f080dbff6a1a8a5469b67a4dddb8f10600cf3a5fa2c4925a160b1db73a6d"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2769,
+   "completion_tokens": 1587,
+   "total_tokens": 4356,
+   "cost": 0.0010704,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0010704,
+    "upstream_inference_prompt_cost": 0.0002769,
+    "upstream_inference_completions_cost": 0.0007935
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1192,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 9.94,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:55:36+00:00"
+}
