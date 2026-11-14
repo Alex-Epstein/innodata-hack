@@ -20,9 +20,13 @@ and `openai/gpt-6-luna` on them. **ZIP uploaded by 3:10 PM (hard deadline 3:30).
 `validate` (all checks pass) → `eval` (both models answer, scored) → `results/` row. One command, also in Docker.
 `scripts/check` runs it; run it before every merge.
 
+**Know the project inside out: read `docs/OVERVIEW.md` first.** The pitch script is `docs/SCRIPT.md`.
+
 ## The files (and nothing else to read unless an issue points you there)
 | File | What it is |
 |---|---|
+| `docs/OVERVIEW.md` | **The whole project from zero**: story, map lesson, missions, results, the 7 checks, Docker, Q&A |
+| `docs/SCRIPT.md` | The 5-minute presentation script and who says what |
 | `docs/BRIEFING.md` | **Now**: current plan, the order to claim issues in, next gate |
 | `docs/DESIGN.md` | Art direction "Field Survey": type, colour meanings, 3D look. Every visual follows it |
 | `docs/DEMO.md` | The 5-minute demo, second by second. We build exactly this |
