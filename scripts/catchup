@@ -6,6 +6,7 @@ me=$(gh api user --jq .login 2>/dev/null)
 if [ "$me" = "Alex-Epstein" ]; then echo "👤 You are working for Alex, the TEAM LEAD."; else echo "👤 You are working for ${me:-a teammate}: a TICKET-TAKER. Only work on a claimed issue, in its folder. Alex (Alex-Epstein) leads and decides. See the Roles box in AGENTS.md."; fi
 echo
 echo "== BRIEFING (docs/BRIEFING.md, Now) =="; awk '/^## Now/{f=1;next} /^## /{f=0} f' docs/BRIEFING.md 2>/dev/null
+echo; echo "== BUDGET =="; bash scripts/budget 2>/dev/null || echo "(no .env yet)"
 echo; echo "== OPEN DIRECTIVES (do these first) =="; bash scripts/directives-check
 echo; echo "== Decisions =="; tail -n 8 docs/DECISIONS.md 2>/dev/null
 echo; echo "== Live log (latest 20, issue #1) =="

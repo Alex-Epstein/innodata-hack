@@ -13,6 +13,15 @@
 Family 2 = power one-line if spike C shows a similar drop by 11:35; otherwise a second scheduling-type reasoning
 family. Architecture D1 to D9 follow the recommendations in `docs/ARCHITECTURE.md` unless #9 says otherwise.
 
+**Budget (Alex's session tracks it; check with `scripts/budget`)**
+| Pot | Cap | Spent | Notes |
+|---|---|---|---|
+| OpenRouter: spikes + pilots | $15 | $0.08 | about half a cent per call at high reasoning |
+| OpenRouter: final eval (10 tasks x 2 models + reruns) | $5 | $0 | |
+| OpenRouter: extras (blind runs, ablations) | $10 | $0 | |
+| OpenRouter: **reserve, don't touch** | $70 | | for reruns before the deadline |
+| Anthropic key | $100 | unknown | no usage API for this key; ask Amila. Coding agents on it: use Sonnet or Haiku, not Opus; no long unattended loops |
+
 **Claim order** (take the first with no assignee; docs/SETUP.md step 6): #2 eval client → #8 packaging. (#5 tech-cosmos; #3, #4, #6, #7 Alex.)
 
 **Deadline:** ZIP uploaded by 3:10 (hard 3:30). Next gate: **one calendar task end to end on main by 12:15.**

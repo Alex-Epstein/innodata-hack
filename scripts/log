@@ -6,3 +6,5 @@ set -euo pipefail
 who="${LOG_WHO:-$(git config user.name || whoami)}"
 gh issue comment 1 --repo Alex-Epstein/innodata-hack --body "**${who}** · $(date +%H:%M) · $*" >/dev/null
 echo "logged"
+# Surface open directives every time an agent logs, so they reach agents mid-task.
+bash "$(dirname "$0")/directives-check"

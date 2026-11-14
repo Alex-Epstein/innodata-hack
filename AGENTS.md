@@ -63,8 +63,9 @@ You are an extension of Alex. When the issue doesn't say, decide the way he woul
 1. **Ground truth:** structured data first; the image is rendered from it by code; the answer is computed from it
    by code. Never an AI-generated image, never an answer from a model or a person reading the image.
 2. **Model calls only through `eval/`'s client** (disk cache, retries, temperature 0, reasoning effort high, fixed
-   max_tokens). Check spend with `scripts/budget`. Organizer keys only: $100 OpenRouter + $100 Anthropic for the **whole team**. Before any batch run,
-   log the call count and estimated cost.
+   max_tokens). Organizer keys only: $100 OpenRouter + $100 Anthropic for the **whole team**. **Budget caps are in
+   `docs/BRIEFING.md`.** Before any batch: run `scripts/budget`, log the call count and estimated cost; after it, log
+   the actual spend. Over $2 for one batch needs Alex's OK first.
 3. **Keys** live only in `.env` (gitignored). Never print, log, commit or paste them anywhere.
 4. **Contracts:** `contracts/SCHEMA.md` changes only via the lead, with a line in `docs/DECISIONS.md`.
 5. **Numbers** in the README or slides come from `results/` via `docs/EVIDENCE.md`. Never round, never retype.
