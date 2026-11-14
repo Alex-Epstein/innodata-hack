@@ -19,30 +19,35 @@ longest, and by how many stops? Chain: count the normal trip → recount under e
 One closure is a decoy: a transfer station the normal route only rides through, so closing it adds 0.
 
 ## Results (both models, max_tokens 64000, all finish_reason stop)
+**Run 2 (reported, after the label fix):** every kept map passes a legibility check (each label is nearer its own
+dot than any other dot, and overlaps no other label or bullet). Funnel: 11 maps generated, 6 kept, 5 rejected for
+unclear labels (`tasks/funnel.json`). Second solver agrees 6/6.
+
 | Template | Haiku 5.5 | GPT-6 Luna |
 |---|---|---|
-| T1 fastest trip | 2/3 | 0/3 |
-| T2 worst closure (valid tasks only) | 1/2 | 0/2 |
-| **Total valid** | **3/5** | **0/5** |
+| T1 fastest trip | 3/3 | 2/3 |
+| T2 worst closure | 3/3 | 1/3 |
+| **Total** | **6/6** | **3/6** |
 
-**subway-000502 is INVALID and excluded:** the "Medical Center" label (a J-line station) sits directly under the
-L-line dot Harbor Blvd. Both models read it as an L station and answered "Weekend 1, 0". That is a label-placement
-defect, not a reasoning failure. Fix: the label placer must reject a position that is closer to another station's dot
-than to its own (next commit), then regenerate and rerun.
+Cost run 2: $0.05 (budget $0.75 before, $0.85 after; other teammates were also spending).
 
-Cost: $0.06 for 12 calls (budget $0.56 before, $0.63 after).
+**Run 1 (superseded):** Haiku 3/5, Luna 0/5 on the valid tasks, with 502 excluded. Its label placer let a J-line
+label ("Medical Center") sit under an L-line dot; both models read it wrong. After fixing the placer, Haiku went
+6/6. **Lesson: part of run 1's difficulty came from label ambiguity, not reasoning.** On clean maps, subway v2 is
+hard for Luna and easy for Haiku.
 
-## Where the models broke
-- **T1:** route tracing. On 401 both answered 40 vs 42: Haiku's own route lists Courthouse → Newbury Av → 74 St and
-  skips 82 St, a station clearly drawn on the blue line between them (one segment, 2 min). Luna 403: 33 vs 43, close to
-  the no-closure time (31), so it likely ignored the closed transfer.
-- **T2:** the per-closure recount. 501: both picked the right weekend but miscounted the detour (Haiku +5, Luna +3,
-  truth +4). Luna 503: picked the +2 weekend over the +4 one.
+## Where Luna broke (run 2)
+- 401 (T1): 40 vs 42. It counted one segment too few on the route (same miss as both models in run 1).
+- 501 (T2): right weekend, detour +3 vs +4 (a recount off by one).
+- 1503 (T2): "Weekend 1 and Weekend 2, 4". It thought Weekend 2 also forces a +4 detour; the truth is +2 (it missed
+  the shorter detour).
 
-## Fairness
-A careful person: T1 takes about 3 minutes (find 2 or 3 candidate routes, count dots per leg, multiply, add 5s);
-T2 about 3 minutes (one normal count plus three recounts, the decoy recount is instant). Not yet timed by a person on
-the team. Known label risk (see 502, and 401's "Juniper St"/"Jessup Jct" pair): fixed next.
+## Fairness and honesty notes
+- A careful person: about 3 minutes per task. Not yet timed by a teammate.
+- 45% of maps fail the legibility check: the label placer needs work (smaller font in dense areas, more candidate
+  positions) before this family can feed a reliable pipeline.
+- Haiku 6/6 means subway v2 is not a strong difficulty story for both models; Luna's 3/6 failures are all counting
+  slips along routes.
 
 Reproduce: `uv run python results/spikes/subway_chain/chain_gen.py && uv run python results/spikes/subway_chain/check.py`,
 then `uv run python -m eval.run --tasks results/spikes/subway_chain/tasks --out results/spikes/subway_chain/results`.

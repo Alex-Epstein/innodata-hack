@@ -311,6 +311,8 @@ def render(record, path, notice=None, run_times=None):
         px, py = T.transform((x, y))
         bullet_blocks.append((px - rb, py - rb, px + rb, py + rb))
     axbox = ax.get_window_extent(rend)
+    st_names = list(pos)
+    st_xy = np.array([T.transform(pos[s]) for s in st_names])
 
     cands = [(9, 0, "left", "center"), (-9, 0, "right", "center"), (0, 9, "center", "bottom"),
              (0, -9, "center", "top"), (7, 7, "left", "bottom"), (-7, 7, "right", "bottom"),
@@ -322,6 +324,7 @@ def render(record, path, notice=None, run_times=None):
         return b1[0] < b2[2] and b2[0] < b1[2] and b1[1] < b2[3] and b2[1] < b1[3]
 
     order = sorted(pos, key=lambda s: (-count[s], s))
+    unclear = []  # labels that overlap another label/bullet or sit nearer another station's dot
     for s in order:
         best = None
         for i, (dx, dy, ha, va) in enumerate(cands):
@@ -336,6 +339,13 @@ def render(record, path, notice=None, run_times=None):
             sc += 300 * sum(inter(box, blk) for blk in blocks
                             if not (abs((blk[0] + r) - mine[0]) < 1 and abs((blk[1] + r) - mine[1]) < 1))
             sc += 1000 * sum(inter(box, blk) for blk in bullet_blocks)
+            # ownership: no other station's dot may be as close to this label as its own dot (#34, task 502)
+            gx = np.maximum(np.maximum(box[0] - st_xy[:, 0], 0), st_xy[:, 0] - box[2])
+            gy = np.maximum(np.maximum(box[1] - st_xy[:, 1], 0), st_xy[:, 1] - box[3])
+            gap = np.hypot(gx, gy)
+            own = gap[st_names.index(s)]
+            if (np.delete(gap, st_names.index(s)) < own + 6).any():
+                sc += 1500
             inside = ((seg_pts[:, 0] > box[0]) & (seg_pts[:, 0] < box[2]) &
                       (seg_pts[:, 1] > box[1]) & (seg_pts[:, 1] < box[3])).sum()
             sc += 25 * inside
@@ -343,6 +353,8 @@ def render(record, path, notice=None, run_times=None):
                 sc += 2000
             if best is None or sc < best[0]:
                 best = (sc, i, box)
+        if best[0] >= 1000:
+            unclear.append(s)
         dx, dy, ha, va = cands[best[1]]
         ax.annotate(s, pos[s], xytext=(dx, dy), textcoords="offset points", ha=ha, va=va, fontsize=7.6,
                     weight="bold" if count[s] > 1 else "normal", zorder=8, path_effects=halo)
@@ -374,6 +386,7 @@ def render(record, path, notice=None, run_times=None):
             fig.text(x0 + 0.02, 0.055, f"{mins} min", fontsize=9, va="center")
     fig.savefig(path, dpi=110, metadata={"Software": None}, facecolor="white")
     plt.close(fig)
+    return unclear
 
 
 # ---------------------------------------------------------------- main

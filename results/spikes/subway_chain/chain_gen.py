@@ -194,9 +194,10 @@ def worst_closure(rng, data):
 def main():
     os.makedirs(os.path.join(OUT, "images"), exist_ok=True)
     os.makedirs(os.path.join(OUT, "data"), exist_ok=True)
-    rows = []
+    rows, rejected = [], []
     for qtype, seeds in TEMPLATES.items():
-        for seed in seeds:
+        for want in seeds:
+          for seed in (want, want + 1000, want + 2000, want + 3000):
             rng, data = build_map(seed)
             make = fastest_trip if qtype == "subway.fastest_trip" else worst_closure
             a, b, q, ans, atype, steps, notice, run_times = make(rng, data)
@@ -208,7 +209,14 @@ def main():
                    "render": {"notice": notice, "run_times": run_times}}
             with open(os.path.join(OUT, "data", f"{tid}.json"), "w", encoding="utf-8") as f:
                 json.dump(rec, f, indent=1)
-            base.render(rec, os.path.join(OUT, "images", f"{tid}.png"), notice=notice, run_times=run_times)
+            unclear = base.render(rec, os.path.join(OUT, "images", f"{tid}.png"), notice=notice,
+                                  run_times=run_times)
+            if unclear:  # legibility check failed: drop this seed, try the next one (counted in the funnel)
+                print("  rejected", tid, "unclear labels:", unclear)
+                rejected.append({"task_id": tid, "reason": "unclear labels", "labels": unclear})
+                os.remove(os.path.join(OUT, "images", f"{tid}.png"))
+                os.remove(os.path.join(OUT, "data", f"{tid}.json"))
+                continue
             row = {"task_id": tid, "image": f"images/{tid}.png", "question": q, "answer": ans,
                    "answer_type": atype, "seed": seed, "generator_version": VERSION, "question_type": qtype,
                    "family": "subway", "difficulty": "chain", "data": f"data/{tid}.json",
@@ -217,9 +225,13 @@ def main():
                 row["ordered"] = True
             rows.append(row)
             print(tid, qtype, a, "->", b, "answer", ans)
+            break
     with open(os.path.join(OUT, "tasks.jsonl"), "w", encoding="utf-8") as f:
         for r in rows:
             f.write(json.dumps(r) + "\n")
+    with open(os.path.join(OUT, "funnel.json"), "w", encoding="utf-8") as f:
+        json.dump({"generated": len(rows) + len(rejected), "kept": len(rows), "rejected": rejected}, f, indent=1)
+    print(f"funnel: {len(rows) + len(rejected)} generated, {len(rows)} kept, {len(rejected)} rejected")
 
 
 if __name__ == "__main__":
