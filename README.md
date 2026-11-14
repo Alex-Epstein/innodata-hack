@@ -136,6 +136,14 @@ The tasks stay fair to a careful person: crossings are at least 40 m apart, the 
 and crosses every line at 25° or more; only one camp is within 40 m of the water route and every other camp is at
 least 250 m from it.
 
+## Final results
+The 10 reported tasks, one run, both models (written by `scripts/package --fill-readme` from the two reported
+folders):
+
+<!-- final-results:start -->
+Filled in when the final run lands.
+<!-- final-results:end -->
+
 ## Key findings
 - The same models that trace a breaker diagram well (6/10 to 9/10 on the power pilots) cannot count the contour
   lines along a trail (0/10 or 1/10). Discrete symbols joined by straight wires are followed; a path through dense,
@@ -151,8 +159,12 @@ least 250 m from it.
 More notes with their sources: `NOTES.md`.
 
 ## Hand check
-A person solves each reported task from the image alone and compares with the computed answer. One line per
-task is added here when the reported set is frozen.
+A person solved every reported task from the image alone, timed, and compared with the computed answer
+(`results/human/`). One line per task:
+
+<!-- hand-check:start -->
+Filled in when the final run lands.
+<!-- hand-check:end -->
 
 ## Run in Docker
 Only Docker is needed. The key is passed at run time and never stored in the image. Everything a run produces is
