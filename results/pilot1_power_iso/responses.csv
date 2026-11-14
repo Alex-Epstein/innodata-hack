@@ -1,0 +1,211 @@
+model,task_id,status,parsed,question_type,response,ref_answer,correct,finish_reason,error
+anthropic/claude-haiku-5.5,power-iso-000000,ok,"CB-05, CB-16",power.iso,"**Answer: CB-05, CB-16**
+
+**Sources and ties**
+- Utility 1 reaches BUS 1 through 52-M1, which is closed.
+- Utility 2 reaches BUS 2 through 52-M2, which is closed.
+- G1 reaches BUS E through 52-G1, which is open.
+- Tie 52-T (BUS 1 to BUS 2) is normally open.
+- 52-ET (BUS 2 to BUS E) is closed.
+
+**Paths into BUS 2B (PNL-2B)**
+1. **CB-05** (closed): BUS 1 drops down at x≈540, runs across, and lands on BUS 2B. This is a live path from Utility 1.
+2. **CB-07** (open): the BUS 2 feeder would connect to BUS 2B, but it is already open, so it needs no action.
+3. **CB-16** (closed): feeds PV-1, the solar inverter. The inverter can export power back, so it is a source and must be isolated.
+4. **CB-17** (closed): feeds KP-1, a load. It is not a source, so it does not need to be opened.
+5. **CB-18** (open): feeds CT-1 and is already open.
+
+**Checking the other sources**
+- With CB-05 open, BUS 1 has no closed path to BUS 2B. Its only other link to the bus-2 side is 52-T, which is open.
+- Utility 2 reaches BUS 2B only through CB-07, which is open. Its other route is 52-ET to BUS E, and BUS E reaches BUS 2B only through CB-09 (open, and it lands on BUS 1B anyway).
+- G1 is isolated by the open 52-G1, and it has no closed route to BUS 2B.
+
+**Load impact**
+- CB-05 feeds only BUS 2B, so opening it cuts no running load outside BUS 2B.
+- CB-16 feeds only PV-1, which is on BUS 2B, so that is acceptable.
+
+Opening CB-05 and CB-16 is the minimum set that removes every closed path from a source to BUS 2B.
+
+FINAL ANSWER: CB-05, CB-16","[""CB-05"", ""CB-16""]",1,stop,
+openai/gpt-6-luna,power-iso-000000,ok,CB-05,power.iso,"The remaining closed-breaker source path to BUS 2B is Utility Service 1 → 52-M1 → BUS 1 → CB-05. The other source paths are already interrupted by open breakers, including CB-07 to BUS 2 and CB-18 to PV-1. Opening CB-05 isolates BUS 2B without cutting power to loads on other buses.
+
+FINAL ANSWER: CB-05","[""CB-05"", ""CB-16""]",0,stop,
+anthropic/claude-haiku-5.5,power-iso-000001,ok,"CB-07, CB-16",power.iso,"**Sources that can reach BUS 2B**
+
+- **Utility 2 (T2 via 52-M2, closed):** reaches BUS 2, and BUS 2 connects to BUS 2B through CB-07, which is closed.
+- **PV-1 solar inverter:** connects directly to BUS 2B through CB-16, which is closed. It can backfeed, so it must be isolated too.
+- **Utility 1 (T1 via 52-M1, closed):** reaches BUS 1. The tie 52-T is open. The only BUS 1 path into BUS 2B is CB-03, which is an open N.O. tie, so it is already open.
+- **Generator G1 (via 52-G1):** 52-G1 is open, so G1 is not connected. Its bus, BUS E, is tied to BUS 2 through closed 52-ET, but BUS E reaches BUS 2B only through CB-08, which is an open N.O. tie.
+- **Other N.O. ties:** CB-06 (BUS 2 to BUS 1B) is open, so it creates no path.
+
+**Breakers to open**
+
+- **CB-07** is the closed breaker connecting BUS 2 to BUS 2B. Opening it removes the utility 2 path without cutting BUS 2's other loads, such as CRAH-4 (CB-05).
+- **CB-16** is the closed breaker connecting PV-1 to BUS 2B. Opening it stops the solar backfeed.
+
+**Breakers not needed**
+
+- CB-18 feeds the CH-1 chiller, a load on BUS 2B. Opening it is not needed for isolation, because a load breaker is not a source path. Leaving it closed is harmless, since the bus is dead once the sources are removed.
+- Opening 52-M2 would also de-energize loads on BUS 2 that are not on BUS 2B, which is not allowed.
+
+FINAL ANSWER: CB-07, CB-16","[""CB-07"", ""CB-16""]",1,stop,
+openai/gpt-6-luna,power-iso-000001,ok,"CB-07, CB-16",power.iso,"CB-03 is already open, so BUS 2B has no closed connection to BUS 1. Open CB-07 to disconnect BUS 2, and CB-16 to disconnect the PV source. The other BUS 2B load breakers can remain as found.
+
+FINAL ANSWER: CB-07, CB-16","[""CB-07"", ""CB-16""]",1,stop,
+anthropic/claude-haiku-5.5,power-iso-000002,ok,"CB-06, CB-07, CB-16",power.iso,"**Step 1: Identify the connections to BUS 2B (PNL-2B).**
+
+- **CB-06** is closed and connects BUS 2 to BUS 2B.
+- **CB-07** is closed and connects BUS 2 to BUS 2B.
+- **CB-05** is normally open (hollow) and is the only other line toward BUS 2B from BUS 1. It is already open, so no action is needed.
+- **CB-16** is closed and feeds PV-1, the solar inverter. PV-1 can push power back into BUS 2B through this path, so it is a source path.
+- **CB-17** (AC-1) and **CB-18** (AHU-3) are closed load feeders. They lead to loads, not sources, and both loads are fed from BUS 2B, so they may be de-energized.
+
+**Step 2: Check the sources behind BUS 2.**
+
+BUS 2 is fed from Utility 2 through 52-M2 and tied to BUS E through 52-ET. BUS E also reaches BUS 1 (Utility 1) through closed CB-03. Opening the upstream breakers (52-M2, 52-ET) would not isolate BUS 2B, because BUS 2 stays energized from BUS E. The 52-T tie and CB-09 are open. So the only way to cut all paths to BUS 2B is at the BUS 2B feeders themselves.
+
+**Step 3: Choose the minimum set.**
+
+- Open **CB-06** and **CB-07** to separate BUS 2B from BUS 2, which removes the utility and tie paths.
+- Open **CB-16** to disconnect PV-1, since it is the only path from the inverter and it can backfeed.
+- CB-17 and CB-18 are load breakers, not source paths, so they stay as they are. Their loads are fed from BUS 2B, so losing them is allowed.
+
+No fewer than three breakers can do this, and no running load outside BUS 2B is affected.
+
+FINAL ANSWER: CB-06, CB-07, CB-16","[""CB-07"", ""CB-16""]",0,stop,
+openai/gpt-6-luna,power-iso-000002,ok,"CB-07, CB-16",power.iso,"CB-07 is the closed feeder from BUS 2 SWGR-2 to BUS 2B, and CB-16 connects the PV inverter to BUS 2B. Opening both removes the utility and PV paths. The alternate feed CB-05 and tie 52-T are already open; other breakers need not be opened.
+
+FINAL ANSWER: CB-07, CB-16","[""CB-07"", ""CB-16""]",1,stop,
+anthropic/claude-haiku-5.5,power-iso-000003,ok,"CB-04, CB-07, CB-16",power.iso,"## Tracing the connections to BUS 2B (PNL-2B)
+
+**Sources and paths into BUS 2B:**
+- **CB-04** (closed) runs from BUS 1 down to BUS 2B. Its route goes across at y≈452 and drops at x≈844 into PNL-2B. This is a closed path from utility service 1.
+- **CB-07** (closed) runs directly from BUS 2 down to BUS 2B at x≈918. This is a closed path from utility service 2.
+- **CB-16** (closed) feeds BUS 2B from the PV-1 solar inverter. PV-1 can export power back through this breaker, so it is a source path and must be opened.
+
+**Other connections checked:**
+- BUS 2B has no other tie to the rest of the system. Its outgoing breakers CB-17 (EF-4 exhaust fan) and CB-18 (CHWP-1) are loads fed from BUS 2B, so they will lose power as intended.
+- **52-T** (the bus tie between BUS 1 and BUS 2) is open, and it does not touch BUS 2B directly.
+- **CB-02** is normally open and already open, so it needs no action.
+- **G1** reaches BUS E through 52-G1, which is open. Even if G1 were started, it reaches BUS E, not BUS 2B, unless 52-ET is closed. BUS E is connected to BUS 2 through the closed 52-ET, but BUS 2B is only reached through CB-07, which is already being opened.
+- **CB-06** (LP-2), **CB-05** (HP-2), and **CB-09** (feeding BUS 1B) do not connect to BUS 2B, so they must stay closed.
+
+**Minimum set:** CB-04 and CB-07 are the two closed feeds into BUS 2B from the utility-fed buses. CB-16 is the closed feed from PV-1. Opening these three isolates BUS 2B from every source, and no running load outside BUS 2B is interrupted.
+
+FINAL ANSWER: CB-04, CB-07, CB-16","[""CB-04"", ""CB-16""]",0,stop,
+openai/gpt-6-luna,power-iso-000003,ok,"CB-04, CB-16",power.iso,"BUS 2B has two closed paths from sources: CB-04 connects it to BUS 1, and CB-16 connects it to the PV-1 inverter. Open both. CB-07 and 52-G1 are already open, so they need no action. Opening CB-04 and CB-16 does not interrupt loads outside BUS 2B.
+
+FINAL ANSWER: CB-04, CB-16","[""CB-04"", ""CB-16""]",1,stop,
+anthropic/claude-haiku-5.5,power-iso-000004,ok,"CB-04, CB-14",power.iso,"**Step 1: Identify the sources that can reach BUS 2B.**
+- **Utility/T2:** T2 feeds BUS 2 through closed 52-M2. BUS 2 reaches BUS 2B through closed **CB-04**.
+- **PV-1 inverter:** The inverter connects to BUS 2B through closed **CB-14**, so it can back-feed the bus.
+- **G1 (via BUS E):** BUS E connects to BUS 2B only through CB-09, which is open (N.O.). Other routes are also open: 52-ET (BUS 2 to BUS E tie), CB-06 (BUS 2 to BUS EB), and 52-T (BUS 1 to BUS 2). Utility 1 reaches BUS 2 only through these same open ties.
+
+**Step 2: Check the other bus connections.**
+- CB-03 (BUS 2 to BUS 1B) is open.
+- CB-09 (BUS E to BUS 2B) is open.
+- CB-06 (BUS 2 to BUS EB) is open.
+- The 52-T and 52-ET tie breakers are open.
+
+So no other path to BUS 2B exists through closed breakers.
+
+**Step 3: Choose the minimum set of openings.**
+- Opening **CB-04** removes the utility path from BUS 2.
+- Opening **CB-14** removes the PV-1 back-feed path.
+- No other breaker needs to open. CB-15 and CB-16 are load breakers on BUS 2B and need no action, and CB-14 must open to isolate the inverter.
+
+These two openings do not cut power to any running load outside BUS 2B.
+
+FINAL ANSWER: CB-04, CB-14","[""CB-04"", ""CB-14""]",1,stop,
+openai/gpt-6-luna,power-iso-000004,ok,"CB-04, CB-14",power.iso,"Open CB-04 to disconnect BUS 2B from BUS 2, and CB-14 to disconnect the PV-1 source. The ties shown normally open need no action.
+
+FINAL ANSWER: CB-04, CB-14","[""CB-04"", ""CB-14""]",1,stop,
+anthropic/claude-haiku-5.5,power-iso-000005,ok,"CB-03, CB-15",power.iso,"**Sources and paths into BUS 1B (MCC-1B):**
+
+1. **Utility 1 via Bus 1:** BUS 1B connects to BUS 1 through CB-03, which is closed. This is a live path. Isolating it at 52-M1 would also cut LAB-2 and BP-1, which are running loads not fed from BUS 1B, so CB-03 is the breaker to open.
+2. **Utility 2 / Bus 2 via tie CB-06:** CB-06 is a normally-open tie to BUS 1B and is already open, so no action is needed.
+3. **PV-1 solar inverter via CB-15:** CB-15 is closed and feeds BUS 1B from the inverter, which can backfeed. It must be opened. The inverter is a source, not a load, so this does not cut power to any load.
+4. **Generator G1:** G1 reaches BUS E through 52-G1, which is open. BUS E ties to Bus 2 (52-ET is closed) and to Bus 2 via CB-07, which is open. Even with 52-ET closed, the path to BUS 1B still runs through CB-06, which is open, so G1 has no closed path to BUS 1B.
+5. **Bus 1 to Bus 2 via 52-T:** 52-T is open, so Bus 1 and Bus 2 are not connected through it.
+
+**Loads on BUS 1B** (CB-13 to CHWP-1, CB-14 to CH-1) are dead-end feeders. Leaving CB-13 and CB-14 closed creates no path to a source, so they need not be opened.
+
+**Breakers to open:** CB-03 and CB-15.
+
+FINAL ANSWER: CB-03, CB-15","[""CB-03"", ""CB-15""]",1,stop,
+openai/gpt-6-luna,power-iso-000005,ok,"CB-03, CB-15",power.iso,"Open CB-03 to disconnect BUS 1B from BUS 1, and CB-15 to disconnect the PV-1 backfeed. The other alternate-feed ties shown are already open.
+
+FINAL ANSWER: CB-03, CB-15","[""CB-03"", ""CB-15""]",1,stop,
+anthropic/claude-haiku-5.5,power-iso-000006,ok,"CB-07, CB-18",power.iso,"**Tracing the connections to BUS 2B (PNL-2B):**
+
+- **CB-07 (closed)** runs from BUS 2 (fed by 52-M2 and utility service 2) directly down to BUS 2B. This is a closed path from a utility source, so it must be opened.
+- **CB-03 (open, N.O.)** is the alternate feed from BUS 1. It is already open, so no action is needed.
+- **CB-18 (closed)** connects BUS 2B to PV-1, the solar inverter, which can back-feed power. This closed path must be opened.
+- **CB-16 (EF-4), CB-17 (BP-1)** are loads fed from BUS 2B. Opening upstream feeds cuts these loads, which is acceptable.
+
+**Breakers ruled out:**
+
+- **52-T and 52-ET** are open, so BUS 1, BUS 2 and BUS EB are not tied together through them.
+- **CB-08 (open)** feeds BUS EB, not BUS 2B.
+- **CB-06** feeds BUS 1B (MCC-1B), not BUS 2B.
+- **CB-05** feeds the junction serving CB-14 and CB-15 (LP-2 and CHWP-1). These are not on BUS 2B, and their wiring does not connect to it, so CB-05 stays closed.
+- **52-M2** would isolate BUS 2B, but it would also de-energize BUS 2 and its running loads (PP-2, LP-2, CHWP-1 and the MCC-1B feed). Opening CB-07 is the narrower choice.
+
+**Result:** With CB-07 and CB-18 open, BUS 2B has no closed path to utility services, G1, or PV-1. The only remaining connections are the open CB-03 and the open tie breakers, and the only items still energized from BUS 2B are its own downstream loads, which are not required to stay on.
+
+FINAL ANSWER: CB-07, CB-18","[""CB-07"", ""CB-18""]",1,stop,
+openai/gpt-6-luna,power-iso-000006,ok,"CB-07, CB-18",power.iso,"BUS 2B is connected to BUS 2 through closed breaker CB-07, and the PV-1 inverter connects directly through closed breaker CB-18. CB-03, the alternate feed from BUS 1, is already open. Open CB-07 and CB-18; this leaves loads not fed from BUS 2B unaffected.
+
+FINAL ANSWER: CB-07, CB-18","[""CB-07"", ""CB-18""]",1,stop,
+anthropic/claude-haiku-5.5,power-iso-000007,ok,"CB-03, CB-13",power.iso,"**Tracing the sources to BUS 1B (MCC-1B):**
+
+- **CB-03** (closed) connects BUS 1 (utility service 1 via 52-M1) directly to BUS 1B. This is a live source path.
+- **CB-06** (N.O., open) would connect BUS 2 to BUS 1B through the tie run. It is already open, so no action is needed.
+- **CB-13** (closed) connects the PV-1 solar inverter to BUS 1B. The inverter can back-feed, so this is a source path that must be opened.
+- **CB-11** (open) feeds CHWP-1 and needs no action.
+- **CB-12** (closed) feeds LP-2 from BUS 1B. That load is fed from BUS 1B, so it may be de-energized. It is not a source path, so it stays as it is.
+
+**Checking the constraint:**
+
+- Opening CB-03 and CB-13 removes every closed path from utility services, PV-1 and G1 into BUS 1B. The only other connection to BUS 1B is the open CB-06, and the tie 52-T is open, so nothing else reaches the bus.
+- Neither breaker feeds a load that is not on BUS 1B. CB-03 only feeds BUS 1B, and CB-13 only feeds the PV-1 inverter.
+- No cheaper option exists. Each of CB-03 and CB-13 is a separate closed source path, so both must open. Opening an upstream breaker such as 52-M1 would also cut power to BUS 1 loads and to BUS 2B through CB-02, which is not allowed.
+
+FINAL ANSWER: CB-03, CB-13","[""CB-03"", ""CB-13""]",1,stop,
+openai/gpt-6-luna,power-iso-000007,ok,"CB-03, CB-13",power.iso,"BUS 1B is fed from BUS 1 through closed breaker CB-03, so open CB-03. PV-1 can backfeed BUS 1B through closed CB-13, so open CB-13. The alternate tie CB-06 is already open; opening these two breakers leaves the other running loads supplied.
+
+FINAL ANSWER: CB-03, CB-13","[""CB-03"", ""CB-13""]",1,stop,
+anthropic/claude-haiku-5.5,power-iso-000008,ok,"CB-02, CB-11",power.iso,"**Tracing the sources to BUS 1B (MCC-1B):**
+
+- **Utility 1 path:** Utility Service 1 feeds T1 and 52-M1 to BUS 1. From BUS 1, CB-02 (closed) feeds BUS 1B directly. This path must be opened, and CB-02 is the only closed breaker connecting BUS 1 to BUS 1B. Opening 52-M1 would also cut CB-01 (CRAH-4), which is not fed from BUS 1B, so that is not allowed.
+- **PV-1 path:** CB-11 (closed) connects the PV-1 solar inverter directly to BUS 1B. The inverter can backfeed, so CB-11 must be opened.
+- **Generator G1 path:** G1 feeds BUS E. The only link from BUS E toward BUS 1B is CB-09, which is already open (N.O. tie). Nothing else reaches BUS 1B from BUS E.
+- **Utility 2 path:** BUS 2 connects to BUS 1B only through the open tie 52-T and the open CB-03 (which leads to BUS 2B, not BUS 1B). Neither of these is closed, so no action is needed.
+- **Crossing lines:** The lines crossing at CB-07 and the CB-06 line are marked ""not connected"" (no junction dot), so they create no path.
+
+**Result:** Open CB-02 (cuts the utility path through BUS 1) and CB-11 (isolates the PV-1 backfeed). The loads CB-12 and CB-13 are fed from BUS 1B and will be de-energized, which is acceptable. No running load outside BUS 1B is affected.
+
+FINAL ANSWER: CB-02, CB-11","[""CB-02"", ""CB-11""]",1,stop,
+openai/gpt-6-luna,power-iso-000008,ok,"CB-02, CB-11",power.iso,"BUS 1B is connected to the upstream switchgear through CB-02 and to the PV-1 source through CB-11. Open both; this leaves loads not fed from BUS 1B undisturbed.
+
+FINAL ANSWER: CB-02, CB-11","[""CB-02"", ""CB-11""]",1,stop,
+anthropic/claude-haiku-5.5,power-iso-000009,ok,"CB-03, CB-06, CB-18",power.iso,"**Tracing the paths into BUS 2B (PNL-2B):**
+
+- **CB-03** (closed): its feeder runs from BUS 1 (SWGR-1) down and across to BUS 2B. This is a source path from utility service 1.
+- **CB-06** (closed): feeds BUS 2B directly from BUS 2 (SWGR-2), which is fed by utility service 2 through 52-M2.
+- **CB-18** (closed): feeds BUS 2B from the PV-1 solar inverter, which can back-feed the bus.
+- **CB-16 and CB-17** (closed) are outgoing feeders from BUS 2B to LAB-2 and AHU-3. They carry no source current into the bus, and both loads are fed from BUS 2B, so they can be de-energized without violating the rules. They do not need to be opened.
+
+**Checking the other ties:**
+
+- 52-T (between BUS 1 and BUS 2) and CB-09 (between BUS E and BUS 1B) are normally open, so they create no path.
+- CB-10 is open, so BUS EB is not tied to the emergency bus through it.
+- CB-07 feeds BUS EB, not BUS 2B, so it is not a path into BUS 2B and must stay closed to keep the loads on BUS EB running.
+- The generator G1 connects only to BUS E, which has no closed path to BUS 2B once CB-03 and CB-06 are open.
+
+**Result:** Three independent closed paths reach BUS 2B (from BUS 1 via CB-03, from BUS 2 via CB-06, and from PV-1 via CB-18). Opening those three is the minimum needed, and it cuts no running load outside BUS 2B.
+
+FINAL ANSWER: CB-03, CB-06, CB-18","[""CB-03"", ""CB-18""]",0,stop,
+openai/gpt-6-luna,power-iso-000009,ok,"CB-03, CB-18",power.iso,"CB-03 is the closed connection from BUS 1 to BUS 2B, so open it to block the utility-side path. CB-18 connects the PV inverter to BUS 2B, so open it to isolate that source. CB-06 and the relevant tie breakers are already open; no other breakers need to be opened.
+
+FINAL ANSWER: CB-03, CB-18","[""CB-03"", ""CB-18""]",1,stop,

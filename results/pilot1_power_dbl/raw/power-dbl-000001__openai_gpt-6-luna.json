@@ -1,0 +1,170 @@
+{
+ "key": "16cb550478e1498cab41e43409180b3076cc28cf85c03c37439615c748910ba0",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is the as-found single-line diagram of a building's 480 V switchgear. Breakers 52-M2 and CB-09 both trip at the same moment. Nothing else changes: no other breaker opens or closes, normally-open (N.O.) breakers stay open, and Standby generator G1 is not running and does not start. A load has power only if a path of closed breakers connects it to a running source. Which loads that were running before the event have no power afterwards? A load behind an open breaker was not running. Answer with the load tags (for example CH-2), in the order they appear on the drawing from left to right, separated by commas.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "power-dbl-000001.png",
+       "sha256": "282cf898e9d881725f26a0977622e522e242ffee300259da2ae0dfa9f9d7bcee"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794678832-c4pU8B3MhFtQIYkq7pos",
+  "object": "chat.completion",
+  "created": 1794678832,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "52-M2 trips, deenergizing Bus 2. The normally open 52-T does not let Bus 1 backfeed it. Bus E also loses its supply through 52-ET; G1 is unavailable, and the normally open CB-04 does not provide an alternate feed. Bus 1 remains energized.\n\nCHWP-1 and KP-1 were fed from Bus 2 through CB-07, so they lose power; HP-2 is directly fed from Bus 2. ELP-1 loses power when CB-09 trips. BP-1 and CRAH-4 lose power with Bus E. The Bus 2B loads remain powered through closed CB-02 from Bus 1.\n\nFINAL ANSWER: CHWP-1, KP-1, HP-2, ELP-1, BP-1, CRAH-4",
+     "refusal": null,
+     "reasoning": null,
+     "reasoning_details": [
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7852,
+        "sha256": "acf355e44b1a097e615cd353c08b2138473bada90cc1bdd9add67e5821b10fea"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0ae2fbe2a45e2319016af8a030ee7087d1b463daf35651f600",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7552,
+        "sha256": "ddaf1728581fa0ac0511812aa1a3a32982675be7e5d6e7598418bebf960fec7d"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0ae2fbe2a45e2319016af8a0381f3087d1a43a9abe9c4d3a27",
+       "index": 1
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Analyzing load conditions**\n\nI'm examining the current load conditions. It looks like RP-3 via CB11 is open but not running, so I’m excluding that from consideration. CHWP-1 through CB12 is closed, but Bus1B is being fed from Bus2, which is closed at CB07. Since it was running, it loses power after the M2 trip. KP-1 through CB13 is also closed and ends up losing power similarly. I’m trying to fully understand how these setups interact with each other.",
+       "format": "openai-responses-v1",
+       "index": 2
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7616,
+        "sha256": "d236a722bec11e26c6e005f967508015e4d91ed99dc918305947a92048417e2a"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0ae2fbe2a45e2319016af8a03b1c3887d19446a436b37219c4",
+       "index": 3
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Assessing bus connections**\n\nI’m looking at how Bus2B connects with Bus1 through some closed and open channels. It seems like Bus2B remains unaffected despite changes in CB02 and CB08. Then there's BusE, which links with Bus2 via ET and receives an indication from EB through CB10. It’s interesting to see how these connections flow and how they can manage alterations without interruptions. I’ll need to ensure I understand this fully going forward!",
+       "format": "openai-responses-v1",
+       "index": 4
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7616,
+        "sha256": "6fdbf1e0387cc6882ca5968a83e6ad514778932f884aab20e3da4b89c886ac81"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0ae2fbe2a45e2319016af8a041c25087d18325f32592ba71e3",
+       "index": 5
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7744,
+        "sha256": "698c3f43a894d524db0a9ac9da6d013e5c29c3fb10b95d3d07b3136aa5fd3219"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0ae2fbe2a45e2319016af8a045328087d182abd66c44271dc7",
+       "index": 6
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 3456,
+        "sha256": "4d7afcd028ca6fbf26f66bfdf3cb71847db7401624f9fb3a76910e2e0aeb6851"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0ae2fbe2a45e2319016af8a04909b887d187d264c6a237d798",
+       "index": 7
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2273,
+   "completion_tokens": 2907,
+   "total_tokens": 5180,
+   "cost": 0.00173755,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 2270,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.00173755,
+    "upstream_inference_prompt_cost": 0.00028405,
+    "upstream_inference_completions_cost": 0.0014535
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2727,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 28.05,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:53:52+00:00"
+}

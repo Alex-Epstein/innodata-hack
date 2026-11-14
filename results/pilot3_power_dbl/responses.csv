@@ -1,0 +1,292 @@
+model,task_id,status,parsed,question_type,response,ref_answer,correct,finish_reason,error
+anthropic/claude-haiku-5.5,power-dbl-000000,ok,"HP-2, CH-2, CH-1, LP-2, CRAH-4, LAB-2, KP-1, ELP-1",power.dbl,"**Sources after the event**
+
+- **Utility 1** feeds Bus 1 through 52-M1, which is still closed. Bus 1 stays energized.
+- **Utility 2** fed Bus 2 through 52-M2, which now opens. The only other path to Bus 2 is the N.O. tie 52-T, which stays open.
+- **Standby G1** is not running, and its breaker 52-G1 is open.
+
+So Bus 2 is de-energized. Bus E is fed from Bus 2 through the closed 52-ET tie and has no other live source, so Bus E is also de-energized.
+
+**Loads fed from CB-04 (Bus 1)**
+
+CB-04 feeds a junction that supplies CB-14 (HP-2) and CB-15 (CH-2). Opening CB-04 de-energizes both, so HP-2 and CH-2 lose power.
+
+**Loads on Bus 2 (via CB-05, CB-07)**
+
+- PNL-2B is fed by CB-05 from Bus 2. Its closed breakers CB-16 (CH-1) and CB-17 (LP-2) lose power. CB-18 (EL-1) was already open, so it was not running.
+- CB-07 feeds CRAH-4 directly from Bus 2, so CRAH-4 loses power.
+
+**Loads on Bus E (via CB-08, CB-10)**
+
+- EMCC-1 is fed by CB-08 from Bus E. Its closed breakers CB-19 (LAB-2) and CB-20 (KP-1) lose power.
+- CB-10 feeds ELP-1 from Bus E, so ELP-1 loses power.
+
+**Unaffected loads**
+
+- MCC-1B (CB-01 from Bus 1) keeps AHU-3, RP-3 and PP-2 powered.
+- CB-02 keeps CHWP-1 powered from Bus 1.
+- The N.O. ties CB-03, CB-06 and CB-09 remain open, so they provide no backfeed.
+
+**Loads that lose power, in drawing order (left to right):** HP-2, CH-2, CH-1, LP-2, CRAH-4, LAB-2, KP-1, ELP-1.
+
+FINAL ANSWER: HP-2, CH-2, CH-1, LP-2, CRAH-4, LAB-2, KP-1, ELP-1","[""HP-2"", ""CH-2"", ""CH-1"", ""LP-2"", ""CRAH-4"", ""LAB-2"", ""KP-1"", ""ELP-1""]",1,stop,
+openai/gpt-6-luna,power-dbl-000000,ok,"HP-2, CH-2, CH-1, LP-2, CRAH-4, LAB-2, KP-1, ELP-1",power.dbl,"52-M2 disconnects BUS 2 and, through the closed 52-ET, BUS E. The normally open ties stay open, and G1 provides no source, so the running loads on those buses lose power. CB-04 also disconnects HP-2 and CH-2. EL-1 is excluded because CB-18 was already open and it was not running.
+
+FINAL ANSWER: HP-2, CH-2, CH-1, LP-2, CRAH-4, LAB-2, KP-1, ELP-1","[""HP-2"", ""CH-2"", ""CH-1"", ""LP-2"", ""CRAH-4"", ""LAB-2"", ""KP-1"", ""ELP-1""]",1,stop,
+anthropic/claude-haiku-5.5,power-dbl-000001,ok,"CHWP-1, KP-1, HP-2, ELP-1, BP-1, CRAH-4",power.dbl,"**Sources and ties before the event**
+- Bus 1 is fed from Utility 1 through closed 52-M1.
+- Bus 2 is fed from Utility 2 through closed 52-M2.
+- Bus E (emergency) is fed from Bus 2 through closed 52-ET. Its generator breaker 52-G1 is open, and G1 is not running.
+- 52-T (Bus 1 to Bus 2) is N.O. and stays open.
+
+**After 52-M2 and CB-09 trip**
+- **Bus 2 and Bus E** have no source. Bus 2 is cut off from Utility 2 and cannot reach Bus 1 through the open 52-T. Bus E is cut off from its only energized path and has no generator.
+- **Bus 1B (MCC-1B)** was fed only through closed CB-07 from Bus 2, so it is now dead. CB-01 is open. Running loads on it:
+  - CHWP-1 (CB-12, closed)
+  - KP-1 (CB-13, closed)
+- **HP-2** is fed directly from Bus 2 through closed CB-06, so it loses power.
+- **ELP-1** is fed directly from Bus E through CB-09, which trips.
+- **Bus EB (EMCC-1)** was fed only through closed CB-10 from Bus E. Its other feed, CB-04, is N.O. and open. Running loads on it:
+  - BP-1 (CB-19, closed)
+  - CRAH-4 (CB-20, closed)
+
+**Loads that stay powered (for contrast)**
+- Bus 1 feeds PNL-2B through closed CB-02, so CH-2, PP-2 and EL-1 remain on. Bus 1 also feeds CH-1, AHU-3 and UPS-1 directly.
+- RP-3 was already off (CB-01 open).
+
+**Order left to right on the drawing:** CHWP-1, KP-1, HP-2, ELP-1, BP-1, CRAH-4
+
+FINAL ANSWER: CHWP-1, KP-1, HP-2, ELP-1, BP-1, CRAH-4","[""CHWP-1"", ""KP-1"", ""HP-2"", ""ELP-1"", ""BP-1"", ""CRAH-4""]",1,stop,
+openai/gpt-6-luna,power-dbl-000001,ok,"CHWP-1, KP-1, HP-2, ELP-1, BP-1, CRAH-4",power.dbl,"52-M2 trips, deenergizing Bus 2. The normally open 52-T does not let Bus 1 backfeed it. Bus E also loses its supply through 52-ET; G1 is unavailable, and the normally open CB-04 does not provide an alternate feed. Bus 1 remains energized.
+
+CHWP-1 and KP-1 were fed from Bus 2 through CB-07, so they lose power; HP-2 is directly fed from Bus 2. ELP-1 loses power when CB-09 trips. BP-1 and CRAH-4 lose power with Bus E. The Bus 2B loads remain powered through closed CB-02 from Bus 1.
+
+FINAL ANSWER: CHWP-1, KP-1, HP-2, ELP-1, BP-1, CRAH-4","[""CHWP-1"", ""KP-1"", ""HP-2"", ""ELP-1"", ""BP-1"", ""CRAH-4""]",1,stop,
+anthropic/claude-haiku-5.5,power-dbl-000002,ok,"RP-3, LP-2, EF-4, AC-1, BP-1, CHWP-1, LAB-2, CRAH-4, EL-2",power.dbl,"**Sources before the event**
+- Utility 1 feeds Bus 1 (SWGR-1) through closed 52-M1.
+- Utility 2 feeds Bus 2 (SWGR-2) through closed 52-M2.
+- Standby G1 is not running, and 52-G1 is open.
+
+**Ties**
+- 52-T (between Bus 1 and Bus 2) is open.
+- 52-ET (between Bus 2 and Bus E) is closed, so Bus E is fed from Bus 2.
+- CB-01 (Bus 1 to EMCC-1), CB-06 (Bus 2 to MCC-1B) and the N.O. tie CB-09 path are open or are not part of the affected path. CB-09 is closed before the event and is one of the breakers that trips.
+
+**After the event**
+- 52-M2 opens. Bus 2 loses its only running source. Its only other connection is through 52-ET to Bus E, and Bus E connects only to G1, which is off. So Bus 2 and Bus E are both de-energized.
+- CB-09 opens. This only disconnects PNL-2B from Bus E, which is already dead.
+- Bus 1 is unaffected. 52-T is open, so it stays fed from Utility 1, and MCC-1B (CB-02) and CH-2 (CB-03) keep power.
+
+**Loads that were running and lose power**
+- Via CB-04 (Bus 2), with the junction feeding both: RP-3 (CB-14), LP-2 (CB-15)
+- Via CB-05 (Bus 2): EF-4
+- Via CB-07 (Bus 2 to PNL-2B): AC-1 (CB-16), BP-1 (CB-17), CHWP-1 (CB-18)
+- Via CB-08 (Bus E to EMCC-1): LAB-2 (CB-19), CRAH-4 (CB-20)
+- Via CB-10 (Bus E): EL-2
+
+Ordered left to right on the drawing, the affected loads are RP-3, LP-2, EF-4, AC-1, BP-1, CHWP-1, LAB-2, CRAH-4 and EL-2.
+
+FINAL ANSWER: RP-3, LP-2, EF-4, AC-1, BP-1, CHWP-1, LAB-2, CRAH-4, EL-2","[""RP-3"", ""LP-2"", ""AC-1"", ""BP-1"", ""CHWP-1"", ""LAB-2"", ""CRAH-4"", ""EL-2""]",0,stop,
+openai/gpt-6-luna,power-dbl-000002,ok,"RP-3, LP-2, AC-1, BP-1, CHWP-1, LAB-2, CRAH-4, EL-2",power.dbl,"52-M2 disconnects Bus 2 from Utility Service 2. The normally-open 52-T does not let Bus 1 supply it, and G1 is not running, so the loads fed from Bus 2 and Bus E lose power. Bus 2B also loses power: CB-09 trips, while CB-07 remains open. Loads behind the already-open CB-05 were not running before the event.
+
+FINAL ANSWER: RP-3, LP-2, AC-1, BP-1, CHWP-1, LAB-2, CRAH-4, EL-2","[""RP-3"", ""LP-2"", ""AC-1"", ""BP-1"", ""CHWP-1"", ""LAB-2"", ""CRAH-4"", ""EL-2""]",1,stop,
+anthropic/claude-haiku-5.5,power-dbl-000003,ok,"CHWP-1, HP-2, LP-2, CRAH-4, RP-3, CH-1, DH-B, EL-2",power.dbl,"**Sources after the event**
+
+- **Bus 1 (SWGR-1)** is still fed from Utility 1 through closed 52-M1.
+- **Bus 2 (SWGR-2)** has lost its only source, because 52-M2 tripped. The tie 52-T is open, so Bus 2 cannot be fed from Bus 1.
+- **Bus E (Emergency SWGR)** was fed only through closed 52-ET from Bus 2. G1 is not running and 52-G1 is open, so Bus E is also dead.
+
+**Downstream effects**
+
+- **CB-01** trips directly, so **CHWP-1** loses power.
+- **Bus 1 loads:** CB-02 feeds MCC-1B (CH-2, DH-A, AC-1), and CB-04 feeds EL-1 and CT-1 through CB-14 and CB-15. These stay energized.
+- **Bus 2 loads:** CB-05 feeds **HP-2**. CB-07 feeds Bus 2B, which supplies **LP-2** (CB-16), **CRAH-4** (CB-17) and **RP-3** (CB-18). All lose power.
+- **Bus EB:** CB-08 feeds Bus EB from Bus 2, and CB-09 (N.O.) is open, so Bus EB has no other source. **CH-1** and **DH-B** lose power.
+- **Bus E:** CB-10 feeds **EL-2**, and Bus E is dead, so EL-2 loses power.
+- The N.O. ties CB-03 and CB-06 stay open, so they do not restore anything.
+
+**Loads that were running and now have no power**, in left-to-right drawing order: CHWP-1, HP-2, LP-2, CRAH-4, RP-3, CH-1, DH-B, EL-2.
+
+FINAL ANSWER: CHWP-1, HP-2, LP-2, CRAH-4, RP-3, CH-1, DH-B, EL-2","[""CHWP-1"", ""HP-2"", ""LP-2"", ""CRAH-4"", ""RP-3"", ""CH-1"", ""DH-B"", ""EL-2""]",1,stop,
+openai/gpt-6-luna,power-dbl-000003,ok,"CHWP-1, HP-2, LP-2, CRAH-4, RP-3, CH-1, DH-B, EL-2",power.dbl,"Bus 1 remains energized from Utility Service 1 through 52-M1, but CHWP-1 loses power when CB-01 trips. Bus 2 loses its source when 52-M2 trips; the normally-open 52-T cannot feed it from Bus 1. Bus E is connected to Bus 2, and G1 is not running, so its loads also lose power. CT-1 is excluded because CB-15 was already open.
+
+FINAL ANSWER: CHWP-1, HP-2, LP-2, CRAH-4, RP-3, CH-1, DH-B, EL-2","[""CHWP-1"", ""HP-2"", ""LP-2"", ""CRAH-4"", ""RP-3"", ""CH-1"", ""DH-B"", ""EL-2""]",1,stop,
+anthropic/claude-haiku-5.5,power-dbl-000004,ok,"LAB-2, BP-1, CT-1, SF-2, UPS-1, PP-2",power.dbl,"**Sources and ties before the event**
+
+- **Bus 1 (SWGR-1)** is fed by Utility 1 through 52-M1, which is closed.
+- **Bus 2 (SWGR-2)** is fed by Utility 2 through 52-M2, which is closed.
+- **Bus E (EMCC-1 side)** is connected to Bus 2 through the closed tie 52-ET. Its only other source, G1, is not running, and 52-G1 is open.
+- The 52-T tie between Bus 1 and Bus 2 is open. CB-07 (N.O.) between Bus 2 and Bus E is open.
+
+**Effect of the event**
+
+- 52-M2 opens, so Bus 2 loses its source. Bus E is connected only through 52-ET to Bus 2, so Bus E also loses its source. Bus 1 is unaffected because 52-T is open.
+- CB-09 opens, which de-energizes SF-2 directly.
+
+**Loads fed from the dead buses**
+
+- **MCC-1B:** its only energized feed is CB-05 from Bus 2. CB-01 is open, and the crossing near CB-02 has no junction dot, so it is not connected. MCC-1B goes dead. Its running loads are LAB-2 (CB-12 closed) and BP-1 (CB-13 closed). CH-2 is behind the open CB-11, so it was not running.
+- **Bus 2 direct loads:** CT-1 (CB-08 closed) loses power.
+- **Bus E / EMCC-1:** fed only from Bus E, so it goes dead. Its running loads are UPS-1 (CB-19 closed) and PP-2 (CB-20 closed).
+- **SF-2:** loses power because CB-09 trips.
+
+**Loads that keep power**
+
+- CH-1 (CB-02) and EL-1 and AHU-3 (CB-14, CB-15) are fed from Bus 1.
+- PNL-2B is fed from Bus 1 through CB-03, with CB-06 open. Its loads CRAH-4, KP-1 and EV-1 keep power.
+
+**Order left to right:** LAB-2, BP-1, CT-1, SF-2, UPS-1, PP-2
+
+FINAL ANSWER: LAB-2, BP-1, CT-1, SF-2, UPS-1, PP-2","[""LAB-2"", ""BP-1"", ""CT-1"", ""SF-2"", ""UPS-1"", ""PP-2""]",1,stop,
+openai/gpt-6-luna,power-dbl-000004,ok,"LAB-2, BP-1, CT-1, SF-2, UPS-1, PP-2",power.dbl,"1. Before the trips, Bus 1 is supplied by Utility 1, and the closed CB-03 feeds BUS 2B from Bus 1. Those loads remain powered.
+2. Tripping 52-M2 disconnects Utility 2 from Bus 2. The 52-T tie is normally open, so Bus 2 and Bus E lose their source; the standby generator is not running.
+3. BUS 1B was fed through closed CB-05 from Bus 2, so its running loads LAB-2 and BP-1 lose power. CB-01 is open, so CH-2 was not running beforehand.
+4. CT-1 loses its Bus 2 supply. SF-2 is also disconnected by CB-09, and UPS-1 and PP-2 lose their supply from Bus E.
+
+FINAL ANSWER: LAB-2, BP-1, CT-1, SF-2, UPS-1, PP-2","[""LAB-2"", ""BP-1"", ""CT-1"", ""SF-2"", ""UPS-1"", ""PP-2""]",1,stop,
+anthropic/claude-haiku-5.5,power-dbl-000005,ok,"CH-2, EF-4, CHWP-1, EL-1, LAB-2, UPS-1, LP-2",power.dbl,"**Sources and ties before the event**
+- Bus 1 is fed from Utility 1 through closed 52-M1.
+- Bus 2 is fed from Utility 2 through closed 52-M2.
+- 52-T (between Bus 1 and Bus 2) is N.O. and open.
+- 52-ET is closed, so Bus E is tied to Bus 2.
+- G1 is not running and 52-G1 is open.
+
+**What the event removes**
+- 52-M2 opens, so Bus 2 loses its only source. Bus E has no source either: 52-G1 is open and the generator is not starting.
+- CB-03 opens, which removes the feed to EL-1 (its only connection is CB-03).
+
+**Loads on Bus 2 and Bus E**
+- Bus 2 loads through closed CB-06, CB-07 and CB-08 lose their source. Bus E's breakers CB-09 and CB-10 are open, so nothing is lost there.
+- CB-08 feeds LP-2 directly, so LP-2 loses power.
+- CB-06 feeds PNL-2B, which is also tied to CB-04 (N.O., open). PNL-2B has no other source, so LAB-2 (CB-16, closed) and UPS-1 (CB-18, closed) lose power. CT-1 (CB-17) was already open.
+- CB-07 feeds MCC-1B. MCC-1B has no other closed path to a source (CB-01 is open), so CH-2 (CB-11), EF-4 (CB-12) and CHWP-1 (CB-13) lose power.
+
+**Loads that keep power**
+- CB-05 feeds HP-2 and PP-2 from Bus 1.
+- CB-02 feeds EMCC-1 from Bus 1, which keeps AHU-3 and KP-1 powered.
+- Crossing lines without a junction dot are not connected, so they do not change these paths.
+
+**Loads losing power, left to right on the drawing:** CH-2, EF-4, CHWP-1, EL-1, LAB-2, UPS-1, LP-2.
+
+FINAL ANSWER: CH-2, EF-4, CHWP-1, EL-1, LAB-2, UPS-1, LP-2","[""CH-2"", ""EF-4"", ""CHWP-1"", ""EL-1"", ""LAB-2"", ""UPS-1"", ""LP-2""]",1,stop,
+openai/gpt-6-luna,power-dbl-000005,ok,"CH-2, EF-4, CHWP-1, EL-1, LAB-2, UPS-1, LP-2",power.dbl,"52-M2 trips, leaving Bus 2 without its utility source. The normally open ties stay open, so the loads fed from Bus 2 through CB-07, CB-06, and CB-08 lose power. CB-03 also trips, cutting off EL-1. The loads fed from Bus 1 through CB-05 remain powered, and CB-02 keeps Bus EB supplied from Bus 1.
+
+FINAL ANSWER: CH-2, EF-4, CHWP-1, EL-1, LAB-2, UPS-1, LP-2","[""CH-2"", ""EF-4"", ""CHWP-1"", ""EL-1"", ""LAB-2"", ""UPS-1"", ""LP-2""]",1,stop,
+anthropic/claude-haiku-5.5,power-dbl-000006,ok,"HP-2, DH-B, LAB-2, EV-1, EL-1, AC-1, DH-A, RP-3",power.dbl,"**Sources before the event:** Utility 1 feeds BUS 1 through closed 52-M1. Utility 2 feeds BUS 2 through closed 52-M2. G1 feeds BUS E through closed 52-G1. The three normally-open ties (52-T, 52-ET, CB-05) and CB-04 are open. CB-09 and CB-19 are open.
+
+**Event:** 52-M2 opens and CB-02 opens.
+
+- **BUS 2** loses its only source. Its tie breakers 52-T and 52-ET are open, so BUS 2 is dead. This drops RP-3 (via CB-08).
+- **BUS 2B** (PNL-2B) is fed only from BUS 2 through CB-07. CB-05, its other possible feed from BUS 1, is open. BUS 2B goes dead, dropping EL-1 (CB-16), AC-1 (CB-17) and DH-A (CB-18).
+- **BUS 1B** (MCC-1B) is fed only from BUS 2 through CB-06. CB-04 to BUS 1 is open. BUS 1B goes dead, dropping DH-B (CB-13), LAB-2 (CB-14) and EV-1 (CB-15).
+- **CB-02** feeds the junction for CB-11 and CB-12. CB-11 is open, so CT-1 was not running. CB-12 is closed, so HP-2 loses power.
+
+**Still powered:**
+- KP-1 (CB-01) remains on BUS 1, which T1 still feeds.
+- EF-4 (CB-20) remains on BUS EB, which is fed through closed CB-03 from BUS 1.
+- FP-1 (CB-10) remains on BUS E, which G1 still feeds.
+- AHU-3 (CB-19) was already open, so it was not running.
+
+**Loads running before and unpowered after, in left-to-right drawing order:** HP-2, DH-B, LAB-2, EV-1, EL-1, AC-1, DH-A, RP-3.
+
+FINAL ANSWER: HP-2, DH-B, LAB-2, EV-1, EL-1, AC-1, DH-A, RP-3","[""HP-2"", ""DH-B"", ""LAB-2"", ""EV-1"", ""EL-1"", ""AC-1"", ""DH-A"", ""RP-3""]",1,stop,
+openai/gpt-6-luna,power-dbl-000006,ok,"HP-2, DH-B, LAB-2, EV-1, EL-1, AC-1, DH-A, RP-3",power.dbl,"52-M2 disconnects Bus 2 from Utility Service 2. The normally-open ties remain open, so the Bus 2-fed loads cannot transfer to Bus 1 or the generator. CB-02 also disconnects HP-2; CT-1 was already off because CB-11 was open. Loads still fed from Bus 1 or the running generator retain power.
+
+FINAL ANSWER: HP-2, DH-B, LAB-2, EV-1, EL-1, AC-1, DH-A, RP-3","[""HP-2"", ""DH-B"", ""LAB-2"", ""EV-1"", ""EL-1"", ""AC-1"", ""DH-A"", ""RP-3""]",1,stop,
+anthropic/claude-haiku-5.5,power-dbl-000007,ok,"CT-1, PP-2, CH-1, AC-1, LP-2, DH-A, EV-1, AHU-3",power.dbl,"**Sources before and after the event**
+
+- **Utility 1 → T1 → 52-M1 (closed) → Bus 1 (SWGR-1)**: energized, and stays energized.
+- **Utility 2 → T2 → 52-M2 (closed) → Bus 2 (SWGR-2)**: 52-M2 trips, so Bus 2 loses its only source.
+- **G1 → 52-G1 (open)**: not running, so Bus E has no generator source.
+- **52-T (N.O.)** stays open, so Bus 1 and Bus 2 are not tied.
+- **52-ET (closed)** ties Bus 2 to Bus E, so Bus E was fed from Utility 2 before the event. With Bus 2 dead and G1 not running, Bus E has no source.
+
+**Tie cables that matter**
+
+- CB-02 (closed) runs from Bus 1 to Bus EB (EMCC-1), which stays energized.
+- CB-04 (closed) runs from Bus 2 to Bus 1B (MCC-1B). With Bus 2 dead and CB-01 open, MCC-1B loses power.
+- CB-09 (closed, now tripped) runs from Bus E to Bus 2B (PNL-2B). With CB-09 open and CB-05 open, Bus 2B loses power.
+
+**Running loads checked against the event**
+
+| Load | Feeding breaker | Path after event | Status |
+|---|---|---|---|
+| CT-1 | CB-11 (closed) | MCC-1B, now dead | Loses power |
+| PP-2 | CB-12 (closed) | MCC-1B, now dead | Loses power |
+| CH-1 | CB-13 (closed) | MCC-1B, now dead | Loses power |
+| EF-4 | CB-03 (closed) | Bus 1, live | Keeps power |
+| AC-1 | CB-14 (closed) | Bus 2B, now dead | Loses power |
+| LP-2 | CB-15 (closed) | Bus 2B, now dead | Loses power |
+| DH-A | CB-16 (closed) | Bus 2B, now dead | Loses power |
+| EV-1 | CB-18 (closed) | CB-06 → Bus 2, dead | Loses power |
+| AHU-3 | CB-07 (closed) | Bus 2, dead | Loses power |
+| BP-1 | CB-19 (closed) | Bus EB, live via CB-02 | Keeps power |
+| LAB-2 | CB-20 (closed) | Bus EB, live via CB-02 | Keeps power |
+
+Not running before the event, so excluded: CB-01 (CH-1 path is open), CB-05, CB-08 (EL-2), CB-10, CB-17 (CRAH-4).
+
+**Left-to-right order** (by position on the drawing): CT-1, PP-2, CH-1, AC-1, LP-2, DH-A, EV-1 (x≈937), AHU-3 (x≈1053).
+
+FINAL ANSWER: CT-1, PP-2, CH-1, AC-1, LP-2, DH-A, EV-1, AHU-3","[""CT-1"", ""PP-2"", ""CH-1"", ""AC-1"", ""LP-2"", ""DH-A"", ""EV-1"", ""AHU-3""]",1,stop,
+openai/gpt-6-luna,power-dbl-000007,ok,"CT-1, PP-2, CH-1, AC-1, LP-2, DH-A, EV-1, AHU-3",power.dbl,"1. With 52-M2 closed before the event, T2 supplies BUS 2 and, through the closed 52-ET tie, BUS E. CB04 therefore supplies BUS 1B, and CB09 supplies BUS 2B.
+2. When 52-M2 trips, BUS 2 and BUS E lose their running source: G1 is off. BUS 1B also loses power through CB04; CB01 is open. CB09 trips as well, cutting off BUS 2B, while CB05 is open.
+3. The loads that were running on those paths and lose power are CT-1, PP-2, CH-1, AC-1, LP-2, DH-A, EV-1, and AHU-3. Loads behind open breakers were not running beforehand; the loads on BUS EB remain supplied from BUS 1 through closed CB-02.
+
+FINAL ANSWER: CT-1, PP-2, CH-1, AC-1, LP-2, DH-A, EV-1, AHU-3","[""CT-1"", ""PP-2"", ""CH-1"", ""AC-1"", ""LP-2"", ""DH-A"", ""EV-1"", ""AHU-3""]",1,stop,
+anthropic/claude-haiku-5.5,power-dbl-000008,ok,"PP-2, CH-2, BP-1, HP-2, KP-1, LP-2, CT-1, ELP-1",power.dbl,"**Sources before the event**
+- Utility 1 feeds Bus 1 through closed 52-M1.
+- Utility 2 feeds Bus 2 through closed 52-M2.
+- Generator G1 is off (52-G1 open).
+- Tie 52-T is open. Bus 2 connects to Bus E through closed 52-ET, so Bus E is energized from Bus 2.
+
+**After the event (52-M2 open, CB-10 tripped)**
+- Bus 2 is de-energized, since its only source is 52-M2 and 52-T is open.
+- Bus E loses its only live feed (52-ET now has no energized side), so Bus E is dead.
+
+**Downstream effects**
+- **Bus 1B (MCC-1B):** Before, it was fed from Bus E through closed CB-09. CB-04 and CB-05 are open, so it has no other source. It is now dead. Loads lost: PP-2 (CB-13), CH-2 (CB-14), BP-1 (CB-15).
+- **Bus 2B (PNL-2B):** Fed from Bus 2 through closed CB-07. CB-05 is open. It is now dead. Loads lost: KP-1 (CB-16), LP-2 (CB-17), CT-1 (CB-18).
+- **HP-2:** Fed directly from Bus 2 through closed CB-06. Lost.
+- **ELP-1:** Fed from Bus E through CB-10, which tripped. Lost.
+- **Bus EB (EMCC-1):** Still fed from Bus 1 through closed CB-03, so CHWP-1 (CB-19) keeps power. CB-08 is open, so Bus EB is not connected to Bus E.
+- **Bus 1 loads** (EL-1, CRAH-4 via CB-01, LAB-2 via CB-02) are unaffected.
+- **CH-1** (CB-20) was open, so it was not running.
+
+**Lost loads, in drawing order (left to right):** PP-2, CH-2, BP-1, HP-2, KP-1, LP-2, CT-1, ELP-1
+
+FINAL ANSWER: PP-2, CH-2, BP-1, HP-2, KP-1, LP-2, CT-1, ELP-1","[""PP-2"", ""CH-2"", ""BP-1"", ""HP-2"", ""KP-1"", ""LP-2"", ""CT-1"", ""ELP-1""]",1,stop,
+openai/gpt-6-luna,power-dbl-000008,ok,"PP-2, CH-2, BP-1, HP-2, KP-1, LP-2, CT-1, ELP-1",power.dbl,"52-M2 trips, de-energizing Bus 2. The normally-open tie to Bus 1 stays open, so Bus 1 remains powered but Bus 2 and Bus E lose their running source; G1 is unavailable. Bus 1B loses its Bus E feed through CB-9, and its CB-04 alternate feed is open. Bus 2B also has no alternate feed because CB-05 is open. CB-10’s trip additionally disconnects ELP-1. Loads on Bus 1 and Bus EB remain powered from Bus 1.
+
+FINAL ANSWER: PP-2, CH-2, BP-1, HP-2, KP-1, LP-2, CT-1, ELP-1","[""PP-2"", ""CH-2"", ""BP-1"", ""HP-2"", ""KP-1"", ""LP-2"", ""CT-1"", ""ELP-1""]",1,stop,
+anthropic/claude-haiku-5.5,power-dbl-000009,ok,"RP-3, CRAH-4, LP-2, CT-1, PP-2, LAB-2, BP-1, EL-2",power.dbl,"**Sources before the event**
+- Utility 1 feeds BUS 1 through 52-M1 (closed).
+- Utility 2 feeds BUS 2 through 52-M2 (closed).
+- G1 is not running, and 52-G1 is open.
+- The tie 52-T is N.O. and open.
+- 52-ET is closed, so BUS E is tied to BUS 2.
+
+**Event:** 52-M2 and CB-04 open.
+
+**Bus status after the event**
+- **BUS 2:** its only source was 52-M2, and 52-T is open. BUS 2 is dead.
+- **BUS E:** it is fed from BUS 2 through 52-ET, and G1 is off. BUS E is dead.
+- **BUS 1B:** its feeds are CB-03 (open) and CB-09, which connects to BUS E. With BUS E dead, BUS 1B is dead.
+- **BUS EB:** its feeds are CB-07 (closed, from BUS 2) and CB-08 (open). With BUS 2 dead, BUS EB is dead.
+- **BUS 2B:** it is fed from BUS 1 through CB-02 (closed). CB-06 (open) is the link to BUS 2. BUS 2B stays powered.
+- **BUS 1:** still fed by 52-M1, so CB-01 and CB-02 remain energized.
+
+**Running loads that lose power**
+- **RP-3, CRAH-4, LP-2** (BUS 1B, via CB-13/14/15): BUS 1B is dead.
+- **CT-1** (CB-04 opened): its breaker tripped.
+- **PP-2** (CB-05, on BUS 2): BUS 2 is dead.
+- **LAB-2, BP-1** (BUS EB, via CB-19/20): BUS EB is dead.
+- **EL-2** (CB-10, on BUS E): BUS E is dead.
+
+**Still powered:** CH-2, CHWP-1 (BUS 1), AHU-3, KP-1 (BUS 2B). UPS-1 was not running because CB-16 was already open.
+
+Listed left to right on the drawing: RP-3, CRAH-4, LP-2, CT-1, PP-2, LAB-2, BP-1, EL-2.
+
+FINAL ANSWER: RP-3, CRAH-4, LP-2, CT-1, PP-2, LAB-2, BP-1, EL-2","[""RP-3"", ""CRAH-4"", ""LP-2"", ""CT-1"", ""PP-2"", ""LAB-2"", ""BP-1"", ""EL-2""]",1,stop,
+openai/gpt-6-luna,power-dbl-000009,ok,"RP-3, CRAH-4, LP-2, CT-1, PP-2, LAB-2, BP-1, EL-2",power.dbl,"Utility 1 continues to energize BUS 1, but 52-M2’s trip de-energizes BUS 2; the normally open tie stays open. CB-04’s trip also disconnects CT-1. BUS E loses its supply from BUS 2, and its CB-09 feed to BUS 1B and the feeds to the emergency loads are lost. BUS 2B remains supplied from BUS 1 through closed CB-02, so its running loads stay powered.
+
+FINAL ANSWER: RP-3, CRAH-4, LP-2, CT-1, PP-2, LAB-2, BP-1, EL-2","[""RP-3"", ""CRAH-4"", ""LP-2"", ""CT-1"", ""PP-2"", ""LAB-2"", ""BP-1"", ""EL-2""]",1,stop,

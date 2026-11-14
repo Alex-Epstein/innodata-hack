@@ -1,0 +1,137 @@
+{
+ "key": "de82b1c236932d6cdd401442a5b98d73a381851805adcf70f15cb137b5c7dec0",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is the as-found single-line diagram of a building's 480 V switchgear. A crew must work on BUS 1B (panel MCC-1B). It must be isolated: afterwards there may be no path through closed breakers from any source (utility services, generator G1, or the PV-1 solar inverter, which can feed power back) to BUS 1B. Breakers that are already open need no action. Open as few breakers as possible, and do not cut power to any running load that is not fed from BUS 1B. Which breakers must be opened? Answer with the breaker IDs sorted alphabetically, separated by commas.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "power-iso-000007.png",
+       "sha256": "10c66db3c60ca911d5a5f25e2cacc7e65afba1e1f116d8e84f0beb1329a0c4d4"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794678885-svrCg3HAP21kZ8jj6L4D",
+  "object": "chat.completion",
+  "created": 1794678885,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "BUS 1B is fed from BUS 1 through closed breaker CB-03, so open CB-03. PV-1 can backfeed BUS 1B through closed CB-13, so open CB-13. The alternate tie CB-06 is already open; opening these two breakers leaves the other running loads supplied.\n\nFINAL ANSWER: CB-03, CB-13",
+     "refusal": null,
+     "reasoning": "**Mapping the Diagram**\n\nI'm working on diagram CB06. First, I'm going to start at coordinate x800, then move down to line y452. After that, I need to go left to x414 and then move down to BUS1B at x414. It feels a bit technical, but once I map those points out, I think it’ll start making sense. Alright, let's visualize this process and ensure everything is accurately placed.",
+     "reasoning_details": [
+      {
+       "type": "reasoning.summary",
+       "summary": "**Mapping the Diagram**\n\nI'm working on diagram CB06. First, I'm going to start at coordinate x800, then move down to line y452. After that, I need to go left to x414 and then move down to BUS1B at x414. It feels a bit technical, but once I map those points out, I think it’ll start making sense. Alright, let's visualize this process and ensure everything is accurately placed.",
+       "format": "openai-responses-v1",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7532,
+        "sha256": "3b586bb45da3add3bd7425add35b7b27b9d23953f3b1d2e63b2847fbf25de4fc"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0bbaf8cb63d63c22016af8a06651cc87d195a094000e71649b",
+       "index": 1
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Evaluating bus routes**\n\nI'm noticing that Bus 2 has CB06 open, which means there's no available route. Even if CB03 opens, Bus 1B is still isolated from BUS1, while Bus 2 can still access CB06. It seems like PV CB13 is closed, restricting one path, but CB11 is open. I need to keep all these factors in mind when thinking about the bus routes options. It's interesting how interconnected the routes can be!",
+       "format": "openai-responses-v1",
+       "index": 2
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7700,
+        "sha256": "9d07b56823be051c77f7239457dfe4020d6938ef481866e65242e1c1942b91f8"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0bbaf8cb63d63c22016af8a06cfc8c87d183a90c1a88461213",
+       "index": 3
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 3072,
+        "sha256": "e2b84bb659c11ebba5a7f7e3268079a3f85a7cf08fff645a6a829cc6d866aee5"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0bbaf8cb63d63c22016af8a0721ecc87d18509a921c95603e7",
+       "index": 4
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2267,
+   "completion_tokens": 1216,
+   "total_tokens": 3483,
+   "cost": 0.0008913,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 2264,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0008913,
+    "upstream_inference_prompt_cost": 0.0002833,
+    "upstream_inference_completions_cost": 0.000608
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1133,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 13.71,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:54:46+00:00"
+}

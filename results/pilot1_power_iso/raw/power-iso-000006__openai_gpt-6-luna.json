@@ -1,0 +1,137 @@
+{
+ "key": "23e3e8543d2be81b9805b0803263d2ea3b6fa83c9dabca6bcf061850c0723ecc",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is the as-found single-line diagram of a building's 480 V switchgear. A crew must work on BUS 2B (panel PNL-2B). It must be isolated: afterwards there may be no path through closed breakers from any source (utility services, generator G1, or the PV-1 solar inverter, which can feed power back) to BUS 2B. Breakers that are already open need no action. Open as few breakers as possible, and do not cut power to any running load that is not fed from BUS 2B. Which breakers must be opened? Answer with the breaker IDs sorted alphabetically, separated by commas.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "power-iso-000006.png",
+       "sha256": "24ad291ff841643e903d3088101f782091033521f53e629a0d71e3fb45ea7446"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794678873-rLSimkz3BuiYeInq1KMG",
+  "object": "chat.completion",
+  "created": 1794678873,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "BUS 2B is connected to BUS 2 through closed breaker CB-07, and the PV-1 inverter connects directly through closed breaker CB-18. CB-03, the alternate feed from BUS 1, is already open. Open CB-07 and CB-18; this leaves loads not fed from BUS 2B unaffected.\n\nFINAL ANSWER: CB-07, CB-18",
+     "refusal": null,
+     "reasoning": "**Analyzing circuit layout**\n\nI'm working through the details of the circuit. It looks like the drawing for CB08 starts at coordinates x1015, then drops to y492, and moves horizontally to x1304 before dropping down to BUS EB at x1304. But wait, this might be an alternate feed to BUS EB. I'll note that the line ends horizontally at BUS EB, which is located at x1296. It appears to be an open breaker CB08 connecting from BUS2 main to BUS EB.",
+     "reasoning_details": [
+      {
+       "type": "reasoning.summary",
+       "summary": "**Analyzing circuit layout**\n\nI'm working through the details of the circuit. It looks like the drawing for CB08 starts at coordinates x1015, then drops to y492, and moves horizontally to x1304 before dropping down to BUS EB at x1304. But wait, this might be an alternate feed to BUS EB. I'll note that the line ends horizontally at BUS EB, which is located at x1296. It appears to be an open breaker CB08 connecting from BUS2 main to BUS EB.",
+       "format": "openai-responses-v1",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7872,
+        "sha256": "ebece956b6ec2c92a55938b24ebe94b1f09e688e5220c7764e6ae75009ebe003"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0211bed09dc60ec0016af8a05a6b7c87d1aaea76ff91a6e6dc",
+       "index": 1
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Organizing with care**\n\nI don't need to open 52-T since it's already open. I'm considering that M2 or M1 might interrupt other loads, and that’s not ideal. I want to think step-by-step like the user mentioned, but I should keep my reasoning concise and not expose too much of my chain of thought. I'll make sure the final line is exact and sort things alphabetically, like CB-07 and CB-18 for clarity.",
+       "format": "openai-responses-v1",
+       "index": 2
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7916,
+        "sha256": "d443f26756b12e14d6ccb9e06a9a7f82208b502d67c5fb763fa1e3642cac6e40"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0211bed09dc60ec0016af8a0613e4087d18bda19d66d4c31fa",
+       "index": 3
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 3436,
+        "sha256": "700d706ea2a63157db538860cb4fa71b56a08675689f0d830adb33456a9d5558"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0211bed09dc60ec0016af8a065d50487d1b1fa8e500ebee0fc",
+       "index": 4
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2268,
+   "completion_tokens": 1251,
+   "total_tokens": 3519,
+   "cost": 0.000908925,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 2265,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.000908925,
+    "upstream_inference_prompt_cost": 0.000283425,
+    "upstream_inference_completions_cost": 0.0006255
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1165,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 13.41,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:54:34+00:00"
+}

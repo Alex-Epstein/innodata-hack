@@ -1,0 +1,395 @@
+model,task_id,status,parsed,question_type,response,ref_answer,correct,finish_reason,error
+anthropic/claude-haiku-5.5,power-trip-000000,ok,429,power.trip,"## Step 1: Loads running before the trip
+
+Before the trip, utility 1 feeds Bus 1 through closed 52-M1, and G1 feeds Bus E through closed 52-G1. Bus 2 is fed from G1 through closed 52-ET. Tracing the closed breakers gives these running loads:
+
+- **Bus 1 side:** CB-01 → CRAH-4 (32), HP-2 (73); CB-02 → CT-1 (60); CB-05 → Bus 1B → BP-1 (33), CHWP-1 (37); CB-04 → Bus 2B → UPS-1 (215), LAB-2 (81)
+- **Bus 2 side:** CB-06 → PP-2 (137); CB-07 feeds Bus 1B (also energized from Bus 2)
+- **Bus E side:** CB-09 → ELP-1 (22); CB-10 → Bus EB → KP-1 (79), AC-1 (130)
+
+Open breakers (DH-B, DH-A, and anything behind CB-03, CB-08, 52-T) were not running.
+
+## Step 2: Loads lost when 52-M1 trips
+
+- Bus 1 loses its only source. CRAH-4, HP-2 and CT-1 are fed only from Bus 1, so they are lost.
+- Bus 2B (UPS-1, LAB-2) was fed only through CB-04 from Bus 1 and CB-08 is open, so it is lost.
+- Bus 1B stays energized through CB-07 from Bus 2, so BP-1 and CHWP-1 keep running.
+- Bus EB stays energized through CB-10, and PP-2 stays on G1 through 52-ET.
+
+Lost loads: CRAH-4 (32) + HP-2 (73) + CT-1 (60) + UPS-1 (215) + LAB-2 (81) = 461 kW.
+
+## Step 3: Effect of closing 52-T
+
+G1 is carrying 438 kW before closing 52-T (ELP-1 22, KP-1 79, AC-1 130, PP-2 137, BP-1 33, CHWP-1 37).
+
+Closing 52-T reconnects Bus 1 to G1 through Bus 2. From Bus 1 the newly reachable loads are CRAH-4, HP-2, CT-1 (via CB-01 and CB-02) and UPS-1, LAB-2 (via CB-04 to Bus 2B). DH-B is behind open CB-13 and DH-A behind open CB-17, so they are not reached. Every lost load is reachable by 52-T, so none are unreachable.
+
+Load after closing would be 438 + 461 = 899 kW, which exceeds the 500 kW rating. Shedding in order of largest kW:
+
+- Open CB-16 (UPS-1, 215): 899 → 684 kW
+- Open CB-18 (LAB-2, 81): 684 → 603 kW
+- Open CB-01 side load HP-2 (73): 603 → 530 kW
+- Open CB-12 side load CT-1 (60): 530 → 470 kW, which is at or below 500 kW
+
+CRAH-4 (32) is then restored and no further shedding is needed. Load at the end is 470 kW.
+
+## Result
+
+Loads running before the trip and not running at the end are the shed loads: UPS-1 (215) + LAB-2 (81) + HP-2 (73) + CT-1 (60) = 429 kW. No loads are unreachable by 52-T.
+
+Check: 899 − 429 = 470 kW running at the end, which matches the 470 kW above.
+
+FINAL ANSWER: 429",429,1,stop,
+openai/gpt-6-luna,power-trip-000000,ok,429,power.trip,"Before 52-M1 trips, the loads that lose power are CRAH-4 (32 kW), HP-2 (73 kW), CT-1 (60 kW), UPS-1 (215 kW), and LAB-2 (81 kW), totaling **461 kW**. The other loads remain supplied by G1.
+
+G1’s existing load is 137 + 33 + 37 + 22 + 79 + 130 = **438 kW**. Closing 52-T would bring the total to 899 kW, so at least 399 kW must be shed. Shedding the restored loads largest-first gives 215 + 81 + 73 = 369 kW, still too little; shedding the next largest, 60 kW, brings the shed total to **429 kW** and the generator load within its rating. All the previously running loads lost at the trip are reachable through the tie, so none are additionally lost for lack of a path.
+
+FINAL ANSWER: 429",429,1,stop,
+anthropic/claude-haiku-5.5,power-trip-000001,ok,1372,power.trip,"## Answer: 1372 kW
+
+**Pre-trip topology.** Utility 1 feeds Bus 1 through closed 52-M1. Utility 2 is out, so G1 feeds Bus E through closed 52-G1, and Bus 2 through closed 52-ET. The tie 52-T and the normally-open breakers CB-02, CB-06, CB-09 and CB-17 are open.
+
+**Running loads before the trip:**
+- T1 side (Bus 1 and downstream): AHU-3 50 (CB-01), CH-1 325, RP-3 61, CH-2 355 (via CB-03 to Bus 1B), HP-2 66, UPS-1 155, DH-B 410 (via CB-04 to Bus 2B). Total 1422 kW.
+- G1 side: DH-A 440 (CB-05), CRAH-4 28 (CB-07 and closed CB-18), FP-1 99 (CB-08), EF-4 25 (CB-19), EV-1 159 (CB-20). Total 751 kW. CHW pump is behind open CB-17, so it was not running.
+
+**Trip of 52-M1.** Bus 1 and Bus 2B lose power, so all T1-side loads (1422 kW) are lost. G1 keeps its 751 kW.
+
+**Step 2 – what 52-T reaches.** Closing 52-T connects G1 to Bus 1 through closed CB-01, CB-03 and CB-04. It restores all seven T1-side loads, 1422 kW. The total on G1 becomes 751 + 1422 = 2173 kW.
+
+**Step 3 – shedding against the 850 kW rating.** Shed restored loads largest first:
+- DH-B 410 → 1763
+- CH-2 355 → 1408
+- CH-1 325 → 1083
+- UPS-1 155 → 928
+- HP-2 66 → 862 (still above 850)
+- RP-3 61 → 801 (at or below 850, stop)
+
+AHU-3 (50 kW) stays on.
+
+**Step 4.** Closing 52-T gives 751 + 50 = 801 kW, within the rating.
+
+**Loads reachable by 52-T:** all T1-side loads are reachable, so none are unreachable.
+
+**Running before, not running at the end:** the shed loads are DH-B 410, CH-2 355, CH-1 325, UPS-1 155, HP-2 66 and RP-3 61.
+
+410 + 355 + 325 + 155 + 66 + 61 = 1372
+
+FINAL ANSWER: 1372",1372,1,stop,
+openai/gpt-6-luna,power-trip-000001,ok,1372,power.trip,"With 52-T open, G1 supplies the closed-breaker loads on Bus 2 and Bus E: 440 + 28 + 99 + 25 + 159 = **751 kW**. The 43 kW chiller pump is behind an open breaker, so it is not running.
+
+When 52-M1 trips, the running loads lost are the Bus 1 loads and the loads supplied through CB-04 to Bus 2B. Closing 52-T can reach all of them. In descending order, their loads are 410, 355, 325, 155, 66, 61, and 50 kW. Starting from 751 kW, shedding the first five leaves 862 kW, still above G1’s 850 kW rating. Shedding the 61 kW load brings the total to 801 kW.
+
+The loads shed total 410 + 355 + 325 + 155 + 66 + 61 = **1372 kW**. The remaining 50 kW load is restored, and no other previously running load is unreachable.
+
+FINAL ANSWER: 1372",1372,1,stop,
+anthropic/claude-haiku-5.5,power-trip-000002,ok,1152,power.trip,"## Answer: 1152 kW
+
+**Energization before the trip.** 52-M2 and 52-T are open, and 52-ET and 52-G1 are closed. So G1 feeds BUS E, then BUS 2 through 52-ET, and BUS EB through CB-07. BUS 1 is fed from T1 through 52-M1, and BUS 2B is fed from BUS 1 through CB-02. CB-11 and CB-14 are open, so RP-3 and DH-A were not running.
+
+**Loads running before the trip:**
+- Fed from BUS 1: CT-1 (60), CH-1 (350), CH-2 (420), HP-2 (79)
+- Fed from BUS 2B via CB-02: UPS-1 (170), PP-2 (133), BP-1 (22)
+- Fed from G1: EL-1 (43), SF-2 (40), LTG-2 (50), DH-B (385)
+
+**Trip of 52-M1.** Loads lost: CT-1, CH-1, CH-2, HP-2, UPS-1, PP-2, BP-1. Their total is 1234 kW.
+
+**Step 2, closing 52-T.** The path is G1 → BUS E → 52-ET → BUS 2 → 52-T → BUS 1. From there it reaches all seven lost loads, so 52-T can restore every one of them. G1's load becomes:
+- Already on G1: 40 + 43 + 50 + 385 = 518 kW
+- Restored: 1234 kW
+- Total: 1752 kW, which exceeds the 650 kW rating.
+
+**Step 3, shedding.** Restored loads are shed largest first until the total is at or below 650 kW:
+- CH-2 (420): 1752 → 1332
+- CH-1 (350): 1332 → 982
+- UPS-1 (170): 982 → 812
+- PP-2 (133): 812 → 679
+- HP-2 (79): 679 → 600 (at or below 650, so stop)
+
+Shed loads total 420 + 350 + 170 + 133 + 79 = 1152 kW. CT-1 (60) and BP-1 (22) are restored, bringing G1 to 600 kW.
+
+**Step 4.** No loads that were running before the trip are unreachable by 52-T, so that term contributes 0.
+
+Total kW of loads that were running before the trip and are not running at the end = 1152 + 0 = 1152 kW.
+
+FINAL ANSWER: 1152",1152,1,stop,
+openai/gpt-6-luna,power-trip-000002,ok,1152,power.trip,"Before the trip, the loads supplied from Bus 1 that were running total:
+
+- CT-1: 60 kW
+- UPS-1, PP-2, and BP-1 via CB-02: 170 + 133 + 22 kW
+- CH-2 and HP-2: 420 + 79 kW
+- CH-1: 350 kW
+
+That is **1,234 kW** that the tie would restore. G1 is already carrying 43 + 50 + 385 + 40 = **518 kW**, so restoring everything would bring it to 1,752 kW.
+
+Shed largest first: 420 + 350 + 170 + 133 = 1,073 kW, which leaves G1 at 679 kW—still over its rating. The next load is 79 kW, bringing the shed total to **1,152 kW** and G1’s load to 600 kW. The loads behind open breakers were not running before the trip.
+
+FINAL ANSWER: 1152",1152,1,stop,
+anthropic/claude-haiku-5.5,power-trip-000003,ok,0,power.trip,"**Answer: 0 kW**
+
+**Tracing the network as drawn**
+
+- **Bus 1** is fed by utility 1 through 52-M1. Its loads are EF-4 and CT-1 (via CB-01), CH-2 (via CB-02), and Bus 1B (via CB-03, closed).
+- **Bus 1B (MCC-1B)** is fed by CB-03 from Bus 1. It is also fed from Bus 2 through CB-06 (closed), because the CB-06 conductor runs over to the Bus 1B bus at x≈620.
+- **Bus 2** has no live source, since utility 2 is out and 52-M2 is open. It connects to Bus E through 52-ET (closed).
+- **Bus E (emergency switchgear)** is fed by G1 through 52-G1 (closed). It also feeds Bus EB through CB-10 (closed).
+- **Bus 2B (PNL-2B)** is fed from Bus 2 through CB-07 (closed). Its tie CB-09 to Bus E is open.
+- **The horizontal conductor at y≈572** has no junction dot where it meets the CB-03 conductor, so per the drawing notes it is not connected there. It does not change the analysis.
+- **Breakers that are open:** CB-04, CB-09, CB-14, 52-M2, 52-T. CH-1 (behind CB-14) was therefore not running before the trip.
+
+**Effect of the 52-M1 trip**
+
+Before the trip, G1 was energized and supplying every bus through closed breakers. When 52-M1 trips, Bus 1 stays energized through this closed path:
+
+Bus 1 → CB-03 → Bus 1B → CB-06 → Bus 2 → 52-ET → Bus E → 52-G1 → G1
+
+So no running load loses power, and nothing is left unreachable.
+
+**Steps 2–4**
+
+- Closing 52-T connects Bus 1 and Bus 2, which are already energized from G1. It restores nothing new.
+- G1's load is about 1,140 kW against a 750 kW rating, so it is overloaded. However, step 3 only permits shedding loads that 52-T would restore. Since 52-T restores none, no load is shed.
+
+With no load lost and none shed, the total is 0 kW.
+
+FINAL ANSWER: 0",448,0,stop,
+openai/gpt-6-luna,power-trip-000003,ok,435,power.trip,"With Utility 2 out, G1’s connected running load is 687 kW: 81+36+78 kW on Bus E, 130 kW on Bus 2, 132 kW on Bus 2B, and 230 kW on Bus 1B through its closed alternate feed.
+
+When 52-M1 trips, the running Bus 1 loads that lose power are EF-4 (18 kW), CT-1 (65 kW), and CH-2 (370 kW), totaling 453 kW. Closing 52-T would bring the generator load to 687+453=1,140 kW. Shedding the largest restored loads first means shedding CH-2 (370 kW), then CT-1 (65 kW): the resulting load is 705 kW, within G1’s 750 kW rating.
+
+The loads not running at the end are therefore 370+65=435 kW.  
+FINAL ANSWER: 435",448,0,stop,
+anthropic/claude-haiku-5.5,power-trip-000004,ok,400,power.trip,"**Answer: 400 kW**
+
+**Before the trip.** Utility 2 is out, so G1 (775 kW) feeds BUS E through closed 52-G1. From BUS E, closed 52-ET feeds BUS 2, and BUS 2 feeds BUS 1B through closed CB-06. BUS 1 is fed from utility 1 through 52-M1.
+
+Running loads before the trip:
+- Via BUS E/G1: FP-1 83, CHWP-1 41.
+- Via BUS 2/G1: PP-2 147.
+- Via BUS 1B/G1: EV-1 124, LAB-2 95, AC-1 113.
+- Via BUS 1 (utility 1): BP-1 27 (CB-11), CT-1 90 (CB-02).
+- Via CB-04 from BUS 1 to BUS 2B: LP-2 32, HP-2 63, CH-2 310 (CB-18).
+
+Not running before the trip: DH-A (CB-12 open), CH-1 (CB-19 open), and anything behind CB-03, CB-07, CB-08 or 52-T.
+
+**After 52-M1 trips.** BUS 1 is dead, so BUS 2B loses its feed through CB-04. The lost loads are BP-1, CT-1, LP-2, HP-2 and CH-2.
+
+**Step 2: close 52-T.** This ties BUS 1 to the G1-energized BUS 2. It restores BP-1 (27), CT-1 (90), LP-2 (32), HP-2 (63) and CH-2 (310), totalling 522 kW.
+
+G1 load would be 603 + 522 = 1125 kW (603 kW was already running on G1), which exceeds 775 kW.
+
+**Step 3: shed.** Opening load breakers from largest to smallest:
+- Open CB-18 (CH-2, 310 kW): total 815 kW, still above 775 kW.
+- Open CB-02 (CT-1, 90 kW): total 725 kW, at or below 775 kW. Stop.
+
+**Step 4: close 52-T.** G1 carries 725 kW.
+
+**Loads lost and not restored:**
+- Shed in step 3: CH-2 310 + CT-1 90 = 400 kW.
+- Unreachable by 52-T: none. Every load that was lost is reachable, and the only ones not restored are the two shed.
+
+Total: 400 kW.
+
+FINAL ANSWER: 400",400,1,stop,
+openai/gpt-6-luna,power-trip-000004,ok,400,power.trip,"Before the trip, G1 supplies 603 kW: PP-2 (147), the BUS 1B loads (332), CHWP-1 (41), and FP-1 (83).
+
+Tripping 52-M1 interrupts BP-1 (27), CT-1 (90), and the BUS 2B loads (405), for 522 kW lost. Closing 52-T makes all of those loads reachable from G1, but the total would be 1,125 kW, exceeding G1’s 775 kW rating by 350 kW.
+
+The operator sheds the largest restored loads first: CH-2 (310 kW), then CT-1 (90 kW). The resulting G1 load is 725 kW. Those shed loads total 400 kW, and no other previously running loads remain unreachable.
+
+FINAL ANSWER: 400",400,1,stop,
+anthropic/claude-haiku-5.5,power-trip-000005,ok,127,power.trip,"## Step-by-step analysis
+
+**Loads running before the trip (all powered from G1 or Utility 1):**
+- Via BUS 1 (utility 1, through closed 52-M1): AHU-3 (56 kW, CB-11), KP-1 (71 kW, CB-12), EF-4 (15 kW, CB-02). CB-03 is open, so BUS 1 does not feed MCC-1B.
+- Via G1 → 52-G1 → BUS E → 52-ET → BUS 2: HP-2 (88 kW, CB-04). MCC-1B via CB-05: CH-1 (335), LAB-2 (86), LP-2 (26). PNL-2B via CB-07: AC-1 (127), EL-1 (45). BUS E via CB-08 and CB-10: FP-1 (87), RP-3 (50), PP-2 (139).
+- Not running: BP-1 (CB-16 open), and everything behind the open ties 52-T, 52-M2, CB-06, CB-09.
+
+**Load on G1 before closing 52-T:**
+335 + 86 + 26 + 88 + 127 + 45 + 87 + 50 + 139 = **983 kW** (within the 1050 kW rating).
+
+**Step 2 – 52-T closes:** BUS 1 is re-energized from G1 through closed CB-01 and CB-02. Loads it restores: KP-1 (71), AHU-3 (56), EF-4 (15), totalling 142 kW.
+
+**Step 3 – check against rating:** 983 + 142 = 1125 kW, which exceeds 1050 kW.
+- Open CB-12 (KP-1, 71 kW): 1125 − 71 = 1054 kW, still above 1050.
+- Open CB-11 (AHU-3, 56 kW): 1054 − 56 = 998 kW, at or below 1050. Stop.
+
+EF-4 stays on (998 kW total, which includes its 15 kW).
+
+**Step 4 – close 52-T.** Final G1 load is 998 kW.
+
+**Loads that were running before the trip and are not running at the end:**
+- Shed in step 3: KP-1 (71 kW) and AHU-3 (56 kW) = 127 kW
+- Not reachable by 52-T: none. EF-4 is restored, and no other pre-trip load is behind BUS 1.
+
+Total = 71 + 56 = 127 kW
+
+FINAL ANSWER: 127",127,1,stop,
+openai/gpt-6-luna,power-trip-000005,ok,127,power.trip,"Before the trip, G1 supplies the loads reachable through closed breakers: 88 + 447 + 172 + 87 + 189 = 983 kW. The 447 kW is the MCC-1B loads, still supplied from Bus 2 through closed CB-05.
+
+The loads on Bus 1 that were running from Utility 1 and would be restored by closing 52-T total 56 + 71 + 15 = 142 kW. G1 would then carry 983 + 142 = 1125 kW, which is 75 kW over its 1050 kW rating. Shedding the largest loads first means opening the 71 kW load (leaving 1054 kW), then the 56 kW load (leaving 998 kW). Those shed loads total 127 kW.
+
+FINAL ANSWER: 127",127,1,stop,
+anthropic/claude-haiku-5.5,power-trip-000006,ok,615,power.trip,"**Answer: 615 kW**
+
+**Step 1: Loads running before the trip and lost when 52-M1 trips**
+
+Before the trip, the sources are Utility 1 (through closed 52-M1 onto BUS 1) and G1 (through closed 52-G1 onto BUS E). Utility 2 is out, and 52-T and 52-M2 are open.
+
+- BUS 1 loads through closed breakers: CH-2 (385 kW, CB-01); MCC-1B via CB-02, which carries CRAH-4 (29), AHU-3 (76) and CHWP-1 (50). CB-06 to MCC-1B is open.
+- BUS EB, fed from BUS 1 through closed CB-03: BP-1 (21) and AC-1 (104). CB-08 to BUS EB is open.
+
+When 52-M1 trips, all of these lose power: 385 + 29 + 76 + 50 + 21 + 104 = 665 kW.
+
+**Step 2: Reach from G1 after closing 52-T**
+
+G1 feeds BUS E → closed 52-ET → BUS 2 → 52-T → BUS 1. Breakers CB-01, CB-02 and CB-03 are closed, so 52-T re-energizes all six lost loads: 665 kW.
+
+G1's existing load (before 52-T is closed) is:
+- Via CB-09 to bus 2B: LP-2 (36) and HP-2 (86); DH-A is behind open CB-15.
+- Via CB-10: FP-1 (99).
+- Via 52-ET to BUS 2: PP-2 (146), and via CB-07: CT-1 (60) and LAB-2 (71).
+
+That totals 498 kW. After closing 52-T, the total would be 498 + 665 = 1163 kW, against a rating of 575 kW.
+
+**Step 3: Shedding restored loads, largest first**
+
+- Open CH-2 (385): 1163 − 385 = 778 kW, still above 575.
+- Open AC-1 (104): 674 kW, still above 575.
+- Open AHU-3 (76): 598 kW, still above 575.
+- Open CHWP-1 (50): 548 kW, at or below 575, so stop.
+
+**Step 4: Close 52-T**
+
+Restored loads are CRAH-4 (29) and BP-1 (21), giving a G1 total of 548 kW.
+
+**Loads running before the trip and not running at the end**
+
+- Shed in step 3: CH-2 385 + AC-1 104 + AHU-3 76 + CHWP-1 50 = 615 kW.
+- Not reachable by 52-T: none, since all six lost loads are reachable.
+
+Total = 615 kW.
+
+FINAL ANSWER: 615",615,1,stop,
+openai/gpt-6-luna,power-trip-000006,ok,615,power.trip,"With Utility 2 out, G1 initially supplies the loads on Bus 2 and Bus E that are behind closed breakers: \(146+36+86+60+71+99=498\) kW.
+
+The loads lost when 52-M1 trips, and reachable again after 52-T closes, total \(385+29+76+50+21+104=665\) kW. That would bring G1’s load to \(1163\) kW.
+
+Shedding the reachable loads largest first gives:
+- Shed 385 kW → 778 kW total
+- Shed 104 kW → 674 kW
+- Shed 76 kW → 598 kW
+- Shed 50 kW → 548 kW
+
+That is within G1’s 575 kW rating, so shedding stops. No previously running loads are unreachable after the tie closes.
+
+FINAL ANSWER: 615",615,1,stop,
+anthropic/claude-haiku-5.5,power-trip-000007,ok,335,power.trip,"**Answer: 335 kW**
+
+**Loads running before the trip.** Utility 2 is out, so G1 (via closed 52-G1) feeds BUS E, which reaches BUS 2 through closed 52-ET. Bus 1 is fed by utility 1 through closed 52-M1.
+
+- Bus 1 side: EF-4 (15), UPS-1 (245), KP-1 (86), CHWP-1 (43), AC-1 (90), CT-1 (55), AHU-3 (65). Total 599 kW. This includes the BUS EB loads, which are fed through closed CB-03, and the MCC-1B loads, fed through closed CB-04.
+- G1 side: DH-A (465), PP-2 (157), EL-1 (33), RP-3 (52), EL-2 (44). Total 751 kW.
+
+The Bus 1 loads are lost when 52-M1 trips. DH-B is behind open CB-02, so it was not running.
+
+**Step 2: close 52-T.** G1 now reaches Bus 1 through 52-T. The newly restored loads are the 599 kW Bus 1 group, and G1's total becomes 751 + 599 = 1350 kW. CB-05 and CB-07 are open, so they add nothing.
+
+**Step 3: shed to the 1075 kW rating.** Shedding largest first:
+- Open UPS-1 (245): total 1105 kW, still above 1075.
+- Open AC-1 (90): total 1015 kW, at or below 1075. Stop.
+
+**Step 4.** Close 52-T.
+
+**Lost loads at the end.** Shed loads are UPS-1 (245) and AC-1 (90). Every other previously running load is reachable from G1 through closed breakers, so no other load is lost. The total is 245 + 90 = 335 kW.
+
+This assumes CB-12 (UPS-1) is closed, as drawn.
+
+FINAL ANSWER: 335",335,1,stop,
+openai/gpt-6-luna,power-trip-000007,ok,335,power.trip,"With 52-T open, G1 supplies the loads on Bus 2 and Bus E: \(465 + 157 + 33 + 52 + 44 = 751\) kW.
+
+Closing 52-T would restore the Bus 1 loads that were running before the trip: \(15 + 245 + 90 + 55 + 65 + 86 + 43 = 599\) kW. The total would be \(751 + 599 = 1350\) kW, which is 275 kW above G1’s 1075 kW rating.
+
+Shed the largest restorable loads first: the 245 kW UPS module leaves 1105 kW, so the next-largest load, the 90 kW air compressor, must also be shed. The total lost is \(245 + 90 = 335\) kW.
+
+FINAL ANSWER: 335",335,1,stop,
+anthropic/claude-haiku-5.5,power-trip-000008,ok,903,power.trip,"## Answer: 903 kW
+
+**Pre-trip state.** 52-M1, 52-M2 (open), 52-ET (closed) and 52-G1 (closed) set the sources. BUS 1 is fed by utility 1, and BUS 2, BUS EB and BUS E are fed by G1 through 52-ET. The running loads are:
+
+- **Behind CB-01 (BUS 1):** CT-1 (75) and HP-2 (93). Lost at the trip.
+- **Behind CB-02 (BUS 1 to BUS 2B):** DH-B (380) and CH-1 (355). Lost at the trip. CB-07 is open, so BUS 2B has no G1 path until 52-T closes.
+- **Behind CB-04 (BUS 1):** CRAH-4 (35). Lost at the trip.
+- **Behind CB-06 (BUS 2 to MCC-1B):** DH-A (420), CHWP-1 (52) and CH-2 (385). Still on G1, total 857. CB-03 is open, so MCC-1B is fed only through CB-06.
+- **Behind CB-08 (BUS 2 to BUS EB):** RP-3 (66) and PP-2 (139). Still on G1, total 205.
+- **CB-10:** FP-1 (78). Still on G1.
+
+G1's load before the trip is 857 + 205 + 78 = 1140 kW.
+
+**Step 2 – close 52-T.** This re-energizes BUS 1 from G1. The loads it restores are CT-1 (75), HP-2 (93), DH-B (380), CH-1 (355) and CRAH-4 (35), totalling 938 kW. EF-4 (CB-05 open) and EV-1 (CB-18 open) are not reached.
+
+**Step 3 – check the rating.** The total would be 1140 + 938 = 2078 kW, which exceeds G1's 1225 kW. Shedding restored loads largest first:
+
+| Shed | Load after shed (kW) |
+|---|---|
+| DH-B (380) | 1698 |
+| CH-1 (355) | 1343 |
+| HP-2 (93) | 1250 |
+| CT-1 (75) | 1175 ≤ 1225 — stop |
+
+Shed total: 380 + 355 + 93 + 75 = 903 kW.
+
+**Step 4 – close 52-T.** CRAH-4 (35 kW) is restored and the total is 1175 kW.
+
+**Loads running before the trip but not at the end.** The four shed loads (903 kW). No other pre-trip load is left unpowered, since everything else was either still running on G1 or is restored by 52-T.
+
+FINAL ANSWER: 903",903,1,stop,
+openai/gpt-6-luna,power-trip-000008,ok,903,power.trip,"With 52-M1 tripped and 52-T still open, G1 continues to supply the loads reachable through closed breakers: Bus 1B loads (420 + 52 + 385 kW), Bus EB loads (66 + 139 kW), and FP-1 (78 kW). That is **1,140 kW**. The Bus 1B loads remain supplied through closed CB-06.
+
+Closing 52-T would restore these previously running loads: DA Hall B (380 kW), CH-1 (355 kW), HP-2 (93 kW), CT-1 (75 kW), and CRAH-4 (35 kW), totaling **938 kW**. The resulting 2,078 kW exceeds G1’s 1,225 kW rating.
+
+Shedding in descending load order takes 380 + 355 + 93 + 75 = **903 kW** off. The remaining load is 1,175 kW, within the rating. All previously running loads lost at the trip are reachable after the tie closes, so none are additionally lost due to reachability.
+
+FINAL ANSWER: 903",903,1,stop,
+anthropic/claude-haiku-5.5,power-trip-000009,ok,477,power.trip,"## Answer: 477 kW
+
+**Topology before the trip (CB-07 is open, per the hollow symbol)**
+
+- **Utility 1 network:** 52-M1 feeds Bus 1, which feeds CB-01 (PP-2 158 kW, AC-1 124 kW), CB-05 (EV-1 145 kW), and CB-03 (closed) to Bus 2B (LP-2 50 kW, RP-3 49 kW). Total: 526 kW.
+- **G1 network:** 52-G1 feeds Bus E, which feeds Bus EB via CB-08 (AHU-3 71 kW, EF-4 16 kW), Bus 1B via CB-09 (CT-1 90 kW, DH-B 375 kW, CHWP-1 41 kW), and Bus 2 via closed 52-ET (KP-1 86 kW). Total: 679 kW.
+- The two networks are separated by open 52-T, open CB-04, open CB-02, and open CB-07.
+- Loads behind open breakers (BP-1 via CB-18, ELP-1 via CB-10) were not running.
+
+**After 52-M1 trips**
+
+The utility 1 network (526 kW) loses power. Nothing else is affected.
+
+**Step 2: closing 52-T**
+
+52-T ties Bus 1 to Bus 2, which G1 reaches through closed 52-ET. The utility 1 loads are therefore reachable from G1: PP-2, AC-1, EV-1, and, through the closed CB-03 path to Bus 2B, LP-2 and RP-3. All 526 kW is restored.
+
+**Step 3: rating check**
+
+G1 total = 679 + 526 = 1205 kW, which exceeds the 775 kW rating. Shedding the restored loads, largest first:
+
+| Step | Load shed | kW shed | Total after |
+|---|---|---|---|
+| 1 | PP-2 (CB-11) | 158 | 1047 |
+| 2 | EV-1 (CB-05) | 145 | 902 |
+| 3 | AC-1 (CB-12) | 124 | 778 (still > 775) |
+| 4 | LP-2 (CB-16) | 50 | 728 (≤ 775, stop) |
+
+Shed total: 158 + 145 + 124 + 50 = 477 kW.
+
+**Step 4:** Close 52-T. RP-3 (49 kW) is restored and runs. No restored load is unreachable, so there are no additional unreachable loads.
+
+Loads that ran before the trip and are not running at the end: 477 kW.
+
+FINAL ANSWER: 477",477,1,stop,
+openai/gpt-6-luna,power-trip-000009,ok,477,power.trip,"Before the trip, G1 supplies KP-1 (86 kW), the Bus 1B loads (90 + 375 + 41 = 506 kW), and the Bus EB loads (71 + 16 = 87 kW), for a total of **679 kW**.
+
+Closing 52-T would restore the loads that lost power: PP-2 (158), AC-1 (124), EV-1 (145), LP-2 (50), and RP-3 (49), totaling **526 kW**. G1’s resulting load would be 679 + 526 = **1,205 kW**, so at least 430 kW must be shed.
+
+Shed largest first: 158 + 145 + 124 = 427 kW, which is not enough; shedding the next-largest load, 50 kW, brings the shed total to **477 kW**. No previously running loads are unreachable after the tie closes.
+
+FINAL ANSWER: 477",477,1,stop,

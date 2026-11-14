@@ -1,0 +1,154 @@
+{
+ "key": "60b902d1adb85f75251d8320e5eb7fa7f58aa82b65a03fc6cf678c1378f6239c",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is the as-found single-line diagram of a building's 480 V switchgear. Breakers 52-M2 and CB-04 both trip at the same moment. Nothing else changes: no other breaker opens or closes, normally-open (N.O.) breakers stay open, and Standby generator G1 is not running and does not start. A load has power only if a path of closed breakers connects it to a running source. Which loads that were running before the event have no power afterwards? A load behind an open breaker was not running. Answer with the load tags (for example CH-2), in the order they appear on the drawing from left to right, separated by commas.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "power-dbl-000009.png",
+       "sha256": "36615761171ad2919f130e0ac9b690f4036c6f6f1817f0ff4c4ae5e6b91f10f9"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794679522-kgHxRZtL5ccpwHU2wJhn",
+  "object": "chat.completion",
+  "created": 1794679522,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "Utility 1 continues to energize BUS 1, but 52-M2’s trip de-energizes BUS 2; the normally open tie stays open. CB-04’s trip also disconnects CT-1. BUS E loses its supply from BUS 2, and its CB-09 feed to BUS 1B and the feeds to the emergency loads are lost. BUS 2B remains supplied from BUS 1 through closed CB-02, so its running loads stay powered.\n\nFINAL ANSWER: RP-3, CRAH-4, LP-2, CT-1, PP-2, LAB-2, BP-1, EL-2",
+     "refusal": null,
+     "reasoning": "**Evaluating bus connections**\n\nI’m thinking about the bus connections and routes. It seems like there might not be any clear markings at the crossings. The BUS1B has an alternate route from the closed CB09, but I’m not sure if BUS E is still energized. It looks like BUS E operates through 52-ET from BUS2, which is also closed. I need to double-check these connections to ensure accurate information.",
+     "reasoning_details": [
+      {
+       "type": "reasoning.summary",
+       "summary": "**Evaluating bus connections**\n\nI’m thinking about the bus connections and routes. It seems like there might not be any clear markings at the crossings. The BUS1B has an alternate route from the closed CB09, but I’m not sure if BUS E is still energized. It looks like BUS E operates through 52-ET from BUS2, which is also closed. I need to double-check these connections to ensure accurate information.",
+       "format": "openai-responses-v1",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7724,
+        "sha256": "1a2debd89e1b50c81c9ca1c7b8e4960168f00031961da74f9eb2799115f20f8e"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_028f0ed4425da42d016af8a2e3590487d1b754c5b99fab83c3",
+       "index": 1
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Tracing routes in the bus system**\n\nI’m currently working on understanding the bus routes. From CB07, I see it goes vertically to y452, then moves right to x1188 and continues vertically down to BUS EB at x1188. This serves as an alternate feed for BUS EB from BUS2. Meanwhile, CB08 provides a hollow open route that directly feeds from BUS E to BUS EB at x1262. It’s interesting to visualize how these connections work together!",
+       "format": "openai-responses-v1",
+       "index": 2
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7636,
+        "sha256": "fa67600ece9c391688b0ce6551ee82f5c9cfaaece67552cefad0364be61a6e63"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_028f0ed4425da42d016af8a2e9d10c87d1876af5934fd3681c",
+       "index": 3
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Reviewing bus positioning**\n\nI'm figuring out the positioning for CB09. I need the BUS E output going to CB09 at x1334, then moving down to y572. After that, I should run it horizontally to x503 and then upward to BUS1B at x503. Okay, that looks good. I think it’s closed now, so it should effectively feed into BUS1B. It's always important to confirm the setup is correct!",
+       "format": "openai-responses-v1",
+       "index": 4
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7596,
+        "sha256": "b657a2db7c3834c2f13fceb896accf5ecd8ba0bd889c7058a5fb1caf52aa74bc"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_028f0ed4425da42d016af8a2edfeb887d181bf10cd38c99c38",
+       "index": 5
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 5996,
+        "sha256": "d08d926c6bbc507566e183428e1b96b6971f2ff4b7add8039a57e882af30e862"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_028f0ed4425da42d016af8a2f31e2087d1aa4341d480e938c5",
+       "index": 6
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2273,
+   "completion_tokens": 2061,
+   "total_tokens": 4334,
+   "cost": 0.00131455,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 2270,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.00131455,
+    "upstream_inference_prompt_cost": 0.00028405,
+    "upstream_inference_completions_cost": 0.0010305
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1920,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 20.67,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T18:05:23+00:00"
+}

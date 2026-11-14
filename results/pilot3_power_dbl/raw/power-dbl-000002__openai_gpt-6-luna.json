@@ -1,0 +1,148 @@
+{
+ "key": "05ae64e78e0a288a2b9fdc67ae6554da877331fcca404bf78640e9e68be3ae75",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is the as-found single-line diagram of a building's 480 V switchgear. Breakers 52-M2 and CB-09 both trip at the same moment. Nothing else changes: no other breaker opens or closes, normally-open (N.O.) breakers stay open, and Standby generator G1 is not running and does not start. A load has power only if a path of closed breakers connects it to a running source. Which loads that were running before the event have no power afterwards? A load behind an open breaker was not running. Answer with the load tags (for example CH-2), in the order they appear on the drawing from left to right, separated by commas.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "power-dbl-000002.png",
+       "sha256": "1077af4071017c6fa3654cc7cf43a91e096ed97b5e1909cb6bf53559513ef829"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794679454-1Dxo0EVVKHgEwEM9pp3h",
+  "object": "chat.completion",
+  "created": 1794679454,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "52-M2 disconnects Bus 2 from Utility Service 2. The normally-open 52-T does not let Bus 1 supply it, and G1 is not running, so the loads fed from Bus 2 and Bus E lose power. Bus 2B also loses power: CB-09 trips, while CB-07 remains open. Loads behind the already-open CB-05 were not running before the event.\n\nFINAL ANSWER: RP-3, LP-2, AC-1, BP-1, CHWP-1, LAB-2, CRAH-4, EL-2",
+     "refusal": null,
+     "reasoning": null,
+     "reasoning_details": [
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7488,
+        "sha256": "337be305f0994c31435aae008da72a0fe7ffc3c6b088aee76e46827cc450bb7e"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_000b1c05f9783c8c016af8a29f778c87d193eacf17c10bed7e",
+       "index": 0
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Checking bus operations**\n\nI’m assessing the current status of bus operations. It seems like Bus2 on the EF-4 behind CB05 isn't running. Meanwhile, Bus2B is utilizing CB09 with a specific source and loading AC-1, BP-1, and CHWP-1. On the BusE side, we have LAB-2, CRAH-4, and EL-2 noted, while CB08, CB09, and CB10 are all closed. I'll want to keep track of these details for future reference!",
+       "format": "openai-responses-v1",
+       "index": 1
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7380,
+        "sha256": "4070a2eb3b3e1c17db0902da9d38bfbd72bcd352b74cc71a360918b9bd9bd83c"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_000b1c05f9783c8c016af8a2a4c5c887d1a8bc5b0aaaf0c150",
+       "index": 2
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Organizing load order**\n\nI'm thinking about ordering loads by x coordinates, starting with RP-3, then LP-2, and maybe EF-4 after that. But wait, since breaker CB05 is open, that means it's not running, so I need to adjust my approach. I should focus on AC1 and so on for the right side. It’s important for me to create a final list in the exact line format. Alright, let's make sure I write that out properly!",
+       "format": "openai-responses-v1",
+       "index": 3
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7660,
+        "sha256": "aaa918ec69e4bd794acca2a3c23064c3c62050d9847b351efef15c2cfc3de10b"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_000b1c05f9783c8c016af8a2ab227487d1a0e09de86a073785",
+       "index": 4
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 4692,
+        "sha256": "fcc88ef41589b6e9dfc0e6476cf60b78430fbe517206a4e09a9d0bcd7b2e50a9"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_000b1c05f9783c8c016af8a2afaa6c87d1aafdeaffefe715b8",
+       "index": 5
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2273,
+   "completion_tokens": 1931,
+   "total_tokens": 4204,
+   "cost": 0.00124955,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 2270,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.00124955,
+    "upstream_inference_prompt_cost": 0.00028405,
+    "upstream_inference_completions_cost": 0.0009655
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1803,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 20.32,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T18:04:15+00:00"
+}

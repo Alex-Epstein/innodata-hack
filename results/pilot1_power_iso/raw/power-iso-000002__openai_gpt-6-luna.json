@@ -1,0 +1,165 @@
+{
+ "key": "599579861760a6e9ef44d8b1d2caf501ba3f5a7858ffb18e385f3ff9a14aecf1",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is the as-found single-line diagram of a building's 480 V switchgear. A crew must work on BUS 2B (panel PNL-2B). It must be isolated: afterwards there may be no path through closed breakers from any source (utility services, generator G1, or the PV-1 solar inverter, which can feed power back) to BUS 2B. Breakers that are already open need no action. Open as few breakers as possible, and do not cut power to any running load that is not fed from BUS 2B. Which breakers must be opened? Answer with the breaker IDs sorted alphabetically, separated by commas.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "power-iso-000002.png",
+       "sha256": "5938146db87df01895714307254034c102adc3b259dd3bc551f12557b10ec4b2"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794678844-h7FYhbd4sWZnFnXTQxVR",
+  "object": "chat.completion",
+  "created": 1794678844,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "CB-07 is the closed feeder from BUS 2 SWGR-2 to BUS 2B, and CB-16 connects the PV inverter to BUS 2B. Opening both removes the utility and PV paths. The alternate feed CB-05 and tie 52-T are already open; other breakers need not be opened.\n\nFINAL ANSWER: CB-07, CB-16",
+     "refusal": null,
+     "reasoning": null,
+     "reasoning_details": [
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7636,
+        "sha256": "c587b0c586d35b62ec38b4e11321d69bc1a372af25659796abff9b3433d996ff"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0d489018f3fed96e016af8a03d5af087d1874f9e5b4f336a45",
+       "index": 0
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Considering utility options**\n\nI’m exploring how Utility 1 can likely get through tie 52-T, which is already open. I wonder if there's a route using BUS E and CB03. It seems Utility 1 could connect through CB03 and then BUS EB. But I’m noticing something: there's no downstream tie to BUS E? Hmm, maybe BUS E is an emergency option that's linked through 52-ET from BUS2 and the generator. Let’s clarify that!",
+       "format": "openai-responses-v1",
+       "index": 1
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7852,
+        "sha256": "605fa8543319a3c36e4c1229a2b98443718f6b006516aa61e754b81bf7bb7254"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0d489018f3fed96e016af8a042081487d1a8f424dc5d08f139",
+       "index": 2
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7572,
+        "sha256": "6967c45fde65ecd2793a2518bded590fa79abf60a4bac399a7364db236349c8e"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0d489018f3fed96e016af8a048c0a887d180684a4f4c2af9ca",
+       "index": 3
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Examining bus connections**\n\nI'm thinking that the CB09 route might connect BUS E to BUS1B, instead of BUS2B. It seems that the question lists specific sources, and PV could provide feedback. I’ll need to focus on isolating utility feed breaker CB07 and also on PV CB16. Additionally, it looks like the connection from bus2B is normally open at CB05. There’s definitely a lot to consider with these connections and configurations!",
+       "format": "openai-responses-v1",
+       "index": 4
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7700,
+        "sha256": "e4ed1b723c957d036c33871077d07ea7ab7e9eaf37574801660c9938acb8ab51"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0d489018f3fed96e016af8a04bf4b487d1a7ca4a618f2b7a3a",
+       "index": 5
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Evaluating transport options**\n\nI need to consider if source 52-G1 might be closed. If that's the case, I should look into possible routes through BUS E or perhaps CB9, avoiding BUS2B. However, it seems like that won't impact anything too much. I think I can provide a short explanation for the user, followed by a final line to wrap things up. Keeping it clear will be key!",
+       "format": "openai-responses-v1",
+       "index": 6
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 5204,
+        "sha256": "6d657d94a367fff2434289727a5627ebfc37e1f579effad5a733d2535a1eea33"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0d489018f3fed96e016af8a0512a8087d18c06ef084a451e79",
+       "index": 7
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2268,
+   "completion_tokens": 2441,
+   "total_tokens": 4709,
+   "cost": 0.001503925,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 2265,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.001503925,
+    "upstream_inference_prompt_cost": 0.000283425,
+    "upstream_inference_completions_cost": 0.0012205
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2358,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 23.66,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:54:04+00:00"
+}
