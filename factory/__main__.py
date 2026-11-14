@@ -6,6 +6,7 @@
     uv run python -m factory eval     --tasks tasks/pilot1 --out results/pilot1
     uv run python -m factory rebuild  --tasks tasks/final [--out /out/rebuilt]
     uv run python -m factory fresh    --seed 7 [--family F --template T --difficulty D] [--out /tmp/fresh] [--show]
+    uv run python -m factory export   --tasks tasks/pilot_topo_flood [--tasks ...] --format rl --out product/sample_pack
 """
 from __future__ import annotations
 
@@ -354,6 +355,9 @@ def main(argv=None) -> int:
     f.add_argument("--out", help="default: $OUT_DIR/fresh, else /tmp/fresh")
     f.add_argument("--show", action="store_true", help="short pauses between lines, for the stage")
     f.set_defaults(fn=cmd_fresh)
+
+    from factory import export                          # product packs: RL envs + verifier + SFT (factory/export.py)
+    export.add_parser(sub)
 
     a = ap.parse_args(argv)
     return a.fn(a)
