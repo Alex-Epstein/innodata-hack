@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Factory</title>
+<meta name="description" content="Every generated map passes seven automatic checks before a model sees it.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F3EEDF'/%3E%3Cpath d='M2 26 L11 12 L16 19 L21 9 L30 26 Z' fill='none' stroke='%239A5B2E' stroke-width='2.4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .fac { max-width: 1180px; margin: 0 auto; padding: 18px 20px 40px; }
+  .fac h1 { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: clamp(24px, 3.4vw, 40px); margin: 6px 0 18px; }
+  .floor { position: relative; height: min(64vh, 620px); border-top: 3px double var(--ink); border-bottom: 3px double var(--ink); overflow: hidden; }
+  .gate { position: absolute; left: 0; right: 49%; height: 0; border-top: 1px solid var(--hair); display: flex; justify-content: space-between; align-items: flex-end; }
+  .gate .n { font-family: var(--label); font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; font-size: 12px; background: var(--paper); padding: 0 8px 2px 0; transform: translateY(-2px); }
+  .gate .c { font-family: var(--mono); font-size: 15px; background: var(--paper); padding: 0 0 2px 8px; transform: translateY(-2px); }
+  .gate.flash { border-top-color: var(--truth); }
+  .gate.flash .c { color: var(--truth); }
+  .sheet-f { position: absolute; width: 84px; aspect-ratio: 4 / 3; border: 1px solid var(--ink); background: #fffaf0 center / cover no-repeat; will-change: transform; z-index: 2; }
+  .sheet-f.bad { background: repeating-linear-gradient(45deg, #efe6cf 0 6px, #f6efdc 6px 12px); }
+  .reason { position: absolute; font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--ink-2); white-space: nowrap; z-index: 3; }
+  .tray { position: absolute; right: 0; bottom: 8px; width: 46%; display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+  .tray i { display: block; aspect-ratio: 4 / 3; border: 1px solid var(--ink); background: center / cover no-repeat; opacity: 0; transition: opacity 300ms var(--ease); }
+  .tray i.on { opacity: 1; }
+  .funnel { display: flex; flex-wrap: wrap; gap: 10px 26px; align-items: baseline; margin-top: 16px; font-family: var(--mono); font-size: clamp(18px, 2.4vw, 28px); }
+  .funnel .k { font-family: var(--label); font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; font-size: 12px; color: var(--ink-2); display: block; }
+  .funnel .arrow { color: var(--ink-2); }
+  .funnel .m { color: #fff; background: var(--model); padding: 0 8px; }
+  .note { font-size: 14px; color: var(--ink-2); margin-top: 10px; }
+  @media (max-width: 760px) { .gate { right: 54%; } .tray { width: 52%; grid-template-columns: repeat(4, 1fr); } .sheet-f { width: 60px; } .gate .n { font-size: 10px; } }
+</style>
+</head>
+<body>
+<header class="collar">
+  <a class="brand" href="./">Beat the <b>AI</b></a>
+  <span class="place">The factory · survey office</span>
+  <span class="coord" id="sets"></span>
+</header>
+<div class="fac">
+  <h1>Every map passes seven checks before a model ever sees it.</h1>
+  <div class="floor" id="floor"><div class="tray" id="tray"></div></div>
+  <div class="funnel" id="funnel"></div>
+  <p class="note" id="note"></p>
+</div>
+<script src="assets/common.js"></script>
+<script>
+(async function () {
+  "use strict";
+  const show = BTA.qs("show") === "1";
+  let F;
+  try { F = await (location.protocol === "file:" ? Promise.reject() : fetch("data/factory.json").then((r) => r.json())); }
+  catch (e) { await BTA.loadScript("data/factory.js"); F = window.BTA_FACTORY; }
+  const NAMES = { schema: "Schema", data_first: "Data written first", two_solvers: "Answer computed two ways",
+                  render_matches_data: "Picture matches the data", legibility: "Every label legible",
+                  answer_not_in_question: "Answer not in the question", reproducible: "Rebuilds byte for byte" };
+  const floor = document.getElementById("floor"), tray = document.getElementById("tray");
+  const H = floor.clientHeight, W = floor.clientWidth;
+  const top = 34, bottom = H - 70, gap = (bottom - top) / (F.checks.length - 1);
+  const gates = F.checks.map((c, i) => {
+    const g = BTA.el("div", { class: "gate", style: `top:${top + i * gap}px` },
+      BTA.el("span", { class: "n" }, `${i + 1} · ${NAMES[c] || c}`), BTA.el("span", { class: "c" }, "0"));
+    floor.append(g);
+    return { el: g, c: g.querySelector(".c"), n: 0 };
+  });
+  document.getElementById("sets").textContent = F.sets.map((s) => s.tasks).join(" · ");
+  const passed = F.passed_all, total = F.kept;
+  const thumbs = F.thumbs.slice(0, Math.min(F.thumbs.length, 30));
+  const cells = thumbs.map((t) => { const i = BTA.el("i", { style: `background-image:url('${t}')` }); tray.append(i); return i; });
+  // the sheets: every kept task falls through the gates; every rejected one drops out with its reason
+  const jobs = thumbs.map((t, i) => ({ thumb: t, cell: cells[i] }));
+  for (const r of F.rejected.slice(0, 6)) jobs.splice(Math.floor(Math.random() * jobs.length), 0, { bad: true, at: 2, reason: r.reason });
+  for (const f of F.failures.slice(0, 6)) jobs.splice(Math.floor(Math.random() * jobs.length), 0, { bad: true, at: 3, reason: f.reason });
+  const chuteX = Math.min(W * 0.26, 300);
+  const fall = 2200, every = Math.max(110, Math.min(260, 7000 / jobs.length));
+  const counts = F.checks.map((c) => 0);
+  jobs.forEach((j, k) => setTimeout(() => drop(j), 600 + k * every));
+  function drop(j) {
+    const s = BTA.el("div", { class: "sheet-f" + (j.bad ? " bad" : "") });
+    if (!j.bad) s.style.backgroundImage = `url('${j.thumb}')`;
+    floor.append(s);
+    const x = chuteX + (Math.random() - 0.5) * 30;
+    const stopAt = j.bad ? top + j.at * gap - 10 : H + 10;
+    const dur = j.bad ? fall * (stopAt / H) : fall;
+    const a = s.animate([{ transform: `translate(${x}px, -80px) rotate(${(Math.random() - 0.5) * 6}deg)` },
+                         { transform: `translate(${x}px, ${stopAt}px) rotate(${(Math.random() - 0.5) * 4}deg)` }],
+                        { duration: dur, easing: "cubic-bezier(0.45, 0, 0.55, 1)", fill: "forwards" });
+    F.checks.forEach((c, i) => {
+      const y = top + i * gap;
+      if (j.bad && i >= j.at) return;
+      setTimeout(() => {
+        gates[i].n++;
+        gates[i].c.textContent = String(gates[i].n);
+        gates[i].el.classList.add("flash");
+        setTimeout(() => gates[i].el.classList.remove("flash"), 160);
+      }, dur * ((y + 80) / (stopAt + 80)));
+    });
+    a.onfinish = () => {
+      if (j.bad) {
+        const rs = BTA.el("div", { class: "reason", style: `left:${x + 96}px; top:${stopAt}px` }, "rejected: " + j.reason);
+        floor.append(rs);
+        s.animate([{ transform: `translate(${x}px, ${stopAt}px)` }, { transform: `translate(${-140}px, ${stopAt + 40}px) rotate(-14deg)` }],
+                  { duration: 900, easing: "cubic-bezier(0.2, 0.7, 0.2, 1)", fill: "forwards" }).onfinish = () => { s.remove(); setTimeout(() => rs.remove(), 1400); };
+      } else {
+        s.remove();
+        j.cell.classList.add("on");
+      }
+    };
+  }
+  const endAt = 600 + jobs.length * every + fall + 400;
+  setTimeout(() => {
+    const m = F.models, fun = document.getElementById("funnel");
+    const part = (k, v) => BTA.el("span", {}, BTA.el("span", { class: "k" }, k), v);
+    fun.append(part("Attempted", String(F.attempted)), BTA.el("span", { class: "arrow" }, "→"),
+               part("Generated", String(F.kept)), BTA.el("span", { class: "arrow" }, "→"),
+               part("Pass all 7 checks", String(passed)));
+    for (const k of ["haiku", "luna"]) if (m[k] && m[k].n) fun.append(part(BTA.MODEL_NAMES[k], BTA.el("span", { class: "m" }, `${m[k].correct} / ${m[k].n}`)));
+    document.getElementById("note").textContent = `From ${F.sets.map((s) => s.tasks + "/validation_report.json").join(", ")} and the models' responses.csv. Rejected draws and failed checks are dropped, never counted as model failures.`;
+    if (show) setTimeout(() => { location.href = "play.html?show=1"; }, 9000);
+  }, endAt);
+  document.addEventListener("keydown", (e) => {
+    if (e.metaKey || e.ctrlKey) return;
+    if (e.key === "s" || e.key === "S") location.href = show ? "./" : "play.html?show=1";
+    if (e.key === "r" || e.key === "R") location.reload();
+    if (e.key === "f" || e.key === "F") document.documentElement.requestFullscreen && document.documentElement.requestFullscreen().catch(() => {});
+  });
+})();
+</script>
+</body>
+</html>
