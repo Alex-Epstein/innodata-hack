@@ -54,17 +54,22 @@ mission with a marked scenario:
 Every pilot is 10 seeds (0 to 9) at difficulty 3 on both models. Rule: keep a template only if at most 5 of 10
 are right for at least one model and the misses come from reasoning.
 
-| Pilot | Template | Haiku | Luna | Source |
-|---|---|---|---|---|
-| 1. Synthetic field, `topo-1.0.0` | `crossings` | 2/10 | 2/10 | `results/spikes/topo_synthetic/v1.0.0/crossings` |
-| | `sunset` | 0/10 | 1/10 | `results/spikes/topo_synthetic/v1.0.0/sunset` |
-| | `flood` | 4/10 | 3/10 | `results/spikes/topo_synthetic/v1.0.0/flood` |
-| | `wildfire` | 8/10 | 7/10 | `results/spikes/topo_synthetic/v1.0.0/wildfire` |
-| 2. Synthetic field, `topo-1.0.1` | `crossings` | 1/10 | 0/10 | `results/spikes/topo_synthetic/v1.0.1/crossings` |
-| | `sunset` | 1/10 | 1/10 | `results/spikes/topo_synthetic/v1.0.1/sunset` |
-| 3. Real terrain, `topo-2.0.0` | `crossings` | 1/10 | 0/10 | `results/pilot_topo_crossings` |
-| | `sunset` | 0/10 | 0/10 | `results/pilot_topo_sunset` |
-| | `flood` | 2/10 | 3/10 | `results/pilot_topo_flood` |
+| Pilot | Template | Haiku | Luna |
+|---|---|---|---|
+| 1. Synthetic field, `topo-1.0.0` | `crossings` | 2/10 | 2/10 |
+| | `sunset` | 0/10 | 1/10 |
+| | `flood` | 4/10 | 3/10 |
+| | `wildfire` | 8/10 | 7/10 |
+| 2. Synthetic field, `topo-1.0.1` | `crossings` | 1/10 | 0/10 |
+| | `sunset` | 1/10 | 1/10 |
+| 3. Real terrain, `topo-2.0.0` | `crossings` | 1/10 | 0/10 |
+| | `sunset` | 0/10 | 0/10 |
+| | `flood` | 2/10 | 3/10 |
+
+Where the numbers come from: pilots 1 and 2 are stored with the idea spikes (`results/spikes/topo_synthetic/README.md`
+lists each run); pilot 3 is in the `pilot_topo_<template>` folders under `results/`, with its task sets under
+`tasks/`. Each folder has `responses.csv`, `summary.json`, `run_config.json` and the raw replies.
+`PYTHONPATH=. uv run python -m gen.topo.pilot_report` prints the pilot 3 table from those files.
 
 Generator changes the pilots caused:
 - **Pilot 0 (idea spikes, 3 tasks per level, `results/spikes/README.md`)** ruled out circuits, Gantt charts, ECG
@@ -73,7 +78,7 @@ Generator changes the pilots caused:
 - **After pilot 1:** `wildfire` was dropped (8/10 and 7/10, too easy). In `crossings` 4 of 10 answers were 14, so
   the generator now draws a target count first (`topo-1.0.1`; answers then ran from 15 to 23).
 - **After pilot 2:** the made-up terrain was replaced by real elevation (`topo-2.0.0`), with the trail fairness
-  rules from the real-terrain spike (`results/spikes/real_terrain/`). `flood` was rebuilt on real terrain with 6
+  rules from the lead's real-terrain spike. `flood` was rebuilt on real terrain with 6
   camps instead of 4 and a water route that must bend.
 - Line of sight and base camp missions were tried in spikes and not built: no tracing step, models got them right.
 
