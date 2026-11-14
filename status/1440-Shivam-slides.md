@@ -1,0 +1,1 @@
+done: #8 five slides in the organizers' template (slides/presentation.pptx), filled by slides/build.py from tasks/final, results/final, the pilots and the few-shot summary; rendered and checked, no overflow. next: rebuild with the team name and after the hand check; final ZIP. blocked: team name
