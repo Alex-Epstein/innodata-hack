@@ -261,13 +261,13 @@ for k, (m, a, b) in enumerate(rows):
 
 bc, bt = shape(s4, "card-visual"), shape(s4, "card-visual-text")
 place(bc, y=4.80, h=1.45); place(bt, x=0.90, y=4.80, w=3.0, h=0.40)
-fill(bt.text_frame, [([label("Why you'd buy it")], {})], margins=(0, 0.12))
-offers = [("Eval set", "measures the gap"), ("RL environments", "with a verifier"),
-          ("SFT solutions", "step by step")]
+fill(bt.text_frame, [([label("What an AI lab buys from us")], {})], margins=(0, 0.12))
+offers = [("Eval sets", "test and train spatial AI"), ("RL environments", "task + verifier: reward 1 or 0"),
+          ("SFT solutions", "worked steps, computed from data")]
 for k, (t1, t2) in enumerate(offers):
     x = 0.90 + k * 2.13
     rect(s4, x, 5.25, 2.03, 0.85, "FFFFFF")
-    textbox(s4, x, 5.25, 2.03, 0.85, [([label(t1, color=INK, size=11)], {}), ([body(t2, 14)], {"before": 2})],
+    textbox(s4, x, 5.25, 2.03, 0.85, [([label(t1, color=INK, size=11)], {}), ([body(t2, 12)], {"before": 2})],
             anchor=MSO_ANCHOR.MIDDLE, margins=(0.12, 0.05))
 textbox(s4, 7.50, 4.95, 3.85, 1.20, [
     ([label("2 worked examples in the prompt", color=INK, size=11)], {}),
