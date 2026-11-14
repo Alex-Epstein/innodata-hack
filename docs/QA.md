@@ -1,6 +1,6 @@
 # Q&A prep: know it inside out (every speaker reads all of this)
 
-Numbers below are from the **pilots** (generator topo 2.0, 10 tasks per mission, the hardest level). Swap in the final-10
+**Final 10 (Docker): Haiku 2/10, Luna 3/10** (crossings 0/3 and 1/3, sunset 0/3 and 0/3, flood 2/4 and 2/4); all 10 passed every check and rebuilt byte-identical. Numbers below are from the **pilots** (generator topo 2.0, 10 tasks per mission, the hardest level). Swap in the final-10
 numbers from `docs/EVIDENCE.md` once the final run lands. Never round, never guess.
 
 ## The hardest question first: "Why would anyone use a picture? Don't they just use Google Maps or GIS?"
