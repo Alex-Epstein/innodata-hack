@@ -109,7 +109,7 @@ class ClientTest(unittest.TestCase):
         self.assertTrue(second["cached"])
         self.assertEqual(client.reply(second)["text"], "FINAL ANSWER: 4")
         sent = post.call_args.args[0]
-        self.assertEqual((sent["temperature"], sent["reasoning"], sent["max_tokens"]), (0, {"effort": "high"}, 16000))
+        self.assertEqual((sent["temperature"], sent["reasoning"], sent["max_tokens"]), (0, {"effort": "high"}, client.SETTINGS["max_tokens"]))
         stored = next((Path(self.tmp.name) / "cache").glob("*.json")).read_text()
         self.assertNotIn("test-key", stored)
         self.assertNotIn("base64", stored)
@@ -158,7 +158,7 @@ class RunTest(unittest.TestCase):
             self.assertEqual(rows[2]["ref_answer"], '["L3", "L4"]')
             self.assertEqual(len(list((out / "raw").glob("*.json"))), 4)
             cfg = json.loads((out / "run_config.json").read_text())
-            self.assertEqual((cfg["temperature"], cfg["max_tokens"]), (0, 16000))
+            self.assertEqual((cfg["temperature"], cfg["max_tokens"]), (0, client.SETTINGS["max_tokens"]))
             self.assertIn("FINAL ANSWER", cfg["prompt_template"])
             self.assertEqual(summary["by_model"][client.MODELS[0]]["correct"], 1)
 
