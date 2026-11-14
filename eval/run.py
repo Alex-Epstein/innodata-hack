@@ -75,7 +75,7 @@ def evaluate(tasks_dir, out_dir, models=client.MODELS, workers: int = 4, blind: 
     for (model, task), (row, rec) in zip(pairs, results):
         rows.append(row)
         name = f"{task['task_id']}__{re.sub(r'[^A-Za-z0-9.-]+', '_', model)}.json"
-        (out_dir / "raw" / name).write_text(json.dumps(rec, ensure_ascii=False, indent=1))
+        (out_dir / "raw" / name).write_text(json.dumps(client.for_raw_log(rec), ensure_ascii=False, indent=1))
         if len(row["response"]) > CSV_CELL_LIMIT:
             print(f"WARNING: reply of {model} on {task['task_id']} is {len(row['response'])} characters; the "
                   f"judges' CSV reader stops at {CSV_CELL_LIMIT}", file=sys.stderr)
@@ -92,6 +92,8 @@ def evaluate(tasks_dir, out_dir, models=client.MODELS, workers: int = 4, blind: 
         "prompt_template": scoring.PROMPT_TEMPLATE, "image_sent": not blind,
         "retries": {"max_attempts": client.MAX_ATTEMPTS, "retried": "HTTP 408/409/425/429, 5xx, timeouts, "
                     "error bodies, empty replies", "backoff": "Retry-After if given, else 2^n s up to 60 s"},
+        "raw_log_note": "raw/ holds each request (no image bytes, no key) and the full reply; opaque provider "
+                        "blobs (encrypted reasoning data, reasoning signatures) are replaced by their SHA-256",
         "tasks_folder": str(tasks_dir), "n_tasks": len(tasks), "mock": os.environ.get("MOCK") == "1",
         "timestamp": datetime.now(timezone.utc).isoformat(timespec="seconds"), "git_commit": _git_commit(),
         "totals": summary["totals"],

@@ -114,6 +114,20 @@ class ClientTest(unittest.TestCase):
         self.assertNotIn("test-key", stored)
         self.assertNotIn("base64", stored)
 
+    def test_raw_log_drops_opaque_blobs_only(self):
+        blob = "Zm9v" * 200
+        rec = {"response": {"choices": [{"finish_reason": "stop", "message": {
+            "content": "FINAL ANSWER: 4", "reasoning": "thought",
+            "reasoning_details": [{"type": "reasoning.encrypted", "data": blob},
+                                  {"type": "reasoning.text", "text": "thought", "signature": blob}]}}],
+            "usage": {"cost": 0.004}}}
+        safe = client.for_raw_log(rec)
+        self.assertNotIn(blob, json.dumps(safe))
+        self.assertEqual(safe["response"]["choices"][0]["message"]["reasoning_details"][0]["data"]["chars"], 800)
+        self.assertEqual(client.reply(safe), client.reply(rec))
+        self.assertEqual(safe["response"]["choices"][0]["message"]["reasoning_details"][1]["text"], "thought")
+        self.assertIn(blob, json.dumps(rec))                     # the original is not modified
+
     def test_failed_call_is_not_cached(self):
         with mock.patch.object(client, "_post_with_retries", return_value=(None, [{"attempt": 1, "problem": "x"}])):
             rec = client.call("m", "prompt", self.img)

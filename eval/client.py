@@ -188,6 +188,25 @@ def reply(rec: dict) -> dict:
             "cost": usage.get("cost"), "served_model": resp.get("model", "")}
 
 
+def for_raw_log(rec: dict) -> dict:
+    """A copy of a record that is safe to commit under results/<set>/raw/.
+
+    Providers attach opaque blobs to a reply (OpenAI: encrypted reasoning `data`; Anthropic: a reasoning
+    `signature`). They are random-looking base64, not model output, and a secret scanner can mistake a
+    substring for an API key: GitHub push protection rejected one. Each blob is replaced by its length and
+    SHA-256. The reply text, readable reasoning, finish_reason and usage are left exactly as returned.
+    The untouched record stays in the local cache."""
+    rec = json.loads(json.dumps(rec))
+    for choice in (rec.get("response") or {}).get("choices") or []:
+        for detail in (choice.get("message") or {}).get("reasoning_details") or []:
+            for field in ("data", "signature"):
+                blob = detail.get(field)
+                if isinstance(blob, str) and len(blob) > 64:
+                    detail[field] = {"removed": "opaque provider blob", "chars": len(blob),
+                                     "sha256": hashlib.sha256(blob.encode()).hexdigest()}
+    return rec
+
+
 # ---------------------------------------------------------------------------------------------- command line
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="Ask both evaluation models one question about one image.")
