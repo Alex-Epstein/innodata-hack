@@ -1,0 +1,473 @@
+#!/usr/bin/env -S uv run --quiet python
+"""Build the "Beat the AI" static site (site/) from task folders and their results.
+
+    scripts/build-site                                   # default sets (tasks/final if it exists, else the pilots)
+    scripts/build-site --tasks tasks/final --results results/final
+    scripts/build-site --tasks A --results RA --tasks B --results RB --featured topo-flood-000004
+    scripts/build-site --publish                         # build, then force-push site/ to the gh-pages branch
+
+What it writes (the hand-written app in site/ is never touched):
+    site/data/index.json, index.js        the task list (index.js is the same data for pages opened from disk)
+    site/data/<task_id>.json, .js         one task: question, answer, both models' parsed answers, the elevation grid
+                                          (uint16, base64) resampled onto the exact map frame, the map-frame box in
+                                          image pixels, and the overlay geometry in grid coordinates
+    site/img/<task_id>.png                the exact PNG the models saw
+    site/img/<task_id>_thumb.jpg          a small preview for the task list
+    site/tex/<task_id>.jpg                the map frame cropped out of the PNG: the texture draped on the 3D terrain
+    site/img/qr.png                       QR code for the GitHub Pages URL
+
+Nothing here is computed by a model or typed by hand: the grid is rebuilt by each family's own code from the task's
+data JSON (gen/topo: tiles + crop window; the real-terrain spike: its saved .npy; the missions spike: its analytic
+field), the overlay comes from the generator's layout sidecar, and the models' answers from responses.csv.
+"""
+from __future__ import annotations
+
+import argparse
+import base64
+import csv
+import importlib.util
+import io
+import json
+import math
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+import numpy as np
+from PIL import Image
+
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+PAGES_URL = "https://alex-epstein.github.io/innodata-hack/"
+GRID_COLS = 240                     # exported grid width; rows follow the map's aspect ratio
+DEFAULT_SETS = [("tasks/pilot_topo_flood", "results/pilot_topo_flood"),
+                ("tasks/pilot_topo_crossings", "results/pilot_topo_crossings"),
+                ("tasks/pilot_topo_sunset", "results/pilot_topo_sunset"),
+                ("results/spikes/missions_v2/tasks", "results/spikes/missions_v2/results")]
+MODELS = {"haiku": "Claude Haiku 5.5", "luna": "GPT-6 Luna"}
+
+PROMPTS = {
+    "flood": "The dam at D has failed. Which campsite does the water reach?",
+    "crossings": "How many contour lines does the trail cross between S and E?",
+    "sunset": "How many minutes before sunset does the hiker reach the hut? (Negative if after dark.)",
+    "los": "Can the spotter at R see the hiker at H?",
+    "fire": "Which trail from S to the safety zone Z stays safely below the fire?",
+}
+TITLES = {"flood": "Flash flood", "crossings": "Rescue carry", "sunset": "Hiker vs sunset",
+          "los": "Line of sight", "fire": "Wildfire escape"}
+
+
+# ---------------------------------------------------------------------------------------------------- reading
+def read_jsonl(p: Path) -> list[dict]:
+    return [json.loads(l) for l in p.read_text(encoding="utf-8").splitlines() if l.strip()]
+
+
+def read_responses(results: Path | None) -> dict:
+    """{task_id: {"haiku": {"parsed", "correct", "model"}, "luna": {...}}} from responses.csv."""
+    out: dict = {}
+    f = results / "responses.csv" if results else None
+    if not f or not f.exists():
+        return out
+    with f.open(newline="", encoding="utf-8") as fh:
+        for row in csv.DictReader(fh):
+            m = row.get("model", "")
+            slot = "haiku" if "haiku" in m else "luna" if "luna" in m else None
+            if not slot:
+                continue
+            out.setdefault(row["task_id"], {})[slot] = {
+                "model": m, "parsed": row.get("parsed", ""), "status": row.get("status", ""),
+                "correct": str(row.get("correct", "")).strip() in ("1", "True", "true")}
+    return out
+
+
+def template_of(rec: dict, data: dict) -> str:
+    t = rec.get("template") or (data.get("params") or {}).get("template")
+    if not t and isinstance(rec.get("difficulty"), dict):
+        t = rec["difficulty"].get("template")
+    qt = rec.get("question_type", "")
+    if not t:
+        t = "crossings" if "cross" in qt else qt.split(".")[-1]
+    return t
+
+
+def options_for(rec: dict, inner: dict) -> list[str] | None:
+    if rec.get("options"):
+        return [str(o) for o in rec["options"]]
+    if rec.get("answer_type") not in ("label", "multiple_choice"):
+        return None
+    q = rec["question"]
+    camps = (inner.get("mission") or {}).get("camps")
+    if camps:
+        return camps
+    m = re.search(r"Answer with exactly one(?: label)?(?: of)?:\s*(.+?)\.\s*$", q)
+    if m:
+        return [x.strip() for x in re.split(r",\s*|\s+or\s+", m.group(1)) if x.strip()]
+    if str(rec["answer"]).lower() in ("yes", "no"):
+        return ["yes", "no"]
+    m = re.search(r"\b([A-Z])1 to \1(\d+)\b", q)
+    if m:
+        return [f"{m.group(1)}{i}" for i in range(1, int(m.group(2)) + 1)]
+    return None
+
+
+# ---------------------------------------------------------------------------------------------------- terrain
+class Terrain:
+    """An elevation field over the map frame: z(x, y) with x east and y north in meters, 0..W and 0..H."""
+
+    def __init__(self, W, H, fn):
+        self.W, self.H, self.fn = float(W), float(H), fn
+
+    def grid(self, cols=GRID_COLS):
+        rows = int(round(cols * self.H / self.W))
+        xs = np.linspace(0, self.W, cols)
+        ys = np.linspace(self.H, 0, rows)                  # row 0 = north (top of the image)
+        X, Y = np.meshgrid(xs, ys)
+        return np.asarray(self.fn(X, Y), dtype=np.float64)
+
+    def to_grid(self, x, y, cols, rows):
+        return [round(float(x) / self.W * (cols - 1), 3), round((self.H - float(y)) / self.H * (rows - 1), 3)]
+
+
+def _load_module(path: Path, name: str):
+    spec = importlib.util.spec_from_file_location(name, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def terrain_for(rec: dict, rec_data: dict, tasks_dir: Path) -> Terrain | None:
+    inner = rec_data.get("data", rec_data)
+    if "source" in inner and "grid" in inner:                       # gen/topo and the real-terrain spike
+        from gen.topo import real
+        s = inner["grid"]["spacing_m"]
+        W, H = inner["grid"]["extent_m"]
+        if rec_data.get("grid_file"):
+            G = np.load(tasks_dir / rec_data["grid_file"]).astype(np.float64)
+        else:
+            G, _ = real.window_of(inner)
+        return Terrain(W, H, lambda X, Y: real.bilinear(G, s, X, Y))
+    if "base" in inner and "hills" in inner:                        # the missions spike: an analytic field
+        gen = tasks_dir.parent / "gen.py"
+        if gen.exists():
+            mod = _load_module(gen, f"_missions_{abs(hash(str(gen)))}")
+            W, H = inner["extent_m"]
+            return Terrain(W, H, lambda X, Y: mod.elev(inner, X, Y))
+    return None
+
+
+# ---------------------------------------------------------------------------------------------------- frame
+def frame_from_axes(img_w, img_h, rect, W, H):
+    """The axes box of an equal-aspect matplotlib axes (anchor C), in image pixels (origin top-left)."""
+    bx, by, bw, bh = rect[0] * img_w, rect[1] * img_h, rect[2] * img_w, rect[3] * img_h
+    if bw / bh > W / H:
+        w, h = bh * W / H, bh
+    else:
+        w, h = bw, bw * H / W
+    x0, y0b = bx + (bw - w) / 2, by + (bh - h) / 2
+    return [x0, img_h - (y0b + h), x0 + w, img_h - y0b]
+
+
+def frame_from_probes(layout: dict, named: dict, W, H):
+    """Fit px = x0 + x/W*(x1-x0), py = y0 + (H-y)/H*(y1-y0) to the probes on marks with known map coordinates."""
+    A, bx, by = [], [], []
+    for pr in layout.get("probes", []):
+        name = pr.get("what", "").replace("marker ", "")
+        if name in named:
+            x, y = named[name]
+            A.append((x / W, (H - y) / H))
+            bx.append(pr["xy"][0])
+            by.append(pr["xy"][1])
+    if len(A) < 2:
+        return None
+    a = np.array(A)
+    ax_ = np.c_[1 - a[:, 0], a[:, 0]]
+    ay_ = np.c_[1 - a[:, 1], a[:, 1]]
+    (x0, x1), *_ = np.linalg.lstsq(ax_, np.array(bx), rcond=None)
+    (y0, y1), *_ = np.linalg.lstsq(ay_, np.array(by), rcond=None)
+    return [float(x0), float(y0), float(x1), float(y1)]
+
+
+# ---------------------------------------------------------------------------------------------------- scenes
+def scene_for(template, rec, rec_data, side, T: Terrain, cols, rows):
+    """Normalize every family's overlay into one shape the page draws (grid coordinates, row 0 = north)."""
+    inner = rec_data.get("data", rec_data)
+    g = lambda x, y: T.to_grid(x, y, cols, rows)
+    overlay = side.get("overlay") or rec.get("overlay") or rec_data.get("overlay") or {}
+    steps = rec.get("steps") or rec_data.get("steps") or {}
+    sc: dict = {"kind": template, "points": [], "paths": [], "crossings": []}
+    named = {}
+
+    def point(name, x, y, role):
+        named[name] = (x, y)
+        sc["points"].append({"name": name, "role": role, "g": g(x, y)})
+
+    if "points" in inner and isinstance(inner["points"], list):     # gen/topo flood
+        for p in inner["points"]:
+            point(p["name"], p["x"], p["y"], "dam" if p.get("shape") == "square" else "camp")
+    if inner.get("trail"):                                          # gen/topo + spike trails
+        pts = inner["trail"]["pts"]
+        m = inner.get("mission") or {}
+        point(m.get("from", "S"), *pts[0], "start")
+        point(m.get("to", "E"), *pts[-1], "end")
+        sc["paths"].append({"role": "trail", "pts": [g(*p) for p in pts[::2] + [pts[-1]]]})
+        cr = overlay.get("crossings") or inner.get("crossings") or []
+        sc["crossings"] = [{"g": g(c["x"], c["y"]), "level": c["level"], "uphill": c.get("uphill")} for c in cr]
+        if template == "sunset":
+            sc["sun"] = {k: m.get(k) for k in ("now_min", "sunset_min", "flat_walk_min", "minutes_per_uphill_contour")}
+            sc["sun"]["walking_min"] = steps.get("walking_minutes")
+    if overlay.get("water_route"):
+        sc["paths"].append({"role": "water", "pts": [g(*p) for p in overlay["water_route"]]})
+        sc["target"] = overlay.get("flooded_camp")
+    # the missions spike
+    if "dam" in inner and isinstance(inner["dam"], dict):
+        point(inner["dam"]["name"], inner["dam"]["x"], inner["dam"]["y"], "dam")
+        for c in inner.get("campsites", []):
+            point(c["name"], c["x"], c["y"], "camp")
+        sc["target"] = rec.get("answer")
+    for k, role in (("spotter", "spotter"), ("hiker", "hiker"), ("fire", "fire"), ("crew", "start"),
+                    ("safety_zone", "end")):
+        if isinstance(inner.get(k), dict):
+            point(inner[k]["name"], inner[k]["x"], inner[k]["y"], role)
+    for t in inner.get("mission_trails", []) or []:
+        sc["paths"].append({"role": f"option_{t['name']}", "name": t["name"], "pts": [g(*p) for p in t["pts"]]})
+    for pl in overlay.get("polylines", []) or []:
+        role = pl.get("role", "path")
+        role = "water" if role == "water_route" else role
+        sc["paths"].append({"role": role, "pts": [g(*p) for p in pl["pts"]]})
+    for pt in overlay.get("points", []) or []:
+        sc.setdefault("marks", []).append({"role": pt.get("role"), "g": g(*pt["xy"])})
+    if template == "los" and "spotter" in inner:
+        sp, hk = inner["spotter"], inner["hiker"]
+        blk = next((m["g"] for m in sc.get("marks", []) if m["role"] == "blocking_point"), None)
+        sc["los"] = {"from": sp["name"], "to": hk["name"], "eye_m": sp.get("eye_m", 2), "target_m": hk.get("target_m", 2),
+                     "visible": bool(steps.get("visible", str(rec.get("answer")).lower() == "yes")), "block": blk}
+    if template == "fire" and "fire" in inner:
+        sc["fire_elev_m"] = round(float(T.fn(np.array(inner["fire"]["x"]), np.array(inner["fire"]["y"]))), 1)
+    return sc, named
+
+
+# ---------------------------------------------------------------------------------------------------- export
+def encode_grid(Z):
+    zmin, zmax = float(Z.min()), float(Z.max())
+    q = np.round((Z - zmin) / max(zmax - zmin, 1e-6) * 65535).astype("<u2")
+    return {"cols": int(Z.shape[1]), "rows": int(Z.shape[0]), "zmin": round(zmin, 2), "zmax": round(zmax, 2),
+            "enc": "u16le-base64, row 0 = north; z = zmin + v / 65535 * (zmax - zmin)",
+            "data": base64.b64encode(q.tobytes()).decode("ascii")}
+
+
+def short_prompt(template, rec):
+    if template in PROMPTS:
+        return PROMPTS[template]
+    qs = re.findall(r"[^.?!]*\?", rec["question"])
+    return qs[-1].strip() if qs else rec["question"][-160:]
+
+
+def area_of(rec, inner):
+    if inner.get("area"):
+        return f"{inner['area']}, {inner.get('state', '')}".strip(", ")
+    if inner.get("quad"):
+        return f"{inner['quad']} (procedural terrain)"
+    return ""
+
+
+def build_task(rec, tasks_dir: Path, responses: dict, out: Path, log) -> dict | None:
+    tid = rec["task_id"]
+    img_src = tasks_dir / rec["image"]
+    if not img_src.exists():
+        log(f"skip {tid}: no image")
+        return None
+    rec_data = {}
+    if rec.get("data") and (tasks_dir / rec["data"]).exists():
+        rec_data = json.loads((tasks_dir / rec["data"]).read_text(encoding="utf-8"))
+    inner = rec_data.get("data", rec_data) if isinstance(rec_data.get("data", rec_data), dict) else {}
+    side_f = tasks_dir / "layout" / f"{tid}.json"
+    side = json.loads(side_f.read_text(encoding="utf-8")) if side_f.exists() else {}
+    template = template_of(rec, rec_data)
+
+    shutil.copyfile(img_src, out / "img" / f"{tid}.png")
+    im = Image.open(img_src).convert("RGB")
+    th = im.copy()
+    th.thumbnail((520, 520))
+    th.save(out / "img" / f"{tid}_thumb.jpg", quality=82)
+
+    task = {"task_id": tid, "family": rec.get("family"), "template": template, "title": TITLES.get(template, template),
+            "question_type": rec.get("question_type"), "area": area_of(rec, inner), "question": rec["question"],
+            "prompt": short_prompt(template, rec), "answer": rec["answer"], "answer_type": rec["answer_type"],
+            "options": options_for(rec, inner), "image": f"img/{tid}.png", "thumb": f"img/{tid}_thumb.jpg",
+            "image_size": list(im.size), "steps": rec.get("steps") or rec_data.get("steps") or {},
+            "references": rec.get("references") or rec_data.get("references") or [],
+            "generator_version": rec.get("generator_version"), "seed": rec.get("seed"),
+            "models": responses.get(tid, {}), "has3d": False}
+
+    truth = next((p for p in (tasks_dir.parent / "demo" / f"{tid}_truth.png", tasks_dir / "truth" / f"{tid}.png")
+                  if p.exists()), None)
+    if truth:
+        shutil.copyfile(truth, out / "img" / f"{tid}_truth.png")
+        task["truth_image"] = f"img/{tid}_truth.png"
+
+    T = None
+    try:
+        T = terrain_for(rec, rec_data, tasks_dir)
+    except Exception as e:                                          # a family we can't rebuild: 2D reveal only
+        log(f"{tid}: no 3D terrain ({type(e).__name__}: {e})")
+    tex_bytes = None
+    if T is not None:
+        Z = T.grid()
+        rows, cols = Z.shape
+        scene, named = scene_for(template, rec, rec_data, side, T, cols, rows)
+        frame = (side.get("layout") or {}).get("frame_px")
+        if frame is None and side.get("layout"):
+            frame = frame_from_probes(side["layout"], named, T.W, T.H)
+        if frame is None:
+            rect = [0.065, 0.115, 0.78, 0.78] if "source" in inner else [0.07, 0.13, 0.86, 0.78]
+            frame = frame_from_axes(im.size[0], im.size[1], rect, T.W, T.H)
+        box = [int(round(v)) for v in frame]
+        crop = im.crop((box[0], box[1], box[2], box[3]))
+        buf = io.BytesIO()
+        crop.save(buf, format="JPEG", quality=90)
+        tex_bytes = buf.getvalue()
+        (out / "tex" / f"{tid}.jpg").write_bytes(tex_bytes)
+        task.update({"has3d": True, "extent_m": [T.W, T.H], "frame_px": [round(v, 1) for v in frame],
+                     "texture": f"tex/{tid}.jpg", "grid": encode_grid(Z), "scene": scene})
+    js = dict(task)
+    if tex_bytes:
+        js["texture_data"] = "data:image/jpeg;base64," + base64.b64encode(tex_bytes).decode("ascii")
+    (out / "data" / f"{tid}.json").write_text(json.dumps(task, separators=(",", ":")), encoding="utf-8")
+    (out / "data" / f"{tid}.js").write_text(f"window.BTA_TASK({json.dumps(js, separators=(',', ':'))});\n",
+                                             encoding="utf-8")
+    return task
+
+
+def pick_featured(tasks):
+    """The opening task: a real-terrain flood both models missed, Breakneck Ridge or Bear Mountain first."""
+    def score(t):
+        both_wrong = all(not m.get("correct") for m in t["models"].values()) and len(t["models"]) == 2
+        diff = len({m.get("parsed") for m in t["models"].values()}) == 2
+        place = 2 if "Breakneck" in t["area"] else 1 if "Bear" in t["area"] else 0
+        return (t["has3d"], t["template"] == "flood", both_wrong, place, diff, t["family"] == "topo")
+    return max(tasks, key=score)["task_id"] if tasks else None
+
+
+CHECKS = ["schema", "data_first", "two_solvers", "render_matches_data", "legibility", "answer_not_in_question",
+          "reproducible"]
+
+
+def factory_summary(sets, tasks):
+    """The factory chapter's numbers, straight from each set's generation_log.json and validation_report.json."""
+    out = {"checks": CHECKS, "sets": [], "attempted": 0, "kept": 0, "passed_all": 0, "rejected": [],
+           "failures": [], "models": {k: {"correct": 0, "n": 0} for k in MODELS}}
+    counted = set()
+    for tdir, _ in sets:
+        tdir = Path(tdir) if Path(tdir).is_absolute() else ROOT / tdir
+        gen = json.loads((tdir / "generation_log.json").read_text()) if (tdir / "generation_log.json").exists() else {}
+        val = json.loads((tdir / "validation_report.json").read_text()) if (tdir / "validation_report.json").exists() else {}
+        if not gen and not val:
+            continue
+        att = gen.get("attempted", val.get("generation", {}).get("attempted", 0))
+        kept = gen.get("kept", val.get("checked", 0))
+        out["sets"].append({"tasks": str(tdir.relative_to(ROOT)) if tdir.is_relative_to(ROOT) else str(tdir),
+                            "template": gen.get("template"), "attempted": att, "kept": kept,
+                            "passed_all": val.get("all_passed"), "funnel": val.get("cumulative_funnel", {})})
+        out["attempted"] += att
+        counted.add(str(tdir))
+        out["kept"] += kept
+        out["passed_all"] += val.get("all_passed", 0) or 0
+        for r in gen.get("rejected", []) or []:
+            out["rejected"].append({"seed": r.get("seed"), "reason": r.get("reason") or r.get("why") or str(r)[:120]}
+                                   if isinstance(r, dict) else {"seed": None, "reason": str(r)[:120]})
+        for tid, why in (val.get("failures") or {}).items():
+            out["failures"].append({"task_id": tid, "reason": why if isinstance(why, str) else json.dumps(why)[:160]})
+    for t in [t for t in tasks if t.get("_set") in counted]:
+        for k, m in t["models"].items():
+            out["models"][k]["n"] += 1
+            out["models"][k]["correct"] += int(bool(m.get("correct")))
+    out["thumbs"] = [t["thumb"] for t in tasks if t.get("_set") in counted][:40] or [t["thumb"] for t in tasks][:40]
+    return out
+
+
+def write_qr(out: Path, url: str):
+    try:
+        import segno
+    except ImportError:
+        print("warning: segno not installed (uv sync --dev); no QR code written")
+        return
+    segno.make(url, error="m").save(out / "img" / "qr.png", scale=12, border=2, dark="#1E1B16", light="#F3EEDF")
+
+
+def publish(site: Path):
+    """Force-push the built site to the gh-pages branch (GitHub Pages serves it)."""
+    remote = subprocess.check_output(["git", "-C", str(ROOT), "remote", "get-url", "origin"], text=True).strip()
+    head = subprocess.check_output(["git", "-C", str(ROOT), "rev-parse", "--short", "HEAD"], text=True).strip()
+    with tempfile.TemporaryDirectory() as tmp:
+        dst = Path(tmp) / "site"
+        shutil.copytree(site, dst, ignore=shutil.ignore_patterns(".gitignore", ".DS_Store"))
+        (dst / ".nojekyll").write_text("")
+        run = lambda *a: subprocess.run(["git", "-C", str(dst), *a], check=True, capture_output=True, text=True)
+        run("init", "-q", "-b", "gh-pages")
+        run("add", "-A")
+        run("-c", "user.name=build-site", "-c", "user.email=build-site@users.noreply.github.com",
+            "commit", "-q", "-m", f"site build from {head}")
+        run("push", "-f", remote, "gh-pages")
+    print(f"published to gh-pages: {PAGES_URL}")
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument("--tasks", action="append", default=[], help="task folder (tasks.jsonl, images/, data/); repeatable")
+    ap.add_argument("--results", action="append", default=[], help="results folder with responses.csv, same order")
+    ap.add_argument("--out", default=str(ROOT / "site"))
+    ap.add_argument("--featured", help="task_id for the opening / intro (default: picked from the data)")
+    ap.add_argument("--only", help="regex: keep only matching task_ids")
+    ap.add_argument("--publish", action="store_true", help="after building, force-push site/ to gh-pages")
+    ap.add_argument("--quiet", action="store_true")
+    a = ap.parse_args(argv)
+    if a.tasks:
+        if a.results and len(a.results) != len(a.tasks):
+            ap.error("give one --results per --tasks (or none)")
+        sets = list(zip(a.tasks, a.results or [None] * len(a.tasks)))
+    elif (ROOT / "tasks/final/tasks.jsonl").exists():
+        sets = [("tasks/final", "results/final")]
+    else:
+        sets = DEFAULT_SETS
+    out = Path(a.out)
+    for sub in ("data", "img", "tex"):
+        shutil.rmtree(out / sub, ignore_errors=True)
+        (out / sub).mkdir(parents=True, exist_ok=True)
+    log = (lambda *_: None) if a.quiet else print
+    tasks, seen = [], set()
+    for tdir, rdir in sets:
+        tdir = (ROOT / tdir) if not Path(tdir).is_absolute() else Path(tdir)
+        rdir = ((ROOT / rdir) if not Path(rdir).is_absolute() else Path(rdir)) if rdir else None
+        resp = read_responses(rdir)
+        for rec in read_jsonl(tdir / "tasks.jsonl"):
+            if rec["task_id"] in seen or (a.only and not re.search(a.only, rec["task_id"])):
+                continue
+            t = build_task(rec, tdir, resp, out, log)
+            if t:
+                t["_set"] = str(tdir)
+                seen.add(t["task_id"])
+                tasks.append(t)
+                log(f"{t['task_id']:24s} {t['template']:10s} 3D={'yes' if t['has3d'] else 'no ':3s} "
+                    f"answer={t['answer']!s:6s} " + " ".join(f"{k}={v.get('parsed')}" for k, v in t["models"].items()))
+    featured = a.featured or pick_featured(tasks)
+    index = {"featured": featured, "url": PAGES_URL, "models": MODELS,
+             "sets": [str(s[0]) for s in sets],
+             "tasks": [{k: t.get(k) for k in ("task_id", "family", "template", "title", "area", "prompt", "thumb",
+                                              "has3d", "answer_type")} |
+                       {"models": {k: {"correct": v["correct"]} for k, v in t["models"].items()}} for t in tasks]}
+    (out / "data" / "index.json").write_text(json.dumps(index, indent=1), encoding="utf-8")
+    (out / "data" / "index.js").write_text(f"window.BTA_INDEX = {json.dumps(index)};\n", encoding="utf-8")
+    fac = factory_summary(sets, tasks)
+    (out / "data" / "factory.json").write_text(json.dumps(fac, indent=1), encoding="utf-8")
+    (out / "data" / "factory.js").write_text(f"window.BTA_FACTORY = {json.dumps(fac)};\n", encoding="utf-8")
+    write_qr(out, PAGES_URL)
+    print(f"built {len(tasks)} tasks ({sum(t['has3d'] for t in tasks)} with 3D) into {out}; featured {featured}")
+    if a.publish:
+        publish(out)
+
+
+if __name__ == "__main__":
+    main()
