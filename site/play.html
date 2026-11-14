@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Beat the AI</title>
+<meta name="description" content="Answer the same map question two AI models got wrong, then see the truth on the real mountain.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F3EEDF'/%3E%3Cpath d='M2 26 L11 12 L16 19 L21 9 L30 26 Z' fill='none' stroke='%239A5B2E' stroke-width='2.4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div class="loader hidden" id="loader">
+  <div class="ttl caps" id="loaderTitle">Surveying</div>
+  <div class="elev mono" id="loaderElev">0 m</div>
+  <div class="barw"><i id="loaderBar"></i></div>
+  <div class="where" id="loaderWhere"></div>
+</div>
+
+<header class="collar">
+  <a class="brand" href="./">Beat the <b>AI</b></a>
+  <span class="place" id="place"></span>
+  <span class="coord" id="coord"></span>
+</header>
+
+<main class="play">
+  <section class="mapbox" id="mapbox" aria-label="Map">
+    <img class="map2d" id="map2d" alt="The topographic map, exactly as the models saw it">
+    <div class="labels"></div>
+    <div class="hud" id="hud"></div>
+    <div class="lockup" id="lockup"><span class="l">The map</span><span class="vs">versus</span><span class="r">The mountain</span></div>
+    <div class="caption" id="caption"><span></span></div>
+    <div class="fx-vignette"></div>
+    <div class="fx-grain"></div>
+    <div class="map-tools">
+      <button class="tool" id="zoomBtn" type="button">Zoom</button>
+    </div>
+  </section>
+
+  <aside class="panel" id="panel">
+    <div class="kicker caps"><span id="kicker">Loading</span><span class="mono" id="taskId"></span></div>
+    <h1 class="prompt" id="prompt"></h1>
+    <details class="fullq"><summary>The full question, exactly as the models saw it</summary><p id="fullq"></p></details>
+
+    <div id="playArea">
+      <div class="timer" id="timer"><span class="t" id="timerT">60</span><span class="bar"><i id="timerBar"></i></span></div>
+      <div id="answers" style="margin-top:12px"></div>
+      <p class="hint" id="hint">You see exactly what the models saw. Answer before the clock runs out.</p>
+    </div>
+
+    <div id="resultArea" class="hidden">
+      <p class="verdict" id="verdict"></p>
+      <div class="score" id="score"></div>
+      <ol class="steps" id="steps"></ol>
+      <div class="tally caps" id="tally"></div>
+      <div class="btns">
+        <a class="btn primary" id="nextBtn" href="#">Next map</a>
+        <a class="btn" href="./">All maps</a>
+      </div>
+      <p class="fine" id="fine"></p>
+    </div>
+  </aside>
+</main>
+
+<div class="sheet hidden" id="sheet"><button class="tool close" id="sheetClose" type="button">Close</button><img id="sheetImg" alt=""></div>
+
+<script src="assets/common.js"></script>
+<script src="assets/stage.js"></script>
+<script src="assets/play.js"></script>
+</body>
+</html>
