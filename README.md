@@ -46,6 +46,17 @@ mission with a marked scenario:
 | `sunset` | read now, sunset and flat walking time from the incident box → count the contour lines crossed going uphill → Naismith's rule → minutes to spare before dark | integer |
 | `flood` | find downhill at the failed dam → follow the water at right angles to every contour as the slope turns → name the one camp in its path | camp name |
 
+### Family: switchgear single-line diagrams (`gen/power`, details in `gen/power/README.md`)
+A 480 V main-tie-main switchgear drawn as found (IEEE Std 141, IEEE Std 315 / ANSI C37.2 symbols): two utility
+services through transformers, a standby generator, buses and sub-buses, ANSI 52 breakers (filled = closed, hollow
+= open) and alternate feeds that cross other feeders without junction dots.
+
+| Template | Chain of reasoning | Answer |
+|---|---|---|
+| `trip` | read every breaker state → find what is live after a main trips → shed largest loads first to the generator rating → close the tie → sum the loads that were running and are not at the end | integer kW |
+| `dbl` | two breakers trip together → follow every feed, the crossing alternates included → list the running loads that lose power | load tags |
+| `iso` | find every source that can feed a sub-bus, back-feeds included → open the fewest breakers that isolate it without dropping other loads | breaker IDs |
+
 ## Reported folders
 - Tasks: `tasks/final/`
 - Results: `results/final/`
@@ -74,7 +85,18 @@ lists each run); pilot 4 is in the `pilot_topo_<template>` folders under `result
 `tasks/` (pilot 3's files are in git history at commit `9d1d06a`). Each folder has `responses.csv`, `summary.json`, `run_config.json` and the raw replies.
 `PYTHONPATH=. uv run python -m gen.topo.pilot_report` prints the pilot 4 table from those files.
 
+Power family pilots (10 seeds, difficulty 3; the `pilot<N>_power_<template>` folders under `results/`):
+
+| Pilot | `trip` Haiku · Luna | `dbl` Haiku · Luna | `iso` Haiku · Luna |
+|---|---|---|---|
+| 1. `power-1.0.0` | 10/10 · 9/10 | 6/10 · 8/10 | 7/10 · 9/10 |
+| 2. `power-1.1.0` (current) | 9/10 · 9/10 | 6/10 · 7/10 | 7/10 · 7/10 |
+| 3. `power-1.2.0` (reverted) | 8/10 · 9/10 | 9/10 · 10/10 | 9/9 · 7/9 |
+
 Generator changes the pilots caused:
+- **Power:** the spike's low scores came partly from ambiguous wording. With the wording fixed (1.0.0) both models
+  trace these diagrams well. 1.1.0 requires a cross-feed trap in every task; 1.2.0 (more traps, larger answer
+  sets) did not make it harder and was reverted. No power template meets the keep rule; we report that as it is.
 - **Pilot 0 (idea spikes, 3 tasks per level, `results/spikes/README.md`)** ruled out circuits, Gantt charts, ECG
   strips and calendars (too easy) and showed that max_tokens 16000 cut off replies; it was raised to 64000 for
   every run after that.
@@ -103,6 +125,9 @@ and crosses every line at 25° or more; only one camp is within 40 m of the wate
 least 250 m from it.
 
 ## Key findings
+- The same models that trace a breaker diagram well (6/10 to 9/10 on the power pilots) cannot count the contour
+  lines along a trail (0/10 or 1/10). Discrete symbols joined by straight wires are followed; a path through dense,
+  similar, curved lines is not.
 - Single reads (one elevation, one label, the scale bar) and the arithmetic are reliably right; counting or
   following along a path through many lines is reliably wrong.
 - A wide tolerance or a 3 or 4 way choice hides a tracing miss, so answers are exact integers or one of 6 names.
@@ -177,5 +202,5 @@ docker run --rm -e OPENROUTER_API_KEY -v "$(pwd)/out:/out" visual-task-factory f
   checks (`validate/`), the real-terrain spike, the demo.
 - **Shivam Raj (`tech-cosmos`)**: the evaluation client and scoring (`eval/`), the topographic family
   (`gen/topo`) and its pilots, Docker and packaging.
-- **`WindHurtLZ`**: the power one-line family and its pilots; subway spikes.
+- **`WindHurtLZ`**: the power single-line family (`gen/power`) and its three pilots; subway spikes.
 - **`dl3832`**: Gantt spike; human baseline and hand checks.
