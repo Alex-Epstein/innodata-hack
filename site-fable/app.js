@@ -350,7 +350,8 @@ function sideView(pts, insetTop = 0, insetBottom = 0) {
     if (!best || score < best.score) best = { score, nxm, nym };
   }
   const r0 = freeRect(), full = r0.h;
-  if (!portrait) { r0.y += insetTop; r0.h -= insetTop + insetBottom; }
+  if (portrait) { insetTop = insetBottom ? 150 : 100; insetBottom = 0; }
+  r0.y += insetTop; r0.h -= insetTop + insetBottom;
   const back = Math.pow(full / r0.h, 0.8);                                  // step back when the HUD takes part of the stage
   const mid = 0.5;                                                          // aim between the path and the middle of the block
   return { tx: (cx - world.W / 2) * U * mid, ty: cz * U * EXAG * 0.5, tz: -(cy - world.Hm / 2) * U * mid, theta: Math.atan2(best.nxm, -best.nym),
@@ -514,6 +515,7 @@ function ruler({ lo, hi, step, major, fmt, flags }) {
 }
 function profile(task) {
   const P = $('#profile'), tr = task.truth, w = P.clientWidth - 30, h = P.clientHeight - 20, padL = 44, padT = 16, padB = 4;
+  if (w < 120 || h < 40) { P.innerHTML = ''; return { set() {}, dot() {} }; }   // hidden on phones
   const zs = tr.profile.map((p) => p[1]), z0 = Math.min(...zs) - 8, z1 = Math.max(...zs) + 8, L = tr.length_m;
   const X = (a) => padL + (a / L) * (w - padL - 6), Y = (z) => padT + (1 - (z - z0) / (z1 - z0)) * (h - padT - padB);
   const d = tr.profile.map((p, i) => (i ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1)).join('');
