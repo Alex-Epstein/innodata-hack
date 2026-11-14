@@ -2,7 +2,7 @@
 
 ## Now
 **~11:05 · Spike round 2: every family gets the same test, then we pick the 2 with the best accuracy drop.**
-**11:45 · Family 1 = TOPO MAP (locked).** Family 2 = a 12:20 bake-off of chained versions (mentor's advice, #29).
+**11:45 · Family 1 = TOPO MAP (locked), themed as MISSIONS** (wildfire escape, flash flood, SAR line of sight, hiker vs sunset; see DECISIONS). Family 2 = a 12:20 bake-off of chained versions (mentor's advice, #29).
 | Family | Result so far (L3, Haiku · Luna) | Next | Owner |
 |---|---|---|---|
 | **Topo** | 0/3 · 0/3 at 32k | rerun at 64k to confirm; chained templates (#29) | tech-cosmos |
