@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>What a lab buys</title>
+<meta name="description" content="What an AI lab buys from us: eval sets that measure the gap, and RL environments with a verifier that computes the reward from real elevation data.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F3EEDF'/%3E%3Cpath d='M2 26 L11 12 L16 19 L21 9 L30 26 Z' fill='none' stroke='%239A5B2E' stroke-width='2.4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="collar">
+  <a class="brand" href="./">Beat the <b>AI</b></a>
+  <span class="place">What an AI lab buys from us</span>
+  <a class="nav" href="play.html">Play →</a>
+</header>
+<div class="land">
+  <section class="tr-head">
+    <h1 class="caps">What an AI lab buys from us</h1>
+    <p class="serif-i">Two products from one factory: a test that shows where the model fails, and a gym where it learns.</p>
+  </section>
+
+  <section class="tr-cards">
+    <article class="tr-card">
+      <div class="caps tr-k">01 · Eval sets</div>
+      <h2 class="caps">Measure the gap</h2>
+      <p>Map-reading tasks with answers computed from real USGS elevation data.</p>
+      <p class="mono tr-score">Final 10: <span class="m">Claude Haiku 5.5 2/10</span> · <span class="m">GPT-6 Luna 3/10</span></p>
+    </article>
+    <article class="tr-card">
+      <div class="caps tr-k">02 · RL environments</div>
+      <h2 class="caps">Train the model by trial and reward</h2>
+      <p>Each task ships with a verifier, a small program that reads the model's answer and returns a reward: 1 if
+        correct, 0 if not (<span class="mono">envs.jsonl</span> + <span class="mono">verifier.py</span>). The model tries
+        thousands of tasks, is rewarded for right answers, and learns the skill.</p>
+      <p>The reward can't be faked or argued with, because it's computed from the data, and our tasks sit where the
+        model sometimes fails, which is where training teaches the most.</p>
+    </article>
+  </section>
+
+  <div class="section-h caps"><span>Live verifier</span><span class="mono" style="letter-spacing:0;text-transform:none;font-weight:400">verifier.py, ported to the page</span></div>
+  <section class="tr-demo">
+    <a class="tr-img" id="imgLink" href="play.html"><img id="taskImg" alt="The flood map, exactly as the models saw it"></a>
+    <div class="tr-rows">
+      <p class="serif-i tr-q" id="q">The dam at D has failed. Which campsite, C1 to C6, does the water reach?</p>
+      <div class="tr-row mono" data-step="0"><span class="lbl-k caps">env_id</span><span id="envId">topo-flood-000102</span></div>
+      <div class="tr-row" data-step="1"><span class="tr-who">Model answer: <b>Claude Haiku 5.5</b> said <span class="mono" id="haikuAns">C6</span></span><span class="tr-r mono" id="haikuR"></span></div>
+      <div class="tr-row" data-step="2"><span class="tr-who"><b>GPT-6 Luna</b> said <span class="mono" id="lunaAns">C6</span></span><span class="tr-r mono" id="lunaR"></span></div>
+      <form class="tr-row tr-you" data-step="3" id="youForm" autocomplete="off">
+        <label class="caps" for="youIn">Your answer</label>
+        <input id="youIn" class="mono" type="text" placeholder="C1 to C6" maxlength="40" spellcheck="false" autocapitalize="characters">
+        <button class="btn primary" type="submit">Score it</button>
+        <span class="tr-r mono" id="youR"></span>
+      </form>
+      <p class="mono tr-call" id="call">&nbsp;</p>
+    </div>
+  </section>
+
+  <div class="section-h caps"><span>What's in the pack</span></div>
+  <p class="mono tr-pack">envs.jsonl · verifier.py · sft.jsonl (step-by-step solutions) · MANIFEST.json · DATASHEET.md</p>
+  <pre class="mono tr-cmd">uv run python -m factory export --tasks tasks/final --format rl --out pack/</pre>
+
+  <footer class="foot">
+    <span>Terrain: USGS 3D Elevation Program (public domain). Rewards here use the same scoring rules as eval/scoring.py.</span>
+    <span><a href="./">All maps</a></span>
+  </footer>
+</div>
+<script>
+(function () {
+  "use strict";
+  const TID = "topo-flood-000102";
+  // Fallback values, from tasks/final/tasks.jsonl (answer) and results/final/responses.csv (parsed model answers).
+  // Overridden below by site/data/<task_id>.json, which scripts/build-site exports from the same files.
+  let env = { env_id: TID, answer_type: "label", reference: "C1", haiku: "C6", luna: "C6" };
+  const $ = (id) => document.getElementById(id);
+  $("taskImg").src = `img/${TID}.png`;
+  $("imgLink").href = `play.html?t=${TID}`;
+
+  // ---- tiny port of product/sample_pack/verifier.py (parse_final_answer, norm_label, to_number, score)
+  function parseFinal(text) {
+    const re = /FINAL\s+ANSWER\s*[:：]\s*(.*)/gi;
+    let m, last = null;
+    while ((m = re.exec(text))) last = m;
+    const s = last ? last[1] : text;            // a bare answer typed on the page counts as the final answer
+    return s.trim().replace(/^[*`_ \t]+|[*`_ \t]+$/g, "").replace(/^["'“”‘’ ]+|["'“”‘’ ]+$/g, "").replace(/[. ]+$/, "").trim();
+  }
+  function normLabel(s) {
+    s = String(s).toLowerCase().replace(/&/g, " and ").replace(/[^a-z0-9$.\-: ]+/g, " ").replace(/^\s*the\s+/, "");
+    return s.replace(/\s+/g, " ").replace(/^[ .]+|[ .]+$/g, "");
+  }
+  function toNumber(s) {
+    s = String(s).replace(/[−–]/g, "-").replace(/,/g, "").trim();
+    s = s.split(/[=≈~]/).pop();
+    const m = s.replace(/ /g, "").match(/[-+]?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?/);
+    return m ? parseFloat(m[0]) : null;
+  }
+  function reward(e, out) {
+    const p = parseFinal(out || "");
+    if (!p) return 0;
+    if (e.answer_type === "integer" || e.answer_type === "number") { const x = toNumber(p); return x !== null && x === Number(e.reference) ? 1 : 0; }
+    return normLabel(p) === normLabel(e.reference) ? 1 : 0;
+  }
+
+  function setR(node, r) { node.textContent = `reward ${r}`; node.className = "tr-r mono " + (r ? "ok" : "no"); }
+  const fmt = (r) => r.toFixed(1);
+  function render() {
+    $("envId").textContent = env.env_id;
+    $("haikuAns").textContent = env.haiku;
+    $("lunaAns").textContent = env.luna;
+    setR($("haikuR"), reward(env, env.haiku));
+    setR($("lunaR"), reward(env, env.luna));
+  }
+  // rows animate in one after another
+  const rows = document.querySelectorAll(".tr-row");
+  const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  rows.forEach((r, i) => setTimeout(() => r.classList.add("in"), reduce ? 0 : 400 + i * 900));
+
+  render();
+  fetch(`data/${TID}.json`).then((r) => r.ok ? r.json() : null).then((t) => {
+    if (!t) return;
+    env = { env_id: t.task_id, answer_type: t.answer_type, reference: t.answer,
+            haiku: (t.models.haiku || {}).parsed || env.haiku, luna: (t.models.luna || {}).parsed || env.luna };
+    render();
+  }).catch(() => {});
+
+  $("youForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const v = $("youIn").value;
+    const r = reward(env, v);
+    setR($("youR"), r);
+    const call = $("call");
+    call.textContent = `reward(env, ${JSON.stringify(v.trim())}) → ${fmt(r)}`;
+    call.className = "mono tr-call " + (r ? "ok" : "no");
+  });
+})();
+</script>
+</body>
+</html>
