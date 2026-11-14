@@ -50,3 +50,17 @@ and the pipeline building, checking and scoring a fresh task.
 - **Is it fair, or just hard to read?** A person solves each one in about [t] minutes (we timed ourselves), and you just did one in ten seconds.
 - **Cost?** About [c] cents per task across both models; the whole day cost $[spent] of $100.
 - **Scale?** It's procedural: a new seed is a new task, and the checks run automatically, so 10,000 tasks is just a longer run.
+
+## The wow layer: "The map vs the mountain" (building now, site/, #40)
+Lesson from Red Ledger (Cal Hacks, 2nd place): a cinematic 3D opener plus a judge steering the live system made the
+concepts physical. Here, the concept to make physical is: **the model only sees a flat map; the answer lives in the terrain.**
+1. **Cold open (0:00, 8 s, silent):** the 3D flyover of real Bear Mountain / Breakneck Ridge (USGS elevation, our generated
+   map draped on it as the texture). The camera settles top-down until it matches the 2D map exactly. Caption: "This is what the AI sees."
+2. **Judges play (0:08):** the flood or hiker question on the 2D map, 10 seconds, point or tap (QR → phone).
+3. **The 3D reveal (0:15):** blue water particles flow down the true valley into the right camp while a red ghost flows to
+   Haiku's and Luna's answer. Or the sight line hits the hidden ridge. Or the trail's contour crossings pulse and count up
+   to the truth next to "Haiku said 6". The concept sticks without a word of explanation: the answer comes from the data, and you can see it.
+4. **Live factory (1:00):** a judge picks the seed → a new real-terrain map, the checks tick green, both models answer, and the same 3D reveal for that fresh task.
+5. **Phones (3:00):** the QR code stays up; judges replay any task while we talk results. "You vs Haiku vs Luna."
+Presenters: the speaker narrates; the driver runs the laptop; every teammate who built a piece says one line about it
+(family owners: one finding each). Rehearse with a timer twice.
