@@ -42,12 +42,15 @@ CROSS_KNOB = {1: (1, 3, 6), 2: (2, 7, 12), 3: (3, 14, 24)}          # legs, fewe
 
 
 def _fair_trail(rng, d, Z, lines, legs, lo, hi, tries=150, want=None):
-    for _ in range(tries):
+    target = int(rng.integers(lo, hi + 1))       # aim near a count drawn evenly from the range, so answers spread out
+    for k in range(tries):
         pts = T.random_trail(rng, legs)
         if pts is None or not T.trail_is_fair(d, pts):
             continue
         total, up, _ = T.crossings_sampled(d, pts)
-        if not lo <= total <= hi or (total, up) != T.crossings_geometry(Z, lines, pts):
+        if not lo <= total <= hi or (k < tries * 2 // 3 and abs(total - target) > 1):
+            continue
+        if (total, up) != T.crossings_geometry(Z, lines, pts):
             continue
         if want is None or want(total, up):
             return pts
@@ -94,7 +97,8 @@ def ask_crossings(d):
 # ============================================================================================ 2. sunset
 def place_sunset(rng, d, Z, lines, difficulty):
     legs, lo, hi = CROSS_KNOB[difficulty]
-    for _ in range(150):
+    target = int(rng.integers(lo, hi + 1))
+    for k in range(150):
         pts = T.random_trail(rng, legs)
         if pts is None:
             continue
@@ -109,7 +113,9 @@ def place_sunset(rng, d, Z, lines, difficulty):
         if not T.inside(pts[-1], 260) or abs(T.length(pts) - target) > 1.0 or not T.trail_is_fair(d, pts):
             continue
         total, up, _ = T.crossings_sampled(d, pts)
-        if not lo <= total <= hi or (total, up) != T.crossings_geometry(Z, lines, pts):
+        if not lo <= total <= hi or (k < 100 and abs(total - target) > 1):
+            continue
+        if (total, up) != T.crossings_geometry(Z, lines, pts):
             continue
         if up < 1 or (difficulty == 3 and (up < 4 or total - up < 3)):   # at the top level both directions matter
             continue

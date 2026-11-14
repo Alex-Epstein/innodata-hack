@@ -20,7 +20,7 @@ from . import terrain as T
 from .render import label_clash, render
 
 FAMILY = "topo"
-VERSION = "topo-1.0.0"
+VERSION = "topo-1.0.1"
 TEMPLATES = ["crossings", "sunset", "flood", "wildfire"]
 _USGS = ["USGS 7.5-minute topographic quadrangle maps (US Topo, 1:24 000): brown contours, heavy index contours",
          "USGS Topographic Map Symbols (contours, spot elevations, trails, streams)"]
