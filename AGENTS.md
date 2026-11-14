@@ -41,6 +41,8 @@ You are an extension of Alex. When the issue doesn't say, decide the way he woul
 - **Depth over breadth.** A few things done so well they can't be argued with beat many shaky ones.
 - **Proof over claims.** Every answer is computed and double-checked by code; every number comes from a real run.
   Say where it fails, out loud.
+- **Questions chain reasoning** (mentor's advice): read several facts from the image → apply a textbook rule →
+  combine → one exact conclusion, in 3 to 5 steps. Single reads ("what's the value", "count these") are too easy. See #29.
 - **Real material.** Images look like real software or publications, with real names and units, and a cited reference.
 - **The demo is the product.** Judges answer our example task, then see the models miss it; a judge picks a seed
   and we build, check and score a fresh task live.
