@@ -1,0 +1,1 @@
+done: gen/topo 2.1.0 frozen candidate: solid magenta trail with casing, end markers 20 m clear of contours, wording, named decoys in steps, truth overlay PNG per task, layout.frame_px; pilots regenerated, validate 10/10 x3; crossings Haiku 1/10 Luna 0/10, sunset 0/10 1/10, flood 3/10 3/10. next: final set in Docker + final eval, packaging. blocked: team name

@@ -2,7 +2,8 @@
 
 A family plug-in (`contracts/FAMILY.md`). The image is a topographic map in the style of a USGS 7.5-minute
 quadrangle, drawn from **real elevation**: brown contours every 20 m (10 m on gentle ground), heavy index contours,
-spot elevations, water, latitude and longitude ticks, a scale bar, a legend and an incident box.
+spot elevations, water, latitude and longitude ticks, a scale bar, a legend and an incident box. The trail is a
+solid magenta line with a thin white casing, so no dash gap can hide a crossing.
 
 ```bash
 uv run python -m factory generate --family topo --template crossings --difficulty 3 --seeds 0-9 --out tasks/pilot_topo_crossings
@@ -27,9 +28,12 @@ lead's spike `results/spikes/real_terrain/gen.py`.
    line a solver must trace and of the incident box.
 3. The data JSON is written: tile names, crop window, contour levels, every mark and label. The elevation grid
    itself is not stored; it is rebuilt from `tiles/` and the window. Then the PNG is drawn from that file only.
-4. The answer and its reasoning chain (`steps`) are computed from the data; `solve_independent` computes the
+4. The answer and its reasoning chain (`steps`, with the named decoys and planted wrong methods) are computed
+   from the data; `solve_independent` computes the
    answer a second way. A draw where the two disagree, where two labels overlap, or where the answer would appear
    in the question is thrown away. A seed with no fair draw raises `RejectSeed`.
+5. A second picture, `overlays/<task_id>_truth.png`, shows the same map with the computed truth in blue (a ring on
+   every crossing, or the water's route). It is for people and the demo; no model ever sees it.
 
 ## Templates
 | Template | Mission | Chain | Answer | Second solver |
@@ -47,35 +51,40 @@ lead's spike `results/spikes/real_terrain/gen.py`.
 ## Fairness rules (in code, so a careful person can get every task right)
 - Trails: crossings are 40 m or more apart and from both ends; the trail never runs along a contour (within 2 m of
   its level for more than 40 m), never turns around within a quarter interval of a level, crosses every line at
-  25° or more, and stays out of water.
+  25° or more, and stays out of water. Both end markers stand at least 20 m (on the map) from every contour line,
+  and the question says to count only the crossings between them.
 - `sunset`: at least 2 uphill crossings; the flat walking time is printed, so no distance has to be measured.
 - `flood`: the flooded camp is within 40 m of the water route, of the finer route and of four routes started 20 m
   off the dam; every other camp is at least the dry gap away from all six and 30 m or more below the dam (the flooded camp
   is downhill of the dam by construction), so elevation alone never gives the answer away.
 - The incident box covers no mark, no part of the trail and no part of the water route.
 
-## Pilot (10 seeds, difficulty 3, both models)
+## Pilot (10 seeds, difficulty 3, both models, `topo-2.1.0`)
 | Template (difficulty 3, seeds 0-9) | Haiku | Luna | finish | cost | Verdict |
 |---|---|---|---|---|---|
-| `crossings` | 1/10 | 0/10 | stop | $0.0531 | KEEP (rule: at most 5 of 10 for at least one model) |
-| `sunset` | 0/10 | 0/10 | stop | $0.0605 | KEEP (rule: at most 5 of 10 for at least one model) |
-| `flood` | 2/10 | 3/10 | stop | $0.0412 | KEEP (rule: at most 5 of 10 for at least one model) |
+| `crossings` | 1/10 | 0/10 | stop | $0.0574 | KEEP (rule: at most 5 of 10 for at least one model) |
+| `sunset` | 0/10 | 1/10 | stop | $0.0691 | KEEP (rule: at most 5 of 10 for at least one model) |
+| `flood` | 3/10 | 3/10 | stop | $0.0426 | KEEP (rule: at most 5 of 10 for at least one model) |
 
 From `results/pilot_topo_<template>/` (60 calls). What broke, checked against each task's `steps`:
-- `crossings`: every miss is a miscount of the trail's contour crossings. Haiku counted too few in 8 of 9 misses;
-  Luna too few in 6, too many in 4.
+- `crossings`: every miss is a miscount of the trail's contour crossings. Haiku counted too few in 8 of 9 misses
+  (by up to 9); Luna was within two lines in 8 of 10 but never exact, too few in 5 and too many in 5.
 - `sunset`: all 20 replies apply the stated rule correctly to their own count (daylight − flat time − 4 × count
-  gives exactly their answer); the count of uphill crossings is wrong in all 20, too low in 17.
-- `flood`: with 6 camps a guess is right 1 time in 6. Of 15 misses, 10 name the dry camp that lies most
-  directly below the dam (the designed decoy, 6 times) or the camp nearest the dam (8 times; 4 are both). The
-  water route was not followed around its bends.
+  gives exactly their answer). The count of uphill crossings is wrong in 19 of 20, too low in 17.
+- `flood`: with 6 camps a guess is right 1 time in 6. Of 14 misses, 10 name the dry camp that lies most directly
+  below the dam (the designed decoy, 6 times) or the camp nearest the dam (8 times; 4 are both). The water route
+  was not followed around its bends.
+
+The first real-terrain pilot (`topo-2.0.0`: dashed red trail) scored crossings 1/10 · 0/10, sunset 0/10 · 0/10,
+flood 2/10 · 3/10. A reviewer pass then asked for a trail no dash gap could hide a crossing in and for end markers
+clear of every contour; 2.1.0 has both, and the scores did not move, so the misses are not a legibility effect.
 
 Rule: keep a template only if at most 5 of 10 are right for at least one model, with failures from reasoning.
 
 ## Known limits
 - On real slopes most fair trails climb one way, so in `sunset` the uphill count often equals the total count
-  (9 of the 10 pilot trails have at most one downhill crossing).
-- `crossings` answers at difficulty 3 fall between 11 and 20 (12 to 17 in the pilot).
+  (8 of the 10 pilot trails have no downhill crossing).
+- `crossings` answers at difficulty 3 fall between 11 and 20 (11 to 19 in the pilot, and 4 of the 10 are 11).
 - Four places only. Windows differ per seed, but the same hills return.
 - PNG bytes are identical run to run on one machine; the factory's `reproducible` check covers that. Across
   machines the font rasterizer may differ.

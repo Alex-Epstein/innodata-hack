@@ -29,6 +29,8 @@ CROP_W, CROP_H = 3200.0, 2400.0            # map window, meters (4:3)
 UP = 3                                      # contours are traced on a 3x bilinear upsample of the grid
 SEP_M, GRAZE_DZ, GRAZE_RUN = 40.0, 2.0, 40.0
 TURN_FRAC, MIN_ANGLE = 0.25, 25.0
+END_CLEAR_M = 20.0                          # S and E stand this far (on the map) from any contour line; the
+                                            # square marker is 16 m from center to edge
 BOX_W, BOX_H = 1330.0, 330.0                # the incident box, meters on the map
 KNOB = {1: (3, 6, 300.0), 2: (7, 10, 500.0), 3: (11, 20, 600.0)}       # fewest, most crossings, least trail length m
 AREAS = [  # name, state, 2x2 tile mosaic (x0, y0), a named spot (lat, lon) every crop must contain
@@ -39,7 +41,7 @@ AREAS = [  # name, state, 2x2 tile mosaic (x0, y0), a named spot (lat, lon) ever
 ]
 TRAILS = ["Ridge Trail", "Miners Trail", "Lookout Trail", "Aspen Trail", "Summit Trail", "Cedar Trail",
           "Juniper Trail", "Quarry Trail", "Basin Trail", "Pack Trail"]
-GREEN, WATER, BROWN, BROWN_IDX, RED, MAGENTA, PAPER = "#dcebc8", "#a9d3ee", "#b5743a", "#8f4f1c", "#d7191c", "#b0127e", "#fffbe6"
+GREEN, WATER, BROWN, BROWN_IDX, MAGENTA, PAPER = "#dcebc8", "#a9d3ee", "#b5743a", "#8f4f1c", "#b0127e", "#fffbe6"
 WIDTH_PX, HEIGHT_PX, S = 1600, 1200, 1.5    # the factory renders at 100 dpi; sizes are points for a 150 dpi look
 
 
@@ -251,7 +253,7 @@ def unfair(G, s, p, z, found, levels, ci):
     return None
 
 
-def pick_piece(G, s, Wt, pts, levels, ci, rng, lo, hi, min_len):
+def pick_piece(G, s, Wt, pts, levels, ci, rng, lo, hi, min_len, clear=None):
     """Choose S and E on a long route so the piece between them passes every fairness rule (re-checked later)."""
     p = densify(pts, 1.0)
     found, z, seg = crossings_sampled(G, s, pts, levels)
@@ -301,14 +303,23 @@ def pick_piece(G, s, Wt, pts, levels, ci, rng, lo, hi, min_len):
         return None
     top = max(g[0] for g in good)                    # prefer long pieces: more crossings, harder to count
     good = [g for g in good if g[0] >= top - 2]
-    _, sS, sE = good[int(rng.integers(len(good)))]
-    i0, i1 = int(np.searchsorted(seg, sS)), int(np.searchsorted(seg, sE))
-    return np.round(p[list(range(i0, i1, 5)) + [i1]], 2)
+    for k in rng.permutation(len(good)):             # the first piece whose two ends stand clear of every contour
+        _, sS, sE = good[int(k)]
+        i0, i1 = int(np.searchsorted(seg, sS)), int(np.searchsorted(seg, sE))
+        if clear is None or (clear(p[i0]) and clear(p[i1])):
+            return np.round(p[list(range(i0, i1, 5)) + [i1]], 2)
+    return None
 
 
 # ------------------------------------------------------------------------------------------------ sampling
 def clock(minutes):
     return f"{minutes // 60:02d}:{minutes % 60:02d}"
+
+
+def _to_lines(q, lines):
+    """Distance on the map from point q to the nearest drawn contour line (its vertices are about 5 m apart)."""
+    q = np.asarray(q, float)
+    return min((float(np.sqrt(((ln - q) ** 2).sum(1)).min()) for group in lines.values() for ln in group), default=1e9)
 
 
 def _box_corner(pts):
@@ -337,9 +348,15 @@ def sample(rng, seed, template, difficulty, tries=40):
         G, Wt = crop(area["key"], c0, r0, nx, ny)
         ci = 20 if float(G.max() - G.min()) > 250 else 10
         levels = [l for l in range(int(math.ceil(max(G.min(), 0.5) / ci)) * ci, int(G.max()) + 1, ci) if l > 0]
+        lines = contour_lines(G, s, levels)
+        V = np.vstack([ln for group in lines.values() for ln in group])     # every drawn contour vertex, ~5 m apart
+
+        def clear(q):
+            return float(np.sqrt(((V - q) ** 2).sum(1)).min()) >= END_CLEAR_M + 3
+
         for _ in range(15):
             route = random_route(rng, G, s, ci)
-            pts = None if route is None else pick_piece(G, s, Wt, route, levels, ci, rng, lo, hi, min_len)
+            pts = None if route is None else pick_piece(G, s, Wt, route, levels, ci, rng, lo, hi, min_len, clear)
             if pts is None:
                 continue
             q = densify(pts, 5.0)
@@ -355,9 +372,10 @@ def sample(rng, seed, template, difficulty, tries=40):
             up = sum(f[4] for f in found)
             if template == "sunset" and up < 2:
                 continue                                               # the climb has to matter
-            lines = contour_lines(G, s, levels)
             if crossings_geometry(G, s, pts, lines) != (len(found), up):
                 continue
+            if min(_to_lines(pts[0], lines), _to_lines(pts[-1], lines)) < END_CLEAR_M:
+                continue                                               # an end marker would sit on a contour line
             corner = _box_corner(q)
             if corner is None:
                 continue
@@ -621,9 +639,25 @@ def answer_flood(d):
     dam = next([p["x"], p["y"]] for p in d["points"] if p["name"] == "D")
     route = descend(G, s, Wt, dam)
     ans, gaps, pts = _flood_pick(d, route)
-    steps = {"dam_elev_m": round(float(bilinear(G, s, *dam)), 1), "water_route_length_m": round(10.0 * (len(route) - 1), 1),
-             "camps": [{"camp": c, "elev_m": round(float(bilinear(G, s, *pts[c])), 1),
-                        "distance_to_water_route_m": round(g, 1), "flooded": c == ans} for c, g in gaps.items()]}
+    first = np.array(route[min(25, len(route) - 1)]) - np.array(dam)       # where the water sets off (first 250 m)
+
+    def off_line(c):
+        v = np.array(pts[c]) - np.array(dam)
+        return math.degrees(math.acos(max(-1.0, min(1.0, float(first @ v / (np.linalg.norm(first) * np.linalg.norm(v)))))))
+
+    elev = {c: round(float(bilinear(G, s, *pts[c])), 1) for c in gaps}
+    dry = [c for c in gaps if c != ans]
+    steps = {"dam_elev_m": round(float(bilinear(G, s, *dam)), 1),
+             "water_sets_off_bearing_deg": round(math.degrees(math.atan2(first[0], first[1])) % 360),   # 0 = north
+             "water_route_length_m": round(10.0 * (len(route) - 1), 1),
+             "flooded_camp": ans,
+             "dry_camp_most_directly_below_dam": min(dry, key=off_line) if dry else None,
+             "nearest_campsite_to_dam": min(gaps, key=lambda c: math.dist(pts[c], dam)),
+             "lowest_campsite": min(gaps, key=elev.get),
+             "camps": [{"camp": c, "elev_m": elev[c], "distance_to_water_route_m": round(g, 1),
+                        "distance_to_dam_m": round(math.dist(pts[c], dam), 1),
+                        "degrees_off_the_first_flow_direction": round(off_line(c), 1), "flooded": c == ans}
+                       for c, g in gaps.items()]}
     return ans, steps, {"water_route": route, "flooded_camp": ans}
 
 
@@ -658,12 +692,15 @@ def answer(d):
     overlay = {"route": d["trail"]["pts"], "crossings": [{"x": round(x, 1), "y": round(y, 1), "level": l, "uphill": u}
                                                            for _, l, x, y, u in found]}
     if d["mission"]["template"] == "crossings":
-        return total, {"contour_crossings": total, "uphill": up, "downhill": total - up,
-                       "trail_length_m": d["trail"]["length_m"], "levels_crossed": [f[1] for f in found]}, overlay
+        index = sum(f[1] % d["index_interval_m"] == 0 for f in found)
+        return total, {"trail_length_m": d["trail"]["length_m"], "uphill_crossings": up, "downhill_crossings": total - up,
+                       "index_contour_crossings": index, "contour_crossings": total,
+                       "wrong_if_index_contours_left_out": total - index,
+                       "levels_crossed": [f[1] for f in found]}, overlay
     m = d["mission"]
     walk = m["flat_walk_min"] + m["minutes_per_uphill_contour"] * up
     daylight = m["sunset_min"] - m["now_min"]
-    steps = {"flat_walk_min": m["flat_walk_min"], "uphill_contour_crossings": up, "downhill_contour_crossings": total - up,
+    steps = {"flat_walk_min": m["flat_walk_min"], "uphill_crossings": up, "downhill_crossings": total - up,
              "minutes_for_ascent": m["minutes_per_uphill_contour"] * up, "walking_minutes": walk, "daylight_minutes": daylight,
              "arrival": clock(m["now_min"] + walk),
              "wrong_if_every_crossing_counted": daylight - m["flat_walk_min"] - m["minutes_per_uphill_contour"] * total,
@@ -689,18 +726,20 @@ def ask(d):
              f"labeled) are every {idx} meters, and elevations are in meters. ")
     if d["mission"]["template"] == "crossings":
         return {"answer_type": "integer", "question": intro + (
-            f"Rescue carry: a stretcher team carries a casualty along the {name} (dashed red line) from the magenta "
-            "square S to the magenta square E. To pace the carry, the team leader logs every contour line the trail "
-            "crosses. How many contour lines (index contours included) does the trail cross between S and E? If it "
-            "crosses the same contour line more than once, count every crossing. Answer with a whole number, for "
-            "example 7.")}
+            f"Rescue carry: a stretcher team carries a casualty along the {name} (solid magenta line) from the "
+            "magenta square S to the magenta square E. To pace the carry, the team leader logs every contour line the "
+            "trail crosses. How many contour lines (index contours included) does the trail cross between S and E? "
+            "Neither square stands on a contour line, so count only the crossings between the two squares. If the "
+            "trail crosses the same contour line more than once, count every crossing. Answer with a whole number, "
+            "for example 7.")}
     per = d["mission"]["minutes_per_uphill_contour"]
     return {"answer_type": "integer", "question": intro + (
-        f"A lost hiker at the magenta square S must reach the hut at the magenta square H along the {name} (dashed "
-        "red line) before dark. The incident box on the map gives the time now, the time of sunset and the walking "
+        f"A lost hiker at the magenta square S must reach the hut at the magenta square H along the {name} (solid "
+        "magenta line) before dark. The incident box on the map gives the time now, the time of sunset and the walking "
         "time for the trail's length on flat ground. By Naismith's rule the climb adds time: add "
         f"{per} minutes for every contour line the trail crosses going uphill (each one is {ci} m of climb, at 300 m "
-        "of climb per hour). Contour lines crossed going downhill add no time. How many minutes before sunset does "
+        "of climb per hour). Contour lines crossed going downhill add no time, and neither square stands on a contour "
+        "line. How many minutes before sunset does "
         "the hiker reach the hut? Give a negative number if the hiker arrives after sunset. Answer with a whole "
         "number of minutes, for example 12 or -7.")}
 
@@ -713,8 +752,13 @@ def _dms(v, lon):
     return f"{int(v)}°{sec // 60:02d}'{sec % 60:02d}\"{h}"
 
 
-def render(d, path):
-    """Draw the PNG from the data dict (plus the tiles it names). Returns the layout for the validator."""
+TRUTH = "#2F7FC1"
+
+
+def render(d, path, truth=None):
+    """Draw the PNG from the data dict (plus the tiles it names). Returns the layout for the validator.
+    With `truth` (the task's overlay) the same map is drawn with the computed truth on top, for people only:
+    a ring on every contour crossing, or the water's route. That file is never sent to a model."""
     G, Wt = window_of(d)
     s, ci, idx = d["grid"]["spacing_m"], d["contour_interval_m"], d["index_interval_m"]
     fig = new_figure(WIDTH_PX, HEIGHT_PX)
@@ -738,9 +782,11 @@ def render(d, path):
     marks, p = [], None
     if d.get("trail"):
         p = np.array(d["trail"]["pts"])
-        ax.plot(p[:, 0], p[:, 1], color=RED, lw=1.5 * S, dashes=(5, 2.5), zorder=7, solid_capstyle="butt")
+        ax.plot(p[:, 0], p[:, 1], color="white", lw=2.3 * S, zorder=7, solid_capstyle="butt")     # thin casing
+        ax.plot(p[:, 0], p[:, 1], color=MAGENTA, lw=1.3 * S, zorder=7, solid_capstyle="butt")   # solid: no gap can
+                                                                                                # hide a crossing
         for name, q, nb in ((d["mission"]["from"], p[0], p[min(8, len(p) - 1)]), (d["mission"]["to"], p[-1], p[max(-9, -len(p))])):
-            ax.plot(*q, marker="s", color=MAGENTA, ms=7.5 * S, mec="white", mew=0.9 * S, zorder=8)
+            ax.plot(*q, marker="s", color=MAGENTA, ms=6 * S, mec="white", mew=0.9 * S, zorder=8)
             v = q - nb
             v = 90 * v / max(np.linalg.norm(v), 1e-9)
             ax.text(*(q + v), name, color=MAGENTA, fontsize=12 * S, weight="bold", ha="center", va="center", zorder=8,
@@ -748,7 +794,7 @@ def render(d, path):
             marks.append((name, q))
     for pt in d.get("points", []):
         q = np.array([pt["x"], pt["y"]])
-        ax.plot(*q, marker="s" if pt["shape"] == "square" else "o", color=MAGENTA, ms=7.5 * S, mec="white",
+        ax.plot(*q, marker="s" if pt["shape"] == "square" else "o", color=MAGENTA, ms=6 * S, mec="white",
                 mew=0.9 * S, zorder=8)
         ax.text(q[0] + pt["label_dx"], q[1] + pt["label_dy"], pt["name"], color=MAGENTA, fontsize=12 * S, weight="bold",
                 ha="center", va="center", zorder=8, bbox=dict(fc="white", ec=MAGENTA, lw=0.7 * S, pad=1.8, alpha=0.92))
@@ -797,7 +843,7 @@ def render(d, path):
     lx, ly = 0.865, 0.70
     fig.text(lx, ly + 0.035, "LEGEND", fontsize=9 * S, weight="bold")
     items = [("line", BROWN, 0.55, None, "Contour"), ("line", BROWN_IDX, 1.25, None, "Index contour"),
-             ("line", RED, 1.5, (5, 2.5), "Trail"), ("patch", WATER, None, None, "Water"),
+             ("line", MAGENTA, 1.3, None, "Trail"), ("patch", WATER, None, None, "Water"),
              ("patch", GREEN, None, None, "Woodland"), ("x", "black", None, None, "Spot elevation (m)"),
              ("sq", MAGENTA, None, None, "Marked point")]
     if not d.get("trail"):
@@ -818,6 +864,21 @@ def render(d, path):
     note = "Trail is a\ndrawn route for\nthis exercise." if d.get("trail") else "Marked points\nare placed for\nthis exercise."
     fig.text(0.865, 0.30, "Terrain: real elevation\n(USGS 3DEP, public\ndomain), lightly\nsmoothed. " + note,
              fontsize=8 * S, va="top", linespacing=1.35, color="#333333")
+    if truth:
+        if truth.get("water_route"):
+            r = np.array(truth["water_route"])
+            ax.plot(r[:, 0], r[:, 1], color=TRUTH, lw=2.2 * S, zorder=9, solid_capstyle="round")
+            caption = f"TRUTH (computed)\nwater reaches {truth['flooded_camp']}"
+        else:
+            cr = truth["crossings"]
+            up = [c for c in cr if c["uphill"]]
+            down = [c for c in cr if not c["uphill"]]
+            ax.plot([c["x"] for c in up], [c["y"] for c in up], "o", mfc="none", mec=TRUTH, ms=8 * S, mew=1.4 * S, zorder=9)
+            ax.plot([c["x"] for c in down], [c["y"] for c in down], "s", mfc="none", mec=TRUTH, ms=8 * S, mew=1.4 * S, zorder=9)
+            caption = f"TRUTH (computed)\n{len(cr)} crossings\n○ {len(up)} uphill\n□ {len(down)} downhill"
+        fig.text(0.865, 0.15, caption, fontsize=9 * S, weight="bold", color=TRUTH, va="top", linespacing=1.35)
+        save_png(fig, path)
+        return None
     texts = text_boxes(fig)
     probes = [{"xy": [round(v, 1) for v in to_pixels(ax, q[0], q[1])], "expect": MAGENTA, "tol": 40, "r": 1,
                "what": f"marker {name}"} for name, q in marks]
@@ -825,10 +886,12 @@ def render(d, path):
                    "what": "incident box"})
     if p is not None:                                  # the trail itself, at its middle vertex
         mid = p[len(p) // 2]
-        probes.append({"xy": [round(v, 1) for v in to_pixels(ax, mid[0], mid[1])], "expect": RED, "tol": 90, "r": 3,
+        probes.append({"xy": [round(v, 1) for v in to_pixels(ax, mid[0], mid[1])], "expect": MAGENTA, "tol": 60, "r": 2,
                        "what": "trail line"})
+    bb = ax.get_window_extent()                        # the map frame in image pixels, origin top-left
+    frame = [round(float(bb.x0), 1), round(HEIGHT_PX - float(bb.y1), 1), round(float(bb.x1), 1), round(HEIGHT_PX - float(bb.y0), 1)]
     save_png(fig, path)
-    return {"texts": texts, "probes": probes}
+    return {"texts": texts, "probes": probes, "frame_px": frame}
 
 
 def label_clash(layout, markers):

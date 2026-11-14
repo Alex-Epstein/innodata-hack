@@ -43,9 +43,9 @@ class TopoFamily(unittest.TestCase):
             task = topo.build(5, "sunset", 3, Path(tmp))
             s = task["steps"]
             m = json.loads((Path(tmp) / task["data"]).read_text(encoding="utf-8"))["data"]["mission"]
-            walk = m["flat_walk_min"] + m["minutes_per_uphill_contour"] * s["uphill_contour_crossings"]
+            walk = m["flat_walk_min"] + m["minutes_per_uphill_contour"] * s["uphill_crossings"]
             self.assertEqual(task["answer"], (m["sunset_min"] - m["now_min"]) - walk)
-            self.assertEqual(len(task["overlay"]["crossings"]), s["uphill_contour_crossings"] + s["downhill_contour_crossings"])
+            self.assertEqual(len(task["overlay"]["crossings"]), s["uphill_crossings"] + s["downhill_crossings"])
 
     def test_flood_has_exactly_one_camp_on_the_water_route(self):
         with tempfile.TemporaryDirectory() as tmp:

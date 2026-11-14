@@ -1,176 +1,191 @@
 model,task_id,status,parsed,question_type,response,ref_answer,correct,finish_reason,error
-anthropic/claude-haiku-5.5,topo-flood-000000,ok,C4,topo.flood,"**Answer: C4**
+anthropic/claude-haiku-5.5,topo-flood-000000,ok,C4,topo.flood,"**Locating the dam and the terrain around it**
 
-1. **Locate the dam and the slope.** D sits on the east flank of the hill whose summit (spot elevation 395) lies to the west-southwest. Water leaving D must flow east, away from the summit.
+The dam D sits at about (629, 528) on the eastern flank of the hill whose summit is the 395 m spot elevation at (429, 620). D lies inside the heavy 300 m index ring, so it is roughly at the 310 to 320 m level. The water must descend away from the summit, toward the east.
 
-2. **Read the contour directions.** East of D, the index contours (the 300, 200 and 100 m lines) run roughly north-south, so the lines of steepest descent run roughly east-west. From D the water heads east, crossing successive contours at right angles and descending toward the lowland.
+**Reading the contours**
 
-3. **Check the campsites along that line.** Going east from D at about the same latitude, the first campsite is C4, just below the small pond. C4 is lower than the dam, as the problem requires.
+- The 300 m index ring bulges eastward near (735, 520), which indicates a spur running east from the hill. The spur's axis is at about y ≈ 520 to 530, the same height as D.
+- Going east from D along that axis, the water crosses the 280, 260 and 240 m contours and then the 200 m index ring near x ≈ 850.
+- Beyond the 200 m ring lies lowland, with a small pond near (930, 480).
 
-4. **Check the alternatives.** C6 and C2 lie farther east and southeast, and reaching them would need the flow to curve around the contours. C5 and C3 are on the hill's flanks to the south and north, not downhill in the eastward direction. C1 is far to the south-east.
+**Checking the campsites**
 
-This reasoning is from visual estimation of the contour pattern, not a computed gradient path, so it is an inference rather than a verified result.
+- **C4** at (935, 528) is almost exactly on the eastward line from D, in the lowland just past the 200 m ring. It is the first campsite the water meets.
+- **C6** at (1152, 510) is further east along roughly the same line, so the flood would reach C4 before it.
+- **C2** at (1024, 673) lies about 20° below the eastward line, which is less direct than the spur's descent.
+- **C5** at (616, 787) lies to the south-southwest, on the far side of the 300 m ring, so it is not on the eastward path.
+- **C3** at (576, 273) is up-slope to the north, and **C1** at (1089, 925) is too far to the southeast.
+
+The water's steepest-descent path runs east along the spur and reaches C4.
 
 FINAL ANSWER: C4",C2,0,stop,
-openai/gpt-6-luna,topo-flood-000000,ok,C4,topo.flood,"From D, the downhill direction crosses the nearby contours toward the east, and the path reaches campsite C4.
+openai/gpt-6-luna,topo-flood-000000,ok,C4,topo.flood,"Following the direction perpendicular to the contours downhill from D leads eastward, through campsite C4.
 
 FINAL ANSWER: C4",C2,0,stop,
-anthropic/claude-haiku-5.5,topo-flood-000001,ok,C1,topo.flood,"**Reasoning**
+anthropic/claude-haiku-5.5,topo-flood-000001,ok,C1,topo.flood,"**Tracing the flow from D**
 
-1. **Starting point.** D sits at about 41°26'55""N, 73°57'15""W on the eastern flank of a gently sloping valley. The thin contours immediately around D run roughly north–south, so the steepest descent from D heads west, then bends toward the southwest as the terrain falls toward the lake.
+1. **Starting point.** D sits at about (708, 446) on the northwest flank of the central ridge, whose 400 m summit lies to the southeast. Higher ground is therefore to the east and southeast, and the water must run toward the west or southwest.
 
-2. **Crossing the contours.** Going west from D, the water crosses the 200 m index contour near (585, 450) on the map. Below that line the ground is lower, so the flow continues downhill to the west and southwest.
+2. **Crossing the 200 m index contour.** Going downhill from D, the water crosses the 200 m index contour near (550, 570), where the line bends. From there it continues into the lower ground between the 200 m and 100 m contours.
 
 3. **Checking the candidates.**
-   - **C1** (about 411, 690) lies west of the 200 m index line, on the slope between the 200 m and 100 m contours. A line from D toward C1 runs roughly 40° south of west, which matches the bending path of the descent.
-   - **C3** (about 227, 555) sits on the northwest ridge slope near the 200 m contour. Water heading west at that latitude would have to pass through the saddle and over that slope, so it is less direct.
-   - **C6** and **C2** are farther southwest, along the lakeshore drainage. Reaching them would mean the flow turning sharply south, which the contour pattern near D does not favour.
-   - **C4** and **C5** are east of the ridge, uphill from the water's westward route, so they cannot be in the path.
+   - **C1** at (410, 690) lies almost on a straight southwest line from D, below the 200 m contour. It fits the downhill path.
+   - **C6** at (240, 712) and **C2** at (287, 860) lie farther west and southwest. Reaching them would require the flow to bend sharply, and the bearing from D to each is noticeably shallower or steeper than the line D to C1.
+   - **C3** at (228, 555) lies to the west-northwest, on a bearing that would take the water across the contours at a much shallower angle.
+   - **C4** and **C5** lie east of the ridge, which rises between them and D, so water from D cannot reach them.
 
-4. **Conclusion.** The most direct descent from D runs through the low ground where C1 sits. This is an estimate from reading the contours by eye, and C3 is the main alternative.
+4. **Conclusion.** The path of steepest descent from D runs southwest and passes C1. This is a visual estimate from the map; I did not compute the gradient field exactly.
 
 FINAL ANSWER: C1",C6,0,stop,
-openai/gpt-6-luna,topo-flood-000001,ok,C3,topo.flood,"The steepest-descent path from D trends west-southwest across the contours and reaches C3.
+openai/gpt-6-luna,topo-flood-000001,ok,C1,topo.flood,"From D, follow the downhill direction perpendicular to the contours. The path heads southwest down the slope and reaches C1; the other campsites lie off that path.
 
-FINAL ANSWER: C3",C6,0,stop,
+FINAL ANSWER: C1",C6,0,stop,
 anthropic/claude-haiku-5.5,topo-flood-000002,ok,C1,topo.flood,"**Reasoning**
 
-1. **Locate the dam and nearby terrain.** D sits at about (770, 856). The 350 m index contour lies to its northwest, around (650–680, 720–790). The 300 m contour bends north-south near x ≈ 840–860 just east of D. So D sits on a slope between the 350 and 300 contours, and the ground falls generally eastward and southeastward from it.
+1. **Locate the high ground.** The summit marked 387 and the 350 index contour lie to the northwest of D. The dam sits on the lower, southeast-facing slope of that hill, so water flows toward the southeast and east.
 
-2. **Find the downhill direction.** Water flows perpendicular to contours. Near D the contours run roughly north-south, so the steepest descent points roughly due east, with a slight southward component.
+2. **Read the contours near D.** D sits on the west side of the heavy 300 contour that bends down past x≈855 near y≈880. Water leaving D must therefore cross that contour heading east, and it continues down toward the 250 index contour.
 
-3. **Follow the path.** Heading east from D, the flood crosses the 300 m contour near x ≈ 855 and continues down the slope. It reaches the 250 m contour near (1015–1030, 845–900), and C1 at about (1065, 880) lies directly on that line, just below the 250 m contour.
+3. **Compare the candidates by direction from D (770, 856):**
+   - C1 (1065, 880) is almost due east, with a slight southward offset. Its bearing matches the expected eastward descent.
+   - C5 (1240, 791) lies east-northeast, requiring a bend back up and across the valley contours.
+   - C6 (1172, 655) lies northeast, which would mean crossing the 300 contour at a sharp angle against the slope.
+   - C2, C3 and C4 lie far to the north and northeast, well away from the downhill path.
 
-4. **Check the other campsites.**
-   - C5 (1240, 790) is far to the east-northeast, so it would need a more oblique route.
-   - C2, C4, C6 and C3 sit on the eastern and northern slopes, away from the eastward path from D.
-
-C1 is the only campsite on the water's line of descent from D, and it is lower than the dam, as required.
+4. **Conclusion.** The steepest descent from D runs east across the 300 contour and toward the 250 contour. Its line passes through C1, the only campsite on that eastward path. This is a visual estimate from the map, not an exact gradient calculation.
 
 FINAL ANSWER: C1",C1,1,stop,
-openai/gpt-6-luna,topo-flood-000002,ok,C1,topo.flood,"Following the downhill direction perpendicular to the contours from D, the path bends eastward and reaches C1.
+openai/gpt-6-luna,topo-flood-000002,ok,C1,topo.flood,"Following the contours downhill at right angles, the flow from D bends southeast and reaches C1.
 
 FINAL ANSWER: C1",C1,1,stop,
 anthropic/claude-haiku-5.5,topo-flood-000003,ok,C2,topo.flood,"**Reasoning**
 
-1. **Locate the dam and nearby terrain.** D sits at roughly (1066, 630). An index contour near the ""700"" label passes just south of it, and tight concentric contours to the east around (1120, 580) suggest higher ground there. So D sits on a slope that falls toward the south and southwest.
+1. **Locate the dam and its level.** D sits at about (1066, 630). The labeled 700 m index contour runs just south-west of it, so D is on the higher side of that line, roughly 720 m.
 
-2. **Find the steepest-descent direction.** Water moves perpendicular to contours. The contour bands just south of D run roughly east to west, so the steepest descent from D points south.
+2. **Water direction.** Flood water follows the steepest descent, crossing contours at right angles. Since the contours near D are roughly concentric around the higher ground to the north-east, the downhill direction runs out to the south and south-west.
 
-3. **Test the candidates against that direction.**
-   - **C2** (about 1031, 845) lies almost directly south of D, so a path running south from D reaches it with little bend.
-   - **C6** (about 586, 785) lies to the southwest, but a path that far west would have to bend around the central high ground, which is not a straight descent from D.
-   - **C1** (about 543, 572) and **C5** (about 237, 657) lie west, against the general fall line, and **C3** (about 948, 248) and **C4** (about 755, 302) lie north, well uphill from D's southern slope.
+3. **Candidate camps.** Measured from D:
+   - **C2** (1031, 845) lies almost directly south, the most natural downhill direction, and sits on the lower side of the contours.
+   - **C1** (543, 572) is due west, but reaching it means crossing the ridge-and-valley pattern to the west of D, which doesn't follow a clean descent line.
+   - **C6** (586, 785) is south-west, but it lies farther from D and across intervening contour bands.
+   - **C3, C4** are north and north-west, which is uphill or across the wrong side of the dam's slope.
+   - **C5** is far to the west, beyond the ridge.
 
-4. **Conclusion.** C2 is the only campsite that lies on the south-directed descent from D. I could not read every contour unambiguously at this resolution, so this rests on the overall slope pattern rather than a traced flow line.
+4. **Conclusion.** The most direct steepest-descent route from D runs south into the valley where C2 sits, and C2 is below the dam's elevation. This is my best reading of the contours, since the exact path is hard to trace at this scale, and C1 and C6 are the main alternatives.
 
 FINAL ANSWER: C2",C3,0,stop,
-openai/gpt-6-luna,topo-flood-000003,ok,C2,topo.flood,"Following the contour pattern downhill from D leads to C2.  
+openai/gpt-6-luna,topo-flood-000003,ok,C2,topo.flood,"The steepest-descent route from D crosses the contours toward the south, following the valley that leads to C2. The other campsites are off that route.
+
 FINAL ANSWER: C2",C3,0,stop,
-anthropic/claude-haiku-5.5,topo-flood-000004,ok,C6,topo.flood,"**Reasoning**
+anthropic/claude-haiku-5.5,topo-flood-000004,ok,C6,topo.flood,"## Reasoning
 
-1. **Locate the dam.** D sits on the west-facing slope below the summit marked 395. Elevation falls eastward from the summit toward the ridge and the lake, so water from D heads generally east.
+**Locating the dam and the slope.** The dam D sits at about (474, 412). The 300 m index contour runs just east of it, so D is on the upper western flank of a hill (the spot elevation 395 lies to the west). Water leaving D therefore flows generally eastward, down the slope toward the lowlands and the lake.
 
-2. **Read the contour trend near D.** The nearby contours run roughly north-south, so the perpendicular, steepest-descent direction from D is roughly due east, with some drift toward the southeast or northeast depending on local curvature.
+**Direction of steepest descent.** The contours near D run roughly north–south, so the path must cross them at right angles, heading east. The eastern slope is evenly spaced rather than sharply bent, so the path should stay close to a straight eastward line from D, with only a modest southward or northward drift.
 
-3. **Test the candidates.**
-   - **C4** lies west-southwest, uphill-side of the flow, so it is not downslope from D.
-   - **C1** lies northeast of D. Reaching it would require the path to bend sharply north, which the east-trending gradient does not support.
-   - **C2** and **C3** lie far to the southeast, well off the eastward line.
-   - **C5** lies southeast of D, a plausible but less direct line.
-   - **C6** lies almost due east of D, at nearly the same latitude (y ≈ 428 versus D at y ≈ 412). A straight run east crosses the ridge contours at right angles and arrives at C6.
+**Comparing the campsites by bearing from D:**
+- **C1** at (597, 251) lies about 50° north of east. Reaching it would require a strong northeastward turn that the contour pattern doesn't obviously support.
+- **C6** at (876, 428) lies almost due east, within about 2° of D's latitude. It is the campsite most directly downslope of D.
+- **C5** at (851, 564) lies about 22° south of east, a noticeably oblique line.
+- **C2** and **C3** are far to the southeast and would require a sustained southward path.
+- **C4** lies to the southwest, uphill-side and on the wrong side of the ridge, so it cannot be downslope of D in an eastward flow.
 
-4. **Conclusion.** Given the contour orientation and the nearly due-east alignment, C6 is the campsite on the water's path. This is a judgement from the map's contour pattern rather than a full trace of the steepest-descent line, and C5 is the closest alternative.
+**Conclusion.** Water flowing straight down the eastern slope from D passes closest to C6, which is the only campsite lying nearly on the due-east line of steepest descent. This is an estimate from visual inspection of the contour pattern rather than a computed flow path, so C5 is the main alternative.
 
 FINAL ANSWER: C6",C6,1,stop,
-openai/gpt-6-luna,topo-flood-000004,ok,C5,topo.flood,"From D, the steepest descent heads southeast across the contours and continues toward C5.
+openai/gpt-6-luna,topo-flood-000004,ok,C6,topo.flood,"From D, follow the downhill direction perpendicular to the contours. The path heads generally east and reaches C6.
 
-FINAL ANSWER: C5",C6,0,stop,
-anthropic/claude-haiku-5.5,topo-flood-000005,ok,C1,topo.flood,"**Reasoning**
+FINAL ANSWER: C6",C6,1,stop,
+anthropic/claude-haiku-5.5,topo-flood-000005,ok,C5,topo.flood,"The dam is at D (about 619, 660), on the southwest-facing flank of the high ground around the 400 m hill to the northeast. Near D the contours run roughly southwest-northeast, so the steepest descent is perpendicular to them, toward the northwest.
 
-1. **Locate the dam and the local slope.** D sits on the western flank of the high ground around the 400 m peak. Its nearby contours (the 300 m line to the northeast and the 200 m line to the southwest) run roughly NW–SE, so the perpendicular, steepest downhill direction from D points southwest.
+Measuring from D against the candidate campsites:
+- **C5** (210, 246) lies almost exactly on the northwest diagonal from D, at about 45° (dx ≈ −409, dy ≈ −414 pixels).
+- **C2** (249, 645) lies due west, so it is not on the downhill line.
+- **C1** (326, 944) lies to the southwest, which runs parallel to the contours near D rather than down the gradient.
+- **C3** lies roughly north, **C4** northeast (uphill, toward the high ground), and **C6** east.
 
-2. **Trace the path.** Following a straight line from D (about x=618, y=660 in map pixels) toward the southwest at roughly 45°, the water crosses the lower contours and continues down the western slopes. Along that line at x≈326 the path lies near y≈950, which is essentially where C1 sits (x≈326, y≈943).
+The northwest path is the only one that matches the perpendicular-to-contour rule and reaches a campsite. C5 is the campsite in the water's path.
 
-3. **Check the other camps.**
-   - C2 lies almost due west of D, so it is off the southwest path.
-   - C3, C4, C5 and C6 are northeast, north or northwest of D, all uphill or away from the flow.
+I read the contour positions from the image by eye, so the exact descent line is an estimate, but the northwest bearing to C5 is a clear match.
 
-So C1 is the only campsite in the water's path.
-
-FINAL ANSWER: C1",C2,0,stop,
-openai/gpt-6-luna,topo-flood-000005,ok,C1,topo.flood,"At D, the contours indicate that the steepest downhill direction initially heads southwest, away from the higher ridge. Following that direction downslope leads to C1.
+FINAL ANSWER: C5",C2,0,stop,
+openai/gpt-6-luna,topo-flood-000005,ok,C1,topo.flood,"The 400-meter contours mark higher ground northeast of D. Following the downhill direction perpendicular to the nearby contours leads southwest, where the path reaches C1.
 
 FINAL ANSWER: C1",C2,0,stop,
 anthropic/claude-haiku-5.5,topo-flood-000006,ok,C3,topo.flood,"**Reasoning**
 
-1. **Locate the dam and the campsites.** D sits at about (838, 682) on the map. The campsites are at roughly C1 (925, 255), C2 (505, 265), C3 (1061, 930), C4 (1205, 570), C5 (1234, 842) and C6 (217, 715).
+1. **Locate the dam and the candidates.** D sits at roughly (839, 682) on the map. The campsites are C1 (925, 255), C2 (505, 265), C3 (1061, 930), C4 (1205, 570), C5 (1234, 842) and C6 (217, 715).
 
-2. **Find the local slope direction at D.** The nearby index contour (labelled 350) runs roughly southwest-northeast past D. Water flows perpendicular to contours, so it heads toward the lower ground either southeast or northwest. The southeast side falls toward the 300 m contour near (860, 975), so that is the downhill direction. The northwest side is the higher ground toward the 351 m hill.
+2. **Eliminate by direction.** Water flows away from higher ground. The highest nearby spot is the 351 m spot height to the northeast, so the flood should head away from that ridge, toward the south or southeast.
+   - C1 and C4 lie up and to the northeast, near the ridge and its higher contours, so they are unlikely.
+   - C2 and C6 lie to the west, across the lake basin and against the slope rising toward the 350 m contours on that side.
+   - C5 and C3 lie to the southeast and south, downslope from D.
 
-3. **Trace the descent path.** Heading southeast from D, the path runs through the gap between the ridges and reaches the area around C3 at (1061, 930). The bearing from D to C3 is about 48° south of east, which matches the descent direction.
+3. **Compare the two southern candidates.** The contours east of D are tightly spaced, indicating a steep slope. Heading straight down that slope from D, the path runs southeast and reaches the area of C3 at (1061, 930), where the contours near the 300 m label continue downhill. The line toward C5, at (1234, 842), is more easterly and crosses the gentler contours to the east.
 
-4. **Check the alternatives.**
-   - C6 lies to the west, against the slope toward the lake, so it is not downhill along the southeast path.
-   - C1 and C2 lie to the north and northwest, uphill side of the dam.
-   - C4 lies to the northeast, toward higher ground.
-   - C5 lies more to the east-southeast (bearing about 22° south of east). Its path would have to cut across the index-contour ridge, so it is less likely to be on the steepest-descent line than C3.
-
-Based on this reading of the contours, the water's steepest-descent path from D passes through C3. This is an estimate from visual inspection of the contour geometry.
+4. **Conclusion.** C3 is the campsite most directly in the steepest-descent path from D. This is a visual judgement from the map, not a computed flow path, so it carries some uncertainty.
 
 FINAL ANSWER: C3",C5,0,stop,
-openai/gpt-6-luna,topo-flood-000006,ok,C3,topo.flood,"From D, follow the downhill direction perpendicular to the nearby contours. The route trends southeast through the lower valley and reaches C3; the other campsites lie off that path.
+openai/gpt-6-luna,topo-flood-000006,ok,C3,topo.flood,"Following the steepest downhill direction from D—perpendicular to the contours—the path runs generally southeast and reaches C3.
 
 FINAL ANSWER: C3",C5,0,stop,
-anthropic/claude-haiku-5.5,topo-flood-000007,ok,C1,topo.flood,"**Approach:** Water flows perpendicular to the contours, so I need the local slope direction at D and then follow it to the first campsite it reaches.
+anthropic/claude-haiku-5.5,topo-flood-000007,ok,C4,topo.flood,"**Reasoning**
 
-1. **Terrain context:** The high ground is to the northeast (spot elevations 757, 785, 765). The land falls toward the southeast, where the 400 and 300 contours lie. The lower ground to the west and southwest is bounded by index contours near C5 and C4.
+1. **Locate the dam and the campsites (pixel positions, approximate):** D is at about (371, 556). The campsites are C6 (207, 401), C2 (846, 550), C1 (624, 648), C5 (251, 831), C4 (434, 893) and C3 (1051, 826).
 
-2. **Local slope at D:** D sits on the lower, western side of the bold index contour that wraps around the higher ground to the east. The downslope direction from D therefore points east-southeast, toward the central valley and the southeast-trending drainage.
+2. **Read the terrain around D.** The index contours show the high ground to the northeast (the 700 contours and the 757 and 785 spot heights). The land falls off to the south and southwest. The nearest index contour south of D is the 600 line near the bottom of the map, which runs roughly east-west past (375, 932). Between D and that line the contours run roughly east-west, so the steepest descent from D heads south.
 
-3. **Checking the candidates:**
-   - **C2** lies on the high side of the ridge, so it is not downslope of D along this path.
-   - **C6** is northwest of D, which is uphill relative to the slope direction.
-   - **C5** lies to the southwest, which is off the main descent direction.
-   - **C4** lies almost due south, but sits just above the 600 index contour, so it is not clearly on the descending line.
-   - **C3** is far to the southeast and too far from the path.
-   - **C1** lies almost directly east-southeast of D, aligned with the valley's downward trend.
+3. **Test each candidate against that path:**
+   - **C2** is at the same level or higher and sits on the uphill side, so it is not downslope from D.
+   - **C6** is northwest, against the general fall line, so it is unlikely.
+   - **C3** is far to the southeast, off the direct line of descent from D.
+   - **C5** is southwest. It sits in a contour loop on a spur, so it is not directly in the path.
+   - **C4** lies almost directly south of D (about 63 px east of D's x-position), which matches the south-trending steepest descent.
+   - **C1** lies southeast, but it is well to the east of the line from D.
 
-4. **Conclusion:** C1 is the campsite that lies on the water's path. This is a judgement from the contour pattern, since the contours near D are hard to read precisely, so the answer carries some uncertainty.
+4. **Conclusion:** The water's path runs almost straight south from D, and C4 is the only campsite on that line. The contour geometry is only approximate, so this is a best reading rather than a precise calculation. C1 is the main alternative.
 
-FINAL ANSWER: C1",C5,0,stop,
-openai/gpt-6-luna,topo-flood-000007,ok,C5,topo.flood,"Following the contours perpendicular to their direction, the downhill path from D trends southwest and reaches campsite C5.
+FINAL ANSWER: C4",C5,0,stop,
+openai/gpt-6-luna,topo-flood-000007,ok,C5,topo.flood,"Starting at D, follow the downhill direction perpendicular to the nearby contours. The path bends southwest as it descends and reaches campsite C5.
 
 FINAL ANSWER: C5",C5,1,stop,
-anthropic/claude-haiku-5.5,topo-flood-000008,ok,C1,topo.flood,"**Locating the water's start.** The dam at D sits on the eastern flank of the Bear Mountain peak (spot elevation 395 to the west). Its position is roughly 300 m, and the water flows downhill, away from the summit, toward the east and southeast.
+anthropic/claude-haiku-5.5,topo-flood-000008,ok,C1,topo.flood,"**Reasoning**
 
-**Estimating the direction of steepest descent.** The index contours just east of D bend around the summit, running roughly northeast-southwest on this flank. Flow must cross them at right angles, so the local downslope direction is toward the southeast, roughly 35° below due east. I'm estimating this from the contour shapes, so it is approximate.
+1. **Locate the dam and the terrain around it.** D sits on the southeast flank of the hill whose summit (spot elevation 395 m) is at about (350, 798) on the map. D lies just outside the index-contour loop labeled 300, so it is at roughly 280 m, and the ground falls away to the east and southeast.
 
-**Comparing the campsites.** From D (about 533, 857 in image pixels):
-- **C2** (950, 852) lies almost due east. Reaching it would require the contours near D to run north-south, which they do not.
-- **C1** (892, 976) lies to the southeast, at roughly 18° below east. That is much closer to the southeast descent direction than C2, and the flow would curve slightly as it crosses the lower thin contours toward the valley.
-- **C3, C4, C5, C6** are either to the north or northeast, or too far from the flow path to be reached from D's southeastward descent.
+2. **Estimate the fall line.** On a hillside, steepest descent runs perpendicular to the contours, which is roughly radial from the summit. The direction from the summit to D is about (183, 59) in map pixels, a shallow east-southeast bearing. Extending that line past D gives a slope of about 0.32.
 
-Given the southeastward downslope direction, the water's path runs to C1.
+3. **Check the campsites against that line.**
+   - From D (533, 857), the line reaches x ≈ 892 at y ≈ 973. C1 is at (892, 976), so it lies almost exactly on the fall line.
+   - C2 at (950, 852) is nearly due east of D, about 130 px off the fall line at its x-position, so the water would have to turn to reach it.
+   - C3, C4, C5 and C6 are all either to the north or northwest of D, or far enough off the line that they are not in the path.
+
+4. **Conclusion.** The fall line from the dam passes through C1, and C1 is lower than the dam. C1 is the campsite in the water's path.
+
+I did not trace the local contour geometry closely enough to be fully certain, since the nearby index lines are hard to read at this resolution. The radial fall-line argument is the basis for the answer.
 
 FINAL ANSWER: C1",C2,0,stop,
-openai/gpt-6-luna,topo-flood-000008,ok,C1,topo.flood,"Starting at D, follow the direction perpendicular to the nearby contours toward lower elevations. The downhill path bends southeast and reaches **C1**.
+openai/gpt-6-luna,topo-flood-000008,ok,C1,topo.flood,"From D, the steepest-descent direction crosses the nearby contours toward the southeast. Following that downhill route across the lower ground leads to C1.
 
 FINAL ANSWER: C1",C2,0,stop,
-anthropic/claude-haiku-5.5,topo-flood-000009,ok,C5,topo.flood,"**Reasoning**
+anthropic/claude-haiku-5.5,topo-flood-000009,ok,C2,topo.flood,"**Reading the terrain around D**
 
-1. **Locate the dam.** D sits inside a closed index contour labeled 300, so the ground there is roughly 300 m or a little higher. Its nearest downhill edges are to the north and east, where the loop boundary is only about 40–45 px away, compared with about 65–70 px to the south and west.
+- D sits inside a closed 300 m index loop, so the dam is above 300 m. The loop's interior is higher, and the ground falls away outside it.
+- The thin contours between D and the valley to the west (roughly x ≈ 700–850) run mostly north–south. That means the slope there faces east–west, so steepest descent from D heads west, bending slightly south.
+- Going west from D, the water crosses the contours at right angles and drops toward the valley lying between the 372 spot-elevation hill and the ridge at x ≈ 690.
 
-2. **Check the candidates against the terrain.**
-   - **C5** lies to the east-northeast. The thin contours between D and C5 step down through the 280s, 260s and 240s, and C5 sits near the 200-m index contours, so this is a consistent downhill path.
-   - **C2** lies due west. Reaching it means crossing the west side of the 300 loop and then the index-contour corridor west of D. That is possible, but the path is less direct.
-   - **C6** and **C4** lie to the southwest, far from D's immediate downhill edges, and C6 sits between index lines that would redirect flow.
-   - **C3** lies to the southeast, beyond a 300-m contour that wraps around the 360 hill, so water from D would have to go around it.
-   - **C1** is far to the northwest, across the ridge with its 300 and 200 index lines.
+**Checking the campsites**
 
-3. **Conclusion.** The most direct steepest-descent route from D runs east-northeast through steadily falling contours to C5. This is my best reading of the contours, though I could not trace every contour crossing with certainty, so it is an estimate rather than a verified trace.
+- **C2** (616, 371) lies almost directly west of D, on that westward line of descent.
+- **C6** (481, 551) lies to the southwest. The path from D to C6 would need a more diagonal route than the contours suggest.
+- **C5** lies to the east-northeast, which is downhill but not on the westward path.
+- **C3** lies southeast, beyond the 360 hill's contours, and is not on the path.
+- **C1** and **C4** are far to the west and southwest, well away from the path.
 
-FINAL ANSWER: C5",C2,0,stop,
-openai/gpt-6-luna,topo-flood-000009,ok,C2,topo.flood,"The contours immediately downhill from D indicate a fall line heading generally west. Following that path reaches C2; the other camps lie off the steepest-descent route.
+This reasoning is approximate: I estimated the contour directions by eye, and the choice between C2 and C6 is the least certain part.
 
 FINAL ANSWER: C2",C2,1,stop,
+openai/gpt-6-luna,topo-flood-000009,ok,C3,topo.flood,"The steepest-descent route from D crosses the contours at right angles and follows the low ground along the west side of the 360 m rise. It reaches C3.
+
+FINAL ANSWER: C3",C2,0,stop,
