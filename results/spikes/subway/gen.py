@@ -245,7 +245,9 @@ def build(level, seed):
 
 
 # ---------------------------------------------------------------- render
-def render(record, path):
+def render(record, path, notice=None, run_times=None):
+    """notice: custom notice text (default: the closed-station notice). run_times: [(route, color, text color,
+    minutes)] drawn as a running-time table in the footer."""
     data = record["data"]
     W, H = data["grid"]
     fig = plt.figure(figsize=(W * 0.95 + 1.2, H * 0.95 + 2.6), dpi=110)
@@ -351,15 +353,25 @@ def render(record, path):
     fig.text(lx, 0.085, "●", fontsize=9, va="center")
     fig.text(lx + 0.02, 0.085, "Station", fontsize=9, va="center")
     fig.text(lx, 0.05, "○", fontsize=14, va="center", weight="bold")
-    fig.text(lx + 0.02, 0.05, "Transfer station: free transfer between all lines that stop here",
+    fig.text(lx + 0.02, 0.05, "Transfer station: change between all lines that stop here",
              fontsize=9, va="center")
     fig.text(lx, 0.018, "Trains stop at every station on their line. All lines run in both directions.",
              fontsize=8, va="center", color="#333333")
-    if data["closed"]:
+    if notice is None and data["closed"]:
         x = data["closed"]
-        fig.text(0.97, 0.06, f"SERVICE NOTICE\n{x} station is closed.\nTrains run through {x} without "
-                 f"stopping.\nNo transfers between lines at {x}.", fontsize=9, ha="right", va="center",
+        notice = (f"SERVICE NOTICE\n{x} station is closed.\nTrains run through {x} without stopping.\n"
+                  f"No transfers between lines at {x}.")
+    if notice:
+        fig.text(0.97, 0.06, notice, fontsize=9, ha="right", va="center",
                  bbox=dict(boxstyle="square,pad=0.6", fc="#FFF3B0", ec="black", lw=1.4), linespacing=1.4)
+    if run_times:
+        tx = 0.36
+        fig.text(tx, 0.10, "Running time between adjacent stations", fontsize=9, weight="bold", va="center")
+        for k, (name, color, tc, mins) in enumerate(run_times):
+            x0 = tx + k * 0.05
+            fig.text(x0 + 0.008, 0.055, name, color=tc, fontsize=9, weight="bold", ha="center", va="center",
+                     bbox=dict(boxstyle="circle,pad=0.3", fc=color, ec=color))
+            fig.text(x0 + 0.02, 0.055, f"{mins} min", fontsize=9, va="center")
     fig.savefig(path, dpi=110, metadata={"Software": None}, facecolor="white")
     plt.close(fig)
 
