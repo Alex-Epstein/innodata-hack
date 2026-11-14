@@ -249,7 +249,7 @@ stages = [
      "leak, byte-identical rebuild. A task that fails one is out.", "factory validate --tasks …"),
     ("05", "Advisory review", "Claude Sonnet reads each task like a careful human and flags ambiguity or "
      "legibility. It never changes an answer; its flags go to the human hand check.", "validate.review"),
-    ("06", "Evaluate both models", "Same prompt, temperature 0, reasoning high, 64k tokens, cached replies, "
+    ("06", "Evaluate Haiku and Luna", "The two models the organizers set. Same prompt, temperature 0, reasoning high, 64k tokens, cached replies, "
      "scored by the same code. Every reply and its cost is logged.", "factory eval --tasks … --out results/…"),
     ("07", "Keep only what stays hard", "A question template survives only if at least one model gets 5 of 10 or "
      "fewer right, with failures that come from reasoning, not from a bad picture.", "pilot rule"),
@@ -404,7 +404,7 @@ footer {{ padding:28px 0 60px; font-size:13px; color:var(--ink-2); }}
 <header class="hero">
   <h1>A factory for questions<br>AI can't see through</h1>
   <p class="lede">We turn real data into realistic images, ask a question that takes several steps of reasoning,
-  compute the answer from the data in code, check every task automatically, and score two frontier models on it.</p>
+  compute the answer from the data in code, check every task automatically, and evaluate Claude Haiku 5.5 and GPT-6 Luna, the two models the organizers set, on it.</p>
   <div class="stats">
     <div class="stat"><div class="n red">{th}/{tn}</div><div class="l">Claude Haiku 5.5 right on the topo pilot (3 templates × 10 seeds)</div></div>
     <div class="stat"><div class="n red">{tl}/{tn}</div><div class="l">GPT-6 Luna right on the same tasks</div></div>
