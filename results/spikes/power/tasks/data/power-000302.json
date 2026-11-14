@@ -1,0 +1,266 @@
+{
+ "data": {
+  "level": 3,
+  "site": "Cedar Falls Wastewater Facility",
+  "sides": [
+   {
+    "name": "A",
+    "source": {
+     "kind": "utility",
+     "label": "UTILITY FEED 1\n13.8 kV, 3φ, 60 Hz"
+    },
+    "feeders": [
+     {
+      "side": "A",
+      "cross": false,
+      "mcc": "MCC-1",
+      "xfmr": {
+       "name": "T-1",
+       "kva": 500
+      },
+      "children": [
+       {
+        "type": "load",
+        "name": "Control Room",
+        "kw": 40,
+        "cb": "CB-9"
+       },
+       {
+        "type": "load",
+        "name": "Sludge Press",
+        "kw": 200,
+        "cb": "CB-10"
+       },
+       {
+        "type": "load",
+        "name": "Odor Control",
+        "kw": 25,
+        "cb": "CB-11"
+       }
+      ],
+      "cb": "CB-3"
+     },
+     {
+      "side": "A",
+      "cross": false,
+      "mcc": "MCC-2",
+      "xfmr": {
+       "name": "T-2",
+       "kva": 1000
+      },
+      "children": [
+       {
+        "type": "load",
+        "name": "Security Gate",
+        "kw": 30,
+        "cb": "CB-12"
+       },
+       {
+        "type": "load",
+        "name": "Chlorine Feed",
+        "kw": 60,
+        "cb": "CB-13"
+       }
+      ],
+      "cb": "CB-4"
+     },
+     {
+      "side": "A",
+      "cross": true,
+      "mcc": "MCC-3",
+      "xfmr": {
+       "name": "T-3",
+       "kva": 1500
+      },
+      "children": [
+       {
+        "type": "load",
+        "name": "Clarifier Drive 2",
+        "kw": 40,
+        "cb": "CB-14"
+       },
+       {
+        "type": "load",
+        "name": "Aeration Blower 3",
+        "kw": 100,
+        "cb": "CB-15"
+       }
+      ],
+      "cb": "CB-5"
+     }
+    ],
+    "main_cb": "CB-1"
+   },
+   {
+    "name": "B",
+    "source": {
+     "kind": "generator",
+     "label": "GEN-1\n2000 kW, 13.8 kV"
+    },
+    "feeders": [
+     {
+      "side": "B",
+      "cross": true,
+      "mcc": "MCC-4",
+      "xfmr": {
+       "name": "T-4",
+       "kva": 500
+      },
+      "children": [
+       {
+        "type": "load",
+        "name": "Admin Building",
+        "kw": 30,
+        "cb": "CB-16"
+       },
+       {
+        "type": "load",
+        "name": "Raw Water Intake",
+        "kw": 25,
+        "cb": "CB-17"
+       }
+      ],
+      "cb": "CB-6"
+     },
+     {
+      "side": "B",
+      "cross": false,
+      "mcc": "MCC-5",
+      "xfmr": {
+       "name": "T-5",
+       "kva": 1500
+      },
+      "children": [
+       {
+        "type": "load",
+        "name": "Air Compressor 2",
+        "kw": 75,
+        "cb": "CB-18"
+       },
+       {
+        "type": "panel",
+        "name": "PNL-1",
+        "children": [
+         {
+          "type": "load",
+          "name": "Elevator 2",
+          "kw": 20,
+          "cb": "CB-22"
+         },
+         {
+          "type": "load",
+          "name": "Pump House 1",
+          "kw": 100,
+          "cb": "CB-23"
+         }
+        ],
+        "cb": "CB-19"
+       }
+      ],
+      "cb": "CB-7"
+     },
+     {
+      "side": "B",
+      "cross": false,
+      "mcc": "MCC-6",
+      "xfmr": {
+       "name": "T-6",
+       "kva": 750
+      },
+      "children": [
+       {
+        "type": "load",
+        "name": "UV Disinfection",
+        "kw": 75,
+        "cb": "CB-20"
+       },
+       {
+        "type": "panel",
+        "name": "PNL-2",
+        "children": [
+         {
+          "type": "load",
+          "name": "Chiller 2",
+          "kw": 125,
+          "cb": "CB-24"
+         },
+         {
+          "type": "load",
+          "name": "Maintenance Shop",
+          "kw": 200,
+          "cb": "CB-25"
+         }
+        ],
+        "cb": "CB-21"
+       }
+      ],
+      "cb": "CB-8"
+     }
+    ],
+    "main_cb": "CB-2"
+   }
+  ],
+  "ties": [
+   {
+    "cb": "CB-T1",
+    "between": [
+     "BUS A",
+     "BUS B"
+    ],
+    "normally": "open"
+   },
+   {
+    "cb": "CB-T2",
+    "between": [
+     "MCC-4",
+     "MCC-3"
+    ],
+    "normally": "open"
+   }
+  ]
+ },
+ "scenario": {
+  "tripped": [
+   "CB-2",
+   "CB-3"
+  ],
+  "opened": [
+   "CB-6"
+  ],
+  "closed": [
+   "CB-T2"
+  ],
+  "distractors": {
+   "ignore_tie_kw": 915,
+   "by_position_kw": 800
+  }
+ },
+ "dead_loads": [
+  "Control Room",
+  "Sludge Press",
+  "Odor Control",
+  "Air Compressor 2",
+  "Elevator 2",
+  "Pump House 1",
+  "UV Disinfection",
+  "Chiller 2",
+  "Maintenance Shop"
+ ],
+ "kw": {
+  "Control Room": 40,
+  "Sludge Press": 200,
+  "Odor Control": 25,
+  "Security Gate": 30,
+  "Chlorine Feed": 60,
+  "Clarifier Drive 2": 40,
+  "Aeration Blower 3": 100,
+  "Admin Building": 30,
+  "Raw Water Intake": 25,
+  "Air Compressor 2": 75,
+  "Elevator 2": 20,
+  "Pump House 1": 100,
+  "UV Disinfection": 75,
+  "Chiller 2": 125,
+  "Maintenance Shop": 200
+ }
+}

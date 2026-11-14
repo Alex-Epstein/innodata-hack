@@ -1,0 +1,131 @@
+{
+ "key": "cd4ea575fd44ed2d6362cb125198210312d42a3c3b13022ed810f98a7a7997fd",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a single-line diagram of an electrical distribution system. Filled breaker squares are closed; hollow squares are open (N.O. = normally open). Power flows through closed breakers, transformers and conductors in either direction, from the sources at the top. Ignore equipment ratings. Breakers CB-15 and CB-6 trip open; every other breaker stays as drawn. Which loads lose power? Answer with the load names exactly as written on the diagram, as a comma-separated list in any order.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "power-000202.png",
+       "sha256": "cc0c7a024e3b53c1ce7029152630b58e1ae992dc80af3fa5ac73619283d14e5e"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794674856-1yv5j7FwCARSrofdKwc2",
+  "object": "chat.completion",
+  "created": 1794674856,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "CB-6 opening disconnects T-4, leaving MCC-4 without power because the tie to MCC-3 is normally open. CB-15 opening disconnects PNL-3 from the still-powered MCC-3. The loads on those sections lose power.\n\nFINAL ANSWER: Security Gate, Chlorine Feed, Backwash Pump, Control Room, UV Disinfection, Sludge Press",
+     "refusal": null,
+     "reasoning": null,
+     "reasoning_details": [
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7424,
+        "sha256": "9bd258a77c07e8abefd92fc8ffbf06be6b9f8fad04cb5b81e2b3bd29b4a5dfaa"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0763332642f8712a016af890a9865087d196ca8f82ad27cccf",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7788,
+        "sha256": "bfc2f4ff2fc4f84ddfc051188e1100f0892934b2584302296fb38da61066221a"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0763332642f8712a016af890af813487d1acb2b12e297f6753",
+       "index": 1
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Analyzing route access**\n\nI’m considering how the T4 secondary route reaches MCC4 directly. It seems like anything could load onto the T4 line, possibly including CB? I see that CB6 only involves open cuts leading to MCC4. It's important to articulate the reasoning clearly and then present an exact final answer without adding any unnecessary information at the end. I want to be precise in my response!",
+       "format": "openai-responses-v1",
+       "index": 2
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 2452,
+        "sha256": "a55e2ae984c8721ffe9329b3a0dd571d21766d3bd3d2784c8e46c8dffcf64228"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0763332642f8712a016af890b2958487d1be7efcce07b423fb",
+       "index": 3
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 3848,
+   "completion_tokens": 1165,
+   "total_tokens": 5013,
+   "cost": 0.001063425,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 3845,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.001063425,
+    "upstream_inference_prompt_cost": 0.000480925,
+    "upstream_inference_completions_cost": 0.0005825
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1081,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 12.26,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:47:36+00:00"
+}

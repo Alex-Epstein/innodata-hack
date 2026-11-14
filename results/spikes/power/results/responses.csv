@@ -1,0 +1,177 @@
+model,task_id,status,parsed,question_type,response,ref_answer,correct,finish_reason,error
+anthropic/claude-haiku-5.5,power-000101,ok,"Pump House 1, Air Compressor 2, Lab Building, UV Disinfection",power.loads_lost_1trip,"CB-2 is the only breaker feeding transformer T-1 from BUS A. Tripping it de-energizes T-1's 480 V secondary, which is MCC-1.
+
+MCC-1 has no other source. The diagram shows no normally open tie breaker connecting MCC-1 to MCC-2 or MCC-3, and BUS A's other branches (CB-3 to T-2, CB-4 to T-3) are unaffected.
+
+Loads on MCC-1 and downstream of it:
+- Pump House 1 (through CB-5)
+- Air Compressor 2 (through CB-6)
+- PNL-1 480 V (through CB-7), which feeds:
+  - Lab Building (through CB-14)
+  - UV Disinfection (through CB-15)
+
+The loads on MCC-2 and MCC-3 keep power.
+
+FINAL ANSWER: Pump House 1, Air Compressor 2, Lab Building, UV Disinfection","[""Pump House 1"", ""Air Compressor 2"", ""Lab Building"", ""UV Disinfection""]",1,stop,
+openai/gpt-6-luna,power-000101,ok,"Pump House 1, Air Compressor 2, Lab Building, UV Disinfection",power.loads_lost_1trip,"CB-2 disconnects transformer T-1 from BUS A, de-energizing MCC-1 and its downstream panel PNL-1. The other transformers remain connected.
+
+FINAL ANSWER: Pump House 1, Air Compressor 2, Lab Building, UV Disinfection","[""Pump House 1"", ""Air Compressor 2"", ""Lab Building"", ""UV Disinfection""]",1,stop,
+anthropic/claude-haiku-5.5,power-000102,ok,"Sump Pump 4, Fire Pump, Maintenance Shop",power.loads_lost_1trip,"CB-2 is the only breaker that feeds T-1, the transformer that serves MCC-1. Tracing the single line:
+
+1. **Source path:** The utility feeds Bus A through CB-1, which is closed, so Bus A stays energized.
+2. **Tripped branch:** CB-2 connects Bus A to T-1. With CB-2 open, T-1 is de-energized, and so is MCC-1.
+3. **Loads on MCC-1:** CB-5 feeds Sump Pump 4, CB-6 feeds Fire Pump, and CB-7 feeds Maintenance Shop. All three lose power.
+4. **No alternate feed:** The diagram shows no tie breaker or connection between MCC-1 and MCC-2 or MCC-3. Every drawn breaker is filled (closed), so no normally open tie can pick up the load.
+5. **Unaffected loads:** MCC-2 (via CB-3/T-2) and MCC-3 (via CB-4/T-3) remain energized, so Lab Building, Chiller 2, Pump House 1, Air Compressor 2 and Filter Gallery keep power.
+
+FINAL ANSWER: Sump Pump 4, Fire Pump, Maintenance Shop","[""Sump Pump 4"", ""Fire Pump"", ""Maintenance Shop""]",1,stop,
+openai/gpt-6-luna,power-000102,ok,"Sump Pump 4, Fire Pump, Maintenance Shop",power.loads_lost_1trip,"CB-2 is the only feed to T-1 and MCC-1, so opening it de-energizes all loads on MCC-1. MCC-2 and MCC-3 remain fed through CB-3 and CB-4.
+
+FINAL ANSWER: Sump Pump 4, Fire Pump, Maintenance Shop","[""Sump Pump 4"", ""Fire Pump"", ""Maintenance Shop""]",1,stop,
+anthropic/claude-haiku-5.5,power-000103,ok,"Chlorine Feed, Aeration Blower 3, Maintenance Shop",power.loads_lost_1trip,"CB-4 is the only feed to transformer T-3, and T-3 is the only source for MCC-3. Tracing the single-line diagram:
+
+1. **Bus A (13.8 kV)** feeds three branches through CB-2, CB-3 and CB-4.
+2. **CB-4** feeds **T-3** (750 kVA, 13.8 kV–480 V), which feeds **MCC-3**.
+3. **MCC-3** feeds three breakers: CB-9 (Chlorine Feed), CB-10 (Aeration Blower 3) and CB-11 (Maintenance Shop).
+4. MCC-3's bus bar has no tie to MCC-1 or MCC-2, and no other breaker connects it to any other source. The normally open breakers in the diagram are not present, so nothing provides an alternate path.
+
+When CB-4 trips open, T-3 and MCC-3 are de-energized, so all three loads downstream of MCC-3 lose power. The other branches (T-1/MCC-1 and T-2/MCC-2/PNL-1) remain energized through CB-2 and CB-3.
+
+Loads losing power: Chlorine Feed, Aeration Blower 3, Maintenance Shop.
+
+FINAL ANSWER: Chlorine Feed, Aeration Blower 3, Maintenance Shop","[""Chlorine Feed"", ""Aeration Blower 3"", ""Maintenance Shop""]",1,stop,
+openai/gpt-6-luna,power-000103,ok,"Chlorine Feed, Aeration Blower 3, Maintenance Shop",power.loads_lost_1trip,"CB-4 is the sole connection from Bus A to transformer T-3 and MCC-3. When it trips open, MCC-3 loses power, while the other buses remain supplied.
+
+FINAL ANSWER: Chlorine Feed, Aeration Blower 3, Maintenance Shop","[""Chlorine Feed"", ""Aeration Blower 3"", ""Maintenance Shop""]",1,stop,
+anthropic/claude-haiku-5.5,power-000201,ok,"Clarifier Drive 2, Lighting Panel LP-2, Elevator 2, Chlorine Feed, Boiler Room, Sump Pump 4",power.loads_lost_2trip,"**Tracing the affected paths**
+
+**CB-3 opens:** CB-3 feeds T-1 (1500 kVA), which feeds MCC-1 alone. MCC-1 has no other source, so its loads lose power: **Clarifier Drive 2** (CB-9) and **Lighting Panel LP-2** (CB-10).
+
+**CB-6 opens:** CB-6 feeds T-4 (1000 kVA) from Bus B. The T-4 secondary runs along the horizontal tie at about y=476 to MCC-4. That tie crosses the T-3 feeder without a dot, so it is not connected there, and T-4 is the only source for MCC-4.
+
+**Tie check:** CB-T2 (N.O.) is the only link between MCC-4 and MCC-3, and it stays open. MCC-4 therefore cannot be fed from MCC-3, so MCC-4 is de-energized.
+
+**Loads on MCC-4:**
+- CB-16 feeds **Elevator 2** directly.
+- CB-17 feeds PNL-3 480 V, which supplies **Chlorine Feed** (CB-29), **Boiler Room** (CB-30) and **Sump Pump 4** (CB-31).
+
+**Unaffected:** CB-1 still feeds Bus A from the utility, and CB-CB-T1 remains open, so the rest of the plant keeps its supply through Bus B and the other transformers.
+
+Loads that lose power: Clarifier Drive 2, Lighting Panel LP-2, Elevator 2, Chlorine Feed, Boiler Room, Sump Pump 4.
+
+FINAL ANSWER: Clarifier Drive 2, Lighting Panel LP-2, Elevator 2, Chlorine Feed, Boiler Room, Sump Pump 4","[""Clarifier Drive 2"", ""Lighting Panel LP-2"", ""Elevator 2"", ""Chlorine Feed"", ""Boiler Room"", ""Sump Pump 4""]",1,stop,
+openai/gpt-6-luna,power-000201,ok,"Clarifier Drive 2, Lighting Panel LP-2, Elevator 2, Chlorine Feed, Boiler Room, Sump Pump 4",power.loads_lost_2trip,"FINAL ANSWER: Clarifier Drive 2, Lighting Panel LP-2, Elevator 2, Chlorine Feed, Boiler Room, Sump Pump 4","[""Clarifier Drive 2"", ""Lighting Panel LP-2"", ""Elevator 2"", ""Chlorine Feed"", ""Boiler Room"", ""Sump Pump 4""]",1,stop,
+anthropic/claude-haiku-5.5,power-000202,ok,"Security Gate, Chlorine Feed, Backwash Pump, Control Room, UV Disinfection, Sludge Press",power.loads_lost_2trip,"**Tracing the affected paths**
+
+- **CB-6 opens:** T-4 is disconnected from Bus B. T-4's secondary feeds MCC-4 through the line that drops at the left (x≈960). The horizontal line at y≈495 crosses the T-3 riser without a dot, so T-3 and T-4 are not tied together there.
+- **MCC-4 has no other source:** Its only tie to MCC-3 is CB-T2, which is normally open and stays open. MCC-4 therefore loses power. Its loads are Security Gate (via CB-16), and the PNL-4 loads Chlorine Feed (CB-31) and Backwash Pump (CB-32).
+- **CB-15 opens:** This is the breaker feeding PNL-3 from MCC-3. MCC-3 itself stays energized from T-3 through CB-5, which is closed and fed from Bus A. Boiler Room (CB-14) stays powered. The PNL-3 loads lose power: Control Room (CB-28), UV Disinfection (CB-29), and Sludge Press (CB-30).
+- **Unaffected:** Bus A (utility feed) still serves MCC-1, MCC-2 and MCC-3. Bus B (generator) still serves MCC-5 and MCC-6. CB-T1 stays open, so the two buses remain separate.
+
+**Loads that lose power:** Security Gate, Chlorine Feed, Backwash Pump, Control Room, UV Disinfection, Sludge Press.
+
+FINAL ANSWER: Security Gate, Chlorine Feed, Backwash Pump, Control Room, UV Disinfection, Sludge Press","[""Control Room"", ""UV Disinfection"", ""Sludge Press"", ""Security Gate"", ""Chlorine Feed"", ""Backwash Pump""]",1,stop,
+openai/gpt-6-luna,power-000202,ok,"Security Gate, Chlorine Feed, Backwash Pump, Control Room, UV Disinfection, Sludge Press",power.loads_lost_2trip,"CB-6 opening disconnects T-4, leaving MCC-4 without power because the tie to MCC-3 is normally open. CB-15 opening disconnects PNL-3 from the still-powered MCC-3. The loads on those sections lose power.
+
+FINAL ANSWER: Security Gate, Chlorine Feed, Backwash Pump, Control Room, UV Disinfection, Sludge Press","[""Control Room"", ""UV Disinfection"", ""Sludge Press"", ""Security Gate"", ""Chlorine Feed"", ""Backwash Pump""]",1,stop,
+anthropic/claude-haiku-5.5,power-000203,ok,"Lift Station 3, Lighting Panel LP-2, Sump Pump 4, Filter Gallery",power.loads_lost_2trip,"**Tracing the sources**
+
+- **BUS A** is fed by Utility Feed 1 through CB-1. **BUS B** is fed by GEN-1 through CB-2. The tie breaker CB-T1 is normally open, so the two buses are separate.
+
+**Unaffected branches**
+
+- **BUS A:** T-1 (CB-3) feeds MCC-1, which serves Chiller 1, Lab Building and Sludge Press. T-2 (CB-4) feeds MCC-2, which serves Maintenance Shop, Backwash Pump, and PNL-1 (Chiller 2, Fuel Oil Pump, Air Compressor 2). All stay powered.
+- **T-3 (CB-5)** feeds MCC-3, which serves Clarifier Drive 2 and Aeration Blower 3. CB-5 is closed, so these stay powered.
+- **T-5 (CB-7)** feeds MCC-5, which serves Heat Trace directly. Heat Trace stays powered.
+- **T-6 (CB-8)** feeds MCC-6, which serves Clarifier Drive 1, Admin Building and Grit Removal. All stay powered.
+
+**Affected branches**
+
+- **CB-6 opens**, which disconnects T-4 from BUS B. T-4 is the only source for MCC-4, because the tie CB-T2 between MCC-4 and MCC-3 is normally open and stays open. MCC-4 is therefore de-energized, and its loads Lift Station 3 (CB-17) and Lighting Panel LP-2 (CB-18) lose power.
+- **CB-20 opens**, which disconnects PNL-2 from MCC-5. PNL-2 is de-energized, and its loads Sump Pump 4 (CB-27) and Filter Gallery (CB-28) lose power.
+
+FINAL ANSWER: Lift Station 3, Lighting Panel LP-2, Sump Pump 4, Filter Gallery","[""Lift Station 3"", ""Lighting Panel LP-2"", ""Sump Pump 4"", ""Filter Gallery""]",1,stop,
+openai/gpt-6-luna,power-000203,ok,"Lift Station 3, Lighting Panel LP-2, Sump Pump 4, Filter Gallery",power.loads_lost_2trip,"CB-6 trips the T4 feed to MCC-4, and the normally open tie prevents supply from MCC-3. The loads on MCC-4 lose power. CB-20 trips the feed to PNL-2, so both loads on that panel lose power.
+
+FINAL ANSWER: Lift Station 3, Lighting Panel LP-2, Sump Pump 4, Filter Gallery","[""Lift Station 3"", ""Lighting Panel LP-2"", ""Sump Pump 4"", ""Filter Gallery""]",1,stop,
+anthropic/claude-haiku-5.5,power-000301,ok,545,power.kw_unserved_after_tie,"**Step 1: Identify the sources and tie paths.**
+- Bus A is fed only by Utility Feed 1 through CB-1. Bus B is fed by Utility Feed 2 through CB-2.
+- CB-T1 (the bus tie) is normally open and stays open.
+
+**Step 2: Apply the operator actions.**
+- **CB-1 opens:** Bus A is de-energized, since its only source is cut and the bus tie is open. Everything fed from Bus A through CB-3, CB-4 and CB-5 loses supply.
+- **CB-8 opens:** T-6 is isolated from Bus B, so MCC-6 and everything below it lose supply.
+- **CB-5 opens:** T-3 is disconnected. It was already dead because Bus A was de-energized.
+- **CB-T2 closes:** MCC-4 and MCC-3 are tied together. MCC-4 is fed by T-4 from Bus B through CB-6, so MCC-3 is now re-energized through the tie. The MCC-3 feed from T-3 is gone, but T-4 supplies both buses.
+
+**Step 3: Tally the de-energized loads.**
+- **MCC-1 (via T-1, from Bus A):** Aeration Blower 3 (40 kW) + Air Compressor 2 (30 kW) = 70 kW
+- **MCC-2 (via T-2, from Bus A):** Admin Building (125 kW) + Maintenance Shop (125 kW) = 250 kW
+- **MCC-6 (via T-6, CB-8 open):** Fuel Oil Pump (60 kW) + Chiller 1 via PNL-2 (125 kW) + Pump House 2 via PNL-2 (40 kW) = 225 kW
+
+**Loads still powered (for reference):**
+- MCC-4 and MCC-3 are fed from T-4 through CB-T2.
+- MCC-5 is fed from Bus B through T-5.
+
+**Total load without power:** 70 + 250 + 225 = 545 kW
+
+FINAL ANSWER: 545",545,1,stop,
+openai/gpt-6-luna,power-000301,ok,545,power.kw_unserved_after_tie,"CB-1 isolates Bus A, leaving MCC-1 and MCC-2 loads without power: 40 + 30 + 125 + 125 = 320 kW. CB-8 isolates MCC-6, leaving 60 + 125 + 40 = 225 kW without power. Closing CB-T2 lets T4 supply MCC-3 through MCC-4, so those loads remain powered.
+
+320 + 225 = 545 kW
+
+FINAL ANSWER: 545",545,1,stop,
+anthropic/claude-haiku-5.5,power-000302,ok,860,power.kw_unserved_after_tie,"**Step 1: Identify the sources and their connections.**
+- Bus A is fed by Utility Feed 1 through CB-1 (closed).
+- Bus B is fed only by Gen-1 through CB-2. The tie CB-T1 is normally open, so Bus B has no connection to Bus A.
+- T-3 (1500 kVA) is fed from Bus A through CB-5 and supplies MCC-3.
+- T-4 (500 kVA) is fed from Bus B through CB-6 and supplies MCC-4.
+- MCC-3 and MCC-4 are separated by the normally open tie CB-T2.
+
+**Step 2: Apply the trips and switching.**
+- **CB-2 trips open:** Gen-1 is disconnected, so Bus B is dead. This de-energizes T-4, T-5 and T-6 and everything they feed.
+- **CB-3 trips open:** T-1 is disconnected from Bus A, so MCC-1 is unpowered.
+- **CB-6 opens and CB-T2 closes:** MCC-4 is tied to MCC-3, which T-3 still feeds from the live Bus A. MCC-4 is therefore restored.
+
+**Step 3: Tally the loads still without power.**
+- **MCC-1 (fed by T-1 via CB-3, now open):** Control Room 40 + Sludge Press 200 + Odor Control 25 = 265 kW.
+- **MCC-2 (T-2 via CB-4, Bus A live):** powered.
+- **MCC-3 (T-3 via CB-5, Bus A live):** powered.
+- **MCC-4 (restored through CB-T2):** Admin Building 30 + Raw Water Intake 25 are powered.
+- **MCC-5 (T-5 via CB-7, Bus B dead):** Air Compressor 2 75 + Elevator 2 20 + Pump House 1 100 = 195 kW.
+- **MCC-6 (T-6 via CB-8, Bus B dead):** UV Disinfection 75 + Chiller 2 125 + Maintenance Shop 200 = 400 kW.
+
+**Step 4: Total unpowered load.**
+265 + 195 + 400 = 860 kW
+
+FINAL ANSWER: 860",860,1,stop,
+openai/gpt-6-luna,power-000302,ok,860,power.kw_unserved_after_tie,"CB-2 opens, leaving Bus B without a source because CB-T1 remains open. The loads on MCC-5 and MCC-6 are therefore unpowered: 195 + 400 = 595 kW. CB-3 also opens, leaving MCC-1’s 265 kW without power. Closing CB-T2 transfers supply to MCC-4 from MCC-3, so those loads remain powered.
+
+FINAL ANSWER: 860",860,1,stop,
+anthropic/claude-haiku-5.5,power-000303,ok,675,power.kw_unserved_after_tie,"**Tracing the supplies**
+
+- **Bus A** is fed only from Utility Feed 1 through CB-1. CB-1 has tripped, and the tie CB-T1 stays open, so Bus A is dead.
+- **Bus A feeders:** CB-3 (T-1 → MCC-1), CB-4 (T-2 → MCC-2), and CB-5 (T-3). CB-5 is opened, so T-3 is removed from Bus A. MCC-1 and MCC-2 have no other source, so they are de-energized.
+- **Bus B** is fed from Utility Feed 2 through CB-2, which is closed, so Bus B is live.
+- **T-4** (through CB-6, closed) feeds MCC-4. CB-T2 is now closed, tying MCC-4 to MCC-3, so MCC-3 is re-energized from T-4. The former T-3 feed to MCC-3 is no longer needed.
+- **MCC-5 and MCC-6** are fed from Bus B through CB-7 and CB-8, so they stay energized.
+- **CB-14** has tripped, so PNL-2 loses its feed from MCC-3. PNL-2 has no other source, so it is de-energized.
+
+**Load left without power**
+
+- MCC-1: Lift Station 3 (25) + PNL-1 [Heat Trace (30) + Chiller 2 (125)] = 180 kW
+- MCC-2: Admin Building (200) + Grit Removal (200) = 400 kW
+- PNL-2: Fuel Oil Pump (15) + Security Gate (40) + Sump Pump 4 (40) = 95 kW
+
+Total = 180 + 400 + 95 = 675 kW
+
+FINAL ANSWER: 675",675,1,stop,
+openai/gpt-6-luna,power-000303,ok,675,power.kw_unserved_after_tie,"CB-1 opening de-energizes Bus A; CB-T1 remains open, so MCC-1 and MCC-2 lose power. Opening CB-5 isolates T-3, but closing CB-T2 lets the energized MCC-4 supply MCC-3. CB-14 being open leaves the PNL-2 loads without power.
+
+MCC-1: 25 + 30 + 125 = 180 kW  
+MCC-2: 200 + 200 = 400 kW  
+PNL-2: 15 + 40 + 40 = 95 kW  
+
+Total: 180 + 400 + 95 = 675 kW
+
+FINAL ANSWER: 675",675,1,stop,

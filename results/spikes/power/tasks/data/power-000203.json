@@ -1,0 +1,273 @@
+{
+ "data": {
+  "level": 2,
+  "site": "Northgate Water Treatment Plant",
+  "sides": [
+   {
+    "name": "A",
+    "source": {
+     "kind": "utility",
+     "label": "UTILITY FEED 1\n13.8 kV, 3φ, 60 Hz"
+    },
+    "feeders": [
+     {
+      "side": "A",
+      "cross": false,
+      "mcc": "MCC-1",
+      "xfmr": {
+       "name": "T-1",
+       "kva": 750
+      },
+      "children": [
+       {
+        "type": "load",
+        "name": "Chiller 1",
+        "kw": 20,
+        "cb": "CB-9"
+       },
+       {
+        "type": "load",
+        "name": "Lab Building",
+        "kw": 15,
+        "cb": "CB-10"
+       },
+       {
+        "type": "load",
+        "name": "Sludge Press",
+        "kw": 60,
+        "cb": "CB-11"
+       }
+      ],
+      "cb": "CB-3"
+     },
+     {
+      "side": "A",
+      "cross": false,
+      "mcc": "MCC-2",
+      "xfmr": {
+       "name": "T-2",
+       "kva": 1500
+      },
+      "children": [
+       {
+        "type": "load",
+        "name": "Maintenance Shop",
+        "kw": 50,
+        "cb": "CB-12"
+       },
+       {
+        "type": "load",
+        "name": "Backwash Pump",
+        "kw": 20,
+        "cb": "CB-13"
+       },
+       {
+        "type": "panel",
+        "name": "PNL-1",
+        "children": [
+         {
+          "type": "load",
+          "name": "Chiller 2",
+          "kw": 150,
+          "cb": "CB-24"
+         },
+         {
+          "type": "load",
+          "name": "Fuel Oil Pump",
+          "kw": 75,
+          "cb": "CB-25"
+         },
+         {
+          "type": "load",
+          "name": "Air Compressor 2",
+          "kw": 40,
+          "cb": "CB-26"
+         }
+        ],
+        "cb": "CB-14"
+       }
+      ],
+      "cb": "CB-4"
+     },
+     {
+      "side": "A",
+      "cross": true,
+      "mcc": "MCC-3",
+      "xfmr": {
+       "name": "T-3",
+       "kva": 500
+      },
+      "children": [
+       {
+        "type": "load",
+        "name": "Clarifier Drive 2",
+        "kw": 150,
+        "cb": "CB-15"
+       },
+       {
+        "type": "load",
+        "name": "Aeration Blower 3",
+        "kw": 50,
+        "cb": "CB-16"
+       }
+      ],
+      "cb": "CB-5"
+     }
+    ],
+    "main_cb": "CB-1"
+   },
+   {
+    "name": "B",
+    "source": {
+     "kind": "generator",
+     "label": "GEN-1\n2000 kW, 13.8 kV"
+    },
+    "feeders": [
+     {
+      "side": "B",
+      "cross": true,
+      "mcc": "MCC-4",
+      "xfmr": {
+       "name": "T-4",
+       "kva": 500
+      },
+      "children": [
+       {
+        "type": "load",
+        "name": "Lift Station 3",
+        "kw": 30,
+        "cb": "CB-17"
+       },
+       {
+        "type": "load",
+        "name": "Lighting Panel LP-2",
+        "kw": 25,
+        "cb": "CB-18"
+       }
+      ],
+      "cb": "CB-6"
+     },
+     {
+      "side": "B",
+      "cross": false,
+      "mcc": "MCC-5",
+      "xfmr": {
+       "name": "T-5",
+       "kva": 1000
+      },
+      "children": [
+       {
+        "type": "load",
+        "name": "Heat Trace",
+        "kw": 20,
+        "cb": "CB-19"
+       },
+       {
+        "type": "panel",
+        "name": "PNL-2",
+        "children": [
+         {
+          "type": "load",
+          "name": "Sump Pump 4",
+          "kw": 60,
+          "cb": "CB-27"
+         },
+         {
+          "type": "load",
+          "name": "Filter Gallery",
+          "kw": 30,
+          "cb": "CB-28"
+         }
+        ],
+        "cb": "CB-20"
+       }
+      ],
+      "cb": "CB-7"
+     },
+     {
+      "side": "B",
+      "cross": false,
+      "mcc": "MCC-6",
+      "xfmr": {
+       "name": "T-6",
+       "kva": 500
+      },
+      "children": [
+       {
+        "type": "load",
+        "name": "Clarifier Drive 1",
+        "kw": 75,
+        "cb": "CB-21"
+       },
+       {
+        "type": "load",
+        "name": "Admin Building",
+        "kw": 200,
+        "cb": "CB-22"
+       },
+       {
+        "type": "load",
+        "name": "Grit Removal",
+        "kw": 100,
+        "cb": "CB-23"
+       }
+      ],
+      "cb": "CB-8"
+     }
+    ],
+    "main_cb": "CB-2"
+   }
+  ],
+  "ties": [
+   {
+    "cb": "CB-T1",
+    "between": [
+     "BUS A",
+     "BUS B"
+    ],
+    "normally": "open"
+   },
+   {
+    "cb": "CB-T2",
+    "between": [
+     "MCC-4",
+     "MCC-3"
+    ],
+    "normally": "open"
+   }
+  ]
+ },
+ "scenario": {
+  "tripped": [
+   "CB-20",
+   "CB-6"
+  ],
+  "closed": []
+ },
+ "dead_loads": [
+  "Lift Station 3",
+  "Lighting Panel LP-2",
+  "Sump Pump 4",
+  "Filter Gallery"
+ ],
+ "kw": {
+  "Chiller 1": 20,
+  "Lab Building": 15,
+  "Sludge Press": 60,
+  "Maintenance Shop": 50,
+  "Backwash Pump": 20,
+  "Chiller 2": 150,
+  "Fuel Oil Pump": 75,
+  "Air Compressor 2": 40,
+  "Clarifier Drive 2": 150,
+  "Aeration Blower 3": 50,
+  "Lift Station 3": 30,
+  "Lighting Panel LP-2": 25,
+  "Heat Trace": 20,
+  "Sump Pump 4": 60,
+  "Filter Gallery": 30,
+  "Clarifier Drive 1": 75,
+  "Admin Building": 200,
+  "Grit Removal": 100
+ }
+}

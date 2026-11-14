@@ -1,0 +1,109 @@
+{
+ "key": "b0a5cff67d69d204452b3ab1874f54004650855f2eda7a272aadf917a4fb4bd8",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a single-line diagram of an electrical distribution system. Filled breaker squares are closed; hollow squares are open (N.O. = normally open). Power flows through closed breakers, transformers and conductors in either direction, from the sources at the top. Ignore equipment ratings. Breakers CB-3 and CB-6 trip open; every other breaker stays as drawn. Which loads lose power? Answer with the load names exactly as written on the diagram, as a comma-separated list in any order.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "power-000201.png",
+       "sha256": "c65ef0b586f51b0fcb804fce75d6b3ce420ce926e94b3cdbeb296149333a54e3"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794674854-co7G67MQ6dJsxU6Zkh9Z",
+  "object": "chat.completion",
+  "created": 1794674854,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "FINAL ANSWER: Clarifier Drive 2, Lighting Panel LP-2, Elevator 2, Chlorine Feed, Boiler Room, Sump Pump 4",
+     "refusal": null,
+     "reasoning": "**Evaluating electrical topology**\n\nI’m looking into MCC4, which includes components like \"Elevator 2,\" \"Chlorine Feed,\" \"Boiler Room,\" and \"Sump Pump 4.\" I need to check the electrical topology lines connected to MCC4. The bus from MCC4 goes to CB16, which operates the elevator. CB17 feeds to PNL3 bus and has outgoing lines to CB29 for the chlorine feed, CB30 for the boiler room, and CB31 for the sump pump. Let's ensure everything is connected correctly!",
+     "reasoning_details": [
+      {
+       "type": "reasoning.summary",
+       "summary": "**Evaluating electrical topology**\n\nI’m looking into MCC4, which includes components like \"Elevator 2,\" \"Chlorine Feed,\" \"Boiler Room,\" and \"Sump Pump 4.\" I need to check the electrical topology lines connected to MCC4. The bus from MCC4 goes to CB16, which operates the elevator. CB17 feeds to PNL3 bus and has outgoing lines to CB29 for the chlorine feed, CB30 for the boiler room, and CB31 for the sump pump. Let's ensure everything is connected correctly!",
+       "format": "openai-responses-v1",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7532,
+        "sha256": "66d9c8b9741bcb828ff91cb39aaafc609dfa165d10e31db1ff970747c32d41b9"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_054a03dd895ba5d2016af890a7492c87d19cc1d7405fb9d08f",
+       "index": 1
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 3977,
+   "completion_tokens": 554,
+   "total_tokens": 4531,
+   "cost": 0.00077405,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 3974,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.00077405,
+    "upstream_inference_prompt_cost": 0.00049705,
+    "upstream_inference_completions_cost": 0.000277
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 516,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 6.72,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:47:34+00:00"
+}

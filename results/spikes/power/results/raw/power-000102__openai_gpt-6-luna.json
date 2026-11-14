@@ -1,0 +1,103 @@
+{
+ "key": "d22a436fb68d280efc74248a45b405f138f3c662f60caf3abf58e0ba59ed9581",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a single-line diagram of an electrical distribution system. Filled breaker squares are closed; hollow squares are open (N.O. = normally open). Power flows through closed breakers, transformers and conductors in either direction, from the sources at the top. Ignore equipment ratings. Breaker CB-2 trips open; every other breaker stays as drawn. Which loads lose power? Answer with the load names exactly as written on the diagram, as a comma-separated list in any order.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "power-000102.png",
+       "sha256": "841882f0ca957fb0bbdce96011dcfb1cdd91a070a83857a770c9d1d845a566f7"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794674850-W9c4fUh9JL1RV3u3pHvY",
+  "object": "chat.completion",
+  "created": 1794674850,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "CB-2 is the only feed to T-1 and MCC-1, so opening it de-energizes all loads on MCC-1. MCC-2 and MCC-3 remain fed through CB-3 and CB-4.\n\nFINAL ANSWER: Sump Pump 4, Fire Pump, Maintenance Shop",
+     "refusal": null,
+     "reasoning": null,
+     "reasoning_details": [
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 3564,
+        "sha256": "6207e6b415f60ca61f0fb0419eb4a1bfd08cbd1bf06333a3b61b1d67daf80ef4"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0c38b52c6224eb77016af890a2cff887d198d4e57b44ee809a",
+       "index": 0
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 1684,
+   "completion_tokens": 213,
+   "total_tokens": 1897,
+   "cost": 0.000316925,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 1681,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.000316925,
+    "upstream_inference_prompt_cost": 0.000210425,
+    "upstream_inference_completions_cost": 0.0001065
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 144,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 2.63,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:47:29+00:00"
+}

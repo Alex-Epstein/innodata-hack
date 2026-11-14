@@ -1,0 +1,1 @@
+done: spike C power one-line (#5): 9 tasks, answers computed two ways, both models 9/9 (L3 chained 4 to 5 steps too); ruled out as too easy; results/spikes/power/summary.md. next: #29 multi-step topo questions. blocked: none
