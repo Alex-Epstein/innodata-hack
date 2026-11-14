@@ -1,0 +1,159 @@
+{
+ "key": "3695e4503264bbff9f7b9389cb6ba107098a155993d2750059cf00356f6f0f9e",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is the as-found single-line diagram of a building's 480 V switchgear. Breakers 52-M2 and CB-10 both trip at the same moment. Nothing else changes: no other breaker opens or closes, normally-open (N.O.) breakers stay open, and Standby generator G1 is not running and does not start. A load has power only if a path of closed breakers connects it to a running source. Which loads that were running before the event have no power afterwards? A load behind an open breaker was not running. Answer with the load tags (for example CH-2), in the order they appear on the drawing from left to right, separated by commas.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "power-dbl-000009.png",
+       "sha256": "36615761171ad2919f130e0ac9b690f4036c6f6f1817f0ff4c4ae5e6b91f10f9"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794678921-KwyuQzTdLnFBqsJ1McOi",
+  "object": "chat.completion",
+  "created": 1794678921,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "52-M2 opening disconnects Bus 2 from its utility source. With the normally-open 52-T still open and G1 unavailable, Bus 2 and Bus E lose power. Bus E’s loss also removes the only closed feed to BUS 1B, since CB-03 is open. CB-02 still feeds BUS 2B from Bus 1, so its loads with closed breakers remain powered. CB-10’s trip separately cuts power to EL-2.\n\nFINAL ANSWER: RP-3, CRAH-4, LP-2, PP-2, LAB-2, BP-1, EL-2",
+     "refusal": null,
+     "reasoning": "**Analyzing electrical connections**\n\nI’m figuring out the connections: CB03 goes down vertically to x432 and connects to the BUS1B bus there, but it seems the open breaker means there's no power flowing. I'm questioning whether that’s the right breaker—CB? Then, there's CB04 which should go down to CT-1 directly. And CB02 feeds into Bus2B as mentioned before. I need to confirm these connections to ensure everything is correct.",
+     "reasoning_details": [
+      {
+       "type": "reasoning.summary",
+       "summary": "**Analyzing electrical connections**\n\nI’m figuring out the connections: CB03 goes down vertically to x432 and connects to the BUS1B bus there, but it seems the open breaker means there's no power flowing. I'm questioning whether that’s the right breaker—CB? Then, there's CB04 which should go down to CT-1 directly. And CB02 feeds into Bus2B as mentioned before. I need to confirm these connections to ensure everything is correct.",
+       "format": "openai-responses-v1",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7828,
+        "sha256": "66e66254d9ea7d0534a51c3ee38ed92200cd24728213dba376f69839d9353550"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_03bfbb7dbc9c518d016af8a08a1c8c87d1b316c6a872d28746",
+       "index": 1
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7444,
+        "sha256": "2b2d7e03285384df1bffc9808b5911a7ed5e08670756b839b3e22d92d6bb1f41"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_03bfbb7dbc9c518d016af8a090c9b887d1acd8749df9dbaa29",
+       "index": 2
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7532,
+        "sha256": "1db61bc577ffc366bbb055a656199b7a6a85e7eb1f1145addef57642947810ab"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_03bfbb7dbc9c518d016af8a094b0b887d1b03d3b74af154343",
+       "index": 3
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7168,
+        "sha256": "42d52dbef0f5f75be32b567150db24e97a4fbda9ed1fcf84993489a8cf2a78f1"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_03bfbb7dbc9c518d016af8a0994bcc87d1ab575c3d4a6f6966",
+       "index": 4
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Clarifying logical reasoning**\n\nI’m trying to phrase my thought process step by step to ensure clear reasoning without any hidden issues. The idea is to explain each part thoroughly while also making sure that the final line is precise and accurate. It’s important for me to keep the thought flow logical and easy to follow, reflecting back on the initial question or concept without getting tangled up. This way, I can deliver a concise and exact conclusion.",
+       "format": "openai-responses-v1",
+       "index": 5
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 4948,
+        "sha256": "e788b335b7e5083ba28f91d05c4bb6b4707706f8936f7a6e031ef0e97b4a7a7e"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_03bfbb7dbc9c518d016af8a09de5a887d18861388b33cda733",
+       "index": 6
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2273,
+   "completion_tokens": 2470,
+   "total_tokens": 4743,
+   "cost": 0.00151905,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 2270,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.00151905,
+    "upstream_inference_prompt_cost": 0.00028405,
+    "upstream_inference_completions_cost": 0.001235
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2336,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 24.53,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": true,
+ "mock": false,
+ "created": "2026-11-14T17:55:21+00:00"
+}

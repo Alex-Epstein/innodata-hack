@@ -1,0 +1,125 @@
+{
+ "key": "790b4971983c4a326363861818769c11d6c5c29cb8e67705ce3683ec39119e8b",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is the as-found single-line diagram of a building's 480 V switchgear. A crew must work on BUS 2B (panel PNL-2B). It must be isolated: afterwards there may be no path through closed breakers from any source (utility services, generator G1, or the PV-1 solar inverter, which can feed power back) to BUS 2B. Breakers that are already open need no action. Open as few breakers as possible, and do not cut power to any running load that is not fed from BUS 2B. Which breakers must be opened? Answer with the breaker IDs sorted alphabetically, separated by commas.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "power-iso-000001.png",
+       "sha256": "becab518aeca5610f0c9631f8d587533a4f46b55bce6b8551d32b0125fea8a5b"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794678832-gD5wt9TUEijpUe8eZaym",
+  "object": "chat.completion",
+  "created": 1794678832,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "CB-03 is already open, so BUS 2B has no closed connection to BUS 1. Open CB-07 to disconnect BUS 2, and CB-16 to disconnect the PV source. The other BUS 2B load breakers can remain as found.\n\nFINAL ANSWER: CB-07, CB-16",
+     "refusal": null,
+     "reasoning": null,
+     "reasoning_details": [
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7660,
+        "sha256": "b2db02aa4f9c8d941f6aed9ae853af22988a29d8c4df7e8d971dd36d76aaf725"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0ef5ec99730da2d7016af8a03113c487d18942e89b7fbf50ac",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7980,
+        "sha256": "e58a8df1048a7e549ce61836e8dd276e4b44909a45e5bfc3a94f3af7e6e6e6e2"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0ef5ec99730da2d7016af8a0371c1887d1b8cb2deec0b48afe",
+       "index": 1
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 3860,
+        "sha256": "cb9e2d51b12bd33eb8a5ce225e8da44185992543185872fe4c44a293f3e1db35"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0ef5ec99730da2d7016af8a03a68c087d1859f633f29aa04a0",
+       "index": 2
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2268,
+   "completion_tokens": 1265,
+   "total_tokens": 3533,
+   "cost": 0.000915925,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 2265,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.000915925,
+    "upstream_inference_prompt_cost": 0.000283425,
+    "upstream_inference_completions_cost": 0.0006325
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1194,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 12.67,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:53:52+00:00"
+}

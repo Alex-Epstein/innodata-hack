@@ -1,0 +1,148 @@
+{
+ "key": "e4b8ac7f943814e1c820f5ebaf7292ad7bee15c6c199e4279d11b97c8be9d9de",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is the as-found single-line diagram of a building's 480 V switchgear. A crew must work on BUS 2B (panel PNL-2B). It must be isolated: afterwards there may be no path through closed breakers from any source (utility services, generator G1, or the PV-1 solar inverter, which can feed power back) to BUS 2B. Breakers that are already open need no action. Open as few breakers as possible, and do not cut power to any running load that is not fed from BUS 2B. Which breakers must be opened? Answer with the breaker IDs sorted alphabetically, separated by commas.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "power-iso-000001.png",
+       "sha256": "7054422d88ac82377cbbee205b3bf2fb8c2caf06a164977fbb15d47f8d27c4c7"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794679454-3sSqxcBhtgpixNrmGvNT",
+  "object": "chat.completion",
+  "created": 1794679454,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "BUS 2B has three closed source connections: CB-07 from BUS 2, CB-09 from BUS E, and CB-16 from the PV-1 inverter. Opening those disconnects every source while leaving breakers feeding other running loads untouched. The other shown alternate ties, 52-T and CB-06, are already open.\n\nFINAL ANSWER: CB-07, CB-09, CB-16",
+     "refusal": null,
+     "reasoning": null,
+     "reasoning_details": [
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7488,
+        "sha256": "d7aa9532cbe0593a69bd36b8746e187c90b8c14498dac04434c0290df5214081"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_08fe40b189d0aa1c016af8a29f59dc87d195b7beb62239fd93",
+       "index": 0
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Evaluating bus routes and utility**\n\nI'm considering the route from CB09 to Bus2B, and whether I need to open CB09 or break 52-ET. It looks like BUS E has a generator source, which could affect utility access through 52ET from Bus2. The key requirement is to ensure there's no path from any sources. I can open 52-ET, but I'm worried it might disconnect BUS E from the utility while G1 may still be able to feed them.",
+       "format": "openai-responses-v1",
+       "index": 1
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7680,
+        "sha256": "5162ed1b2fc4dbef5dee0f95bbe106105af390ab47398aed929e3001c555edaa"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_08fe40b189d0aa1c016af8a2a4bf1887d183c14c9815ceb8d6",
+       "index": 2
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Considering connections between systems**\n\nI want to check if CB09 is indeed a feeder for BUS2B, which seems likely. I might need to label things like CB-07 as well. It's important to think this through step by step, as the user asked for a clear reasoning process. I should provide concise reasoning without making things too complicated or hidden. I want to ensure clarity and avoid going on for too long.",
+       "format": "openai-responses-v1",
+       "index": 3
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7872,
+        "sha256": "f94566fdf3c22a982ba8cd30cefe148d95b2c2433a0c04a1461614e66f90f468"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_08fe40b189d0aa1c016af8a2aade4087d184339bacbfced684",
+       "index": 4
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 5228,
+        "sha256": "5359e2a5865a7cdf0fcfa9629cb4de638622d651d8d097721d86ac68e324173f"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_08fe40b189d0aa1c016af8a2afa64c87d1be1be5cab08ba0da",
+       "index": 5
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2268,
+   "completion_tokens": 1935,
+   "total_tokens": 4203,
+   "cost": 0.001250925,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 2265,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.001250925,
+    "upstream_inference_prompt_cost": 0.000283425,
+    "upstream_inference_completions_cost": 0.0009675
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1845,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 20.02,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T18:04:15+00:00"
+}

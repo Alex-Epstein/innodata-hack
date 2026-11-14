@@ -1,0 +1,136 @@
+{
+ "key": "b87725b59fc75c46615a64fc5ba8977a2de38b638078599c406d5ea07858755c",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is the as-found single-line diagram of a building's 480 V switchgear. A crew must work on BUS 2B (panel PNL-2B). It must be isolated: afterwards there may be no path through closed breakers from any source (utility services, generator G1, or the PV-1 solar inverter, which can feed power back) to BUS 2B. Breakers that are already open need no action. Open as few breakers as possible, and do not cut power to any running load that is not fed from BUS 2B. Which breakers must be opened? Answer with the breaker IDs sorted alphabetically, separated by commas.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "power-iso-000007.png",
+       "sha256": "22d85f776a4635ed443e63a4a27ab5553a37c954ad19cae065df0ee10236d7b6"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794679486-wHZ0pQ8FVVrmSdDIDJSp",
+  "object": "chat.completion",
+  "created": 1794679486,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "BUS 2B has three closed connections that can provide power: CB-07 from BUS 2, CB-09 from BUS E, and CB-18 from PV-1. Open all three. The alternate ties and the generator breaker are already open, so they need no action. This leaves the other running loads connected.\n\nFINAL ANSWER: CB-07, CB-09, CB-18",
+     "refusal": null,
+     "reasoning": null,
+     "reasoning_details": [
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7552,
+        "sha256": "7a5f28f4521772dfd177f52df9736005bf0cc622c8778bdcbb0b5dd9c4e165e9"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0146e4543190108b016af8a2bfda1887d1a7e438728baeb6a9",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7572,
+        "sha256": "35c8ed0fb34412358256c4d17a2e54c82158f20b4bdb655ecb7cbb69fe7818dd"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0146e4543190108b016af8a2c4eee487d196024e176fbe89d1",
+       "index": 1
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7724,
+        "sha256": "055187d20ee42e29ae3a13846ed72aa9af4673f3049d8fdb013255047584234c"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0146e4543190108b016af8a2c9489887d1afe71c0aa50048d6",
+       "index": 2
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 6100,
+        "sha256": "c4974cd578ef1650f208d5850659566884dac85d932051ae11ca3147807c8dc7"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0146e4543190108b016af8a2ce922c87d1a629dd826a440b87",
+       "index": 3
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2268,
+   "completion_tokens": 2005,
+   "total_tokens": 4273,
+   "cost": 0.001285925,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 2265,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.001285925,
+    "upstream_inference_prompt_cost": 0.000283425,
+    "upstream_inference_completions_cost": 0.0010025
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1918,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 18.81,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T18:04:47+00:00"
+}

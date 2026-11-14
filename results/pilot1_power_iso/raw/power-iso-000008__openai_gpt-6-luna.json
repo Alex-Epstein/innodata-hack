@@ -1,0 +1,114 @@
+{
+ "key": "5839b2e0f6d86cce00810349ac99e8b67fb3a666f9fc4b84af2b4fccc2485ca6",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is the as-found single-line diagram of a building's 480 V switchgear. A crew must work on BUS 1B (panel MCC-1B). It must be isolated: afterwards there may be no path through closed breakers from any source (utility services, generator G1, or the PV-1 solar inverter, which can feed power back) to BUS 1B. Breakers that are already open need no action. Open as few breakers as possible, and do not cut power to any running load that is not fed from BUS 1B. Which breakers must be opened? Answer with the breaker IDs sorted alphabetically, separated by commas.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "power-iso-000008.png",
+       "sha256": "31e47c9ad9f786d28df25de6ad4139765df74e8f3df941aa526cece30c2beb1e"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794678887-XTz9Du5iNNNeCBOoOdHj",
+  "object": "chat.completion",
+  "created": 1794678887,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "BUS 1B is connected to the upstream switchgear through CB-02 and to the PV-1 source through CB-11. Open both; this leaves loads not fed from BUS 1B undisturbed.\n\nFINAL ANSWER: CB-02, CB-11",
+     "refusal": null,
+     "reasoning": null,
+     "reasoning_details": [
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7552,
+        "sha256": "0dbc88f24a9aad7cbbb48d82a93f7221aafa36923545de40d8829184322b0ae9"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0a6ba38dc8e48b69016af8a0689fc087d18b06635b922bbe22",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 6484,
+        "sha256": "bb342f8403a01e11b2f17d3ed363f5fed113353b63905af0859fe06f9c1fdd96"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0a6ba38dc8e48b69016af8a06e57a087d1aeb221ce3f31070c",
+       "index": 1
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2267,
+   "completion_tokens": 969,
+   "total_tokens": 3236,
+   "cost": 0.0007678,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 2264,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0007678,
+    "upstream_inference_prompt_cost": 0.0002833,
+    "upstream_inference_completions_cost": 0.0004845
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 908,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 10.74,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:54:48+00:00"
+}

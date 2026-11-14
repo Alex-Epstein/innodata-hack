@@ -1,0 +1,154 @@
+{
+ "key": "99969a1d142f6bb4fcdf2bf964865f129c141a84201b67b10049ce5d96a9e616",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is the as-found single-line diagram of a building's 480 V switchgear. A crew must work on BUS 2B (panel PNL-2B). It must be isolated: afterwards there may be no path through closed breakers from any source (utility services, generator G1, or the PV-1 solar inverter, which can feed power back) to BUS 2B. Breakers that are already open need no action. Open as few breakers as possible, and do not cut power to any running load that is not fed from BUS 2B. Which breakers must be opened? Answer with the breaker IDs sorted alphabetically, separated by commas.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "power-iso-000003.png",
+       "sha256": "f841cb3b62c20a4e5de51911a01425d70fc74127025e199dbf9514056ef1a7c4"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794678855-VYF22qj3n5YLj8lRcUwh",
+  "object": "chat.completion",
+  "created": 1794678855,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "BUS 2B has two closed paths from sources: CB-04 connects it to BUS 1, and CB-16 connects it to the PV-1 inverter. Open both. CB-07 and 52-G1 are already open, so they need no action. Opening CB-04 and CB-16 does not interrupt loads outside BUS 2B.\n\nFINAL ANSWER: CB-04, CB-16",
+     "refusal": null,
+     "reasoning": "**Considering bus isolation**\n\nI’m thinking that isolating BUS2B may not require opening 52-ET if BUS2B is the only focus. It looks like BUS2 remains energized, so isolating just the BUS2B panel is sufficient. I don't need to cut the main bus for this. However, I need to check how CB-04 connects via the BUS1 crossfeed path to feed BUS2B. It’s necessary to map out these connections to clarify the situation.",
+     "reasoning_details": [
+      {
+       "type": "reasoning.summary",
+       "summary": "**Considering bus isolation**\n\nI’m thinking that isolating BUS2B may not require opening 52-ET if BUS2B is the only focus. It looks like BUS2 remains energized, so isolating just the BUS2B panel is sufficient. I don't need to cut the main bus for this. However, I need to check how CB-04 connects via the BUS1 crossfeed path to feed BUS2B. It’s necessary to map out these connections to clarify the situation.",
+       "format": "openai-responses-v1",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7852,
+        "sha256": "8367cc850d5ed5e6e14753e8d8076d395d9c8adb58a03bd4ec523ab19b6125c0"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0a768adb18d6483e016af8a0481cac87d18b97155dcb656921",
+       "index": 1
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Clarifying connections**\n\nI’m thinking about how CB04 feeds into bus2B but doesn’t seem to load; it visually connects to the panel, and there don’t seem to be other connections. There could be an unusual line crossing at CB15 that hasn't been established since there's no dot. I'll need to detail the BUS 1B panel and see how the lines cross. If I open CB04, does it really only drop the loads to BUS2B?",
+       "format": "openai-responses-v1",
+       "index": 2
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7724,
+        "sha256": "b8d97a5488139e7e5390f5b5ac5b028bb2f3cbff876a24c6e25a90d04694af9f"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0a768adb18d6483e016af8a04e1cd487d1969132d121e76393",
+       "index": 3
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 8064,
+        "sha256": "acbf4f36000496fc3eea5c60d67b01e98044ae4b34ebc1baf42f9958de0d4d81"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0a768adb18d6483e016af8a05423cc87d18597396557ebbd66",
+       "index": 4
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Explaining breaker IDs**\n\nAlright, I need to break this down step by step, focusing on the user’s request for breaker IDs sorted alphabetically. I’ll make sure to sort them lexically, with CB-04 coming before CB-16. I’ll include reasoning as to why they are in that order. The final line must be exactly as the user specified. I won’t add any extra information after that final line. Let’s clarify and finalize this response for the user!",
+       "format": "openai-responses-v1",
+       "index": 5
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 2836,
+        "sha256": "209579b73e1e68c375a3a49cba24f99c5adeda21a64f7e9277b74a8e9464399f"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_0a768adb18d6483e016af8a0573ab487d1a1e51c3255921734",
+       "index": 6
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2268,
+   "completion_tokens": 1715,
+   "total_tokens": 3983,
+   "cost": 0.001140925,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 2265,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.001140925,
+    "upstream_inference_prompt_cost": 0.000283425,
+    "upstream_inference_completions_cost": 0.0008575
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1625,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 18.35,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:54:16+00:00"
+}
