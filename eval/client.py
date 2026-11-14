@@ -3,7 +3,7 @@
     uv run python -m eval.client --image X.png --question "..."
 
 What it guarantees:
-  * fixed settings for every call: temperature 0, reasoning effort high, max_tokens 16000 (SETTINGS)
+  * fixed settings for every call: temperature 0, reasoning effort high, max_tokens 32000 (SETTINGS)
   * disk cache keyed by hash(model, prompt, image hash, settings): a rerun costs nothing and returns the
     same reply, so we can never pick the best of several attempts
   * retries 429 / 5xx / timeouts with backoff; a failed call is returned as an error and never cached
@@ -30,7 +30,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 URL = "https://openrouter.ai/api/v1/chat/completions"
 MODELS = ("anthropic/claude-haiku-5.5", "openai/gpt-6-luna")
-SETTINGS = {"temperature": 0, "reasoning": {"effort": "high"}, "max_tokens": 16000}
+SETTINGS = {"temperature": 0, "reasoning": {"effort": "high"}, "max_tokens": 32000}
 
 MAX_ATTEMPTS = 6            # 1 try + 5 retries
 TIMEOUT_S = 600             # one call with long reasoning can take minutes
