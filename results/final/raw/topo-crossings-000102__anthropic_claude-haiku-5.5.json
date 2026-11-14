@@ -1,0 +1,103 @@
+{
+ "key": "ab2075b795861c8d909511e01a04d41526bcda14e75537ade7f649ba32c68dae",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map of a real place (Bear Mountain, New York), drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 20 meters, index contours (heavy brown lines, some labeled) are every 100 meters, and elevations are in meters. Rescue carry: a stretcher team carries a casualty along the Summit Trail (solid magenta line) from the magenta square S to the magenta square E. To pace the carry, the team leader logs every contour line the trail crosses. How many contour lines (index contours included) does the trail cross between S and E? Neither square stands on a contour line, so count only the crossings between the two squares. If the trail crosses the same contour line more than once, count every crossing. Answer with a whole number, for example 7.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-crossings-000102.png",
+       "sha256": "8222f9549d279f11ea80d7e33a0fcf6a34d6cca1373d55e681a682cef4ed317c"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794684582-6tNFKEW3L6G73jGLjPz0",
+  "object": "chat.completion",
+  "created": 1794684582,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "I estimated the crossings by eye from the trail's path against the nearby contours, so the count is approximate rather than exact.\n\n1. **S to the first bend (about (910,341) to (775,392)):** The trail heads west-southwest down-slope from S and crosses the index 100 m contour on the east flank, plus a few thin contours between it and S. Roughly 3 crossings.\n2. **Ridge bend (about (775,392) to (697,430)):** The trail turns along the rising slope and crosses the thin contours between about 120 m and 200 m. Roughly 3 crossings.\n3. **Descent to the south (about (697,430) to (650,540)):** The trail runs down through the closely spaced inner rings, including the index 300 m contour near (665,505). Roughly 5 crossings.\n4. **Final approach to E (about (650,540) to (613,611)):** A short run through the inner thin contours before reaching E. Roughly 1–2 crossings.\n\nSumming these gives about 12 crossings. Because the inner contours are closely spaced, individual counts in segments 3 and 4 are the least certain.\n\nFINAL ANSWER: 12",
+     "refusal": null,
+     "reasoning": "I'm tracing the trail from the start point at (910,341) to the end at (613,611), noting where it heads west-southwest, bends south, and runs down to the finish. Next I need to work out how the contour rings around the summit line up with that path so I can count where the trail crosses them.\n\nNow I'm checking the contour lines near the start point, where the index contour at 100 seems to run close to the path, and judging whether the start lies outside it.\n\nNow I'm estimating where the trail crosses the 100 index contour near (820,385), with perhaps a thin contour or two between there and the start point, and I'm judging the rough elevation along the ridge.\n\nI'm checking the 200 and 300 index contours, which seem to wind around the hill in loops, and trying to place them relative to the trail.\n\nI'm working out how many contour rings the trail crosses between the start and the summit, guessing that it cuts through the 100 index line, a few thin ones in between, and maybe the 200 index before it reaches the ridge near (740,385).\n\nI'm estimating how many contour lines the trail crosses on its way down from the ridge, now that a precise count looks out of reach. Spacing on the east slope looks tight, with roughly four thin contours between the index 100 and 200 lines.\n\nI'm estimating the crossings on the first leg from the start toward (775,392): probably the 100 index contour near (820,380), plus a couple of thin contours between there and the start, so about three in total. For the next leg, down through (740,385) to (697,430), I'd guess two or three more where the 180 and 200 contours sit.\n\nI'm working out the crossings for the middle stretch, from (697,430) down through (705,470) to (650,540), which I think passes thin contours inside the 200 ring and probably meets the 300 index near (670,510) for about four or five crossings. The last leg to (650,600) and the endpoint at (613,611) looks like only one or two more, so I'm settling on a rough total near twelve.\n\nI'm settling on a rough count for the crossings in the inner area, since the thin contours there are packed about 20 px apart and an exact tally isn't feasible. The last stretch down to the endpoint probably meets a couple of them near (650,555) and (650,585), so my working estimate stays at 12.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm tracing the trail from the start point at (910,341) to the end at (613,611), noting where it heads west-southwest, bends south, and runs down to the finish. Next I need to work out how the contour rings around the summit line up with that path so I can count where the trail crosses them.\n\nNow I'm checking the contour lines near the start point, where the index contour at 100 seems to run close to the path, and judging whether the start lies outside it.\n\nNow I'm estimating where the trail crosses the 100 index contour near (820,385), with perhaps a thin contour or two between there and the start point, and I'm judging the rough elevation along the ridge.\n\nI'm checking the 200 and 300 index contours, which seem to wind around the hill in loops, and trying to place them relative to the trail.\n\nI'm working out how many contour rings the trail crosses between the start and the summit, guessing that it cuts through the 100 index line, a few thin ones in between, and maybe the 200 index before it reaches the ridge near (740,385).\n\nI'm estimating how many contour lines the trail crosses on its way down from the ridge, now that a precise count looks out of reach. Spacing on the east slope looks tight, with roughly four thin contours between the index 100 and 200 lines.\n\nI'm estimating the crossings on the first leg from the start toward (775,392): probably the 100 index contour near (820,380), plus a couple of thin contours between there and the start, so about three in total. For the next leg, down through (740,385) to (697,430), I'd guess two or three more where the 180 and 200 contours sit.\n\nI'm working out the crossings for the middle stretch, from (697,430) down through (705,470) to (650,540), which I think passes thin contours inside the 200 ring and probably meets the 300 index near (670,510) for about four or five crossings. The last leg to (650,600) and the endpoint at (613,611) looks like only one or two more, so I'm settling on a rough total near twelve.\n\nI'm settling on a rough count for the crossings in the inner area, since the thin contours there are packed about 20 px apart and an exact tally isn't feasible. The last stretch down to the endpoint probably meets a couple of them near (650,555) and (650,585), so my working estimate stays at 12.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 8821,
+        "sha256": "1d8028409f9fcf6fccdac598bf898e407bf29fa29616c63b9e4447b8f15efc43"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2796,
+   "completion_tokens": 2697,
+   "total_tokens": 5493,
+   "cost": 0.0016281,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0016281,
+    "upstream_inference_prompt_cost": 0.0002796,
+    "upstream_inference_completions_cost": 0.0013485
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2320,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 15.14,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T19:29:41+00:00"
+}

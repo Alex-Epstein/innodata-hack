@@ -1,0 +1,103 @@
+{
+ "key": "9d3ed9e387026619966b62e89226bd38e99d160f11cbbc4802b096701b63a6c4",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map of a real place (Breakneck Ridge, New York), drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 20 meters, index contours (heavy brown lines, some labeled) are every 100 meters, and elevations are in meters. Rescue carry: a stretcher team carries a casualty along the Aspen Trail (solid magenta line) from the magenta square S to the magenta square E. To pace the carry, the team leader logs every contour line the trail crosses. How many contour lines (index contours included) does the trail cross between S and E? Neither square stands on a contour line, so count only the crossings between the two squares. If the trail crosses the same contour line more than once, count every crossing. Answer with a whole number, for example 7.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-crossings-000100.png",
+       "sha256": "bf6845c4cc2c8833087d615f80762a9e9c5ac08a7f90754c33eb6ea121db3a5e"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794684572-wNsw6TGmr20IDHhXbxCK",
+  "object": "chat.completion",
+  "created": 1794684572,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Tracing the trail from S to E**\n\n1. **S (≈518, 509)** sits inside the closed loop of a heavy index contour (300 m). The trail heads southeast, so it leaves that loop and crosses the heavy line near (580, 540). That is the **300 m index contour**, crossing 1.\n\n2. Between about y = 540 and y = 620, the trail passes through a dense band of thin contours, which step down from 300 m toward 200 m. I estimate four thin crossings there (280, 260, 240, 220 m). Crossings 2–5.\n\n3. The trail then meets a heavy line near (608, 620). This line connects westward to the one labeled \"200\" at (388, 590), so it is the **200 m index contour**. Crossing 6.\n\n4. From there to E (≈604, 707), the trail runs through the lower-elevation area just south of the 200 m line. E appears to lie a little below 200 m, so one more thin contour (about 180 m) is likely crossed. This is my least certain count, since the thin lines in that short stretch are hard to resolve at this scale.\n\n**Total:** 1 (300) + 4 (thin, 280–220) + 1 (200) + 1 (thin, ~180) = **7**\n\nThis is an estimate from reading the map. The first and last crossings are the most reliable; the thin-contour counts in the dense band are approximate.\n\nFINAL ANSWER: 7",
+     "refusal": null,
+     "reasoning": "I'm tracing the trail from the start point at (518,509) down to the end at (604,707), noting that it bends right and then down through a few points along the way. Next I'm trying to work out the elevation at the start, checking which contour lines run close to it, including the index line labeled 300 near (500,410).\n\nI'm checking where the trail crosses a thick contour near the start, around (585,540), and considering whether it's the 300 index line or another one nearby.\n\nI'm working out which contour is the one near the start, and the thick line that runs past the end point looks like the next crossing to check. The thin lines between that thick line and the end are harder to pin down, so I'm estimating where they fall.\n\nI'm checking whether the thick line running past the start point is the index contour labeled 300, and whether S sits inside or outside the loop it forms with the lines on either side.\n\nI'm checking whether the trail's descent really goes from above 300 down through 300 and then back to 300, since that doesn't fit with a single crossing.\n\nI'm going back over the thick line near (608,620) and tracing where it runs to the west. I'm now thinking it may be the 200 index contour instead, since the thick line there seems to link up with the one labeled 200 near (388,590).\n\nI'm placing the thin contours between the 300 and 200 lines, roughly at 280, 260, 240, and 220, with the trail likely crossing several of them around x 590-610. Below the 200 line near (608,620), I'm estimating the elevation at E (707) as roughly 180, though that's a rough guess.\n\nI'm estimating how many contours the trail crosses between the start, which sits above the 300 line, and the end, which I'm guessing is somewhere around 180 to 200. That would mean crossing the thin lines at 280, 260, 240, and 220, plus the 200 index line.\n\nNow I'm counting the contours the trail crosses on its way down, arriving at a running total of six so far, possibly seven if the endpoint sits below 180. I'm trying to decide which side of the 200 line the trail lands on after it crosses that thick line near (608,620), to settle whether the end point falls inside or outside that band.\n\nI'm weighing whether the trail's last stretch, down toward the end point, crosses one more thin contour near the 180 level before it stops, and I'm leaning toward counting seven crossings in total, though the exact placement of those thin lines is still uncertain.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm tracing the trail from the start point at (518,509) down to the end at (604,707), noting that it bends right and then down through a few points along the way. Next I'm trying to work out the elevation at the start, checking which contour lines run close to it, including the index line labeled 300 near (500,410).\n\nI'm checking where the trail crosses a thick contour near the start, around (585,540), and considering whether it's the 300 index line or another one nearby.\n\nI'm working out which contour is the one near the start, and the thick line that runs past the end point looks like the next crossing to check. The thin lines between that thick line and the end are harder to pin down, so I'm estimating where they fall.\n\nI'm checking whether the thick line running past the start point is the index contour labeled 300, and whether S sits inside or outside the loop it forms with the lines on either side.\n\nI'm checking whether the trail's descent really goes from above 300 down through 300 and then back to 300, since that doesn't fit with a single crossing.\n\nI'm going back over the thick line near (608,620) and tracing where it runs to the west. I'm now thinking it may be the 200 index contour instead, since the thick line there seems to link up with the one labeled 200 near (388,590).\n\nI'm placing the thin contours between the 300 and 200 lines, roughly at 280, 260, 240, and 220, with the trail likely crossing several of them around x 590-610. Below the 200 line near (608,620), I'm estimating the elevation at E (707) as roughly 180, though that's a rough guess.\n\nI'm estimating how many contours the trail crosses between the start, which sits above the 300 line, and the end, which I'm guessing is somewhere around 180 to 200. That would mean crossing the thin lines at 280, 260, 240, and 220, plus the 200 index line.\n\nNow I'm counting the contours the trail crosses on its way down, arriving at a running total of six so far, possibly seven if the endpoint sits below 180. I'm trying to decide which side of the 200 line the trail lands on after it crosses that thick line near (608,620), to settle whether the end point falls inside or outside that band.\n\nI'm weighing whether the trail's last stretch, down toward the end point, crosses one more thin contour near the 180 level before it stops, and I'm leaning toward counting seven crossings in total, though the exact placement of those thin lines is still uncertain.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 10025,
+        "sha256": "136df1e9bb2be64bb372c9eb83cfe2755a26cead6953a61a4fcdfba66193c650"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2799,
+   "completion_tokens": 3107,
+   "total_tokens": 5906,
+   "cost": 0.0018334,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0018334,
+    "upstream_inference_prompt_cost": 0.0002799,
+    "upstream_inference_completions_cost": 0.0015535
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2648,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 17.87,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T19:29:32+00:00"
+}
