@@ -253,6 +253,9 @@ docker run --rm -e OPENROUTER_API_KEY -v "$(pwd)/out:/out" visual-task-factory f
 - Scores come from one run per task at temperature 0; replies are not perfectly repeatable across runs.
 - Pilot sets are 10 tasks per template; differences of one or two tasks between models mean little.
 
+## Slides
+`slides/presentation.pptx`, the organizers' 5-slide template filled in by `slides/build.py` from the same result files.
+
 ## Team contributions
 - **Alex Epstein (`Alex-Epstein`)**, team lead: plan and decisions, the core command line (`factory/`), the
   checks and the reviewer (`validate/`), the real-terrain spike, the report page and the demo site.
