@@ -1,0 +1,1 @@
+done: #89 README hand-check block filled from results/human/hand_check.md, hand-check wording matches how it was done, slides point to slides/TheMapVsTheMountain.pptx (old slides/presentation.pptx removed); LostThePlot_Track2.zip built, checker 0 FAIL 0 WARN 32 PASS. next: Alex ticks the Confirmed column, then rebuild the ZIP and upload. blocked: nothing
