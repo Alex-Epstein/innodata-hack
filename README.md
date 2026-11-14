@@ -142,7 +142,22 @@ The 10 reported tasks, one run, both models (written by `scripts/package --fill-
 folders):
 
 <!-- final-results:start -->
-Filled in when the final run lands.
+| Task | Mission | Reference answer | Haiku | Luna |
+|---|---|---|---|---|
+| `topo-crossings-000100` | crossings | 11 | 7 ✗ | 5 ✗ |
+| `topo-crossings-000101` | crossings | 11 | 5 ✗ | 11 ✓ |
+| `topo-crossings-000102` | crossings | 16 | 12 ✗ | 10 ✗ |
+| `topo-sunset-000100` | sunset | 37 | 45 ✗ | 45 ✗ |
+| `topo-sunset-000101` | sunset | 9 | 13 ✗ | 25 ✗ |
+| `topo-sunset-000102` | sunset | 29 | 49 ✗ | 57 ✗ |
+| `topo-flood-000100` | flood | C4 | C4 ✓ | C4 ✓ |
+| `topo-flood-000101` | flood | C5 | C5 ✓ | C5 ✓ |
+| `topo-flood-000102` | flood | C1 | C6 ✗ | C6 ✗ |
+| `topo-flood-000103` | flood | C1 | C3 ✗ | C3 ✗ |
+| **Total** | | | **2/10** | **3/10** |
+
+By mission: crossings Haiku 0/3, Luna 1/3; flood Haiku 2/4, Luna 2/4; sunset Haiku 0/3, Luna 0/3.
+Facts: 20 of 20 replies are complete (`finish_reason` stop, no error); the run cost $0.0502; 10 of 10 tasks pass every automatic check; generator `topo-2.1.0`, seeds 100, 101, 102, 100, 101, 102, 100, 101, 102, 103.
 <!-- final-results:end -->
 
 ## Key findings
@@ -157,6 +172,10 @@ Filled in when the final run lands.
 - Answer format is not stable across runs even at temperature 0; every question shows one example answer in the
   exact expected form, and each reply is stored once and never re-asked.
 
+- Two worked examples in the prompt did not help: on the same 48 pilot test calls the models got 8/48 right
+  zero-shot and 6/48 with two examples (the few-shot experiment, `fewshot/summary.md` in the `extra` results
+  folder). The skill is not picked up from a couple of demonstrations.
+
 More notes with their sources: `NOTES.md`.
 
 ## Hand check
@@ -164,7 +183,16 @@ A person solved every reported task from the image alone, timed, and compared wi
 (`results/human/`). One line per task:
 
 <!-- hand-check:start -->
-Filled in when the final run lands.
+- `topo-crossings-000100`: hand check pending.
+- `topo-crossings-000101`: hand check pending.
+- `topo-crossings-000102`: hand check pending.
+- `topo-sunset-000100`: hand check pending.
+- `topo-sunset-000101`: hand check pending.
+- `topo-sunset-000102`: hand check pending.
+- `topo-flood-000100`: hand check pending.
+- `topo-flood-000101`: hand check pending.
+- `topo-flood-000102`: hand check pending.
+- `topo-flood-000103`: hand check pending.
 <!-- hand-check:end -->
 
 ## Run in Docker
