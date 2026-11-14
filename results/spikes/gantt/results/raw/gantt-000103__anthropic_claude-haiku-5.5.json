@@ -1,0 +1,99 @@
+{
+ "key": "34a59d84e983a769642d6779b89789458ea9aa10bd5eb266763bd0d705d49876",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "Durations are in working days: Monday to Friday, except the shaded company holidays. Every link is finish-to-start, and a task starts on the first working day after all of its predecessors finish. On what date does the last task of this project finish? Answer with the date in the form Fri Mar 5.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "gantt-000103.png",
+       "sha256": "a61edb5c13bfe41149a5a6b2373dabe85710be65bff0d82491cc87d4346198d1"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673759-ncMidKksajtUr2s1Z0WX",
+  "object": "chat.completion",
+  "created": 1794673759,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "The last task is Go-live (task 6), which finishes on **Wed Dec 2**.\n\nWorking through the schedule, with weekends and the holidays on Thu 11/26, Fri 11/27, Fri 12/25 and Fri 1/1 skipped:\n\n1. **Kickoff** (1 day): Mon 11/16 to Mon 11/16.\n2. **Server provisioning** (3 days, after 1): Tue 11/17 to Thu 11/19.\n3. **Barcode label design** (2 days, after 1): Tue 11/17 to Wed 11/18.\n4. **Floor-staff training** (6 days, after 2): Fri 11/20, Mon 11/23, Tue 11/24, Wed 11/25, then the holidays on 11/26 and 11/27 are skipped, Mon 11/30, Tue 12/1. Finishes Tue 12/1.\n5. **Data cleanup** (2 days, after 4): Thu 11/19 to Fri 11/20.\n6. **Go-live** (1 day, after 3 and 5): starts after the later predecessor, Tue 12/1, so it runs Wed 12/2.\n\nFINAL ANSWER: Wed Dec 2",
+     "refusal": null,
+     "reasoning": "I'm laying out the schedule: the project starts Monday 11/16/26, with holidays on 11/26, 11/27, 12/25 and 1/1. Kickoff is a single day on 11/16, and server provisioning runs three days from Tuesday 11/17 through Thursday 11/19.\n\nI'm checking the remaining tasks against the calendar: barcode label design runs Tuesday and Wednesday, floor-staff training counts six working days around the holidays and ends Tuesday 12/1, and data cleanup finishes Friday 11/20. That makes go-live start after 12/1, so I'm landing on Wednesday 12/2.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm laying out the schedule: the project starts Monday 11/16/26, with holidays on 11/26, 11/27, 12/25 and 1/1. Kickoff is a single day on 11/16, and server provisioning runs three days from Tuesday 11/17 through Thursday 11/19.\n\nI'm checking the remaining tasks against the calendar: barcode label design runs Tuesday and Wednesday, floor-staff training counts six working days around the holidays and ends Tuesday 12/1, and data cleanup finishes Friday 11/20. That makes go-live start after 12/1, so I'm landing on Wednesday 12/2.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "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.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 591,
+   "completion_tokens": 946,
+   "total_tokens": 1537,
+   "cost": 0.0005321,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0005321,
+    "upstream_inference_prompt_cost": 5.91e-05,
+    "upstream_inference_completions_cost": 0.000473
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 542,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 3.95,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": true,
+ "mock": false,
+ "created": "2026-11-14T16:29:20+00:00"
+}

@@ -1,0 +1,99 @@
+{
+ "key": "629d68f6980853dcc9e03b2419ef8d54a766f582ced49d1db0c312789772a47e",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "Durations are in working days: Monday to Friday, except the shaded company holidays. Every link is finish-to-start, and a task starts on the first working day after all of its predecessors finish. On what date does the last task of this project finish? Answer with the date in the form Fri Mar 5.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "gantt-000102.png",
+       "sha256": "c3ab40562d90c4295849fd7fedb899475e20f4ce70d63be92f375fab99b50b45"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673753-w7D69N7mnVN3ZWElAREd",
+  "object": "chat.completion",
+  "created": 1794673753,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "## Schedule calculation\n\n**Calendar:** Project starts Mon 11/16. Non-working days are weekends plus the holidays Thu 11/26, Fri 11/27, Fri 12/25, and Fri 1/1.\n\n1. **Kickoff meeting** (1 day): Mon 11/16 to Mon 11/16.\n2. **HVAC ductwork** (6 days, after task 1): Tue 11/17, Wed 11/18, Thu 11/19, Fri 11/20, Mon 11/23, Tue 11/24. Finishes Tue 11/24.\n3. **Flooring** (5 days, after task 1): Tue 11/17 through Mon 11/23. Finishes Mon 11/23.\n4. **Punch list** (6 days, after task 2): Starts Wed 11/25. The holidays on 11/26 and 11/27 are skipped, so the days are Wed 11/25, Mon 11/30, Tue 12/1, Wed 12/2, Thu 12/3, Fri 12/4. Finishes Fri 12/4.\n5. **Fire inspection** (3 days, after task 4): Starts Tue 11/24 (the day after Flooring finishes on 11/23). Days are Tue 11/24, Wed 11/25, Mon 11/30. Finishes Mon 11/30.\n6. **Handover to tenant** (1 day, after tasks 3 and 5): Both predecessors are done by Fri 12/4, so handover starts on the next working day, Mon 12/7, and finishes the same day.\n\nThe Gantt chart agrees: the handover bar sits in the Monday column after the Dec 6 week header begins.\n\nThe last task, Handover to tenant, finishes on Mon Dec 7.\n\nFINAL ANSWER: Mon Dec 7",
+     "refusal": null,
+     "reasoning": "I'm mapping out the schedule now: the project starts Monday 11/16, with weekends and the holidays on 11/26, 11/27, 12/25, and 1/1 excluded. The kickoff is a single day on 11/16, and the HVAC task, six days, begins the following Tuesday, 11/17, and runs through the working days after that.\n\nI'm working through the remaining dependencies now: the HVAC work ends Tuesday 11/24, flooring wraps up Monday 11/23, and the punch list runs six working days from Wednesday 11/25, skipping the holidays, to finish Friday 12/4. Next I'm checking the fire inspection and handover dates against those finish times.\n\nI'm checking the handover date now, comparing the finish times of the earlier tasks against the chart's column positions to see which day the handover bar actually lands on.\n\nI'm checking the handover bar's pixel position against the day columns, and it lands on Monday, December 7, which fits the schedule.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm mapping out the schedule now: the project starts Monday 11/16, with weekends and the holidays on 11/26, 11/27, 12/25, and 1/1 excluded. The kickoff is a single day on 11/16, and the HVAC task, six days, begins the following Tuesday, 11/17, and runs through the working days after that.\n\nI'm working through the remaining dependencies now: the HVAC work ends Tuesday 11/24, flooring wraps up Monday 11/23, and the punch list runs six working days from Wednesday 11/25, skipping the holidays, to finish Friday 12/4. Next I'm checking the fire inspection and handover dates against those finish times.\n\nI'm checking the handover date now, comparing the finish times of the earlier tasks against the chart's column positions to see which day the handover bar actually lands on.\n\nI'm checking the handover bar's pixel position against the day columns, and it lands on Monday, December 7, which fits the schedule.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "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.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 591,
+   "completion_tokens": 1612,
+   "total_tokens": 2203,
+   "cost": 0.0008651,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0008651,
+    "upstream_inference_prompt_cost": 5.91e-05,
+    "upstream_inference_completions_cost": 0.000806
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1010,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 6.91,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": true,
+ "mock": false,
+ "created": "2026-11-14T16:29:14+00:00"
+}
