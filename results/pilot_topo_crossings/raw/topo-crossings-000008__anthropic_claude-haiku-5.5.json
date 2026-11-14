@@ -1,0 +1,103 @@
+{
+ "key": "60bcb979b7b0ae84684de5710a1f73ff11253b847b15269cd7707e8ffd47c69b",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map of a real place (Mount Tamalpais, California), drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 20 meters, index contours (heavy brown lines, some labeled) are every 100 meters, and elevations are in meters. Rescue carry: a stretcher team carries a casualty along the Ridge Trail (dashed red line) from the magenta square S to the magenta square E. To pace the carry, the team leader logs every contour line the trail crosses. How many contour lines (index contours included) does the trail cross between S and E? If it crosses the same contour line more than once, count every crossing. Answer with a whole number, for example 7.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-crossings-000008.png",
+       "sha256": "4acff2d5553e6fb44c2d7d9ca01352e9ddee791793dc94c75181783659645bc8"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794678994-wCmm7wQFW2QQYv9fbQpA",
+  "object": "chat.completion",
+  "created": 1794678994,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "I estimated this by eye from the map rather than tracing each line exactly, so the count is approximate.\n\n1. **Trail path:** From S (about 582,443), the trail runs north-northwest to about (560,395), then west to about (465,365), then northwest to a crest near (400,325), then southwest down to E (about 301,407).\n2. **Elevation trend:** The trail climbs from S to the crest and then descends to E. Contour lines are only crossed on the climb and the descent, and each crossing counts.\n3. **Crossings:** Working from the 20 m interval and the index contours (every 100 m), I estimate about 5 crossings on the climb from S to the crest and about 3 on the descent to E. That gives roughly 8 in total.\n\nI could not resolve every line in the dense contour bands, so 8 is my best estimate, not a verified count.\n\nFINAL ANSWER: 8",
+     "refusal": null,
+     "reasoning": "I'm tracing the trail from the start point down to the end point, then counting how many contour lines it crosses along the way. The contour lines are hard to pin down exactly, so I'm starting with the first leg, from the start point up to the one at (577,420).\n\nI'm estimating which contour lines the trail crosses, starting with the stretch near S. The elevation there is hard to pin down, so I'm checking the nearby index contour labels to get a sense of the range before tracing the lines near the path.\n\nNow I'm weighing the elevations near the trail, guessing the start around 340 and the end around 400, with a peak near (400,325) that might sit around 480. I'm estimating how many contour lines the path crosses going up to that ridge and back down toward E, since the contours are dense in a few spots near (450,340) to (480,370).\n\nI'm checking which index contours sit near S, where one brown line seems to pass just east of it, and I'm guessing whether that line is the 400 contour before I count the crossings.\n\nI'm settling on a count of about nine crossings, roughly five going up from S to the peak and four coming back down to E, since the elevation swing looks like it's around 100 to 150 meters.\n\nNow I'm settling on a count of 8 crossings, after checking the index contour near (330,360) to (380,345) on the way from E toward the peak.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm tracing the trail from the start point down to the end point, then counting how many contour lines it crosses along the way. The contour lines are hard to pin down exactly, so I'm starting with the first leg, from the start point up to the one at (577,420).\n\nI'm estimating which contour lines the trail crosses, starting with the stretch near S. The elevation there is hard to pin down, so I'm checking the nearby index contour labels to get a sense of the range before tracing the lines near the path.\n\nNow I'm weighing the elevations near the trail, guessing the start around 340 and the end around 400, with a peak near (400,325) that might sit around 480. I'm estimating how many contour lines the path crosses going up to that ridge and back down toward E, since the contours are dense in a few spots near (450,340) to (480,370).\n\nI'm checking which index contours sit near S, where one brown line seems to pass just east of it, and I'm guessing whether that line is the 400 contour before I count the crossings.\n\nI'm settling on a count of about nine crossings, roughly five going up from S to the peak and four coming back down to E, since the elevation swing looks like it's around 100 to 150 meters.\n\nNow I'm settling on a count of 8 crossings, after checking the index contour near (330,360) to (380,345) on the way from E toward the peak.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 6101,
+        "sha256": "7afe96442e8d22a359cb2d96056c5d9add0011c9eefb3c9c2dc3433ac7599036"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2770,
+   "completion_tokens": 1772,
+   "total_tokens": 4542,
+   "cost": 0.001163,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.001163,
+    "upstream_inference_prompt_cost": 0.000277,
+    "upstream_inference_completions_cost": 0.000886
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1483,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 10.6,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:56:34+00:00"
+}

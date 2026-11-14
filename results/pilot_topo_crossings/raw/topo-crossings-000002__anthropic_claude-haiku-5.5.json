@@ -1,0 +1,103 @@
+{
+ "key": "ffeaf5f1cb55bd0f266c461dfe51c10e2e84bbdcf798a2374f1b1e58969a499b",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map of a real place (Mount Tamalpais, California), drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 20 meters, index contours (heavy brown lines, some labeled) are every 100 meters, and elevations are in meters. Rescue carry: a stretcher team carries a casualty along the Aspen Trail (dashed red line) from the magenta square S to the magenta square E. To pace the carry, the team leader logs every contour line the trail crosses. How many contour lines (index contours included) does the trail cross between S and E? If it crosses the same contour line more than once, count every crossing. Answer with a whole number, for example 7.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-crossings-000002.png",
+       "sha256": "05e177d8c18f480cfa610396e1ca3ce119a4031547a287975d0cc6d542f2ed87"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794678852-d800BDxNFhC93Isupmth",
+  "object": "chat.completion",
+  "created": 1794678852,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "I estimated this from the map image rather than measuring it exactly, so treat the count as approximate.\n\n1. **Trail path:** From S at about (942, 694), the Aspen Trail runs northwest, bends north near (856, 470), then curves to E at about (795, 326).\n2. **Elevations:** S sits near the 400–440 m range, where contours are dense. E sits above the labeled 700 m index contour, so E is roughly 700–720 m.\n3. **Rise:** The climb is about 280–300 m. At a 20 m interval, that is roughly 14 contour levels.\n4. **Crossings:** The trail crosses the 500 and 600 index lines and the labeled 700 index line near (810, 420), plus the thin contours between them. Along its bends the trail may cross a few contours twice, which the rules say to count.\n\nThe best estimate is about 14 crossings.\n\nFINAL ANSWER: 14",
+     "refusal": null,
+     "reasoning": "I'm working out the contour crossings along the trail from S to E, tracing the path up through the bends and then checking where each contour level would be crossed. The index contours at 500, 600, and 700 give me the reference elevations, and I'm still locating where the 600 label sits.\n\nI'm pinning down which contour lines the trail crosses, starting with the spot where S sits between the index lines. The dense contours near S suggest S's elevation is somewhere between the 400 and 500 index levels, and I'm checking whether the line running past the bottom of the trail is one of them.\n\nI'm estimating how many contour lines the trail crosses between S and E, judging by the rise from roughly 400 to 700 meters. I'm checking the index lines near the 700 label and the brown line running up past E to see where the trail meets them.\n\nI'm estimating how many contour lines the trail crosses on the way up from S to E, checking the stretch near the 600 and 500 index lines as I go. I'm still unsure where S falls, since its elevation is probably somewhere around 400 to 500 meters.\n\nI'm trying to gauge how many contour lines the trail crosses, since the elevation gap from S to E could be roughly 300 meters. The thin contours between the 400 and 500 index lines look spaced about 15 to 20 pixels apart, which would mean a fairly large number of crossings along the path.\n\nI'm estimating S's elevation at around 440 m and E's near 700 m, which puts the climb at roughly 260 m. With contours every 20 m, that works out to about 13 crossings, and I'll allow for an extra one or two from the wiggles along the path, so I'm leaning toward 14.\n\nNow I'm checking which index contours the trail crosses, starting with the 700 line near the label at (766,450), since it looks like it sits just under the path around (810,420). That would put E above 700, somewhere near 720 m, while S sits closer to 420 to 440 m.\n\nI'm settling on about 14 crossings, since S looks to be near 420 m and the climb is roughly 290 m, which makes 14 or 15 plausible, and I'll go with 14.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm working out the contour crossings along the trail from S to E, tracing the path up through the bends and then checking where each contour level would be crossed. The index contours at 500, 600, and 700 give me the reference elevations, and I'm still locating where the 600 label sits.\n\nI'm pinning down which contour lines the trail crosses, starting with the spot where S sits between the index lines. The dense contours near S suggest S's elevation is somewhere between the 400 and 500 index levels, and I'm checking whether the line running past the bottom of the trail is one of them.\n\nI'm estimating how many contour lines the trail crosses between S and E, judging by the rise from roughly 400 to 700 meters. I'm checking the index lines near the 700 label and the brown line running up past E to see where the trail meets them.\n\nI'm estimating how many contour lines the trail crosses on the way up from S to E, checking the stretch near the 600 and 500 index lines as I go. I'm still unsure where S falls, since its elevation is probably somewhere around 400 to 500 meters.\n\nI'm trying to gauge how many contour lines the trail crosses, since the elevation gap from S to E could be roughly 300 meters. The thin contours between the 400 and 500 index lines look spaced about 15 to 20 pixels apart, which would mean a fairly large number of crossings along the path.\n\nI'm estimating S's elevation at around 440 m and E's near 700 m, which puts the climb at roughly 260 m. With contours every 20 m, that works out to about 13 crossings, and I'll allow for an extra one or two from the wiggles along the path, so I'm leaning toward 14.\n\nNow I'm checking which index contours the trail crosses, starting with the 700 line near the label at (766,450), since it looks like it sits just under the path around (810,420). That would put E above 700, somewhere near 720 m, while S sits closer to 420 to 440 m.\n\nI'm settling on about 14 crossings, since S looks to be near 420 m and the climb is roughly 290 m, which makes 14 or 15 plausible, and I'll go with 14.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 7517,
+        "sha256": "d104017a09b4eba247c15ea003adb3f316d2912b49f5f1013ed6b4782c77ef59"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2770,
+   "completion_tokens": 2283,
+   "total_tokens": 5053,
+   "cost": 0.0014185,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0014185,
+    "upstream_inference_prompt_cost": 0.000277,
+    "upstream_inference_completions_cost": 0.0011415
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1984,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 12.6,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:54:12+00:00"
+}

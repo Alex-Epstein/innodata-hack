@@ -1,0 +1,33 @@
+{
+ "models": [
+  "anthropic/claude-haiku-5.5",
+  "openai/gpt-6-luna"
+ ],
+ "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+ "temperature": 0,
+ "reasoning": {
+  "effort": "high"
+ },
+ "max_tokens": 64000,
+ "prompt_template": "{question}\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>",
+ "image_sent": true,
+ "retries": {
+  "max_attempts": 6,
+  "retried": "HTTP 408/409/425/429, 5xx, timeouts, error bodies, empty replies",
+  "backoff": "Retry-After if given, else 2^n s up to 60 s"
+ },
+ "raw_log_note": "raw/ holds each request (no image bytes, no key) and the full reply; opaque provider blobs (encrypted reasoning data, reasoning signatures) are replaced by their SHA-256",
+ "tasks_folder": "/tmp/pilot101/crossings",
+ "n_tasks": 10,
+ "mock": false,
+ "timestamp": "2026-11-14T17:48:30+00:00",
+ "git_commit": "8c9072099a4509f7b4064693d77c7cbf3515bc46",
+ "totals": {
+  "calls": 20,
+  "from_cache": 0,
+  "incomplete": 0,
+  "retried_calls": 0,
+  "cost_usd_all_calls": 0.075267275,
+  "cost_usd_new_calls": 0.075267275
+ }
+}

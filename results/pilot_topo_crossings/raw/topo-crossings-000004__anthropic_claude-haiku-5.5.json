@@ -1,0 +1,103 @@
+{
+ "key": "d9754e466cffd1fc4121b182f3ae03c1f42c5d61650009560e4778598da4a861",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map of a real place (Breakneck Ridge, New York), drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 20 meters, index contours (heavy brown lines, some labeled) are every 100 meters, and elevations are in meters. Rescue carry: a stretcher team carries a casualty along the Pack Trail (dashed red line) from the magenta square S to the magenta square E. To pace the carry, the team leader logs every contour line the trail crosses. How many contour lines (index contours included) does the trail cross between S and E? If it crosses the same contour line more than once, count every crossing. Answer with a whole number, for example 7.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-crossings-000004.png",
+       "sha256": "1d8f096aecfa2c0171f942dbc9e0737c5478b69238a9c9eb19f63fbdef199795"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794678921-jM9RlZWlyQYsKBhy8Wae",
+  "object": "chat.completion",
+  "created": 1794678921,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "## Reasoning\n\nI traced the Pack Trail from S to E and counted each contour it crosses. Several crossings are hard to read precisely at this scale, so this is an estimate rather than a verified count.\n\n1. **S to the first crossing:** S sits just west of the heavy index contour labeled 200. The trail leaves S and crosses that index line almost immediately, around x≈588. This is crossing 1.\n\n2. **Climb to the high point:** Between the 200 index line and the 300 index line, the thin 20 m contours (220, 240, 260, 280) run roughly north–south, so an east-bound trail crosses each of them once. Reaching the 300 index line adds one more crossing. That gives crossings 2–6.\n\n3. **High point to E:** The trail peaks near (715, 597) and then bends southeast and south toward E. My reading is that the peak lies a little above 300 m, so the descent recrosses the 300 index line once. E itself appears to sit between the 300 and 400 contours, around 320–340 m, so I see no further crossings on the final approach.\n\nEstimated total: 1 + 4 thin contours + 1 index (300 m) on the climb, plus 1 recrossing of the 300 m index on the descent, for 7 crossings.\n\nFINAL ANSWER: 7",
+     "refusal": null,
+     "reasoning": "I'm tracing the trail from S to E, first heading east along about y=605 and then southeast and south down to E. Next I'll count how many contour lines it crosses, starting with figuring out the elevation near S, where the index contour 200 seems to run past (600, 680).\n\nI'm working out the elevation near S, where the index contour labeled 200 runs just east of the start, and I think the trail crosses it right after leaving S. I'm also checking whether the 300 contour lies further northeast along the route.\n\nI'm checking whether the trail crosses the 300 index contour as it climbs past the 200 line, and I'm trying to pin down where the peak near (715, 597) sits relative to the 300 line running up toward the northeast.\n\nI'm checking which thin contour lines the trail crosses between the 200 index line and the peak near (715, 597), since that stretch is where the count is still unclear to me.\n\nI'm estimating the spacing of the thin contours between the 200 and 300 index lines, since the trail runs roughly east-west across contours that run north-south there. The 300 index line sits off to the southeast, so I'm not sure the spacing carries over directly.\n\nI'm still weighing how many thin contours sit between the 200 and 300 index lines on the way up to the peak, and I'm guessing somewhere around four before the 300 line. Coming back down, I'd expect the trail to cross those same lines again on the way to E, but I'm not sure where E falls relative to the 300 and 400 contours yet.\n\nI'm estimating the elevations along the trail: S sits just under the 200 index line, so maybe around 190, while the peak near (715, 597) could be 300 or a bit above. E looks to fall between the 300 and 400 contours, somewhere around 320 to 340.\n\nI'm working through how many thin contours sit between the 200 and 300 index lines on the way up to the peak, and whether E ends up near the 300 or 320 line on the descent.\n\nI'm settling on a rough count of about 9 or 10 crossings. Going up from S, I'd cross the 200 index line, the thin lines at 220, 240, 260, and 280, then the 300 index, which puts the peak somewhere around 300 to 320. Whether the descent to E crosses anything more depends on which side of the 300 line E sits, and I can't tell that yet.\n\nI'm weighing whether the trail crosses the 300 index line on the way down to E, since the 300 contour seems to pass near (800, 670). I'm also checking whether E sits inside the 400 loop, which would mean the descent doesn't cross 300 again.\n\nI'm settling on seven crossings: six on the climb from S up past the 300 index, and one more on the way back down toward E, with E sitting somewhere around 320.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm tracing the trail from S to E, first heading east along about y=605 and then southeast and south down to E. Next I'll count how many contour lines it crosses, starting with figuring out the elevation near S, where the index contour 200 seems to run past (600, 680).\n\nI'm working out the elevation near S, where the index contour labeled 200 runs just east of the start, and I think the trail crosses it right after leaving S. I'm also checking whether the 300 contour lies further northeast along the route.\n\nI'm checking whether the trail crosses the 300 index contour as it climbs past the 200 line, and I'm trying to pin down where the peak near (715, 597) sits relative to the 300 line running up toward the northeast.\n\nI'm checking which thin contour lines the trail crosses between the 200 index line and the peak near (715, 597), since that stretch is where the count is still unclear to me.\n\nI'm estimating the spacing of the thin contours between the 200 and 300 index lines, since the trail runs roughly east-west across contours that run north-south there. The 300 index line sits off to the southeast, so I'm not sure the spacing carries over directly.\n\nI'm still weighing how many thin contours sit between the 200 and 300 index lines on the way up to the peak, and I'm guessing somewhere around four before the 300 line. Coming back down, I'd expect the trail to cross those same lines again on the way to E, but I'm not sure where E falls relative to the 300 and 400 contours yet.\n\nI'm estimating the elevations along the trail: S sits just under the 200 index line, so maybe around 190, while the peak near (715, 597) could be 300 or a bit above. E looks to fall between the 300 and 400 contours, somewhere around 320 to 340.\n\nI'm working through how many thin contours sit between the 200 and 300 index lines on the way up to the peak, and whether E ends up near the 300 or 320 line on the descent.\n\nI'm settling on a rough count of about 9 or 10 crossings. Going up from S, I'd cross the 200 index line, the thin lines at 220, 240, 260, and 280, then the 300 index, which puts the peak somewhere around 300 to 320. Whether the descent to E crosses anything more depends on which side of the 300 line E sits, and I can't tell that yet.\n\nI'm weighing whether the trail crosses the 300 index line on the way down to E, since the 300 contour seems to pass near (800, 670). I'm also checking whether E sits inside the 400 loop, which would mean the descent doesn't cross 300 again.\n\nI'm settling on seven crossings: six on the climb from S up past the 300 index, and one more on the way back down toward E, with E sitting somewhere around 320.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 10525,
+        "sha256": "046ff0b0ec248d0c443a5825b5a3e8af509b80303fbd1d81282f10cc9b1d7d38"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2770,
+   "completion_tokens": 3230,
+   "total_tokens": 6000,
+   "cost": 0.001892,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.001892,
+    "upstream_inference_prompt_cost": 0.000277,
+    "upstream_inference_completions_cost": 0.001615
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2807,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 18.34,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:55:21+00:00"
+}

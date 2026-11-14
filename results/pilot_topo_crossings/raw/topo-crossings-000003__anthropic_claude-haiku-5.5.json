@@ -1,0 +1,103 @@
+{
+ "key": "ff86eb0352dee5842aad6bcf8280de7269dd2ea59a9c910ad87769b4c9b909c0",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map of a real place (Bear Mountain, New York), drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 20 meters, index contours (heavy brown lines, some labeled) are every 100 meters, and elevations are in meters. Rescue carry: a stretcher team carries a casualty along the Juniper Trail (dashed red line) from the magenta square S to the magenta square E. To pace the carry, the team leader logs every contour line the trail crosses. How many contour lines (index contours included) does the trail cross between S and E? If it crosses the same contour line more than once, count every crossing. Answer with a whole number, for example 7.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-crossings-000003.png",
+       "sha256": "4e227dd28a1983a420ffe7f5f8146251c8f8f843c601b8eebf9c08311a6bcab4"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794678865-1Xz6GRLECy7ZapNvzRrW",
+  "object": "chat.completion",
+  "created": 1794678865,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Approach:** I can't read every contour exactly from the image, so this is an estimate from the trail's path and the local contour spacing.\n\n1. **Trail route.** From S (about 808,743) the Juniper Trail heads southwest, then west-southwest, dips south to about (686,925), turns northwest and runs up past (570,850) and (580,800), and finally reaches E (about 520,737). The total length is roughly 1.3 km at this scale (about 390 px per km).\n\n2. **Elevation context.** S sits just inside the 100 m index contour on the east flank, so it is roughly 110–120 m. E is on the western part of the hill, well above that, so the trail climbs overall by something like 120–140 m. The route also dips toward the lower slopes to the south, so it crosses some lines more than once.\n\n3. **Crossings by segment (estimated):**\n   - S to the first bend (about 783,785): 2–3 lines\n   - Down-slope to about (740,835) and (690,855): about 3 lines\n   - South leg to about (686,925): about 1–2 lines\n   - Northwest run along the foot of the hill toward (570,850): about 3–4 lines, where the contours are densest\n   - Final climb to E via (580,800): about 3 lines\n\nAdding these up gives roughly 14 crossings. The count is approximate because the contours are closely spaced where the trail crosses them, so the true figure could differ by a line or two.\n\nFINAL ANSWER: 14",
+     "refusal": null,
+     "reasoning": "I'm tracing the trail from S to E and tallying how many contour lines it crosses. The route runs southwest, then wanders south and west before climbing back northwest to E, so I need to check each bend against the contours.\n\nWorking out where the index contours sit near S, since the dense east slope makes the crossing count hard to pin down from the coordinates alone. I'm checking whether S falls between the 200 and 100 index lines by tracing the contour that runs past it.\n\nNow I'm checking the index contour that runs near S, and whether the 100 line sits east of it, which would put S on the uphill side at roughly 110 to 120 meters. I'm weighing that against the trail's climb toward E, since the crossing count depends on where the contours fall between those two points.\n\nI'm still weighing the contour spacing to the west of S, where the lines look densest, but reading exact positions off the image is shaky. I'll switch to estimating by distance instead, using the map scale to work out the elevation near S and E.\n\nNow I'm sorting out which index contour runs past E, tracing the loop through its labeled 200 and 300 lines to see where the trail crosses them.\n\nI'm checking which index contour the 300 label sits on, and whether the loop running from around (325,445) down past (215,680) and round to (510,910) is the 300 line, with the 200 index enclosing it.\n\nI'm testing whether E sits inside the 300 index loop, which would mean the trail's last stretch stays within the summit ring. The thick contour running from about (715,660) down past (650,760) and (600,840) looks like an index line, so the 200 index may be the one bounding it instead. That's hard to settle from the image alone.\n\nI'm estimating the total crossing count from the trail's length and elevation change: roughly 1.36 km, climbing from about 110 to 240 meters, with the loops adding extra crossings. My guess is around 12 contour crossings.\n\nI'm working through the crossing count segment by segment: a couple of lines on the way out from S, a couple more as the trail dips south, and a dense cluster at the foot of the hill near (600,880). Adding those up, I'm landing on an estimate of about 14, though I'm not sure of that number, so I'll settle on it for now.\n\nI'm settling on a final tally of 14 crossings for the route from S to E.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm tracing the trail from S to E and tallying how many contour lines it crosses. The route runs southwest, then wanders south and west before climbing back northwest to E, so I need to check each bend against the contours.\n\nWorking out where the index contours sit near S, since the dense east slope makes the crossing count hard to pin down from the coordinates alone. I'm checking whether S falls between the 200 and 100 index lines by tracing the contour that runs past it.\n\nNow I'm checking the index contour that runs near S, and whether the 100 line sits east of it, which would put S on the uphill side at roughly 110 to 120 meters. I'm weighing that against the trail's climb toward E, since the crossing count depends on where the contours fall between those two points.\n\nI'm still weighing the contour spacing to the west of S, where the lines look densest, but reading exact positions off the image is shaky. I'll switch to estimating by distance instead, using the map scale to work out the elevation near S and E.\n\nNow I'm sorting out which index contour runs past E, tracing the loop through its labeled 200 and 300 lines to see where the trail crosses them.\n\nI'm checking which index contour the 300 label sits on, and whether the loop running from around (325,445) down past (215,680) and round to (510,910) is the 300 line, with the 200 index enclosing it.\n\nI'm testing whether E sits inside the 300 index loop, which would mean the trail's last stretch stays within the summit ring. The thick contour running from about (715,660) down past (650,760) and (600,840) looks like an index line, so the 200 index may be the one bounding it instead. That's hard to settle from the image alone.\n\nI'm estimating the total crossing count from the trail's length and elevation change: roughly 1.36 km, climbing from about 110 to 240 meters, with the loops adding extra crossings. My guess is around 12 contour crossings.\n\nI'm working through the crossing count segment by segment: a couple of lines on the way out from S, a couple more as the trail dips south, and a dense cluster at the foot of the hill near (600,880). Adding those up, I'm landing on an estimate of about 14, though I'm not sure of that number, so I'll settle on it for now.\n\nI'm settling on a final tally of 14 crossings for the route from S to E.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 9089,
+        "sha256": "6260c7bbbc6381e6271c93fb007408034ee324fe2105b7ba551f49edf516db3d"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2769,
+   "completion_tokens": 2890,
+   "total_tokens": 5659,
+   "cost": 0.0017219,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0017219,
+    "upstream_inference_prompt_cost": 0.0002769,
+    "upstream_inference_completions_cost": 0.001445
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 2410,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 16.84,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:54:25+00:00"
+}

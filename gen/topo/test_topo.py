@@ -42,8 +42,24 @@ class TopoFamily(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             task = topo.build(5, "sunset", 3, Path(tmp))
             s = task["steps"]
-            walk = 15 * s["trail_km"] + 4 * s["uphill_contour_crossings"]
-            self.assertEqual(task["answer"], s["daylight_minutes"] - walk)
+            m = json.loads((Path(tmp) / task["data"]).read_text(encoding="utf-8"))["data"]["mission"]
+            walk = m["flat_walk_min"] + m["minutes_per_uphill_contour"] * s["uphill_contour_crossings"]
+            self.assertEqual(task["answer"], (m["sunset_min"] - m["now_min"]) - walk)
+            self.assertEqual(len(task["overlay"]["crossings"]), s["uphill_contour_crossings"] + s["downhill_contour_crossings"])
+
+    def test_flood_has_exactly_one_camp_on_the_water_route(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            task = topo.build(5, "flood", 3, Path(tmp))
+            camps = task["steps"]["camps"]
+            self.assertEqual(len(camps), 6)
+            self.assertEqual([c["camp"] for c in camps if c["flooded"]], [task["answer"]])
+            self.assertTrue(all(c["distance_to_water_route_m"] >= 250 for c in camps if not c["flooded"]))
+
+    def test_tiles_match_their_checksums(self):
+        tiles = Path(topo.real.TILES)
+        for line in (tiles / "SHA256SUMS").read_text(encoding="utf-8").splitlines():
+            digest, name = line.split()
+            self.assertEqual(sha(tiles / name.lstrip("*")), digest, name)
 
     def test_unknown_template_is_refused(self):
         with tempfile.TemporaryDirectory() as tmp:

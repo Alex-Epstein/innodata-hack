@@ -1,0 +1,369 @@
+{
+ "key": "df9a2c56c692af02c4cfa583c9cc2c8afd308ef707fc32ab0892b2dd7094cf76",
+ "model": "openai/gpt-6-luna",
+ "request": {
+  "model": "openai/gpt-6-luna",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. A lost hiker at the magenta square S must reach the hut at the magenta square H along the Cedar Trail (dashed black line) before dark. The incident box on the map gives the time now, the time of sunset and the length of the trail from S to H. Walking time follows Naismith's rule: 15 minutes for every kilometer of trail, plus 4 minutes for every contour line the trail crosses going uphill (each one is 20 m of climb, at 300 m of climb per hour). Contour lines crossed going downhill add no time. How many minutes before sunset does the hiker reach the hut? Give a negative number if the hiker arrives after sunset. Answer with a whole number of minutes, for example 12 or -7.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-sunset-000007.png",
+       "sha256": "28e19a2c4298250b2fe8e32d270cc48e06e7d04213bcacd2aab5d3ee79903212"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794678218-f1nh6eZNWvBdKQtNJK8L",
+  "object": "chat.completion",
+  "created": 1794678218,
+  "model": "openai/gpt-6-luna",
+  "provider": "OpenAI",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "completed",
+    "message": {
+     "role": "assistant",
+     "content": "From 16:30 to sunset at 18:07 is 97 minutes. The 2.4 km trail takes 36 minutes, and the route crosses 11 contour lines uphill, adding 44 minutes. Total walking time is 80 minutes, so the hiker arrives 17 minutes before sunset.\n\nFINAL ANSWER: 17",
+     "refusal": null,
+     "reasoning": "**Analyzing Trail Route**\n\nI need to analyze the map for the uphill route from S to H, focusing on the contour crossings. I'll count how many contour lines we cross as we gain elevation. I think H should be near 500 meters and S is likely below 400 meters. I’ll figure out the directional crossings and ensure I arrive before sunset, which is at 18:07. I also need to trace the route on the map and identify each contour crossed. The starting elevation is around 360 meters, with a final elevation close to 520 meters.**Analyzing Terrain and Elevation**\n\nI’m assessing the path and calculating the overall elevation gain, estimating it could be around 160 meters, which translates to an 8-meter net gain. I need to count all upward crossings, as downhill segments won’t add time. I can inspect the geographic map for pixel coordinates and contours to visualize the terrain better. The dashed path points include S, P1, P2, and H, so I’ll identify how many contour lines we cross between each segment, focusing on elevations and specific coordinates. I expect S's elevation to start near 360 meters, tracking the 400-meter contour visually along the route.",
+     "reasoning_details": [
+      {
+       "type": "reasoning.summary",
+       "summary": "**Analyzing Trail Route**\n\nI need to analyze the map for the uphill route from S to H, focusing on the contour crossings. I'll count how many contour lines we cross as we gain elevation. I think H should be near 500 meters and S is likely below 400 meters. I’ll figure out the directional crossings and ensure I arrive before sunset, which is at 18:07. I also need to trace the route on the map and identify each contour crossed. The starting elevation is around 360 meters, with a final elevation close to 520 meters.**Analyzing Terrain and Elevation**\n\nI’m assessing the path and calculating the overall elevation gain, estimating it could be around 160 meters, which translates to an 8-meter net gain. I need to count all upward crossings, as downhill segments won’t add time. I can inspect the geographic map for pixel coordinates and contours to visualize the terrain better. The dashed path points include S, P1, P2, and H, so I’ll identify how many contour lines we cross between each segment, focusing on elevations and specific coordinates. I expect S's elevation to start near 360 meters, tracking the 400-meter contour visually along the route.",
+       "format": "openai-responses-v1",
+       "index": 0
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 8044,
+        "sha256": "dedd8dae6ccbc31936d78179a7fb158ffd2ac6bc69e47e0baa81dd2b6834354c"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_02d81f7bd3e39f47016af89dcb4aac87d1b00ab7981af2f561",
+       "index": 1
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Interpolating contour values**\n\nI want to figure out the contour values by looking at around y890 and seeing if there are any loops. I’m thinking of getting approximate contour values through interpolation, especially at S located at x220, y963. There seems to be a visible contour line around 360 nearby. I’ll need to distinguish the pixel paths first, and I could derive contours from rendering and inspecting visuals, like the thin orange lines at that point.",
+       "format": "openai-responses-v1",
+       "index": 2
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 8084,
+        "sha256": "ec0e308d066075e9f30024372889d12c2f120d8546032b683fbdd508fc159936"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_02d81f7bd3e39f47016af89dd2d06887d18eb2d925bbdfd7cc",
+       "index": 3
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Analyzing topographic contours**\n\nI'm looking at some contour lines and trying to figure out their significance. As I track the lines, it seems like they rise from lower elevations toward a central point. There are specific elevation crossings like 400, 420, and so on, up to around 520. The route seems to dip after reaching a ridge. I'll note the trail's path around Bald Mountain, considering the elevation around H, which might be near 500. It's clear I need to count only the upward crossings.**Inspecting trail contours**\n\nI’m considering inspecting the trail and counting contour intersections along the entire route. The segment from S to (416,746) generally heads northeast and seems to rise. Using topographic data, I think S is at about 360, and there’s a likelihood of crossing elevations around 400 and 420 multiple times. The trail crosses the west slope of Bald Mountain while heading toward the northeast. I’m also noting elevation changes and how they relate to contour lines, particularly near specific coordinates where the elevations might be around 480 and 560.**Mapping the route**\n\nI’m examining the route that descends on the north side of Bald Mountain, aiming to see if it reaches H, which might be around 520. The descent doesn’t seem to add much elevation, but it may go through a low saddle before ascending to H. I notice contours, particularly the index line at 600, which seems to pass around Bald Mountain. Near the coordinates (615,725), I wonder if the route crosses the 600 contour around (x585, y730).",
+       "format": "openai-responses-v1",
+       "index": 4
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 8256,
+        "sha256": "7ef32b6fd4dccc523a84a8daa6bfbd29cb223eca4aa8288938f46b1f80b6db37"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_02d81f7bd3e39f47016af89dd86cb487d19a7d31a4fefd8e48",
+       "index": 5
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Mapping route details**\n\nI'm analyzing the route that takes a northward approach, likely intersecting around the 600 mark before descending to a saddle and moving downhill toward the 500 index. I think about point H, which might be north of the 500 line, at coordinates x837 y509, and its elevation could be around 520. I'm considering the contour lines around H, noting a thin contour that curves, and I need to map line crossings based on the contour image and route accurately. I can visualize segments and crossings to clarify the topographic direction.**Analyzing contour intersection**\n\nI'm examining the segment bend to x615,725, which likely crosses contour lines ranging from 440 to 600. There are numerous tight contours near the central peak on the south side, while the path seems to hug the north-west flank. Looking around the bend, I see the trail crosses approximately six contour lines at regular intervals, indicating a gain of about 120 meters in elevation. As I analyze the route from P1 to P2, I notice several additional intersections along the way, suggesting the trail runs nearly parallel to the contours on the slopes.**Counting contour crossings**\n\nI'm observing that at around y740, the orange contours run diagonally from approximately x480 to x640, likely crossing 1 to 3 lines. As I think about the path from P2 to H, it seems there might be many more contour lines involved. I realize I need to determine the exact number of uphill crossings, which could be around 12 based on my calculations for this section of the route. Getting this right is important!",
+       "format": "openai-responses-v1",
+       "index": 6
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 8020,
+        "sha256": "dff29881004e1425bb4c05c591049da5996f321625a1bf4a4874006894efeb53"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_02d81f7bd3e39f47016af89ddf5fb087d199ac6cf32f0c0d18",
+       "index": 7
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Analyzing terrain features**\n\nI'm looking at geographical coordinates here, specifically near a mountain west of another location, and north of Bald Mtn. The terrain seems to have a low saddle between these two features. With the 500 index contour appearing vertical around certain coordinates, I see that it crosses at another point. From roughly x900, it looks like the contour slopes down to around x850. There’s a lot to consider in interpreting these topographical details!",
+       "format": "openai-responses-v1",
+       "index": 8
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7852,
+        "sha256": "8922ece0707055a632d30dfd7f0a0d17e47ef66ad2038684526ca3a8f7531521"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_02d81f7bd3e39f47016af89de4ccb487d1a516dc763da435fa",
+       "index": 9
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Analyzing elevation gain**\n\nI’m examining a trail that follows a curve south, with specific coordinates that suggest it lies west of a 500 contour. The elevation at different points seems to show that from the southern point to a hill, there's a gain of about 120 meters, but I need to account for the rise and descent over a central hill. If there are about 15 contour crossings, I should visually count them and trace the elevation transitions for accuracy. It seems plausible to aim for around 21 as the final estimated value.**Identifying contour crossings**\n\nI’m working on identifying the crossing points of a route based on visible orange contours from a coordinate map. The dashed route spans from (220,963) to (416,746), and I can see it crosses several orange contours at various points, like around (271,907) and (306,870). I need to estimate around five crossings up to the endpoint at (y746). Additionally, the next segment towards (615,725) may also feature contours that I should map out, particularly around (x442) and others, taking parallel lines into account as I go.**Analyzing trail segments**\n\nI'm looking at a trail section that runs horizontally over a hill saddle and crosses several orange contour lines. The image indicates the terrain shows that between bends, the trail passes through closely spaced contours on the western slope of the mountain, likely two or three in total. Then, I have a diagonal segment extending from (615,725) to (837,509) that crosses contours, especially around (x630,710), where I think there might be a thicker contour at an elevation of about 600.",
+       "format": "openai-responses-v1",
+       "index": 10
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 8148,
+        "sha256": "2ba8319c4443c21df7a3798e438e33c9711dc8971c0a5d65d64c1068502aeb49"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_02d81f7bd3e39f47016af89de9a9f087d1822209b5b7e58dff",
+       "index": 11
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Examining topography details**\n\nI'm assessing the topographic geometry of Bald Mountain, noting that its elevation is 704 and it lies south of a route. The central high point seems to be around 700, possibly near the peak on the north slope. I see a trail path near elevation 725 that follows the northern saddle. The route might involve a climb from 460 to 600, then descending to 480 and then arriving at 520. I need to calculate the total distance and elevation change accurately.",
+       "format": "openai-responses-v1",
+       "index": 12
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 8148,
+        "sha256": "d7a86d82c6e1ba85ec538c50f5c577901ac4ae3b36f8d74ae12106a4052d482a"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_02d81f7bd3e39f47016af89df0b2ac87d1abd148bb8d644def",
+       "index": 13
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Analyzing terrain contours**\n\nI'm mapping the contour index, which runs from west-central around coordinates x660, y? to x850, y?. It looks like there's a hill at the northwest top near x470, y200, with closed contours and a saddle valley at x800, y400. The H location at around x837, y509 might have an elevation close to 500. The heavy contour line indicates that the shape of the terrain influences whether H is above or below that elevation. I’ll keep checking to understand the 500 contour's specifics.**Counting contour transitions**\n\nI see there's a 500 index line on the left side of the main central hill, around x300. I wonder if the 500 contour might be separate, as they can be disconnected at the same elevation. For point H at x837, y509, it looks like the closest boundary of the 500 line might be to the east/southeast. H could be in a low basin. I'll need to total all uphill crossings, with contour ascents at various elevations: it seems like that gives me around 12 crossings. The travel time to the destination might be around 13 minutes based on my calculations.**Calculating Naismith's rule**\n\nIt looks like I need to calculate using Naismith's rule and count all uphill lines along the trail. Often, map questions involve a direct count of crossings, which could be around 9, but I need an exact number. To achieve that, I should analytically approximate line elevations at route points based on the visible contour lines. I’ll also need to convert the map coordinate grid, and since the contour interval is 20, I’ll use the nearest known index contour, which is 400 at point S.",
+       "format": "openai-responses-v1",
+       "index": 14
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 8020,
+        "sha256": "f3b47c2a996c73a8667dd9b04bb766875ff6283809188ac0e85e6661d9581517"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_02d81f7bd3e39f47016af89df595e087d1931a682fa2376b4f",
+       "index": 15
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Analyzing contour lines**\n\nI’m looking at the contour lines, noticing they curve southeast and cross at specific coordinates. The 400 line extends to map left/bottom, likely near 360. I think P1 might be just west of the outer 500, with central hills around the 400-420 range. The index loop at the lower-left suggests connections to other height levels around P1. I’m considering if P1 could be positioned near 440, given the spacing of intermediate lines.**Examining elevation changes**\n\nI'm analyzing position x416, y746, looking at contour levels nearby and noticing thin lines running diagonally. I think P1 might be around 460, based on five uphill lines from S at 360. For P2 at x615, y725, it seems close to the 600 contour, potentially around 580. If there are six lines to traverse, I expect an elevation of about 560 there. The route from S to P2 might mostly ascend, whereas the approach to H looks like a downward slope. I'm considering that the climb might be counted through elevation transitions along the way.**Assessing route elevation**\n\nI’m analyzing the dashed route at y725, which seems to pass north of the hill. From there to H, it looks like the pathway moves northeast, likely resulting in a downhill trajectory. H is positioned at y509, indicating elevations that might be decreasing toward the 500 mark in the northern valley. Generally, if traveling north from the central ridge, the elevation decreases, but it's possible H could be at the same level, meaning there wouldn't be any climbing after that point.",
+       "format": "openai-responses-v1",
+       "index": 16
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7764,
+        "sha256": "d51ace09f7f69427b2d6c378592916e545f98268107f17b35c0c2928554e4407"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_02d81f7bd3e39f47016af89dfe20ec87d191751558182a85ba",
+       "index": 17
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Counting route contours**\n\nI’m considering counting the contours along the route visually, perhaps around ten of them? From the direction of the south along the dotted path, I can see that the route crosses the contour lines clearly. It appears that the route starts around the coordinate 219,963 and heads northeast from there. I want to be sure I accurately assess this visual information to help clarify the route’s path and contour interactions.",
+       "format": "openai-responses-v1",
+       "index": 18
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7828,
+        "sha256": "2500b682b6ad2f7c8fdbf1cabc03ba6393dbbb4fc8f0be27a14711233622340a"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_02d81f7bd3e39f47016af89e028fe087d1b60e4b78d4a151cf",
+       "index": 19
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Analyzing hiking route**\n\nAs I consider the hiking route moving east, it appears to approach some contours oriented north-south around the hill. There's a crucial descent to consider as I interpret the map and its coordinates. I'll estimate the initial climbing elevation and descending path toward the hut, possibly taking around 9-13 minutes. I see that the first trail segment intersects a contour labeled 400, marking a significant point for my calculations. I need to explore what contours remain until reaching point P1.",
+       "format": "openai-responses-v1",
+       "index": 20
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7872,
+        "sha256": "894b0c65875c9cd8bfed3b6437d4a29f79e8e4f66a5d549f5a3fbcb6a89c195f"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_02d81f7bd3e39f47016af89e07b62887d185e354e3a7f9499c",
+       "index": 21
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Evaluating elevation plausibility**\n\nI'm considering a route with six uphill sections between 400 and 500 elevations, estimating P1 at around 500. Is that realistic? P1 is just outside the 500 contour, possibly at about x416 y746, but I see the 500 contour index line that starts at x490 on the western slope and descends. It seems P1 could indeed be around x480. Each segment counts for the uphill ascent, leading to P2 at about x615 y725, then descending to H at roughly 500. This feels plausible overall. I need to double-check the route against the 500 index contour.**Understanding the contour mapping**\n\nI'm analyzing elevation data, specifically focusing on a bold contour around x939 that might relate to the eastern mountain. There's also the possibility of a central route hillside's 500 index contour. A noticeable 500 contour is near the upper valley, and another one appears at the western lowlands. It seems the central hill might escalate to 600, with an outer 500 contour. My trail starts at the 400 boundary, reaching P1 around 460 and P2 near 580, totaling 12 elevation markings combined. The patterns at Bald Mountain help clarify contour densities too.**Analyzing terrain and elevation**\n\nI'm examining the area between a certain point and the summit, particularly focusing on contour 600 around an unknown x-coordinate. I suspect that P2 is just northwest of this 600 contour and might be at around 560 elevation. The distance from the southern point to P2 could be about 200 meters. It looks like the bold 600 line crosses approximately at x710 y705, then curves southeast around a broad hill, heading toward another coordinate. This elevates my understanding of the terrain.",
+       "format": "openai-responses-v1",
+       "index": 22
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7892,
+        "sha256": "10dfbe42819b5e600821193fc45bea766a67e2c2c819a3c2fefd61b92699b45b"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_02d81f7bd3e39f47016af89e0d6c1487d193a892a80eb162b0",
+       "index": 23
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Analyzing topographic features**\n\nI’m looking at a topographic hill centered at x690,850, with elliptical contours surrounding it. On the north side, the contours appear to arc broadly horizontal at around y650-750. The trail segment at y746 is horizontal, which means it roughly follows the contour arc, resulting in only a few crossings. This layout hints at an interesting relationship between the hill's shape and the trail's alignment, allowing for a more straightforward navigation experience.",
+       "format": "openai-responses-v1",
+       "index": 24
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7956,
+        "sha256": "87a1583004a529dc73b3072ca3a2a48c5b0ede56a7f9d66d9186e58803c56e83"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_02d81f7bd3e39f47016af89e153a8087d18deee732e2bb8440",
+       "index": 25
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Analyzing terrain elevation**\n\nI'm considering the terrain features and how the contours are likely oriented from north to south on the west side. At certain points, like P1 and P2, the contour arcs seem to run diagonally and horizontally. There are elevation changes along the trail that might have intersections. I'm also thinking about applying the Naismith formula to determine the time remaining before sunset, estimating the climbs and likely intersections. It looks like my calculations might lead me to conclude there are about 13 or 14 uphill segments.**Calculating elevation and crossings**\n\nI'm figuring out potential answers like 21, 17, 13, and lower for different crossings. I believe the path might involve 14 to 16 ascents to reach the sunset point. If I estimate the total vertical ascent at about 300 meters, that could mean around 15 crossings.\n\nThe terrain starts at around 350, climbs near 600, and then comes back down. There might be contour lines that help estimate the actual route profile. I’ll also closely examine contour details around P1, where the trail bends before reaching the hillside.**Mapping terrain contours**\n\nI’m observing how the path curves downward around coordinates x310, y700, then moves vertically to x313, y800. From there, it seems to sweep down to the right, likely heading toward x380. I think it might pass near the point (375, 1025). This makes sense considering that the 400 contour topography encloses lower areas. I’m trying to ensure I visualize it accurately to understand the terrain better as I plot this route.",
+       "format": "openai-responses-v1",
+       "index": 26
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7936,
+        "sha256": "0f1912dea633c9f70437acd201f6002a927f2eaa11af4d8ab70771cd52bca6e9"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_02d81f7bd3e39f47016af89e18d1d887d1ba33005d28a6fcf3",
+       "index": 27
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 7936,
+        "sha256": "7c283151c8af3b2c657d05c436d89ecfdd73a5b0d4a13ea4d3b34d5a735d5140"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_02d81f7bd3e39f47016af89e2070e887d1baf20f1d7c4ef0bf",
+       "index": 28
+      },
+      {
+       "type": "reasoning.summary",
+       "summary": "**Calculating paths and values**\n\nI'm trying to estimate some values here. I can see 480 around x395, and then possibly 500 at x415 near a bend, which gives me 6. Following the eastbound path, I see 520 at x450, 540 at x490, and so on, up to 600. It looks like it could reach 600 around the P2 point. Adding these together gives me 11, which feels like a solid conclusion for my calculations!",
+       "format": "openai-responses-v1",
+       "index": 29
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 8064,
+        "sha256": "a01c1bbd34d70e2a809e59642d0d620aa1b023378d28cd39a38ca40b046a0834"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_02d81f7bd3e39f47016af89e2422c887d1a41cfb371e53d8df",
+       "index": 30
+      },
+      {
+       "type": "reasoning.encrypted",
+       "data": {
+        "removed": "opaque provider blob",
+        "chars": 6356,
+        "sha256": "97aeed589e3ac00d8efce8159762e68ca59fabaa337a3b83c62c04995eb56263"
+       },
+       "format": "openai-responses-v1",
+       "id": "rs_02d81f7bd3e39f47016af89e2c750887d19edce42579f90b8e",
+       "index": 31
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2636,
+   "completion_tokens": 8755,
+   "total_tokens": 11391,
+   "cost": 0.004706925,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 2633,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.004706925,
+    "upstream_inference_prompt_cost": 0.000329425,
+    "upstream_inference_completions_cost": 0.0043775
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 8680,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 102.3,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:43:37+00:00"
+}
