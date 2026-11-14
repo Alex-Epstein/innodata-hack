@@ -1,0 +1,1 @@
+done: Dockerfile (python:3.12-slim + uv sync, ENTRYPOINT python -m factory, /out), pyproject.toml + uv.lock (matplotlib, numpy, pillow), README Run in Docker section, scripts/package (zip + checker; --dummy shows 0 FAIL 0 WARN) (#8). next: README content and slides once results exist; docker run commands need the factory CLI (#6). blocked: none
