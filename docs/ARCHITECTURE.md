@@ -37,6 +37,7 @@ Part 2 is defaults that stand unless someone objects.
 | C. Three families | Most variation, best story | Three generators in ~3 hours with strangers; likely shallow |
 
 **Recommendation: B.** Reliability and realism are 40% together; variation is 10%. Two done well beats three done thin.
+**Update 11:05:** the families are being picked by spike round 2 (#5, #15 to #18); decision at 11:50.
 **Question for the team:** does the spike data change this (e.g. one family is so hard it carries everything)?
 
 ### D2. How do we render?
