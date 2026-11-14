@@ -9,3 +9,4 @@ proposing alternatives.
 - 11:45 · Alex · Questions must chain 3 to 5 reads + rules into one exact answer (mentor advice, #29). max_tokens 64000.
 - 11:55 · Alex · **Topo theme = missions with stakes:** wildfire escape, flash flood, search-and-rescue line of sight, hiker vs sunset. Each question is a scenario box on the map + a chained question. Demo draws the model's wrong path vs the true one.
 - 12:10 · Alex · **Families: topo missions (main, ~6 of 10) + power one-line (~4 of 10).** Difficulty knob = clutter you must trace through (contours along a path, feeder crossings). Plug-in contract: `contracts/FAMILY.md`. Pilot 10 seeds per question type; keep only types that stay hard.
+- 13:35 · Alex · The advisory reviewer (validate/review.py, PR #58) calls claude-sonnet-5-5 on the team Anthropic key directly, the one exception to 'all model calls through eval/'. It never decides answers; its flags feed the human hand check.
