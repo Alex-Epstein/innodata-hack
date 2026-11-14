@@ -5,7 +5,9 @@
   const { el, qs } = BTA;
   const $ = (id) => document.getElementById(id);
   const mapbox = $("mapbox"), img = $("map2d");
-  const intro = qs("intro") === "1";
+  const show = qs("show") === "1";                       // the auto tour for the pitch (press S)
+  const tourStep = Number(qs("i") || 0);
+  const intro = qs("intro") === "1" || (show && tourStep === 0 && qs("intro") !== "0");
   let stage = null, task = null, index = null, answered = false, timerId = null, value = "";
 
   function frameRect() {                                  // the map frame of the PNG, in mapbox pixels
@@ -22,10 +24,22 @@
     c.classList.toggle("on", !!on);
   }
 
+  // the tour: the opening flood, then one map per mission that stumped both models
+  function tour(ix) {
+    const out = [ix.featured];
+    const bothWrong = (x) => Object.values(x.models).length === 2 && Object.values(x.models).every((m) => !m.correct);
+    for (const tpl of ["crossings", "sunset", "los", "flood"]) {
+      const c = ix.tasks.filter((x) => x.template === tpl && x.has3d && !out.includes(x.task_id));
+      const pick = c.find(bothWrong) || c.find((x) => Object.values(x.models).some((m) => !m.correct));
+      if (pick && out.length < 5) out.push(pick.task_id);
+    }
+    return out.filter(Boolean);
+  }
+
   // ------------------------------------------------------------------ load
   try {
     index = await BTA.loadIndex();
-    const id = qs("t") || index.featured || (index.tasks[0] || {}).task_id;
+    const id = (show ? tour(index)[tourStep % tour(index).length] : null) || qs("t") || index.featured || (index.tasks[0] || {}).task_id;
     task = await BTA.loadTask(id);
   } catch (e) {
     $("prompt").textContent = "Could not load this task. Run scripts/build-site first.";
@@ -82,7 +96,7 @@
     answers.className = "numpad";
     const disp = el("div", { class: "display" }, el("span", { class: "ph" }, "your number"));
     const go = el("button", { class: "ans go", type: "button", disabled: true, onclick: () => submit(value) }, "Lock it in");
-    const show = () => {
+    const paint = () => {
       disp.innerHTML = "";
       disp.append(value === "" ? el("span", { class: "ph" }, "your number") : value + (task.template === "sunset" ? " min" : ""));
       go.disabled = value === "" || value === "-";
@@ -92,7 +106,7 @@
       if (k === "del") value = value.slice(0, -1);
       else if (k === "-") value = value.startsWith("-") ? value.slice(1) : "-" + value;
       else if (value.replace("-", "").length < 4) value = (value === "0" ? "" : value) + k;
-      show();
+      paint();
     };
     answers.append(disp);
     for (const k of ["1", "2", "3", "4", "5", "6", "7", "8", "9"]) answers.append(el("button", { class: "ans key", type: "button", onclick: () => press(k) }, k));
@@ -114,7 +128,9 @@
       else document.exitFullscreen && document.exitFullscreen();
       return;
     }
-    if (ev.key === "r" || ev.key === "R") { location.reload(); return; }
+    if (ev.key === "r" || ev.key === "R") { location.href = show ? "play.html?show=1" : location.href; if (!show) location.reload(); return; }
+    if (ev.key === "s" || ev.key === "S") { location.href = show ? "./" : "play.html?show=1"; return; }
+    if (show) return;
     if (answered) return;
     if (ev.key === " ") { ev.preventDefault(); submit(null); return; }
     if (answers.press) {
@@ -180,6 +196,19 @@
   } else {
     loader.classList.add("done");
   }
+  if (show) {
+    $("playArea").classList.add("hidden");
+    document.body.classList.add("show");
+    if (!intro) { caption("This is what the AI sees.", true); }
+    await BTAStage.sleep(intro ? 2000 : 3200);
+    caption("", false);
+    answered = true;
+    await reveal(null, false);
+    await BTAStage.sleep(task.template === "flood" ? 5500 : 4500);
+    const n = tour(index).length;
+    location.href = tourStep + 1 < n ? `play.html?show=1&i=${tourStep + 1}` : "factory.html?show=1";
+    return;
+  }
   const secs = Number(qs("timer")) || (intro ? 10 : 60);
   startTimer(secs);
 
@@ -187,7 +216,7 @@
   async function reveal(you, timedOut) {
     clearInterval(timerId);
     const ok = BTA.isCorrect(task, you);
-    const t = BTA.record(task, you, ok);
+    const t = show ? BTA.tally() : BTA.record(task, you, ok);
     $("playArea").classList.add("hidden");
     $("resultArea").classList.remove("hidden");
     renderScore(you, ok, timedOut, t);
@@ -219,13 +248,14 @@
     sc.innerHTML = "";
     sc.append(el("h2", { class: "caps" }, "You vs the models"));
     sc.append(row("truth", "Truth", "computed from the data", task.answer, null));
-    sc.append(row("you", "You", timedOut ? "time ran out" : you == null ? "no answer" : "", you, ok));
+    if (!show) sc.append(row("you", "You", timedOut ? "time ran out" : you == null ? "no answer" : "", you, ok));
     for (const k of ["haiku", "luna"]) {
       if (m[k]) sc.append(row("model", BTA.SHORT[k], BTA.MODEL_NAMES[k], m[k].parsed, m[k].correct));
     }
     const hk = m.haiku && m.haiku.correct, ln = m.luna && m.luna.correct;
     let v;
-    if (ok && !hk && !ln) v = "You beat both models.";
+    if (show) v = !hk && !ln ? "Both models missed it." : hk && ln ? "Both models got this one." : `${hk ? "Haiku" : "Luna"} got it; ${hk ? "Luna" : "Haiku"} didn't.`;
+    else if (ok && !hk && !ln) v = "You beat both models.";
     else if (ok && hk && ln) v = "You got it, and so did both models.";
     else if (ok) v = `You got it. ${hk ? "Haiku" : "Luna"} did too; ${hk ? "Luna" : "Haiku"} didn't.`;
     else if (!hk && !ln) v = { flood: "Nobody got this one. Watch where the water really goes.", crossings: "Nobody got this one. Count along the trail.",

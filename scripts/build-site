@@ -318,8 +318,8 @@ def build_task(rec, tasks_dir: Path, responses: dict, out: Path, log) -> dict | 
         Z = T.grid()
         rows, cols = Z.shape
         scene, named = scene_for(template, rec, rec_data, side, T, cols, rows)
-        frame = None
-        if side.get("layout"):
+        frame = (side.get("layout") or {}).get("frame_px")
+        if frame is None and side.get("layout"):
             frame = frame_from_probes(side["layout"], named, T.W, T.H)
         if frame is None:
             rect = [0.065, 0.115, 0.78, 0.78] if "source" in inner else [0.07, 0.13, 0.86, 0.78]
@@ -349,6 +349,43 @@ def pick_featured(tasks):
         place = 2 if "Breakneck" in t["area"] else 1 if "Bear" in t["area"] else 0
         return (t["has3d"], t["template"] == "flood", both_wrong, place, diff, t["family"] == "topo")
     return max(tasks, key=score)["task_id"] if tasks else None
+
+
+CHECKS = ["schema", "data_first", "two_solvers", "render_matches_data", "legibility", "answer_not_in_question",
+          "reproducible"]
+
+
+def factory_summary(sets, tasks):
+    """The factory chapter's numbers, straight from each set's generation_log.json and validation_report.json."""
+    out = {"checks": CHECKS, "sets": [], "attempted": 0, "kept": 0, "passed_all": 0, "rejected": [],
+           "failures": [], "models": {k: {"correct": 0, "n": 0} for k in MODELS}}
+    counted = set()
+    for tdir, _ in sets:
+        tdir = Path(tdir) if Path(tdir).is_absolute() else ROOT / tdir
+        gen = json.loads((tdir / "generation_log.json").read_text()) if (tdir / "generation_log.json").exists() else {}
+        val = json.loads((tdir / "validation_report.json").read_text()) if (tdir / "validation_report.json").exists() else {}
+        if not gen and not val:
+            continue
+        att = gen.get("attempted", val.get("generation", {}).get("attempted", 0))
+        kept = gen.get("kept", val.get("checked", 0))
+        out["sets"].append({"tasks": str(tdir.relative_to(ROOT)) if tdir.is_relative_to(ROOT) else str(tdir),
+                            "template": gen.get("template"), "attempted": att, "kept": kept,
+                            "passed_all": val.get("all_passed"), "funnel": val.get("cumulative_funnel", {})})
+        out["attempted"] += att
+        counted.add(str(tdir))
+        out["kept"] += kept
+        out["passed_all"] += val.get("all_passed", 0) or 0
+        for r in gen.get("rejected", []) or []:
+            out["rejected"].append({"seed": r.get("seed"), "reason": r.get("reason") or r.get("why") or str(r)[:120]}
+                                   if isinstance(r, dict) else {"seed": None, "reason": str(r)[:120]})
+        for tid, why in (val.get("failures") or {}).items():
+            out["failures"].append({"task_id": tid, "reason": why if isinstance(why, str) else json.dumps(why)[:160]})
+    for t in [t for t in tasks if t.get("_set") in counted]:
+        for k, m in t["models"].items():
+            out["models"][k]["n"] += 1
+            out["models"][k]["correct"] += int(bool(m.get("correct")))
+    out["thumbs"] = [t["thumb"] for t in tasks if t.get("_set") in counted][:40] or [t["thumb"] for t in tasks][:40]
+    return out
 
 
 def write_qr(out: Path, url: str):
@@ -410,6 +447,7 @@ def main(argv=None):
                 continue
             t = build_task(rec, tdir, resp, out, log)
             if t:
+                t["_set"] = str(tdir)
                 seen.add(t["task_id"])
                 tasks.append(t)
                 log(f"{t['task_id']:24s} {t['template']:10s} 3D={'yes' if t['has3d'] else 'no ':3s} "
@@ -422,6 +460,9 @@ def main(argv=None):
                        {"models": {k: {"correct": v["correct"]} for k, v in t["models"].items()}} for t in tasks]}
     (out / "data" / "index.json").write_text(json.dumps(index, indent=1), encoding="utf-8")
     (out / "data" / "index.js").write_text(f"window.BTA_INDEX = {json.dumps(index)};\n", encoding="utf-8")
+    fac = factory_summary(sets, tasks)
+    (out / "data" / "factory.json").write_text(json.dumps(fac, indent=1), encoding="utf-8")
+    (out / "data" / "factory.js").write_text(f"window.BTA_FACTORY = {json.dumps(fac)};\n", encoding="utf-8")
     write_qr(out, PAGES_URL)
     print(f"built {len(tasks)} tasks ({sum(t['has3d'] for t in tasks)} with 3D) into {out}; featured {featured}")
     if a.publish:
