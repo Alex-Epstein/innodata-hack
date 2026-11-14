@@ -1,0 +1,103 @@
+{
+ "key": "02e4b8b0ed49e58f193941163880702d6ccbe2f6d47b6c2afa810fc679c5e8eb",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map of a real place, drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 20 meters, index contours (heavy brown lines, some labeled) are every 100 meters, and elevations are in meters. A hiking trail is drawn as a dashed red line from the magenta square S to the magenta square E. How many contour lines (including index contours) does the trail cross between S and E? If it crosses the same contour line more than once, count every crossing. Answer with a whole number, for example 7.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "realtopo-cross-000002.png",
+       "sha256": "29cf9e07b2834f997c7fc721813322064c95967c040d5d8ce1c0936f56bacd14"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794678015-uhkHKM0tNOW1gc3CqBr1",
+  "object": "chat.completion",
+  "created": 1794678015,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "I estimated this from the map's contour pattern rather than an exact count, so the answer is approximate.\n\n1. **Trail route:** From S (about 782,766) the trail climbs northwest to about (757,720), runs west near y≈720–730, rises to a bump near (605,703), dips slightly around (650,730), then runs west-southwest down to E (about 408,781).\n2. **Elevations:** S appears to sit around 330–350 m, on the slope between the 300 index line and the 400 loop. E sits near 120–140 m, just east of the 100 index line.\n3. **Crossings:** Going from E up to the bump near (605,703) (around 260 m) crosses roughly 7 contour levels. The dip and rise after the bump adds about 2 more crossings, and the rise from there to the high point near (757,720) adds about 4. The final climb to S adds about 3 more.\n\nSumming these gives roughly 12 crossings, but the count is sensitive to small wiggles in the trail that I could not resolve precisely at this scale.\n\nFINAL ANSWER: 12",
+     "refusal": null,
+     "reasoning": "I'm working out the trail route from S near (782, 766) to E at (408, 781), tracing it up-left and then mostly west through a series of waypoints. Next I need to figure out which contour lines it crosses and what the elevation pattern looks like around it.\n\nI'm checking which contour lines the trail crosses near S, which sit between the labeled 400 loop and the index lines around 300 and 380.\n\nI'm now checking the index contours near (760,720), tracing the big index line that runs down through (760,690) and (720,740). The trail's elevation near E looks like it's around 120 to 140, sitting just east of the index 100 line.\n\nI'm estimating the elevation change along the trail: starting near 340 at S and ending near 120 at E, with ups and downs along the way. I'm starting to count contour crossings for the first segment, from S up toward (757,720), and I'm trying to figure out whether S sits inside a particular contour or just outside it.\n\nI'm checking how many contour lines the trail crosses on its western stretch, where the slope looks dense with lines roughly 20 to 30 pixels apart between x=420 and x=700.\n\nI'm now checking whether the index lines around (540,720) and (520,760) are the 200 contour, since the trail's western stretch runs close to them. I'm weighing the trail's climb toward the ridge near x=600 against its dip and rise toward S, and I'm estimating roughly nine crossings for now, though I'm not yet sure of the count.\n\nI'm estimating the elevation along the western stretch: rising from about 120 at E to roughly 240 near (590,710), which would mean crossing about six contour lines. I'm checking the index lines near there, though I'm not sure which labels they carry.\n\nI'm tallying the contour crossings in segments, guessing around 6 for the stretch up to the ridge near x=590, a couple more on the dip, and about 3 more climbing toward x=757. That puts the total around 12, though I'm still unsure of S's exact elevation and may settle on 11.\n\nI'm checking whether S sits on the southeast side of the index 300 line, which would put it on the slope toward the 400 loop, so S is probably somewhere around 340 to 360.\n\nI'm weighing whether S falls between the 300 index line and the 400 contour, which would put it somewhere around 340 to 360. Counting the levels from there down to E near 120 gives roughly 12 crossings, with some extra ups and downs on the way.\n\nI'm roughly tallying the contour crossings on the way from E up to the westmost high point, which I'm putting around 260, then back down and up again toward S, which I'm guessing sits near 340. That gives a rough total somewhere around 12 or 13, though the count is still uncertain.\n\nI'm working through the crossing count for the segment from the peak near (605,703) down to (650,730) and back up toward (757,720), tallying the contour levels passed on each leg. Adding those up, the totals so far come to about 13 crossings.\n\nI'm settling on a count of 12 crossings for the trail, though the segment near the high point is still shaky.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm working out the trail route from S near (782, 766) to E at (408, 781), tracing it up-left and then mostly west through a series of waypoints. Next I need to figure out which contour lines it crosses and what the elevation pattern looks like around it.\n\nI'm checking which contour lines the trail crosses near S, which sit between the labeled 400 loop and the index lines around 300 and 380.\n\nI'm now checking the index contours near (760,720), tracing the big index line that runs down through (760,690) and (720,740). The trail's elevation near E looks like it's around 120 to 140, sitting just east of the index 100 line.\n\nI'm estimating the elevation change along the trail: starting near 340 at S and ending near 120 at E, with ups and downs along the way. I'm starting to count contour crossings for the first segment, from S up toward (757,720), and I'm trying to figure out whether S sits inside a particular contour or just outside it.\n\nI'm checking how many contour lines the trail crosses on its western stretch, where the slope looks dense with lines roughly 20 to 30 pixels apart between x=420 and x=700.\n\nI'm now checking whether the index lines around (540,720) and (520,760) are the 200 contour, since the trail's western stretch runs close to them. I'm weighing the trail's climb toward the ridge near x=600 against its dip and rise toward S, and I'm estimating roughly nine crossings for now, though I'm not yet sure of the count.\n\nI'm estimating the elevation along the western stretch: rising from about 120 at E to roughly 240 near (590,710), which would mean crossing about six contour lines. I'm checking the index lines near there, though I'm not sure which labels they carry.\n\nI'm tallying the contour crossings in segments, guessing around 6 for the stretch up to the ridge near x=590, a couple more on the dip, and about 3 more climbing toward x=757. That puts the total around 12, though I'm still unsure of S's exact elevation and may settle on 11.\n\nI'm checking whether S sits on the southeast side of the index 300 line, which would put it on the slope toward the 400 loop, so S is probably somewhere around 340 to 360.\n\nI'm weighing whether S falls between the 300 index line and the 400 contour, which would put it somewhere around 340 to 360. Counting the levels from there down to E near 120 gives roughly 12 crossings, with some extra ups and downs on the way.\n\nI'm roughly tallying the contour crossings on the way from E up to the westmost high point, which I'm putting around 260, then back down and up again toward S, which I'm guessing sits near 340. That gives a rough total somewhere around 12 or 13, though the count is still uncertain.\n\nI'm working through the crossing count for the segment from the peak near (605,703) down to (650,730) and back up toward (757,720), tallying the contour levels passed on each leg. Adding those up, the totals so far come to about 13 crossings.\n\nI'm settling on a count of 12 crossings for the trail, though the segment near the high point is still shaky.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 11929,
+        "sha256": "73fac834940903f2460d0a0f94a53e73ffa768c8449ac6e82af66a2d6c44b6c7"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2716,
+   "completion_tokens": 3636,
+   "total_tokens": 6352,
+   "cost": 0.0020896,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0020896,
+    "upstream_inference_prompt_cost": 0.0002716,
+    "upstream_inference_completions_cost": 0.001818
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 3286,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 20.85,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:40:15+00:00"
+}
