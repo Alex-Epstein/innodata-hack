@@ -1,0 +1,1 @@
+done: spike G topo map (#18): gen.py (9 tasks, answers computed two ways), eval run through eval/; L1 6 of 6 right, L2 2 of 6, L3 0 of 6, no cut-offs, $0.0391696. next: lead decides on the family; if picked, fix end-marker overlap and duplicate summit labels. blocked: none

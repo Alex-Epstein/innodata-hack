@@ -1,0 +1,99 @@
+{
+ "key": "88a12f0847cc7b00ff8ac358ee742d8544c8b7e26335e92507c2ff755b2764d5",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. The magenta point P lies exactly on a contour line. What is the elevation of P in meters? Answer with a whole number, for example 1240.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-000203.png",
+       "sha256": "9c95be527a1042a26d569b3c012e27cf47b79eb6a3562765fd759e9e660f4146"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673362-vxR5WpvPx9n6td8Ifjyz",
+  "object": "chat.completion",
+  "created": 1794673362,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "The magenta point P sits at about x≈418, y≈985 in the map image. The heavy index contour labeled 800 runs from the label near (255, 900) down and to the right, passing just below and through the area where P sits. The nearby thin contours are the 780 and 820 intermediate lines, but P falls on the heavy 800 index line, so its elevation is 800 m.\n\nFINAL ANSWER: 800",
+     "refusal": null,
+     "reasoning": "I'm working out which contour P sits on, with P near pixel (418, 985). The nearby index contour labeled 800 seems to run from around (230, 820) down to (300, 960), and I'm checking where its label positions and curve fit relative to P.\n\nI'm testing whether P at (418, 985) lies on the 800 contour, tracing the curve from its label near (255, 900) down-right toward (620, 1040). The line seems to pass very close to P, so I'm leaning toward 800 rather than an intermediate 780 or 820.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm working out which contour P sits on, with P near pixel (418, 985). The nearby index contour labeled 800 seems to run from around (230, 820) down to (300, 960), and I'm checking where its label positions and curve fit relative to P.\n\nI'm testing whether P at (418, 985) lies on the 800 contour, tracing the curve from its label near (255, 900) down-right toward (620, 1040). The line seems to pass very close to P, so I'm leaning toward 800 rather than an intermediate 780 or 820.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "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.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2774,
+   "completion_tokens": 762,
+   "total_tokens": 3536,
+   "cost": 0.0006584,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0006584,
+    "upstream_inference_prompt_cost": 0.0002774,
+    "upstream_inference_completions_cost": 0.000381
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 628,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 5.11,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:22:41+00:00"
+}

@@ -1,0 +1,99 @@
+{
+ "key": "c6714fdb26d35c1eff21a356a18fdab13de84b05bd437eb9995264a117288c0e",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map. The contour interval is 20 meters, index contours (heavy lines) are every 100 meters, and elevations are in meters. The magenta point P lies exactly on a contour line. What is the elevation of P in meters? Answer with a whole number, for example 1240.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topo-000202.png",
+       "sha256": "3b6bedb0765735aba9fa08b082b58542206f6cd2495d12e67d04b0ae5edc423d"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 32000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794673359-yOZQiSIc8a3VFuJ2kSS2",
+  "object": "chat.completion",
+  "created": 1794673359,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Locating P:** P sits at roughly (472, 854) on the map, in the sloping ground between the heavy 300 m contour to its lower-right and the heavy 400 m contour to its upper-left.\n\n**Reading the nearby contours:**\n- The heavy 300 m contour runs from about (455, 1120) up to (520, 930) and on to (545, 920). P lies up and to the left of it, so P is higher than 300 m.\n- The heavy 400 m contour passes near (500, 700), above P. The 300 m and 400 m contours are about 230 px apart vertically in this area, so the four thin contours between them (320, 340, 360, 380 m) are spaced roughly 45–50 px apart.\n- The closest point on the 300 m contour to P is about 90 px away. At that spacing, P falls on the second thin contour above 300 m, which is 340 m. The 320 m contour would be about 45 px from the 300 m line, and the 360 m contour would be about 135 px away.\n\nThis is an estimate from the spacing, so the answer carries some uncertainty of one contour interval.\n\nFINAL ANSWER: 340",
+     "refusal": null,
+     "reasoning": "I'm working out the contour elevation at point P, which sits near pixel (472, 854). I'm looking at the nearby contour lines to see which elevation band P falls on, weighing the heavy index contours against the thinner 20 m ones.\n\nI'm checking the thin contour that runs past (500,786) and the heavy 400 and 300 lines bounding the area between them, to see where P sits relative to those bands.\n\nI'm estimating the gradient from the heavy 400 and 300 lines, which sit roughly 220 px apart vertically with four thin contours between them, so the spacing is around 50 px per interval. I'm weighing whether P falls on the 340, 360, or 320 line.\n\nI'm sizing up where P sits relative to the heavy 300 line, which runs up from the bottom around x≈455–520, so P at (472, 854) lies up and to the left of it.\n\nI'm estimating P's elevation from its distance to the heavy 300 line, which passes near (520, 925). That distance works out to roughly 85 px, about 37 m above 300, so the nearest candidates are 320 or 340.\n\nI'm weighing the distance from P to the heavy 300 line, which works out to around 90 px and points toward 340. I'm also checking whether the thin contour near P fits that reading, and I'm leaning toward 340 for now.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm working out the contour elevation at point P, which sits near pixel (472, 854). I'm looking at the nearby contour lines to see which elevation band P falls on, weighing the heavy index contours against the thinner 20 m ones.\n\nI'm checking the thin contour that runs past (500,786) and the heavy 400 and 300 lines bounding the area between them, to see where P sits relative to those bands.\n\nI'm estimating the gradient from the heavy 400 and 300 lines, which sit roughly 220 px apart vertically with four thin contours between them, so the spacing is around 50 px per interval. I'm weighing whether P falls on the 340, 360, or 320 line.\n\nI'm sizing up where P sits relative to the heavy 300 line, which runs up from the bottom around x≈455–520, so P at (472, 854) lies up and to the left of it.\n\nI'm estimating P's elevation from its distance to the heavy 300 line, which passes near (520, 925). That distance works out to roughly 85 px, about 37 m above 300, so the nearest candidates are 320 or 340.\n\nI'm weighing the distance from P to the heavy 300 line, which works out to around 90 px and points toward 340. I'm also checking whether the thin contour near P fits that reading, and I'm leaning toward 340 for now.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "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.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2774,
+   "completion_tokens": 2009,
+   "total_tokens": 4783,
+   "cost": 0.0012819,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0012819,
+    "upstream_inference_prompt_cost": 0.0002774,
+    "upstream_inference_completions_cost": 0.0010045
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1639,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 11.28,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T16:22:39+00:00"
+}
