@@ -1,0 +1,1 @@
+done: #8/#75 README covers every organizer heading (ten families, pipeline, both families, pilots, final-10 rule, findings, Docker, disclosures, limits, team); scripts/package --fill-readme writes the final-results and hand-check blocks from tasks/final, results/final and results/human; dummy ZIP 0 FAIL 0 WARN. next: fill from the final run, build the ZIP. blocked: team name

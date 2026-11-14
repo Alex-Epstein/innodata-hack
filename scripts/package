@@ -2,6 +2,9 @@
 """Build the submission ZIP and run the organizers' format checker on it.
 
     scripts/package OurTeam            -> OurTeam_Track2.zip at the repo root, then the checker (must show 0 FAIL)
+    scripts/package --fill-readme      -> rewrites the README's "Final results" and "Hand check" blocks from
+                                          tasks/final, results/final and results/human/hand_check.md (no number
+                                          is typed by hand); run it before the team-name form
     scripts/package --dummy            -> proves the layout before real tasks exist: copies the repo to a temp
                                           folder, adds 10 placeholder tasks and a MOCK evaluation (no model is
                                           called, nothing is written to the repo), zips it and runs the checker
@@ -10,6 +13,7 @@ Only files tracked by git go in, so .env, cache/, .venv/ and scratch files can n
 Standard library only.
 """
 import argparse
+import csv
 import json
 import os
 import shutil
@@ -101,11 +105,97 @@ def dummy_submission(work: Path) -> list[str]:
     return sorted(str(p.relative_to(work)) for p in work.rglob("*") if p.is_file() and "__pycache__" not in p.parts)
 
 
+# ---------------------------------------------------------------------------------------------- README blocks
+SHORT = {"anthropic/claude-haiku-5.5": "Haiku", "openai/gpt-6-luna": "Luna"}
+
+
+def _block(text: str, name: str, body: str) -> str:
+    a, b = f"<!-- {name}:start -->", f"<!-- {name}:end -->"
+    if a not in text or b not in text:
+        raise SystemExit(f"README.md has no {a} ... {b} block")
+    return text[:text.index(a) + len(a)] + "\n" + body.strip() + "\n" + text[text.index(b):]
+
+
+def final_results_block(tasks_dir: Path, results_dir: Path) -> str:
+    """The reported scores, read from tasks.jsonl, validation_report.json, responses.csv and summary.json."""
+    csv.field_size_limit(10 ** 9)
+    tasks = [json.loads(l) for l in (tasks_dir / "tasks.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
+    rows = list(csv.DictReader(open(results_dir / "responses.csv", encoding="utf-8")))
+    models = [m for m in SHORT if any(r["model"] == m for r in rows)]
+    got = {(r["model"], r["task_id"]): r for r in rows}
+    lines = ["| Task | Mission | Reference answer | " + " | ".join(SHORT[m] for m in models) + " |",
+             "|---|---|---|" + "---|" * len(models)]
+    for t in tasks:
+        cells = []
+        for m in models:
+            r = got.get((m, t["task_id"]))
+            cells.append("no row" if r is None else f"{r['parsed'] or '(none)'} {'✓' if r['correct'] == '1' else '✗'}")
+        answer = ", ".join(map(str, t["answer"])) if isinstance(t["answer"], list) else t["answer"]
+        lines.append(f"| `{t['task_id']}` | {t['question_type'].split('.', 1)[1]} | {answer} | " + " | ".join(cells) + " |")
+    total = ["| **Total** | | |"]
+    for m in models:
+        mine = [r for r in rows if r["model"] == m]
+        total.append(f" **{sum(r['correct'] == '1' for r in mine)}/{len(mine)}** |")
+    lines.append("".join(total))
+    out = ["\n".join(lines), ""]
+    kinds = sorted({t["question_type"] for t in tasks})
+    per = []
+    for k in kinds:
+        ids = {t["task_id"] for t in tasks if t["question_type"] == k}
+        per.append(k.split(".", 1)[1] + " " + ", ".join(
+            f"{SHORT[m]} {sum(r['correct'] == '1' for r in rows if r['model'] == m and r['task_id'] in ids)}/{len(ids)}"
+            for m in models))
+    out.append("By mission: " + "; ".join(per) + ".")
+    stop = sum(r["finish_reason"] == "stop" and not r["error"] for r in rows)
+    facts = [f"{stop} of {len(rows)} replies are complete (`finish_reason` stop, no error)"]
+    summary = results_dir / "summary.json"
+    if summary.exists():
+        cost = json.loads(summary.read_text(encoding="utf-8")).get("totals", {}).get("cost_usd_all_calls")
+        if cost is not None:
+            facts.append(f"the run cost ${cost:.4f}")
+    report = tasks_dir / "validation_report.json"
+    if report.exists():
+        rep = json.loads(report.read_text(encoding="utf-8"))
+        if "all_passed" in rep and "checked" in rep:
+            facts.append(f"{rep['all_passed']} of {rep['checked']} tasks pass every automatic check")
+    versions = sorted({t["generator_version"] for t in tasks})
+    facts.append("generator " + ", ".join(f"`{v}`" for v in versions) + f", seeds {', '.join(str(t['seed']) for t in tasks)}")
+    out.append("Facts: " + "; ".join(facts) + ".")
+    return "\n".join(out)
+
+
+def hand_check_block(tasks_dir: Path, notes: Path) -> str:
+    """The person's notes, verbatim, plus a line for any reported task the notes do not mention."""
+    ids = [json.loads(l)["task_id"] for l in (tasks_dir / "tasks.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
+    if not notes.exists():
+        return "\n".join(f"- `{t}`: hand check pending." for t in ids)
+    text = notes.read_text(encoding="utf-8").strip()
+    body = "\n".join(l for l in text.splitlines() if not l.startswith("# "))
+    missing = [t for t in ids if t not in text]
+    return (body.strip() + "\n" + "\n".join(f"- `{t}`: not covered by the hand-check notes." for t in missing)).strip()
+
+
+def fill_readme(tasks_dir: Path, results_dir: Path, notes: Path) -> int:
+    readme = ROOT / "README.md"
+    text = readme.read_text(encoding="utf-8")
+    text = _block(text, "final-results", final_results_block(tasks_dir, results_dir))
+    text = _block(text, "hand-check", hand_check_block(tasks_dir, notes))
+    readme.write_text(text, encoding="utf-8")
+    print(f"README.md: final results from {results_dir}, hand check from {notes if notes.exists() else '(pending)'}")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("team", nargs="?", help="team name: letters, digits, - and _ (the ZIP is <team>_Track2.zip)")
     ap.add_argument("--dummy", action="store_true", help="check the layout with placeholder tasks; repo untouched")
+    ap.add_argument("--fill-readme", action="store_true", help="rewrite the README's result and hand-check blocks")
+    ap.add_argument("--tasks", default="tasks/final")
+    ap.add_argument("--results", default="results/final")
+    ap.add_argument("--hand-check", default="results/human/hand_check.md")
     a = ap.parse_args()
+    if a.fill_readme:
+        return fill_readme(ROOT / a.tasks, ROOT / a.results, ROOT / a.hand_check)
     if a.dummy:
         with tempfile.TemporaryDirectory() as d:
             work = Path(d) / "repo"

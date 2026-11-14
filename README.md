@@ -4,7 +4,9 @@
 > the headings below are the ones the organizers' format checker requires.
 
 ## Problem statement
-Vision models read labels and do arithmetic well. They are much weaker when the answer depends on **following a
+We generated ten kinds of images in code (circuits, ECG strips, Gantt charts, two calendars, subway maps, power
+diagrams, topographic maps) and ran the same quick test on each. The two models solved almost all of them: they
+read labels and do arithmetic well. They are much weaker when the answer depends on **following a
 line through clutter**: a trail across dozens of contour lines, water running downhill, a feeder across a busy
 one-line diagram. We built a factory that makes such tasks on demand: it writes structured data, draws a realistic
 image from it by code, asks a question that needs several chained steps, computes the answer from the same data
@@ -22,6 +24,11 @@ One command line, `python -m factory`, with one plug-in package per image family
 | Evaluate | `factory eval --tasks DIR --out DIR` | Both models through OpenRouter with the same prompt: temperature 0, reasoning effort high, max_tokens 64000, retries with backoff, one stored reply per (model, prompt, image, settings). Writes `responses.csv`, `summary.json`, `run_config.json` and every raw reply. Scoring is exact and identical for both models (`eval/scoring.py`). |
 | Rebuild | `factory rebuild --tasks DIR` | Regenerates every task from its seed and compares the SHA-256 of the PNG and the data JSON, plus the question and the answer. |
 | Fresh | `factory fresh --seed N` | Builds one new task, runs every check and asks both models, live. |
+
+After the automatic checks come two reviews that never set an answer: an advisory reviewer model
+(`validate/review.py`, Claude Sonnet) that reads each task and flags anything ambiguous or hard to see, and a
+person's hand check of every reported task. A report page (`report/`) and a playable demo (`site/`, "Beat the
+AI": answer from the flat map, then watch the truth on the 3D terrain) are built from the same result files.
 
 The checks (`validate/checks.py`):
 
@@ -46,9 +53,25 @@ mission with a marked scenario:
 | `sunset` | read now, sunset and flat walking time from the incident box → count the contour lines crossed going uphill → Naismith's rule → minutes to spare before dark | integer |
 | `flood` | find downhill at the failed dam → follow the water at right angles to every contour as the slope turns → name the one camp in its path | camp name |
 
+### Family: switchgear single-line diagrams (`gen/power`, details in `gen/power/README.md`)
+A 480 V main-tie-main switchgear drawn as found (IEEE Std 141, IEEE Std 315 / ANSI C37.2 symbols): two utility
+services through transformers, a standby generator, buses and sub-buses, ANSI 52 breakers (filled = closed, hollow
+= open) and alternate feeds that cross other feeders without junction dots.
+
+| Template | Chain of reasoning | Answer |
+|---|---|---|
+| `trip` | read every breaker state → find what is live after a main trips → shed largest loads first to the generator rating → close the tie → sum the loads that were running and are not at the end | integer kW |
+| `dbl` | two breakers trip together → follow every feed, the crossing alternates included → list the running loads that lose power | load tags |
+| `iso` | find every source that can feed a sub-bus, back-feeds included → open the fewest breakers that isolate it without dropping other loads | breaker IDs |
+
 ## Reported folders
 - Tasks: `tasks/final/`
 - Results: `results/final/`
+
+The rule for the reported 10 was written down before the final run (`docs/DECISIONS.md`, 13:45): topographic maps
+only, generator 2.1, difficulty 3, generated inside Docker; `crossings` seeds 100 to 102, `sunset` seeds 100 to
+102, `flood` seeds 100 to 103; a rejected seed is replaced by the next seed of that mission; one evaluation run on
+both models; no reselection after seeing results.
 
 ## Pilot results
 Every pilot is 10 seeds (0 to 9) at difficulty 3 on both models. Rule: keep a template only if at most 5 of 10
@@ -74,7 +97,18 @@ lists each run); pilot 4 is in the `pilot_topo_<template>` folders under `result
 `tasks/` (pilot 3's files are in git history at commit `9d1d06a`). Each folder has `responses.csv`, `summary.json`, `run_config.json` and the raw replies.
 `PYTHONPATH=. uv run python -m gen.topo.pilot_report` prints the pilot 4 table from those files.
 
+Power family pilots (10 seeds, difficulty 3; the `pilot<N>_power_<template>` folders under `results/`):
+
+| Pilot | `trip` Haiku · Luna | `dbl` Haiku · Luna | `iso` Haiku · Luna |
+|---|---|---|---|
+| 1. `power-1.0.0` | 10/10 · 9/10 | 6/10 · 8/10 | 7/10 · 9/10 |
+| 2. `power-1.1.0` (current) | 9/10 · 9/10 | 6/10 · 7/10 | 7/10 · 7/10 |
+| 3. `power-1.2.0` (reverted) | 8/10 · 9/10 | 9/10 · 10/10 | 9/9 · 7/9 |
+
 Generator changes the pilots caused:
+- **Power:** the spike's low scores came partly from ambiguous wording. With the wording fixed (1.0.0) both models
+  trace these diagrams well. 1.1.0 requires a cross-feed trap in every task; 1.2.0 (more traps, larger answer
+  sets) did not make it harder and was reverted. No power template meets the keep rule; we report that as it is.
 - **Pilot 0 (idea spikes, 3 tasks per level, `results/spikes/README.md`)** ruled out circuits, Gantt charts, ECG
   strips and calendars (too easy) and showed that max_tokens 16000 cut off replies; it was raised to 64000 for
   every run after that.
@@ -102,7 +136,18 @@ The tasks stay fair to a careful person: crossings are at least 40 m apart, the 
 and crosses every line at 25° or more; only one camp is within 40 m of the water route and every other camp is at
 least 250 m from it.
 
+## Final results
+The 10 reported tasks, one run, both models (written by `scripts/package --fill-readme` from the two reported
+folders):
+
+<!-- final-results:start -->
+Filled in when the final run lands.
+<!-- final-results:end -->
+
 ## Key findings
+- The same models that trace a breaker diagram well (6/10 to 9/10 on the power pilots) cannot count the contour
+  lines along a trail (0/10 or 1/10). Discrete symbols joined by straight wires are followed; a path through dense,
+  similar, curved lines is not.
 - Single reads (one elevation, one label, the scale bar) and the arithmetic are reliably right; counting or
   following along a path through many lines is reliably wrong.
 - A wide tolerance or a 3 or 4 way choice hides a tracing miss, so answers are exact integers or one of 6 names.
@@ -114,8 +159,12 @@ least 250 m from it.
 More notes with their sources: `NOTES.md`.
 
 ## Hand check
-A person solves each reported task from the image alone and compares with the computed answer. One line per
-task is added here when the reported set is frozen.
+A person solved every reported task from the image alone, timed, and compared with the computed answer
+(`results/human/`). One line per task:
+
+<!-- hand-check:start -->
+Filled in when the final run lands.
+<!-- hand-check:end -->
 
 ## Run in Docker
 Only Docker is needed. The key is passed at run time and never stored in the image. Everything a run produces is
@@ -153,12 +202,15 @@ docker run --rm -e OPENROUTER_API_KEY -v "$(pwd)/out:/out" visual-task-factory f
 - Map conventions: USGS 7.5-minute topographic quadrangles and USGS Topographic Map Symbols. Rules: Naismith's
   rule (1892) for walking time; water follows the line of steepest descent.
 - The organizers' format checker (`tools/track2-format-check/`), unchanged.
+- Anthropic's API for the advisory reviewer (Claude Sonnet), and three.js for the demo site.
 - OpenRouter's chat completions API for both models. No model output is used to make an image or an answer.
 - The code was written during the event with AI coding agents working under each team member's direction.
 
 ## Manual interventions
 - No image, question or reference answer was edited by hand. Every task is rebuilt from its seed by the commands
   above.
+- The advisory reviewer model's flags on the first real-terrain maps led to two generator changes (solid trail,
+  end markers clear of contours). It never changes an answer and never drops a task.
 - People chose the four map areas, the fairness thresholds, and which templates to keep or drop after each pilot
   (rule and numbers under "Pilot results").
 - The hand check of the reported tasks is done by a person from the image alone (see "Hand check").
@@ -174,8 +226,8 @@ docker run --rm -e OPENROUTER_API_KEY -v "$(pwd)/out:/out" visual-task-factory f
 
 ## Team contributions
 - **Alex Epstein (`Alex-Epstein`)**, team lead: plan and decisions, the core command line (`factory/`), the
-  checks (`validate/`), the real-terrain spike, the demo.
+  checks and the reviewer (`validate/`), the real-terrain spike, the report page and the demo site.
 - **Shivam Raj (`tech-cosmos`)**: the evaluation client and scoring (`eval/`), the topographic family
   (`gen/topo`) and its pilots, Docker and packaging.
-- **`WindHurtLZ`**: the power one-line family and its pilots; subway spikes.
-- **`dl3832`**: Gantt spike; human baseline and hand checks.
+- **`WindHurtLZ`**: the power single-line family (`gen/power`) and its three pilots; subway spikes.
+- **`dl3832`**: Gantt spike; the human baseline and the hand check of every reported task.
