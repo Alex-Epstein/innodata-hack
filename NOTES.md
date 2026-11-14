@@ -12,3 +12,15 @@
   hardest calendar images (all 32000 tokens went to reasoning). `openai/gpt-6-luna` got all 9 right. 5 of 18
   results differ from the 16000 run on identical images and questions, so single runs with 3 tasks per level are
   noise-prone. Source: `results/spikes/calendar_32k/summary.md`.
+- 12:03 · topo missions (#29) · The same 9 maps asked in plain wording and then as missions gave different scores:
+  Naismith hike time 2/6 plain, 6/6 as "hiker vs sunset"; campsite rules 6/6 plain, 4/6 as "base camp". Same
+  terrain, same marks, same chain. With 3 tasks per type these numbers are noise and must not be quoted as
+  difficulty. Source: `results/spikes/missions/summary.md`.
+- 12:03 · topo missions (#29) · The step that breaks is tracing a line across many contours (adding up ascent,
+  following water downhill, counting crossings). Reading one elevation, using the scale bar and the arithmetic
+  are fine: trail length was read as 2.44 km against 2.439 km true. A wide tolerance (±10 min is ±50 m of
+  ascent) or a 3 or 4 way choice hides the miss. Wildfire "which trail stays below the fire" was 6/6 (too easy);
+  `openai/gpt-6-luna` got line of sight 6/6. Source: same file.
+- 12:03 · topo missions (#29) · Limitation: line-of-sight tasks in the spike have visible hikers clearing the
+  ground by only 25.9 to 28.4 m, about one contour line, which is too thin for a person. A real generator should
+  require 60 m or more. The hike-time search also took minutes for 3 tasks, too slow for a live seed as written.

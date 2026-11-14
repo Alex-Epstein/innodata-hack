@@ -1,0 +1,1 @@
+done: NOTES.md lines from the topo missions spike (noise with 3 tasks, tracing is the hard step, thin line-of-sight margin). next: #8 packaging once factory (#6) exists. blocked: #8 needs #6 and the team name
