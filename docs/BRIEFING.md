@@ -2,16 +2,18 @@
 
 ## Now
 **~11:05 · Spike round 2: every family gets the same test, then we pick the 2 with the best accuracy drop.**
-Done: calendar (L3 Haiku 1/3, Luna 1/3) · circuit ruled out (18/18). Running now, results on each issue by **11:45**:
-| Family | Issue | Owner |
-|---|---|---|
-| Power one-line (harder) | #5 | tech-cosmos (Codex) |
-| ECG rhythm strip | #15 | tech-cosmos |
-| Gantt chart | #16 | dl3832 |
-| Subway map | #17 | WindHurtLZ |
-| Topographic map | #18 | tech-cosmos |
-Same protocol everywhere (in each issue): 3 levels x 3 seeds, `eval.run`, a results table, honest fairness and realism notes.
-**Decision at 11:50:** the family pair with the clearest accuracy drop that stays fair and looks real. Calendar is the one to beat.
+Scoreboard so far (L1 / L2 / L3, Haiku · Luna):
+| Family | L1 | L2 | L3 | Verdict |
+|---|---|---|---|---|
+| **Topo map** (#18) | 3/3 · 3/3 | 1/3 · 1/3 | **0/3 · 0/3** | **Leading.** Clean drop, failures are tracing and counting, answers double-computed, byte-identical rebuild |
+| Calendar (32k rerun) | 2/3 · 3/3 | 3/3 · 3/3 | 0/3 (2 cut off) · **3/3** | Luna solves it with enough tokens; needs to be harder |
+| ECG (#15) | 12/12 both | | | Ruled out: sharp marks on a grid are read to the pixel |
+| Circuit | 9/9 both | | | Ruled out |
+| Subway (#17) | running | | | WindHurtLZ |
+| Gantt (#16) | ? | | | dl3832 |
+| Power (#5) | ? | | | tech-cosmos Codex |
+**Decision at 11:50:** topo + the best of subway / Gantt / power / a harder calendar.
+**Eval issue:** Haiku still hits the token limit on hard tasks (all 32k spent reasoning). Both models allow up to 128k output, so go to 64000 (about $0.03 per call worst case).
 Meanwhile: #8 packaging (tech-cosmos), #6 core + #7 validator (Alex).
 
 **Demo plan: "Beat the AI."** Judges solve our exemplar task on screen (60 s), then we reveal both models' wrong
