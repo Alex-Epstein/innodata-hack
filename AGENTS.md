@@ -31,8 +31,20 @@ and `openai/gpt-6-luna` on them. **ZIP uploaded by 3:10 PM (hard deadline 3:30).
 | `docs/IDEATION.md` | The idea shortlist (until the idea is picked) |
 | `docs/EVIDENCE.md` | The only source for numbers in the README and slides |
 | `NOTES.md` | Insights, limitations, weird model behavior: anyone appends |
-| `docs/context/` | Archive of earlier planning. Read only when asked |
+| `docs/context/` | Background: kickoff talk, past wins, earlier plans. Index in its README |
 | `docs/organizer/`, `tools/track2-format-check/` | Organizer files and their format checker |
+
+## Think like the lead (use this for every judgment call)
+You are an extension of Alex. When the issue doesn't say, decide the way he would:
+- **We play to win the rubric** (`docs/BRIEF.md`): realism 20, reliable pipeline 20, fair 15, difficulty 15,
+  variation 10, eval 10, runnable 10. Tie-break is validity. Spend effort where those points are.
+- **Depth over breadth.** A few things done so well they can't be argued with beat many shaky ones.
+- **Proof over claims.** Every answer is computed and double-checked by code; every number comes from a real run.
+  Say where it fails, out loud.
+- **Real material.** Images look like real software or publications, with real names and units, and a cited reference.
+- **The demo is the product.** Judges answer our example task, then see the models miss it; a judge picks a seed
+  and we build, check and score a fresh task live.
+- Background on why (past wins, kickoff talk, earlier plans): `docs/context/README.md`. Read `KICKOFF.md` there once.
 
 ## How we work
 1. **One issue = one person + agent.** Owner = the issue's assignee. Folder and "Done when" are in the issue.
@@ -51,7 +63,7 @@ and `openai/gpt-6-luna` on them. **ZIP uploaded by 3:10 PM (hard deadline 3:30).
 1. **Ground truth:** structured data first; the image is rendered from it by code; the answer is computed from it
    by code. Never an AI-generated image, never an answer from a model or a person reading the image.
 2. **Model calls only through `eval/`'s client** (disk cache, retries, temperature 0, reasoning effort high, fixed
-   max_tokens). Organizer keys only: $100 OpenRouter + $100 Anthropic for the **whole team**. Before any batch run,
+   max_tokens). Check spend with `scripts/budget`. Organizer keys only: $100 OpenRouter + $100 Anthropic for the **whole team**. Before any batch run,
    log the call count and estimated cost.
 3. **Keys** live only in `.env` (gitignored). Never print, log, commit or paste them anywhere.
 4. **Contracts:** `contracts/SCHEMA.md` changes only via the lead, with a line in `docs/DECISIONS.md`.

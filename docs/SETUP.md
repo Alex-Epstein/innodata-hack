@@ -28,7 +28,8 @@ Do these in order, yourself. Only stop to ask your user where a step says so. Ne
    the team keys Alex posted in the team chat after `OPENROUTER_API_KEY=` and `ANTHROPIC_API_KEY=`, save, and tell
    you. Re-check. Never ask for the key in chat, and never echo or cat `.env`.
 6. **Read and get your ticket.**
-   - Read `AGENTS.md` fully, then run `scripts/catchup` and read `docs/BRIEFING.md`.
+   - Read `AGENTS.md` fully (especially "Think like the lead"), then `docs/context/README.md` and `docs/context/KICKOFF.md`,
+     then run `scripts/catchup` and read `docs/BRIEFING.md`.
    - If an open `directive` names your user or "everyone", that's the task.
    - Otherwise, if an issue is already assigned to your user, that's the task.
    - Otherwise take the **first issue in BRIEFING's "Claim order" with no assignee**:

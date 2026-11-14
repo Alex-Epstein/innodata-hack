@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Team OpenRouter spend vs limit (reads the key from .env, never prints it).
+cd "$(dirname "$0")/.." || exit 1
+k=$(grep -E '^OPENROUTER_API_KEY=' .env 2>/dev/null | cut -d= -f2-)
+[ -n "$k" ] || { echo "no OPENROUTER_API_KEY in .env"; exit 1; }
+curl -s https://openrouter.ai/api/v1/key -H "Authorization: Bearer $k" | python3 -c 'import sys,json; d=json.load(sys.stdin)["data"]; print(f"OpenRouter: ${d["usage"]:.2f} used of ${d["limit"]} (${d["limit_remaining"]:.2f} left)")'
