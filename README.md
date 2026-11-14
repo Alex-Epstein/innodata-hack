@@ -24,11 +24,12 @@ One command line, `python -m factory`, with one plug-in package per image family
 | Evaluate | `factory eval --tasks DIR --out DIR` | Both models through OpenRouter with the same prompt: temperature 0, reasoning effort high, max_tokens 64000, retries with backoff, one stored reply per (model, prompt, image, settings). Writes `responses.csv`, `summary.json`, `run_config.json` and every raw reply. Scoring is exact and identical for both models (`eval/scoring.py`). |
 | Rebuild | `factory rebuild --tasks DIR` | Regenerates every task from its seed and compares the SHA-256 of the PNG and the data JSON, plus the question and the answer. |
 | Fresh | `factory fresh --seed N` | Builds one new task, runs every check and asks both models, live. |
+| Export | `factory export --format rl` | Packs checked tasks for training: one environment per task (prompt, image, exact verifier) and the verified worked steps. Described in `product/DATASHEET.md`. |
 
 After the automatic checks come two reviews that never set an answer: an advisory reviewer model
 (`validate/review.py`, Claude Sonnet) that reads each task and flags anything ambiguous or hard to see, and a
-person's hand check of every reported task. A report page (`report/`) and a playable demo (`site/`, "Beat the
-AI": answer from the flat map, then watch the truth on the 3D terrain) are built from the same result files.
+person's hand check of every reported task. A report page (`report/`), a one-page explainer of the factory (`explainer/`) and a playable demo (`site/`, "Beat
+the AI": answer from the flat map, then watch the truth on the 3D terrain) are built from the same result files.
 
 The checks (`validate/checks.py`):
 
