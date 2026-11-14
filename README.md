@@ -4,7 +4,9 @@
 > the headings below are the ones the organizers' format checker requires.
 
 ## Problem statement
-Vision models read labels and do arithmetic well. They are much weaker when the answer depends on **following a
+We generated ten kinds of images in code (circuits, ECG strips, Gantt charts, two calendars, subway maps, power
+diagrams, topographic maps) and ran the same quick test on each. The two models solved almost all of them: they
+read labels and do arithmetic well. They are much weaker when the answer depends on **following a
 line through clutter**: a trail across dozens of contour lines, water running downhill, a feeder across a busy
 one-line diagram. We built a factory that makes such tasks on demand: it writes structured data, draws a realistic
 image from it by code, asks a question that needs several chained steps, computes the answer from the same data
@@ -22,6 +24,11 @@ One command line, `python -m factory`, with one plug-in package per image family
 | Evaluate | `factory eval --tasks DIR --out DIR` | Both models through OpenRouter with the same prompt: temperature 0, reasoning effort high, max_tokens 64000, retries with backoff, one stored reply per (model, prompt, image, settings). Writes `responses.csv`, `summary.json`, `run_config.json` and every raw reply. Scoring is exact and identical for both models (`eval/scoring.py`). |
 | Rebuild | `factory rebuild --tasks DIR` | Regenerates every task from its seed and compares the SHA-256 of the PNG and the data JSON, plus the question and the answer. |
 | Fresh | `factory fresh --seed N` | Builds one new task, runs every check and asks both models, live. |
+
+After the automatic checks come two reviews that never set an answer: an advisory reviewer model
+(`validate/review.py`, Claude Sonnet) that reads each task and flags anything ambiguous or hard to see, and a
+person's hand check of every reported task. A report page (`report/`) and a playable demo (`site/`, "Beat the
+AI": answer from the flat map, then watch the truth on the 3D terrain) are built from the same result files.
 
 The checks (`validate/checks.py`):
 
@@ -60,6 +67,11 @@ services through transformers, a standby generator, buses and sub-buses, ANSI 52
 ## Reported folders
 - Tasks: `tasks/final/`
 - Results: `results/final/`
+
+The rule for the reported 10 was written down before the final run (`docs/DECISIONS.md`, 13:45): topographic maps
+only, generator 2.1, difficulty 3, generated inside Docker; `crossings` seeds 100 to 102, `sunset` seeds 100 to
+102, `flood` seeds 100 to 103; a rejected seed is replaced by the next seed of that mission; one evaluation run on
+both models; no reselection after seeing results.
 
 ## Pilot results
 Every pilot is 10 seeds (0 to 9) at difficulty 3 on both models. Rule: keep a template only if at most 5 of 10
@@ -178,12 +190,15 @@ docker run --rm -e OPENROUTER_API_KEY -v "$(pwd)/out:/out" visual-task-factory f
 - Map conventions: USGS 7.5-minute topographic quadrangles and USGS Topographic Map Symbols. Rules: Naismith's
   rule (1892) for walking time; water follows the line of steepest descent.
 - The organizers' format checker (`tools/track2-format-check/`), unchanged.
+- Anthropic's API for the advisory reviewer (Claude Sonnet), and three.js for the demo site.
 - OpenRouter's chat completions API for both models. No model output is used to make an image or an answer.
 - The code was written during the event with AI coding agents working under each team member's direction.
 
 ## Manual interventions
 - No image, question or reference answer was edited by hand. Every task is rebuilt from its seed by the commands
   above.
+- The advisory reviewer model's flags on the first real-terrain maps led to two generator changes (solid trail,
+  end markers clear of contours). It never changes an answer and never drops a task.
 - People chose the four map areas, the fairness thresholds, and which templates to keep or drop after each pilot
   (rule and numbers under "Pilot results").
 - The hand check of the reported tasks is done by a person from the image alone (see "Hand check").
@@ -199,8 +214,8 @@ docker run --rm -e OPENROUTER_API_KEY -v "$(pwd)/out:/out" visual-task-factory f
 
 ## Team contributions
 - **Alex Epstein (`Alex-Epstein`)**, team lead: plan and decisions, the core command line (`factory/`), the
-  checks (`validate/`), the real-terrain spike, the demo.
+  checks and the reviewer (`validate/`), the real-terrain spike, the report page and the demo site.
 - **Shivam Raj (`tech-cosmos`)**: the evaluation client and scoring (`eval/`), the topographic family
   (`gen/topo`) and its pilots, Docker and packaging.
 - **`WindHurtLZ`**: the power single-line family (`gen/power`) and its three pilots; subway spikes.
-- **`dl3832`**: Gantt spike; human baseline and hand checks.
+- **`dl3832`**: Gantt spike; the human baseline and the hand check of every reported task.
