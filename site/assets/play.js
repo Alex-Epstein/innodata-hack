@@ -59,15 +59,10 @@
   img.src = task.image;
   try { await img.decode(); } catch (e) { /* drawn when ready */ }
 
-  if (task.has3d) {
-    try {
-      stage = await BTAStage.create(mapbox, task, { frameRect });
-      stage.showTop();
-    } catch (e) {
-      console.warn("3D stage unavailable, using the 2D reveal:", e);
-      stage = null;
-    }
-  }
+  // the 3D stage loads in the background; the answer buttons work right away
+  const stageReady = !task.has3d ? Promise.resolve(null) : BTAStage.create(mapbox, task, { frameRect })
+    .then((s) => { s.showTop(); stage = s; window.BTA_STAGE = s; return s; })
+    .catch((e) => { console.warn("3D stage unavailable, using the 2D reveal:", e); return null; });
 
   // ------------------------------------------------------------------ answer input
   const answers = $("answers");
@@ -177,6 +172,7 @@
     caption("", false);
   }
 
+  if (intro) await stageReady;
   if (intro && stage) {
     $("panel").style.visibility = "hidden";
     await runIntro();
@@ -196,6 +192,7 @@
     $("resultArea").classList.remove("hidden");
     renderScore(you, ok, timedOut, t);
     $("zoomBtn").classList.add("hidden");
+    await stageReady;
     if (stage) {
       stage.showTop();
       document.body.classList.add("stage-on");
@@ -231,7 +228,8 @@
     if (ok && !hk && !ln) v = "You beat both models.";
     else if (ok && hk && ln) v = "You got it, and so did both models.";
     else if (ok) v = `You got it. ${hk ? "Haiku" : "Luna"} did too; ${hk ? "Luna" : "Haiku"} didn't.`;
-    else if (!hk && !ln) v = "Nobody got this one. Here is where the water, the line or the trail really goes.";
+    else if (!hk && !ln) v = { flood: "Nobody got this one. Watch where the water really goes.", crossings: "Nobody got this one. Count along the trail.",
+      sunset: "Nobody got this one. Walk it with the hiker.", los: "Nobody got this one. Follow the sight line." }[task.template] || "Nobody got this one.";
     else v = `${hk && ln ? "Both models" : hk ? "Haiku" : "Luna"} got this one. Look at the mountain.`;
     $("verdict").textContent = v;
     const st = $("steps");

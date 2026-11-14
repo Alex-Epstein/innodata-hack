@@ -104,7 +104,7 @@
         const gx = ((zr - zl) / (2 * dxm)) * 2.0, gy = ((zn - zs) / (2 * dym)) * 2.0;   // x east, y north
         const n = Math.hypot(gx, gy, 1);
         const lit = (-gx * L[0] - gy * L[1] + L[2]) / n;
-        const v = 1 - 0.35 * (1 - Math.min(1.25, Math.max(0, lit / L[2])));
+        const v = 1 - 0.42 * (1 - Math.min(1.2, Math.max(0, lit / L[2])));
         shade[3 * i] = v; shade[3 * i + 1] = v; shade[3 * i + 2] = v * 0.98;
       }
     }
@@ -164,7 +164,7 @@
       const lit = Math.min(1, m * 1.4);
       mat.emissiveIntensity = 1 - lit * 0.86;
       hemi.intensity = 0.95 * lit;
-      sun.intensity = 2.7 * lit * sunLevel;
+      sun.intensity = 2.2 * lit * sunLevel;
       skyMat.uniforms.opacity.value = lit;
       scene.fog.density = 0.0034 * lit;
     }
@@ -204,7 +204,11 @@
         v3.copy(typeof l.p === "function" ? l.p() : l.p).project(camera);
         const vis = v3.z < 1 && Math.abs(v3.x) < 1.1 && Math.abs(v3.y) < 1.1 && !l.hidden;
         l.e.style.display = vis ? "" : "none";
-        if (vis) { l.e.style.left = ((v3.x + 1) / 2) * w + "px"; l.e.style.top = ((1 - v3.y) / 2) * h + "px"; }
+        if (vis) {
+          const hw = (l.e.offsetWidth || 0) / 2 + 4;
+          l.e.style.left = Math.min(w - hw, Math.max(hw, ((v3.x + 1) / 2) * w)) + "px";
+          l.e.style.top = ((1 - v3.y) / 2) * h + "px";
+        }
       }
     }
 
@@ -281,9 +285,10 @@
     }
     function obliquePose(box) {
       const a = host.clientWidth / Math.max(1, host.clientHeight);
-      const fit = Math.max(box.w / Math.min(a, 1.7), box.d * 1.25) * 0.62;
+      const portrait = a < 0.9;
+      const fit = Math.max(box.w / Math.min(a, 1.7), box.d * 1.25) * (portrait ? 0.5 : 0.62);
       const R = fit / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
-      const polar = THREE.MathUtils.degToRad(52), az = THREE.MathUtils.degToRad(-14);
+      const polar = THREE.MathUtils.degToRad(portrait ? 36 : 52), az = THREE.MathUtils.degToRad(-14);
       const t = box.c;
       const p = new THREE.Vector3(t.x + R * Math.sin(polar) * Math.sin(az), t.y + R * Math.cos(polar),
                                   t.z + R * Math.sin(polar) * Math.cos(az));
@@ -426,7 +431,7 @@
       if (!water || !dam) return animGeneric();
       const truthName = String(S.target || task.answer);
       const curve = curveOf(water.pts, 0.35, 1);
-      const line = glowLine(curve, TRUTH, TRUTH_GLOW, 0.22);
+      const line = glowLine(curve, TRUTH, TRUTH_GLOW, 0.32);
       const fl = flow(curve, 0x9fd4ff, 700, 1.1, 0.95, 9);
       ring(at(dam.g), TRUTH_GLOW, 1, 5, 1600, true);
       hudSet(`<div class="sub">The water's path</div><div class="big truth">${truthName}</div>`);
@@ -438,7 +443,7 @@
         const c = byName[camp] || byName[camp.toUpperCase()];
         if (!c || camp === truthName.toUpperCase()) continue;
         const gc = curveOf(drape(dam.g, c.g, 80), 0.45, 1);
-        const gl = tube(gc, 0.12, MODEL, 0.55, false);
+        const gl = tube(gc, 0.16, MODEL, 0.6, false);
         const gf = flow(gc, MODEL_GLOW, 260, 0.9, 0.6, 7);
         ghosts.push({ gl, gf, c, who });
       }
@@ -504,7 +509,7 @@
           const f = Math.max(-0.4, Math.min(1, left / 60));
           if (f > 0) sun.color.copy(dusk).lerp(sun0, f); else sun.color.copy(dusk).lerp(night, Math.min(1, -f / 0.4));
           sunLevel = f > 0 ? 0.35 + 0.65 * f : 0.35 * (1 + f / 0.4) + 0.06;
-          sun.intensity = 2.6 * sunLevel;
+          sun.intensity = 2.2 * sunLevel;
           hemi.intensity = 0.95 * (f > 0 ? 0.55 + 0.45 * f : 0.4);
           mat.emissiveIntensity = 0.14 * (f > 0 ? 0.4 + 0.6 * f : 0.25);
           sun.position.set(-90, 8 + 30 * Math.max(0, f), 12);
@@ -639,21 +644,23 @@
         const center = new THREE.Vector3(0, top * 0.35, 0);
         const side = summit.x > 0 ? -1 : 1;
         const path = new THREE.CatmullRomCurve3([
-          new THREE.Vector3(side * Ww * 0.62, top * 0.45 + 4, Hw * 0.62),
-          new THREE.Vector3(side * Ww * 0.22, top * 0.7 + 5, Hw * 0.35),
-          new THREE.Vector3(summit.x - side * 18, top + 9, summit.z + 22),
-          new THREE.Vector3(summit.x + side * 26, top + 26, summit.z + 46),
-          new THREE.Vector3(side * -10, top + 70, Hw * 0.95),
-        ], false, "centripetal");
+          new THREE.Vector3(side * Ww * 0.75, top * 0.55 + 10, Hw * 0.85),
+          new THREE.Vector3(side * Ww * 0.30, top * 0.8 + 12, Hw * 0.55),
+          new THREE.Vector3(summit.x - side * 24, top + 16, summit.z + 34),
+          new THREE.Vector3(summit.x + side * 30, top + 34, summit.z + 60),
+          new THREE.Vector3(side * -12, top + 85, Hw * 1.05),
+        ], false, "catmullrom", 0.5);
         const look = new THREE.CatmullRomCurve3([
-          new THREE.Vector3(0, top * 0.3, 0), summit.clone(), summit.clone(), center.clone(), center.clone(),
-        ]);
+          new THREE.Vector3(side * Ww * 0.1, top * 0.3, -Hw * 0.1), summit.clone().add(new THREE.Vector3(0, 0, -6)),
+          summit.clone(), center.clone().add(new THREE.Vector3(0, 0, 4)), center.clone(),
+        ], false, "catmullrom", 0.5);
         const o = new THREE.PerspectiveCamera();
         const ms = hooks.ms || 8000;
         if (hooks.onStart) hooks.onStart();
         await tween(ms, (e, raw) => {
-          path.getPoint(e, o.position);
-          o.lookAt(look.getPoint(Math.min(1, e * 1.05)));
+          const u = Math.min(1, Math.max(0, e));
+          path.getPoint(u, o.position);
+          o.lookAt(look.getPoint(Math.min(1, u * 1.05)));
           camera.position.copy(o.position);
           camera.quaternion.copy(o.quaternion);
           if (hooks.onProgress) hooks.onProgress(raw);
