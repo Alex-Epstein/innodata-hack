@@ -1,0 +1,1 @@
+- done: core CLI (`python -m factory` generate/validate/eval/rebuild/fresh), validate/ checks, gen/example test family, scripts/check runs the golden path offline (#6, #7) · next: hook up topo and power as they land · blocked: none

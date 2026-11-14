@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
-# Golden path check: run before every merge. Fills in as the pipeline lands (issue #6).
-# Target: generate seed 0 -> validate -> eval with the mock model -> one results row.
+# Golden path check: run before every merge. Offline: the models are mocked (MOCK=1), nothing is spent.
+# build a fresh task -> every validate/ check -> both (mock) models via eval/ -> results row; then the tests.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-if [ ! -f factory/__main__.py ]; then echo "scripts/check: pipeline not built yet (issue #6)"; exit 0; fi
-MOCK=1 uv run python -m factory fresh --seed 0 --out /tmp/innodata-check
+out="$(mktemp -d "${TMPDIR:-/tmp}/innodata-check.XXXXXX")"
+trap 'rm -rf "$out"' EXIT
+MOCK=1 uv run python -m factory fresh --seed 0 --family example --out "$out/fresh"
+test -s "$out/fresh/results/responses.csv"
+MOCK=1 uv run python -m unittest discover -s tests -t .
+MOCK=1 uv run python -m unittest eval.test_eval
+uv run python -m factory list >/dev/null
+echo "scripts/check: golden path OK"
