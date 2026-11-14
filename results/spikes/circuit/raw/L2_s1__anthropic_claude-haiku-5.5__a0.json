@@ -1,0 +1,59 @@
+{
+ "status": 200,
+ "attempt": 0,
+ "response": {
+  "id": "gen-1794671185-JVHS6pxbaxnjfAlly6fY",
+  "object": "chat.completion",
+  "created": 1794671185,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "## Reading the circuit\n\n- **R1** runs from terminal A to the top middle node, call it X.\n- **R2** runs vertically from X down to the bottom middle node, call it Y.\n- **R7** runs from Y to terminal B.\n- A third path runs from X to Y: **R3** (right along the top), then **R4** and **R5** (down the right side), then **R6** (left along the bottom). These four resistors carry no branch current, so they are in series.\n\nSince R1 and R7 are in series with the X\u2013Y network, the total is R1 + R7 + (X\u2013Y equivalent).\n\n## Step 1: Series path from X to Y\n\nR_path = R3 + R4 + R5 + R6 = 18 + 27 + 15 + 68 = 128 \u03a9\n\n## Step 2: Parallel with R2\n\nR_XY = (128 \u00d7 820) / (128 + 820) = 104960 / 948 \u2248 110.717 \u03a9\n\n## Step 3: Add the series resistors\n\nR_AB = R1 + R_XY + R7 = 12 + 110.717 + 18 \u2248 140.717 \u03a9\n\nRounded to one decimal place, this is 140.7 \u03a9.\n\nFINAL ANSWER: 140.7",
+     "refusal": null,
+     "reasoning": "I'm tracing the path from node X to Y: the right branch through R3, R4, R5, and R6 sums to 128 ohms, which sits in parallel with R2 at 820 ohms. Combining them gives 128\u00d7820 \u00f7 948, which works out to about 110 ohms.\n\nI'm finishing the division: 948 goes into 680 for a remainder fraction of about 0.717, so the parallel combination is roughly 110.7 ohms. Adding R1 and R7 gives a total of about 140.7 \u03a9.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm tracing the path from node X to Y: the right branch through R3, R4, R5, and R6 sums to 128 ohms, which sits in parallel with R2 at 820 ohms. Combining them gives 128\u00d7820 \u00f7 948, which works out to about 110 ohms.\n\nI'm finishing the division: 948 goes into 680 for a remainder fraction of about 0.717, so the parallel combination is roughly 110.7 ohms. Adding R1 and R7 gives a total of about 140.7 \u03a9.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "CAQSwAgKEAgTGAI4AUIIdGhpbmtpbmcSDO5myZ9P8vhXW2jD2RoMwR7J+o20qHMT6LDGIjBzRo0M3AUbuoZ/Ubh6Zp+eqcixdlLdYIbjbFO/3GfgBoRb1LyZsj+R6zIVL6r22tAq3QePSF5obEwaxgOXzuw5IGnexfzJ/9bRG4oP+rh/LO2fb3Z0KntWzQymwm8h57rtQacscMeY/LN/1MPb6AGu6NVcZVaSLH7NyZoIYBiuLrWNttiCFUYMyqYA0pK280qj6i8yKRiJq89Ux50enGK4vV/huG/b0kGoOqDaN12BhRnnzZK7jBVXnFS4fpNd+15d3WhbZ0dpc7R6+fG9pj3Hi1g7GfFCZ82ymSZxpLihlYZ+gk3Abbda1WEaYUjbvQiosF9m8sRkzmxKv44SWYSxYu8SrdfvwRsF4Cfa7DwxGIQOwDw7OXKlCgH0lZdRHClulew/xYpx6yZTJPkx5QVn3UrbqDYL+l3gu/PsJ4wXgpm03YwwrWT0niqefe4v/4nZ4YyyOpA+vDSrVXIeE/EDPIzBoBZOWK816RlebjlGCCPEg22K8Qpbflo5pWYBLt6/JTd6yw+TV+36pCdusEgSXmELkZpumwEogPL28+6JvKUU9/+ebPymz8S/Tec7GoQRypnqFClCU/lW5/hFXaUUvC1tEAlzUG48B0o//H5wnkAmRM1NSeINNtXs/SxcHYFkuW3QxWw08fFwPqR6DusonrrOdIzxnROOTOEHceyVy360009wE9O1QRj8v1Xe1fWiWCmWdWmr/DbN0XUhrvMhkTR1QhIny3WC48YsDE4CMPO61RjxahVbq28X5XsenAwy0Fdt6+hiE5sXB5bZhKwvRp+B9ZBSm0wO3MnXuuL2/QmOuVsLZRVOXGo1Yh1uHQxvUqVGsoo81F/yazRcU3LdQafHWX8KhZl5BTN0yk1UAl5VHTEWvHZDrwUe1XBsJs8S/UyYTJTviAZiAw87WWobY/RXNE1pmBEnRUiVDzt07BkIbWpu0uc1iNJ1n/3zjrY/n4g/OxK0fKwcKrsh6ZH2qc7PlJ5fE5CfMsP3UlECBm9O1MyNI4h6YQqnobuu21kyu+vgBn+4LcCn0Zjg0zMVrwte75NKpFK7PGmQORnNf0ATW20br2M4PWZ/knlTfc/utuYgNdAc8cKgX2wJvyEMrfqvDiXlSvr/Kr0Li6I+iWVlSwaljdQ9FjIbvNJ80Mfkw7/J6jsCcpVX/5fD4EgatYJ3AL4QG+f/y9fQRIGqzswyA5Rqj2Y++Cj2Vvyu3URp3tcPtSaPpaWeZvVBELR1vEKevOTnIqlJ9uofc98MkWQNkCHfRjYHWNI9NuIPTL3cSM2bqsFjQk4FQiyay/9cvZ2gIy1Z0V4Lg0+IZYf/W6knyWzetw1vCPtAVn2+F7NxnuCVz5QNgryP0tKHw8fWH6hdP9GQBp+bRedn8kNoIRgB.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 1916,
+   "completion_tokens": 646,
+   "total_tokens": 2562,
+   "cost": 0.0005146,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0005146,
+    "upstream_inference_prompt_cost": 0.0001916,
+    "upstream_inference_completions_cost": 0.000323
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 245,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ }
+}

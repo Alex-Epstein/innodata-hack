@@ -1,0 +1,59 @@
+{
+ "status": 200,
+ "attempt": 0,
+ "response": {
+  "id": "gen-1794671188-3UaLy8up6g4BrEUqn8fi",
+  "object": "chat.completion",
+  "created": 1794671188,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "## Reading the circuit\n\n- **Terminal C** is reached only through R8 (560 \u03a9), which has no other connection. No current flows through it, so R8 drops out.\n- The **bottom wire** joins the node under R2 directly to the node under R4. Call this node Bn. Terminal B connects to Bn through R10 (330 \u03a9).\n- The **top-right** section has R5 (180 \u03a9) and R6 (330 \u03a9) in parallel between nodes N2 and N3.\n- Node N3 connects to Bn through R7 (680 \u03a9) in series with R9 (3300 \u03a9).\n\n## Simplifying\n\n1. R5 \u2225 R6:\n   $\\dfrac{180 \\times 330}{510} = 116.47\\ \\Omega$\n\n2. N3 to Bn via R7 + R9: $680 + 3300 = 3980\\ \\Omega$\n\n3. N2 to Bn via N3: $116.47 + 3980 = 4096.47\\ \\Omega$\n\n4. That path is in parallel with R4 (680 \u03a9):\n   $\\dfrac{680 \\times 4096.47}{680 + 4096.47} = 583.21\\ \\Omega$\n\n5. From N1 to Bn, the branch through R3 and the network above is $56 + 583.21 = 639.21\\ \\Omega$. This is in parallel with R2 (2200 \u03a9):\n   $\\dfrac{2200 \\times 639.21}{2200 + 639.21} = 495.30\\ \\Omega$\n\n6. Add the series resistors at the ends: R1 (330 \u03a9) from A and R10 (330 \u03a9) to B.\n\n$$R_{AB} = 330 + 495.30 + 330 = 1155.3\\ \\Omega$$\n\nFINAL ANSWER: 1155.3",
+     "refusal": null,
+     "reasoning": "I'm working out the circuit's terminals, A, B, and C, and the question is about A and B. C is an open terminal since R8 only connects to it, so R8 carries no current and I can ignore it. Now I'm sorting the nodes: A at the top left, N1, N2, and N3 along the top, and B with NB1 along the bottom.\n\nI'm mapping out the resistor connections now: R1 links A to N1, R3 and R5/R6 link the top nodes, and R2, R4, R7, and R9 join into the bottom node, which ties to B through R10 (330).\n\nNow I'm combining the parallel resistors between N2 and N3 into one value of about 116.47. Then I'm adding the series path N3 to Bnode through R7 and R9 to get 3980, and I'm noting that R4 links N2 to Bnode at 680.\n\nNow I'm working through the parallel combination of N2 to Bnode: the path through N3 adds up to about 4096, and combining it with the 680 resistor gives roughly 583. Next I'm putting that together with the 2200 resistor and the 56 resistor in the path to N1, to get the equivalent between N1 and Bnode.\n\nNow I'm checking the parallel combination more precisely, and the value of R5 and R6 together comes to about 116.47. That gives a path through N3 of roughly 4096.47, which combined with the 680 resistor lands near 583.21. Working through the N1 to B node equivalent, I get about 495.30, and adding the 330 resistors at each end gives a total of roughly 1155.30.\n\nI'm carrying the arithmetic through: the N2 to B path via N3 plus the 680 resistor comes to about 583.21, then I combine that with the 56 and 2200 resistors to get roughly 495.30 between N1 and the bottom node. Adding the two 330 ohm end resistors gives a total of about 1155.3.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm working out the circuit's terminals, A, B, and C, and the question is about A and B. C is an open terminal since R8 only connects to it, so R8 carries no current and I can ignore it. Now I'm sorting the nodes: A at the top left, N1, N2, and N3 along the top, and B with NB1 along the bottom.\n\nI'm mapping out the resistor connections now: R1 links A to N1, R3 and R5/R6 link the top nodes, and R2, R4, R7, and R9 join into the bottom node, which ties to B through R10 (330).\n\nNow I'm combining the parallel resistors between N2 and N3 into one value of about 116.47. Then I'm adding the series path N3 to Bnode through R7 and R9 to get 3980, and I'm noting that R4 links N2 to Bnode at 680.\n\nNow I'm working through the parallel combination of N2 to Bnode: the path through N3 adds up to about 4096, and combining it with the 680 resistor gives roughly 583. Next I'm putting that together with the 2200 resistor and the 56 resistor in the path to N1, to get the equivalent between N1 and Bnode.\n\nNow I'm checking the parallel combination more precisely, and the value of R5 and R6 together comes to about 116.47. That gives a path through N3 of roughly 4096.47, which combined with the 680 resistor lands near 583.21. Working through the N1 to B node equivalent, I get about 495.30, and adding the 330 resistors at each end gives a total of roughly 1155.30.\n\nI'm carrying the arithmetic through: the N2 to B path via N3 plus the 680 resistor comes to about 583.21, then I combine that with the 56 and 2200 resistors to get roughly 495.30 between N1 and the bottom node. Adding the two 330 ohm end resistors gives a total of about 1155.3.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "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.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 1916,
+   "completion_tokens": 2165,
+   "total_tokens": 4081,
+   "cost": 0.0012741,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0012741,
+    "upstream_inference_prompt_cost": 0.0001916,
+    "upstream_inference_completions_cost": 0.0010825
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1582,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ }
+}

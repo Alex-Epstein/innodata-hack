@@ -1,0 +1,59 @@
+{
+ "status": 200,
+ "attempt": 0,
+ "response": {
+  "id": "gen-1794671185-Tw1MAEtrqGkte0i7vFos",
+  "object": "chat.completion",
+  "created": 1794671185,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "## Reading the circuit\n\n- R1 (2200 \u03a9) runs from terminal A to the top middle node, call it N1.\n- R6 (47 \u03a9) runs from the bottom middle node, call it N2, to terminal B.\n- Between N1 and N2 there are two parallel paths:\n  - R2 (18 \u03a9) directly from N1 to N2.\n  - R3, R4 and R5 in series around the right side: R3 (3300 \u03a9) from N1 to the top-right corner, R4 (220 \u03a9) down the right side, and R5 (82 \u03a9) to N2. Since no other branch connects to these nodes, they carry no branching current and act as a single series path.\n\nSo the network reduces to R1 + [R2 \u2225 (R3 + R4 + R5)] + R6.\n\n## Calculation\n\nSeries right-side path:\nR3 + R4 + R5 = 3300 + 220 + 82 = 3602 \u03a9\n\nParallel combination with R2:\nR_mid = (18 \u00d7 3602) / (18 + 3602) = 64836 / 3620 \u2248 17.9105 \u03a9\n\nTotal resistance:\nR_AB = 2200 + 17.9105 + 47 \u2248 2264.91 \u03a9\n\nFINAL ANSWER: 2264.9",
+     "refusal": null,
+     "reasoning": "I'm tracing the connections from A through R1 to node N1, then following the path from N1 down to N2 through the R2 branch and the R3, R4, R5 chain in parallel.\n\nNow I'm adding the three series resistors in the right-hand branch, which gives 3602 \u03a9, and combining that in parallel with the 18 \u03a9 resistor. The parallel result is about 17.91 \u03a9, and adding the 2200 \u03a9 and 47 \u03a9 resistors brings the total to roughly 2264.9 \u03a9.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm tracing the connections from A through R1 to node N1, then following the path from N1 down to N2 through the R2 branch and the R3, R4, R5 chain in parallel.\n\nNow I'm adding the three series resistors in the right-hand branch, which gives 3602 \u03a9, and combining that in parallel with the 18 \u03a9 resistor. The parallel result is about 17.91 \u03a9, and adding the 2200 \u03a9 and 47 \u03a9 resistors brings the total to roughly 2264.9 \u03a9.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "CAQSnQkKEAgTGAI4AUIIdGhpbmtpbmcSDPwXgyrgBim8Rp6JSBoMmzdCkz95ZPX12uNSIjAtAYuJNOwj/0n6c5IGUIsrUFu5q5V/vHGCkY1e8eeUVPBp/7jibxYVTnMGmDPqFOgquggP5Uy5wFs4/PyYM5XOlERFlGn3joxjal3mp8V9Cb865+/PaollgHg7ny2PTpUUH23ewtNvxr9uNhPQzUUnDF5NQXbgrzKd9AGa7hy5XKGCAHhUpo/+rLepzlBe6eZWaqFFht1PBFdzpG3aiNveVtfKkYmD4f5+ZTjkIa5+x1rre6NYPbF0kZR+jMRbjMbMIi8Lx0fP56Tx2yUa13VB6DYc1JSHCVulylOdssrGzI11X3nw91qNujL6IH5oobchLGDfxP2pnmuzozcVsD+Lk5sucUWVgB4ZWjvsstNJYvNvWKrRB06HKGSXhsWgH6QKG8BwzsLhSLNkrEyjE6mjA4pu3GJHXJhgZ9Dd79DB0jju/g+lFz42J1ARHzONhoEowuPh1fP9tmhHFQLsnNogh3Yx5KbJO/t8ZvQbm3rbg7qXc85yM7p5rJ2VEXl5wyEA6HshWE/oeZMmMiuAEXpN5PVUj1yXFst5l4PxdGp+egwJn95iU/HqetqSH6/AA1o9H4Bxr0+qePu7DyoT75vsFlwUF728pGnsi9SYmgnEvr78wEKTKkGbeqnNuovXrjAeqktdSUyKCEcY6tulLR53vwpCi0jnRZBbA5nbf7t9DgJ26Vw/XT2K0YHsxtEk7R1Atyg32XkPEcXyOnaOpBJ1I+3bw126cJMbrnpOzhdl5xtRoJh724oBbH8/qgfsoZI6pKrUeFvyBhsYCKs33zY4kGJvpzvnq+MwUCQGsjj11INmYXu2WkYGOADlpevn5hYlid/WNqPA4NFf126Xueomk5VXw8qZ1QitpNp1qsNkJi61jVOl0mcgW9FEafD1dTZA97XIu32GcVJ9OT0ruws43RsUWYMHxjnhx1gbEtxQH73vFUeuzwb5/aEbzaB8u7++wKgLhVRcUPVC48vQuwuMMylBkmfw7L1+QASeHox5qZ+y4M2rWDRG+746PYQ2QyLxKEQnGdl2KFT0sxSh2n6GB1P55P9BlAsGcymjCQ/QMonkbO3eG5avrH0pIKh0TKmnDves/7iuJv5J2CZG3MX6e6CejkXZUP+FO9KIX1T88VLZAS50qFqf5PjU5/6dfxVnTNauTU9ZRKGOVLX1doib5TQ4N4RjLl2VW3xhvpqDO4p/qWDKrY3ZzSCBHo/KqrS5ImVXTjFzSqpuYzxzqGM/VlG9Jgh1G3ibHIFKiL12E8c8uJfKeHbpOu+qHerwH4RrVFjIg76IYAthzX9Xs/VosgMHbf2xivyOOpdGQd6anIPDfJRTErOjBTf6/6vhW0mH+Zt0ZUxO7PmrwEd+7COVkhvpHMrsmCroWxByN5q/dRUPmAxtIvqtHYEv0SBAuV4WiZJvHgKwQ1VdXSxy5YHzkVh0fqhLHZJCy9wAv50VVch0RLDqFu9yo/3vRtbhD3VHLx3x8Dh/eRoghcaU7DqZkqsKr28qZNXK6n9fOhgB.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 1916,
+   "completion_tokens": 724,
+   "total_tokens": 2640,
+   "cost": 0.0005536,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0005536,
+    "upstream_inference_prompt_cost": 0.0001916,
+    "upstream_inference_completions_cost": 0.000362
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 305,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ }
+}

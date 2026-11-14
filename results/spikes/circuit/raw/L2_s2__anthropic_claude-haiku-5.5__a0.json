@@ -1,0 +1,59 @@
+{
+ "status": 200,
+ "attempt": 0,
+ "response": {
+  "id": "gen-1794671187-sk8Kr1OjYWOQB073XPzS",
+  "object": "chat.completion",
+  "created": 1794671187,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "## Step 1: Identify the nodes\n\nLabel the key nodes:\n- **L**: the left junction, where R1 meets R2 and R5.\n- **T**: the top-middle junction, where R2, R3 and R4 meet.\n- **M**: the bottom-middle junction, where R4 and R5 meet.\n- **N**: the right junction, where R3 and R6 meet.\n\nThe bottom wire runs from M directly to N, so M and N are the same electrical node.\n\n## Step 2: Simplify the network\n\nWith M and N merged:\n- R1 is in series with the L-to-network path, and R6 is in series with the N-to-B path. Both carry the full current, so they simply add to the result.\n- R3 and R4 both connect T to N, so they are in parallel:\n\n$$R_{34} = \\frac{470 \\times 39}{470 + 39} = \\frac{18330}{509} \\approx 36.012\\ \\Omega$$\n\n- R2 is now in series with R34 along the path L \u2192 T \u2192 N:\n\n$$R_{2,34} = 4700 + 36.012 = 4736.012\\ \\Omega$$\n\n- This path is in parallel with R5 (220 \u03a9) between L and N:\n\n$$R_{\\text{mid}} = \\frac{220 \\times 4736.012}{220 + 4736.012} = \\frac{1041922.6}{4956.012} \\approx 210.234\\ \\Omega$$\n\n## Step 3: Add the series resistors\n\n$$R_{AB} = R_1 + R_{\\text{mid}} + R_6 = 10 + 210.234 + 330 \\approx 550.2\\ \\Omega$$\n\nFINAL ANSWER: 550.2",
+     "refusal": null,
+     "reasoning": "I'm laying out the node positions: the left node L after R1, a right node Rn, a top middle node T, and a bottom middle node M. Next I'm listing the connections, with R1 linking A to L, R2 linking L to T, R3 linking T to Rn, R4 linking T to M, R5 linking L to M, and a bottom wire running from M toward Rn.\n\nNow I'm working out the network: R3 and R4 are in parallel between T and the shared node, giving about 36.01 ohms, and that combines with R2 in series for a branch of roughly 4736 ohms. That branch sits in parallel with R5 at 220 ohms, and adding R1 and R6 gives a total of about 550.23 ohms.\n\nMultiplying 220 by 4736.01 gives about 1041922.6, and dividing that by 4956.01 yields roughly 210.23. Adding R1 and R6 brings the total to about 550.2 ohms.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm laying out the node positions: the left node L after R1, a right node Rn, a top middle node T, and a bottom middle node M. Next I'm listing the connections, with R1 linking A to L, R2 linking L to T, R3 linking T to Rn, R4 linking T to M, R5 linking L to M, and a bottom wire running from M toward Rn.\n\nNow I'm working out the network: R3 and R4 are in parallel between T and the shared node, giving about 36.01 ohms, and that combines with R2 in series for a branch of roughly 4736 ohms. That branch sits in parallel with R5 at 220 ohms, and adding R1 and R6 gives a total of about 550.23 ohms.\n\nMultiplying 220 by 4736.01 gives about 1041922.6, and dividing that by 4956.01 yields roughly 210.23. Adding R1 and R6 brings the total to about 550.2 ohms.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "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.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 1916,
+   "completion_tokens": 1283,
+   "total_tokens": 3199,
+   "cost": 0.0008331,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0008331,
+    "upstream_inference_prompt_cost": 0.0001916,
+    "upstream_inference_completions_cost": 0.0006415
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 742,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ }
+}

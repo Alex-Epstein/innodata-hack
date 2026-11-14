@@ -1,0 +1,59 @@
+{
+ "status": 200,
+ "attempt": 0,
+ "response": {
+  "id": "gen-1794671185-0EdcaGMiU5fzGvtMWHPD",
+  "object": "chat.completion",
+  "created": 1794671185,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "## Reading the circuit\n\n- **R1** (5600 \u03a9) runs from terminal A to the top junction, call it node X.\n- **R2** (1500 \u03a9) runs vertically from node X down to the bottom junction, call it node Y.\n- **R3** (150 \u03a9) runs from node X along the right side and down to the bottom-right corner. That corner is joined by a bottom wire to node Y, so R3 also connects X to Y.\n- **R4** (56 \u03a9) runs from node Y to terminal B, carrying no branch current beyond the total.\n\n## Simplifying\n\nR2 and R3 are both connected between X and Y, so they are in parallel:\n\n$$R_{23} = \\frac{R_2 R_3}{R_2 + R_3} = \\frac{1500 \\times 150}{1500 + 150} = \\frac{225000}{1650} \\approx 136.36\\ \\Omega$$\n\nR1, the R2\u2225R3 combination, and R4 are now in series between A and B:\n\n$$R_{AB} = R_1 + R_{23} + R_4 = 5600 + 136.36 + 56 \\approx 5792.4\\ \\Omega$$\n\nFINAL ANSWER: 5792.4",
+     "refusal": null,
+     "reasoning": "The circuit is A through R1 into node X, and from X both R2 and R3 run down to node Y, which then reaches B through R4. R2 and R3 are in parallel between X and Y, so I'm combining them as 1500 \u00d7 150 / 1650, which comes to about 136.36 ohms. Adding R1 and R4 to that gives the total.\n\nAdding the series resistors together: 5600 plus 136.36 plus 56 gives about 5792.36 ohms. I'll confirm the right-hand wire runs through R3 down to the bottom node Y, which it does. So the answer is about 5792.4 ohms.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "The circuit is A through R1 into node X, and from X both R2 and R3 run down to node Y, which then reaches B through R4. R2 and R3 are in parallel between X and Y, so I'm combining them as 1500 \u00d7 150 / 1650, which comes to about 136.36 ohms. Adding R1 and R4 to that gives the total.\n\nAdding the series resistors together: 5600 plus 136.36 plus 56 gives about 5792.36 ohms. I'll confirm the right-hand wire runs through R3 down to the bottom node Y, which it does. So the answer is about 5792.4 ohms.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": "CAQSmgkKEAgTGAI4AUIIdGhpbmtpbmcSDFUrnec3S0KR3FJ5BhoMLKgW9QTJj6z+CJQEIjDXYxiiCfoGmn1DzgTiMLDoIYzJTvT0YYILCPsXQTD7X9E1HdW49qjO16oGpJff020qtwg07o+1JNKECTPOm7HFxZ6Sw5vwCh2TE0uEkAoxmLCndiCmjKKta22qi8nDBa8oVDUzOI3S0nYwa1IIvfIqIMT0Mcl8UURXYZuLHMwu7a76QjqQELurjN45mMV+WFiDTIDSdgYLc/G9CqIQEopLyM/bkufyleu0iaBcrAQDiftK3IGeyuXAMC0Po1rlWHwyDQzHAEWSFpzerhcJB2ZSD0PrIAeuSLF6VpR+f68p/PXj2huvjNXD2iygaZlNUt21sE/Fsn5kIFUtQ1uH0vtwT0AF5ET2GIWn+HZrtVDczQiTjoX2rzcanxxvIRM2JOS1B5GkTbhpvsAGEzarMR6PSfC7jlMJQ9o+SFqynX8WEVNs5da/B5gHmxgX0Z2/8NWoDJbi7mHasZ64KHd8wa7Kg5lc2MKjxxsRkFZDVt7sOtpJ2sEc+cadLxb1p0HKsfgqiYV7E1xDO/D7ZUeFlMOTst5oecPkKpTrwMV5ART7GzaMDnHbMvWDhV5M16D+NQXrfoVMhsIYTHj0gW3qjW85IaB0lcAex1h0KBIOmqXT83sFEIdDklXKyxtVMAV35QW7S4+iR4IX8o1VuK8qSViHVsMMHIE8Ij92W+xa++S3AQGIxuYq8fk7McsG/L/uQBRjToeEYkMz0//ixiBdKIYzY0AG7S0qktPH0hO4zrpsV1B5W7pEfqZhwQiHn/32QNU+husLL1unlT6Z716tOnXKh+xT4qG/7NPgvsWk0m5VVdhsCkECpXWKDvCTi7wKGj4KPgccnElY+xQCre36xAou17MzYjEUIR0utdTGxmAf40NosLKTemRKt0xXKgvo86NTc5poxCZBqfiwWOhCKueCh7sVeLJ6VNWkuISVFSJYIOwazGS57+5wnoWAUIiifE4PDOa5qRlxbMo6HzwVCDvWpsimOd8BqijHziHnrFMP8c8UzCIgMQwmycLc8GJrk4AJfYCOOMN4aidnggDJE5QvLmo4IQg/hltMk5ml7piM0HFdtZUuWQAVnGyrHh40t/pJxrMwlvQ5CDfiY1muDLpl3ejWnuVSEOQYHoIQPGbe+NubNXo035JpIvhRSlHRLfZv79T2k7pmq6LCu8AEq8UAS+VLr04G1y5fXMQP6GI1G8EL5h5iu+xEJ1Uyxov76q4tN3wOsHZCd/GhW58+OlOiZ4/EDzkLdam90G3Q4VOfSKUa1s2ZhlSfZNqr7nVygLCfMBiL1cvx2zs5RbCXTwU0jyhgLXvky0JcbQh1sZELiAuld72E3y+tihhjx1EUoIg8O8O8ehkyU5LBpWhc3bafzyV7q/PyT27Qm8lm+kcEQVY/nmVxYWCfKM5UVBhmBU5KVbQSDTx3A9eQnF5K9bOd1ugtNP4YNKB+lSeAiaSY0YWUNj2Zm+/2BaRnYrWL9VDswkgk+vkmQnAZWXwoMulHWarpFrDUDl7AlxgB.eyJlbmRwb2ludF9zbHVnIjoiYW50aHJvcGljL2NsYXVkZS1oYWlrdS01LjUtMjAyNjEwMDd8Y2xhdWRlLW9uLWF3cyJ9"
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 1916,
+   "completion_tokens": 640,
+   "total_tokens": 2556,
+   "cost": 0.0005116,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0005116,
+    "upstream_inference_prompt_cost": 0.0001916,
+    "upstream_inference_completions_cost": 0.00032
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 247,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ }
+}
