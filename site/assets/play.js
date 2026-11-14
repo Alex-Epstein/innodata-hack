@@ -287,11 +287,13 @@
       const near = s.camps.filter((c) => !c.flooded).sort((a, b) => a.distance_to_water_route_m - b.distance_to_water_route_m)[0];
       if (near) out.push([`Closest dry camp (${near.camp}) is off the route by`, `${near.distance_to_water_route_m} m`]);
     } else if (task.template === "crossings") {
-      if (s.contour_crossings != null) out.push(["Contour lines crossed", `${s.contour_crossings} (${s.uphill} up, ${s.downhill} down)`]);
+      const up = s.uphill_crossings != null ? s.uphill_crossings : s.uphill, dn = s.downhill_crossings != null ? s.downhill_crossings : s.downhill;   // topo 2.1.0 renamed these
+      if (s.contour_crossings != null) out.push(["Contour lines crossed", up != null && dn != null ? `${s.contour_crossings} (${up} up, ${dn} down)` : `${s.contour_crossings}`]);
       if (s.trail_length_m != null) out.push(["Trail length", `${s.trail_length_m} m`]);
       if (s.levels_crossed) out.push(["Levels, in order", s.levels_crossed.join(" ")]);
     } else if (task.template === "sunset") {
-      if (s.uphill_contour_crossings != null) out.push(["Uphill lines crossed", `${s.uphill_contour_crossings} → +${s.minutes_for_ascent} min`]);
+      const up = s.uphill_crossings != null ? s.uphill_crossings : s.uphill_contour_crossings;   // topo 2.1.0 renamed this
+      if (up != null) out.push(["Uphill lines crossed", `${up} → +${s.minutes_for_ascent} min`]);
       if (s.flat_walk_min != null) out.push(["Walking time", `${s.flat_walk_min} + ${s.minutes_for_ascent} = ${s.walking_minutes} min`]);
       if (s.daylight_minutes != null) out.push(["Daylight left", `${s.daylight_minutes} min`]);
       if (s.arrival) out.push(["Arrives", s.arrival]);

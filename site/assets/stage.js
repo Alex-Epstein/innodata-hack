@@ -478,8 +478,6 @@
       let shown = 0;
       const fired = new Array(cr.length).fill(false);
       const m = task.models || {};
-      const said = ["haiku", "luna"].filter((k) => m[k]).map((k) =>
-        `<span class="said ${m[k].correct ? "ok" : ""}">${k === "haiku" ? "Haiku" : "Luna"} said ${BTA.fmtAnswer(task, m[k].parsed)}</span>`).join("");
       let hiker = null;
       const clock = (mins) => { mins = Math.round(mins); const h = Math.floor(mins / 60) % 24, mm = ((mins % 60) + 60) % 60; return `${h}:${String(mm).padStart(2, "0")}`; };
       const sun0 = sun.color.clone(), dusk = new THREE.Color(0xff8a4c), night = new THREE.Color(0x4466aa);
@@ -490,6 +488,47 @@
         label("Hiker", () => hiker.position.clone().add(new THREE.Vector3(0, 1.2, 0)), "small");
       }
       const per = sunset ? S.sun.minutes_per_uphill_contour || 4 : 0;
+
+      // The answer ruler: one scale, the truth fills it in blue as the walk goes, and a flag marks what each model
+      // (and the player) said. Counts sit on a 0..N scale. On the sunset mission the scale is the clock, and an
+      // answer of "x minutes to spare" is drawn as the arrival time it implies (x minutes before sunset).
+      const num = (v) => (v == null || v === "" || !isFinite(Number(v)) ? null : Number(v));
+      const flags = [];
+      for (const k of ["haiku", "luna"]) {
+        const v = m[k] ? num(m[k].parsed) : null;
+        if (v != null) flags.push({ who: k === "haiku" ? "Haiku" : "Luna", cls: "model", at: v, text: String(v) });
+      }
+      if (num(you) != null) flags.push({ who: "You", cls: "you", at: num(you), text: String(num(you)) });
+      const daylight = sunset ? S.sun.sunset_min - S.sun.now_min : 0;
+      const walkEnd = sunset ? (S.sun.walking_min != null ? S.sun.walking_min : S.sun.flat_walk_min + per * total) : total;
+      if (sunset) {
+        for (const f of flags) { f.text = (f.at > 0 ? "+" : "") + f.at; f.at = daylight - f.at; }
+        flags.push({ who: "Sunset", cls: "plain", at: daylight, text: clock(S.sun.sunset_min) });
+      }
+      const lo = Math.min(0, ...flags.map((f) => f.at));
+      const hi = Math.max(walkEnd, ...flags.map((f) => f.at)) + (sunset ? 14 : 1);   // headroom so the last flag stays inside
+      const X = (v) => Math.max(0, Math.min(100, ((v - lo) / (hi - lo)) * 100));
+      const step = sunset ? 5 : 1, major = sunset ? 15 : 5;
+      let fixed = "";
+      for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) {
+        const mj = Math.round(v) % major === 0;
+        fixed += `<i class="tick${mj ? " major" : ""}" style="left:${X(v)}%"></i>`;
+        if (mj) fixed += `<span class="num" style="left:${X(v)}%">${sunset ? clock(S.sun.now_min + v) : v}</span>`;
+      }
+      const merged = [];
+      for (const f of flags) {                         // two voices on the same number share one flag
+        const g = merged.find((x) => x.cls === f.cls && x.at === f.at);
+        if (g) g.who += " + " + f.who; else merged.push({ ...f });
+      }
+      merged.sort((a, b) => a.at - b.at);
+      let lastX = -99, level = 0;
+      for (const f of merged) {                        // neighbours step up so their labels don't collide
+        level = X(f.at) - lastX < 24 ? (level + 1) % 3 : 0;
+        lastX = X(f.at);
+        fixed += `<span class="flag ${f.cls}" style="left:${X(f.at)}%;--h:${10 + level * 22}px"><b>${f.who} ${f.text}</b></span>`;
+      }
+      const ruler = (value) => `<div class="ruler"><div class="scale"><i class="axis"></i><i class="fill" style="width:${X(value)}%"></i>${fixed}</div></div>`;
+
       const draw = (e) => {
         line.reveal(e);
         for (let i = 0; i < cr.length; i++) {
@@ -515,11 +554,11 @@
           sun.position.set(-90, 8 + 30 * Math.max(0, f), 12);
           skyMat.uniforms.horizon.value.set(f > 0 ? 0xc9a27a : 0x3a3550);
           html = `<div class="sub">Clock · sunset ${clock(S.sun.sunset_min)}</div><div class="big ${left >= 0 ? "truth" : ""}">${clock(t)}</div>` +
-                 `<div class="sub">Uphill lines ${shown} · +${per * shown} min</div>`;
+                 `<div class="sub">Uphill lines ${shown} · +${per * shown} min</div>` + ruler(t - S.sun.now_min);
         } else {
-          html = `<div class="sub">Contour lines crossed</div><div class="big truth">${shown}</div>`;
+          html = `<div class="sub">Contour lines crossed</div><div class="big truth">${shown}</div>` + ruler(shown);
         }
-        hudSet(html + said);
+        hudSet(html);
       };
       const ms = Math.min(9000, Math.max(4500, cr.length * 420));
       await tween(ms, draw, (x) => x);
@@ -528,9 +567,9 @@
         const spare = S.sun.sunset_min - arr;
         hudSet(`<div class="sub">Arrives ${clock(arr)} · sunset ${clock(S.sun.sunset_min)}</div>` +
                `<div class="big truth">${spare > 0 ? "+" : ""}${spare} min</div>` +
-               `<div class="sub">${spare >= 0 ? "before sunset" : "after dark"}</div>${said}`);
+               `<div class="sub">${spare >= 0 ? "before sunset" : "after dark"}</div>${ruler(arr - S.sun.now_min)}`);
       } else {
-        hudSet(`<div class="sub">Contour lines crossed</div><div class="big truth">${total}</div>${said}`);
+        hudSet(`<div class="sub">Contour lines crossed</div><div class="big truth">${total}</div>${ruler(total)}`);
       }
     }
 
