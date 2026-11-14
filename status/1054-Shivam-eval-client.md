@@ -1,0 +1,1 @@
+done: eval client (cache, retries, fixed settings, MOCK), FINAL ANSWER parser, scoring per answer_type, responses.csv/run_config/raw writer; one real call per model ok (#2). next: wire into factory CLI when #6 lands. blocked: none
