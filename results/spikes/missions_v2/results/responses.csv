@@ -1,0 +1,145 @@
+model,task_id,status,parsed,question_type,response,ref_answer,correct,finish_reason,error
+anthropic/claude-haiku-5.5,topoM-flood-000101,ok,C2,topoM.flood_first_campsite,"**Step 1: Locate the start point.** The dam (heavy black bar) sits on the western edge of the light-blue reservoir. Its downhill side faces east/southeast, so the water starts at roughly (470, 550) in map pixels.
+
+**Step 2: Read the terrain near the dam.** The heavy index contour that runs north-to-south just east of the dam (around (460–620, 410–800)) marks the slope descending away from the dam. Flow there is roughly eastward, perpendicular to that contour. The reservoir and the high ground to the northwest and west are uphill, so the water cannot head that way.
+
+**Step 3: Check the northern campsites.** C3, C4 and C1 lie north and northeast. Reaching them would require water to travel north along the heavy contour that bounds the dam's upslope side, against the local gradient. Their paths also run back against the dam's downslope direction, so they are unlikely to be first.
+
+**Step 4: Check C2.** C2 lies east-southeast of the dam, roughly 1,000 m away (about 345 px at roughly 3 m per px). That is the direction the water is forced to travel, and it is also the shortest straight-line distance of the four campsites. Its 50 m circle is the one the eastward-flowing water meets first.
+
+**Caveat:** The contour lines near C2 are hard to read precisely at this resolution, so I could not verify the exact flow path to C2 with certainty. This answer rests on the direction of descent from the dam and the distances.
+
+FINAL ANSWER: C2",C2,1,stop,
+openai/gpt-6-luna,topoM-flood-000101,ok,C2,topoM.flood_first_campsite,FINAL ANSWER: C2,C2,1,stop,
+anthropic/claude-haiku-5.5,topoM-flood-000102,ok,C4,topoM.flood_first_campsite,"**Reading the terrain near the dam**
+
+- The dam bar runs NW–SE, with the reservoir on its uphill (west/southwest) side. Water therefore starts on the east/northeast side and heads roughly northeast, perpendicular to the contours there.
+- Just northeast of the dam, the thick index contour bulges into a spur pointing northeast. Water cannot climb over that spur, so a northward route toward C1 is blocked by the rising ground between the dam and C1. Reaching C1 would require the water to descend a path that the contours don't support from this side.
+- Campsite C4 sits on the same contour band as the flow path leaving the dam's east side. Water descending eastward and northeastward around the spur reaches C4's 50 m circle before any other site.
+
+**Straight-line distances (from just below the dam to campsite centres, roughly)**
+
+- C1: about 370 px, the nearest by straight line, but it lies across the spur and is not on the downhill path.
+- C4: about 480 px, but on the reachable downhill route.
+- C3: about 660 px, farther and on a separate slope.
+- C2: about 400 px, but on the far side of the ridge to the northwest.
+
+These estimates are approximate. I could not read every contour value with certainty, so the reasoning about which slope the water follows is the least certain part. C4 is the best-supported answer.
+
+FINAL ANSWER: C4",C4,1,stop,
+openai/gpt-6-luna,topoM-flood-000102,ok,C1,topoM.flood_first_campsite,FINAL ANSWER: C1,C4,0,stop,
+anthropic/claude-haiku-5.5,topoM-flood-000104,ok,C1,topoM.flood_first_campsite,"**Locating the start point.** The dam (D) is the black bar near pixel (990, 640). Its light-blue reservoir lies to the east, so the downhill side is the west side. The water is released just west of the dam.
+
+**Direction of flow.** Bear Creek runs westward from the east toward the reservoir, so the terrain falls from east to west across the dam. Near the dam the contours run roughly north–south, so the steepest path leaves the dam heading west, bending gradually toward the southwest as the valley opens out.
+
+**Distances.** The scale bar gives about 335 px per 1000 m, so 1 px ≈ 3 m. Approximate straight-line distances from the dam:
+- **C1** at (682, 586): about 300 px, or roughly 900 m, to the west-northwest.
+- **C3** at (331, 505): about 670 px, or roughly 2 km.
+- **C4** at (645, 265): about 515 px, or roughly 1.5 km, but it lies to the north-northwest, above the 400 m-range contours. Reaching it would mean climbing against the local fall line.
+- **C2** at (170, 482): the farthest, at roughly 2.5 km.
+
+**Conclusion.** The water flows west and downhill, and C1 sits directly on that downhill path at the closest distance (about 900 m). It is also the only campsite that does not require the flow to climb or travel much farther. The water should enter C1's 50 m circle first.
+
+This is a visual estimate from the map. I could not read every contour value precisely, so the reasoning rests on the flow direction and the distances.
+
+FINAL ANSWER: C1",C4,0,stop,
+openai/gpt-6-luna,topoM-flood-000104,ok,C1,topoM.flood_first_campsite,FINAL ANSWER: C1,C4,0,stop,
+anthropic/claude-haiku-5.5,topoM-los-000201,ok,No,topoM.los_spotter_hiker,"**Setting up the line of sight**
+
+- **Scale:** grid lines are 1 km apart and about 335 px apart, so the 2.05 km R-to-H line spans about 686 px.
+- **Spotter:** R sits on a small rise inside the 900 m contour, near the inner 920 m loop. I estimate ground ≈ 920 m, so eye height ≈ 922 m.
+- **Hiker:** H is on the lower northwest slope, roughly 760–770 m. Head height ≈ 762 m.
+- **Sight line:** it descends linearly from about 922 m at R to about 762 m at H, so its height at fraction t along the line is roughly 922 − 160t.
+
+**Checking terrain along the line**
+
+- Near R (t ≈ 0.1) the ground is about 880 m, well below the line (~906 m).
+- Between R and Eagle Rock (t ≈ 0.2–0.3) the ground is about 820–840 m, still below the line (~874–890 m).
+- The line passes the northeast flank of Eagle Rock (peak 901 m). At t ≈ 0.4 the ground is about 880 m, while the line is at about 858 m. At t ≈ 0.5 (near map point x≈660, y≈663) the ground is about 870 m, while the line is at about 842 m.
+
+The ridge between R and H rises above the sight line by roughly 15–30 m near Eagle Rock's northeast flank. Even if H's elevation were 780 m instead of 762 m, the line would only rise about 9 m at that point and would still be below the ground there. The line of sight is blocked.
+
+FINAL ANSWER: No",no,1,stop,
+openai/gpt-6-luna,topoM-los-000201,ok,yes,topoM.los_spotter_hiker,"The sightline from R to H descends across the map. Although Eagle Rock is high, the direct route passes north of its summit, and the intervening contours remain below the straight line between the spotter’s eyes and the hiker’s head. The 2 m height at each endpoint is included.
+
+FINAL ANSWER: yes",no,0,stop,
+anthropic/claude-haiku-5.5,topoM-los-000202,ok,Yes,topoM.los_spotter_hiker,"**Estimating the endpoints**
+
+- **Spotter R:** The diamond sits just inside the heavy 700 m index contour on the hill's summit area, so the ground is about 710–720 m. The eye height is 2 m, so the sight line starts at roughly 720 m.
+- **Hiker H:** H lies just west of the heavy 500 m contour on the western slope of Coldwater Peak, so the ground there is about 480 m. The head is 2 m up, so the sight line ends at roughly 482 m.
+
+**Distance and gradient**
+
+Using the scale (1 km ≈ 335 px), R to H is about 562 px east and 380 px north, or roughly 2.0 km. The line of sight drops about 240 m over that distance, a gradient of about 0.12.
+
+**Checking the terrain along the line**
+
+Sampling the sight line at intervals (fraction t of the way from R to H):
+
+- t ≈ 0.1–0.2: sight line ≈ 670–700 m. Terrain is well below it, around 560–600 m or lower.
+- t ≈ 0.3–0.4: sight line ≈ 625–650 m. Terrain is around 480–500 m, roughly 130 m below the line.
+- t ≈ 0.5–0.8: sight line ≈ 530–600 m. Terrain is around 440–500 m, with a clear margin.
+- t ≈ 0.9–1.0: sight line ≈ 482–506 m. Terrain is around 460–480 m, rising to H's ground level at the end. The margin is small here, but the terrain is still below the line.
+
+The closest approach is near H, where the margin is about 10–20 m. Nothing between R and H rises above the sight line, and H itself is below the 500 m contour, so the line should clear the ground throughout. The main uncertainty is the exact elevations read from the contours, but the margins are large enough to hold within that uncertainty.
+
+The spotter should be able to see the hiker.
+
+FINAL ANSWER: Yes",yes,1,stop,
+openai/gpt-6-luna,topoM-los-000202,ok,yes,topoM.los_spotter_hiker,"1. The straight path from R to H runs northeast across the saddle and the lower ridge between the two higher areas.
+2. R is near the 700 m contour, while the ground along the intervening ridge is lower than the straight sight line interpolated between the endpoints.
+3. The spotter’s and hiker’s 2 m height offsets do not change that clearance: the line passes above the ground throughout.
+
+FINAL ANSWER: yes",yes,1,stop,
+anthropic/claude-haiku-5.5,topoM-los-000203,ok,No,topoM.los_spotter_hiker,"**Step 1: Locate the points.** The map frame runs from 571 to 575 km east and 4162 to 4165 km north, about 335 px per km. R is at roughly (572.23, 4164.25) and H is at roughly (573.45, 4162.91). The straight-line distance is about 1.8 km.
+
+**Step 2: Estimate ground elevations.**
+- R sits on the ridge near the top of a hill, roughly 570–580 m. Eyes are at about 572–582 m.
+- H is on a slope, roughly 520–540 m. The head is at about 522–542 m.
+
+**Step 3: Check the sight line.** The line from R to H descends from about 575 m to about 535 m. Along its path it crosses the closed 600 m index contour that surrounds the hill centered near (573.0, 4163.6). At the midpoint of the path, about (572.8, 4163.6), the line is at roughly 550–555 m, while the terrain there is about 580–600 m. The ground rises above the sight line, so it blocks the view.
+
+Even with generous uncertainty in the endpoint elevations (for example, H at 560 m), the midpoint line height stays near 560–567 m, still below the ground of about 580 m or more. The obstruction holds across the plausible range.
+
+The spotter at R cannot see the hiker at H.
+
+FINAL ANSWER: No",no,1,stop,
+openai/gpt-6-luna,topoM-los-000203,ok,No,topoM.los_spotter_hiker,"The straight path from R to H passes across the intervening hill near the map’s 600-meter contour. The sight line between the spotter’s eyes and the hiker’s head is lower than that ground, so the terrain blocks the view.
+
+FINAL ANSWER: No",no,1,stop,
+anthropic/claude-haiku-5.5,topoM-fire-000301,ok,B,topoM.fire_safe_trail,"**Step 1: Estimate F's elevation.** F sits at roughly 573.6 E, 4163.3 N. It lies outside the heavy 800 m loop around Coldwater Pk, so its elevation is below 800 m. Reading the thin 20 m contours around it puts F at about 760–780 m. Taking the stricter case, the threshold is about 720 m, so every point on a safe trail must be at or below roughly 720–740 m.
+
+**Step 2: Check Trail A.** Trail A runs north from S, climbs northeast, and reaches its northern end near the top edge of the map (around 573.0 E, 4164.9 N). That is on high ground, well above the 740 m limit. Trail A is unsafe.
+
+**Step 3: Check Trail B.** Trail B runs southwest from S, then south and southeast, passing lower slopes before ending at Z. Its high points are its endpoints. S sits on the mid-slope (around 650–700 m), and Z lies on the lower south-east slope, below the 700 m contour. Nowhere along Trail B does the route climb toward F's elevation, so every point stays at least 40 m below F. Trail B is safe.
+
+Only Trail B meets the rule.
+
+FINAL ANSWER: B",B,1,stop,
+openai/gpt-6-luna,topoM-fire-000301,ok,B,topoM.fire_safe_trail,"The contour interval is 20 m, so each trail must stay at least two contour intervals below F’s contour. Trail A comes too close to F’s elevation; Trail B stays at least two intervals below it throughout.
+
+FINAL ANSWER: B",B,1,stop,
+anthropic/claude-haiku-5.5,topoM-fire-000302,ok,A,topoM.fire_safe_trail,"**Step 1: Find F's elevation.** F sits on a contour just outside the closed 700 m index loop around Pine Butte (766 m). I read F as lying on the 700 m contour. The safety limit is therefore 40 m below that, or 660 m. Every point on the route must be at or below 660 m.
+
+**Step 2: Check Trail B.** Trail B climbs from S along the northern edge of the map, then drops south-west to Z. Its path cuts across the ridge between Signal Hill and Pine Butte, where the contours are around 680 to 700 m or higher. Trail B therefore crosses the 660 m limit and is unsafe.
+
+**Step 3: Check Trail A.** Trail A runs south from S, staying east of the Pine Butte loop, then turns south-west past the lower contours (around 600 m) to Z. The highest point I can see on it is near its northern bend, at roughly 600 to 620 m, which is below 660 m. Trail A stays within the limit.
+
+Only Trail A satisfies the rule. This relies on reading F as the 700 m contour and on approximate contour positions near the trails.
+
+FINAL ANSWER: A",A,1,stop,
+openai/gpt-6-luna,topoM-fire-000302,ok,A,topoM.fire_safe_trail,"Trail A stays at least 40 m below F’s contour elevation. Trail B crosses contours that are too high, so it is not safe.
+
+FINAL ANSWER: A",A,1,stop,
+anthropic/claude-haiku-5.5,topoM-fire-000303,ok,neither,topoM.fire_safe_trail,"**Step 1: Estimate F's elevation.** The fire at F sits on a contour near the heavy 700 m index line, so F is about 700 m. A safe trail must therefore stay at or below about 660 m everywhere.
+
+**Step 2: Check Trail B.** Trail B runs south from S and passes the western hairpin of the 700 m contour near (410, 580). That point is at about 700 m, which is well above 660 m, so Trail B is unsafe.
+
+**Step 3: Check Trail A.** Trail A starts at S, which lies north of the 700 m contour that runs from the western hairpin toward the upper right. It ends at Z, south of that contour. Trail A must therefore cross the 700 m line, reaching about 700 m, which is above 660 m. Trail A is unsafe too.
+
+**Step 4: Conclusion.** Both trails reach about 700 m, which is within 40 m of F's elevation, so neither route is safe. This relies on reading the contour positions from the map, which is approximate.
+
+FINAL ANSWER: neither",neither,1,stop,
+openai/gpt-6-luna,topoM-fire-000303,ok,A,topoM.fire_safe_trail,"A. The 40 m limit is two contour intervals below F. Trail A stays at or below that limit, while Trail B passes through higher terrain.
+
+FINAL ANSWER: A",neither,0,stop,

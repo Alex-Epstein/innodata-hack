@@ -1,0 +1,103 @@
+{
+ "key": "95e63cbd04d8fcd861bcf91e02a1bc1d2c16b8c071659397cf2b8a5e1f041a5d",
+ "model": "anthropic/claude-haiku-5.5",
+ "request": {
+  "model": "anthropic/claude-haiku-5.5",
+  "messages": [
+   {
+    "role": "user",
+    "content": [
+     {
+      "type": "text",
+      "text": "This is a topographic map with an incident briefing box. North is up, the contour interval is 20 meters, index contours (heavy brown lines) are every 100 meters, and elevations are in meters. INCIDENT 26-0733, wildfire: the fire is at the red flame F, and the point F lies exactly on a contour line. Fire spreads fastest uphill, so the crew must stay low. The crew at the magenta square S must walk to the safety zone Z (green circle). Two trails run from S to Z, labeled Trail A and Trail B (dashed black lines). Rule: a trail is safe only if every point on it, from S to Z, is at least 40 m below the elevation of F. Which trail is safe? Answer with exactly one of: A, B, both, neither.\n\nThink step by step. Then end your reply with one final line in exactly this form:\nFINAL ANSWER: <your answer>"
+     },
+     {
+      "type": "image_url",
+      "image_url": {
+       "file": "topoM-fire-000302.png",
+       "sha256": "898b8c638bddb19032b335a11c384036022276189a10c3df1d45d6a232162f06"
+      }
+     }
+    ]
+   }
+  ],
+  "temperature": 0,
+  "reasoning": {
+   "effort": "high"
+  },
+  "max_tokens": 64000,
+  "usage": {
+   "include": true
+  }
+ },
+ "response": {
+  "id": "gen-1794678308-TnMfKVVVR67xMZQK8gvH",
+  "object": "chat.completion",
+  "created": 1794678308,
+  "model": "anthropic/claude-haiku-5.5",
+  "provider": "Claude Platform on AWS",
+  "system_fingerprint": null,
+  "service_tier": "default",
+  "choices": [
+   {
+    "index": 0,
+    "logprobs": null,
+    "finish_reason": "stop",
+    "native_finish_reason": "end_turn",
+    "message": {
+     "role": "assistant",
+     "content": "**Step 1: Find F's elevation.** F sits on a contour just outside the closed 700 m index loop around Pine Butte (766 m). I read F as lying on the 700 m contour. The safety limit is therefore 40 m below that, or 660 m. Every point on the route must be at or below 660 m.\n\n**Step 2: Check Trail B.** Trail B climbs from S along the northern edge of the map, then drops south-west to Z. Its path cuts across the ridge between Signal Hill and Pine Butte, where the contours are around 680 to 700 m or higher. Trail B therefore crosses the 660 m limit and is unsafe.\n\n**Step 3: Check Trail A.** Trail A runs south from S, staying east of the Pine Butte loop, then turns south-west past the lower contours (around 600 m) to Z. The highest point I can see on it is near its northern bend, at roughly 600 to 620 m, which is below 660 m. Trail A stays within the limit.\n\nOnly Trail A satisfies the rule. This relies on reading F as the 700 m contour and on approximate contour positions near the trails.\n\nFINAL ANSWER: A",
+     "refusal": null,
+     "reasoning": "I'm trying to pin down F's elevation from the contour lines near Pine Butte. The 700 index contour looks like it might pass close to F, and the summit is marked at 766, so the closed loop around the butte is the one I need to place relative to F.\n\nI'm checking whether F sits on the heavy 700 contour, since the loop around Pine Butte passes close to its position. If F is on that line, the 40 m drop puts the base at or below 660.\n\nI'm now checking the elevation of the two trails. Trail A runs down the right side past the 600 contour area toward Z, and I can't yet tell whether it crosses that contour cleanly. Trail B heads along the top and drops toward Z, and I'm trying to judge whether it passes near the heavy 700 line around (790, 230).\n\nI'm weighing whether Trail B passes over the saddle between Signal Hill and Pine Butte, where the elevation looks to be somewhere around 700, which would put it above the 660 threshold.\n\nI'm checking whether Trail A stays below the 600 contour near the right side, since the heavy line there looks close to where it runs down toward Z. I'm also looking at the trail's elevation near S, which seems to be somewhere around 560, and whether Trail B's top section passes above the 680 range.\n\nI'm checking Trail A's highest point near (1108, 720), which looks close to the 600 contour and likely sits around 600 to 620, so it stays under the 660 threshold. Trail A seems safe, so my answer is A.\n\n",
+     "reasoning_details": [
+      {
+       "type": "reasoning.text",
+       "text": "I'm trying to pin down F's elevation from the contour lines near Pine Butte. The 700 index contour looks like it might pass close to F, and the summit is marked at 766, so the closed loop around the butte is the one I need to place relative to F.\n\nI'm checking whether F sits on the heavy 700 contour, since the loop around Pine Butte passes close to its position. If F is on that line, the 40 m drop puts the base at or below 660.\n\nI'm now checking the elevation of the two trails. Trail A runs down the right side past the 600 contour area toward Z, and I can't yet tell whether it crosses that contour cleanly. Trail B heads along the top and drops toward Z, and I'm trying to judge whether it passes near the heavy 700 line around (790, 230).\n\nI'm weighing whether Trail B passes over the saddle between Signal Hill and Pine Butte, where the elevation looks to be somewhere around 700, which would put it above the 660 threshold.\n\nI'm checking whether Trail A stays below the 600 contour near the right side, since the heavy line there looks close to where it runs down toward Z. I'm also looking at the trail's elevation near S, which seems to be somewhere around 560, and whether Trail B's top section passes above the 680 range.\n\nI'm checking Trail A's highest point near (1108, 720), which looks close to the 600 contour and likely sits around 600 to 620, so it stays under the 660 threshold. Trail A seems safe, so my answer is A.\n\n",
+       "format": "anthropic-claude-v1",
+       "index": 0,
+       "signature": {
+        "removed": "opaque provider blob",
+        "chars": 6233,
+        "sha256": "5138fa4d52cbb482e65a71bca6aac9b138f0da57fe44315e16f66438c5e8c2fe"
+       }
+      }
+     ]
+    }
+   }
+  ],
+  "usage": {
+   "prompt_tokens": 2931,
+   "completion_tokens": 1972,
+   "total_tokens": 4903,
+   "cost": 0.0012791,
+   "is_byok": false,
+   "prompt_tokens_details": {
+    "cached_tokens": 0,
+    "cache_write_tokens": 0,
+    "audio_tokens": 0,
+    "video_tokens": 0
+   },
+   "cost_details": {
+    "upstream_inference_cost": 0.0012791,
+    "upstream_inference_prompt_cost": 0.0002931,
+    "upstream_inference_completions_cost": 0.000986
+   },
+   "completion_tokens_details": {
+    "reasoning_tokens": 1591,
+    "image_tokens": 0,
+    "audio_tokens": 0
+   }
+  }
+ },
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 11.06,
+   "problem": ""
+  }
+ ],
+ "error": "",
+ "cached": false,
+ "mock": false,
+ "created": "2026-11-14T17:45:07+00:00"
+}
