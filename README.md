@@ -65,11 +65,14 @@ are right for at least one model and the misses come from reasoning.
 | 3. Real terrain, `topo-2.0.0` | `crossings` | 1/10 | 0/10 |
 | | `sunset` | 0/10 | 0/10 |
 | | `flood` | 2/10 | 3/10 |
+| 4. Real terrain, `topo-2.1.0` | `crossings` | 1/10 | 0/10 |
+| | `sunset` | 0/10 | 1/10 |
+| | `flood` | 3/10 | 3/10 |
 
 Where the numbers come from: pilots 1 and 2 are stored with the idea spikes (`results/spikes/topo_synthetic/README.md`
-lists each run); pilot 3 is in the `pilot_topo_<template>` folders under `results/`, with its task sets under
-`tasks/`. Each folder has `responses.csv`, `summary.json`, `run_config.json` and the raw replies.
-`PYTHONPATH=. uv run python -m gen.topo.pilot_report` prints the pilot 3 table from those files.
+lists each run); pilot 4 is in the `pilot_topo_<template>` folders under `results/`, with its task sets under
+`tasks/` (pilot 3's files are in git history at commit `9d1d06a`). Each folder has `responses.csv`, `summary.json`, `run_config.json` and the raw replies.
+`PYTHONPATH=. uv run python -m gen.topo.pilot_report` prints the pilot 4 table from those files.
 
 Generator changes the pilots caused:
 - **Pilot 0 (idea spikes, 3 tasks per level, `results/spikes/README.md`)** ruled out circuits, Gantt charts, ECG
@@ -80,15 +83,19 @@ Generator changes the pilots caused:
 - **After pilot 2:** the made-up terrain was replaced by real elevation (`topo-2.0.0`), with the trail fairness
   rules from the lead's real-terrain spike. `flood` was rebuilt on real terrain with 6
   camps instead of 4 and a water route that must bend.
+- **After pilot 3:** an automatic reviewer pass flagged that a dashed red trail could hide a crossing in a dash
+  gap and that an end marker could sit on a contour. `topo-2.1.0` draws a solid magenta trail with a white casing,
+  keeps both end markers 20 m clear of every contour and says so in the question. The scores did not move
+  (pilot 4), so the misses are not a legibility effect.
 - Line of sight and base camp missions were tried in spikes and not built: no tracing step, models got them right.
 
 ## What makes the tasks hard, and why the models failed
-The hard step is tracing, not reading or arithmetic (pilot 3, checked against each task's `steps`):
-- `crossings`: every miss is a miscount. Haiku counted too few lines in 8 of 9 misses; Luna too few in 6 and too
-  many in 4.
+The hard step is tracing, not reading or arithmetic (pilot 4, checked against each task's `steps`):
+- `crossings`: every miss is a miscount. Haiku counted too few lines in 8 of 9 misses; Luna was within two lines
+  in 8 of 10 tasks but never exact.
 - `sunset`: all 20 replies apply the stated rule correctly to their own count (daylight − flat time − 4 × count
-  gives exactly their answer). The count of uphill crossings is wrong in all 20, too low in 17.
-- `flood`: of 15 misses, 10 name the dry camp most directly below the dam (6) or the camp nearest the dam (8; 4
+  gives exactly their answer). The count of uphill crossings is wrong in 19 of 20, too low in 17.
+- `flood`: of 14 misses, 10 name the dry camp most directly below the dam (6) or the camp nearest the dam (8; 4
   are both). The water was not followed around the bends of the slope.
 
 The tasks stay fair to a careful person: crossings are at least 40 m apart, the trail never runs along a contour

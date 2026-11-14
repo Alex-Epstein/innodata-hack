@@ -18,7 +18,7 @@ import numpy as np
 from . import real
 
 FAMILY = "topo"
-VERSION = "topo-2.0.0"
+VERSION = "topo-2.1.0"
 TEMPLATES = ["crossings", "sunset", "flood"]
 _USGS = "USGS 7.5-minute topographic quadrangle maps (US Topo, 1:24 000): brown contours, heavy index contours"
 _3DEP = "Elevation: USGS 3D Elevation Program (3DEP, public domain) via AWS Open Data Terrain Tiles (terrarium, zoom 13)"
@@ -29,7 +29,8 @@ REFERENCES = {
 }
 _CHECKS = {"two_solvers_agree": True, "labels_do_not_overlap": True}
 _TRAIL_CHECKS = {**_CHECKS, "incident_box_clear_of_trail": True, "crossings_40m_apart_and_from_ends": True,
-                 "no_grazing_or_shallow_crossings": True, "trail_avoids_water": True}
+                 "no_grazing_or_shallow_crossings": True, "trail_avoids_water": True,
+                 "end_markers_20m_clear_of_contours": True}
 _FLOOD_CHECKS = {**_CHECKS, "incident_box_clear_of_water_route": True, "one_camp_within_40m_of_every_route": True,
                  "other_camps_beyond_the_dry_gap": True, "every_camp_below_the_dam": True}
 DRAWS = 6                                # layouts tried per seed (each one already searches many crop windows)
@@ -79,12 +80,14 @@ def build(seed: int, template: str, difficulty: int, out_dir: Path) -> dict:
         if clash:
             why = clash
             continue
+        real.render(drawn, out_dir / "overlays" / f"{task_id}_truth.png", truth=overlay)   # for people, not models
         return {"task_id": task_id, "image": f"images/{task_id}.png", **asked, "answer": answer,
                 "seed": seed, "generator_version": VERSION, "question_type": f"{FAMILY}.{template}", "family": FAMILY,
                 "difficulty": difficulty, "data": f"data/{task_id}.json",
                 "checks": _FLOOD_CHECKS if flood else _TRAIL_CHECKS,
                 "references": REFERENCES[template], "steps": steps, "overlay": overlay, "layout": layout}
-    for stale in (out_dir / "data" / f"{task_id}.json", out_dir / "images" / f"{task_id}.png"):
+    for stale in (out_dir / "data" / f"{task_id}.json", out_dir / "images" / f"{task_id}.png",
+                  out_dir / "overlays" / f"{task_id}_truth.png"):
         stale.unlink(missing_ok=True)
     raise RejectSeed(f"{task_id} difficulty {difficulty}: {why}")
 

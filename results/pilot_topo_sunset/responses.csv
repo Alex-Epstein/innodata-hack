@@ -1,231 +1,246 @@
 model,task_id,status,parsed,question_type,response,ref_answer,correct,finish_reason,error
-anthropic/claude-haiku-5.5,topo-sunset-000000,ok,14,topo.sunset,"## Estimating the route's climb
+anthropic/claude-haiku-5.5,topo-sunset-000000,ok,83,topo.sunset,"**Step 1: Available time.** Now is 16:30 and sunset is 18:42, so there are 132 minutes of daylight left.
 
-**Locating the terrain.** The index contours labeled 100, 200 and 300 nest inward toward the summit to the south. S sits just outside the 100 m contour, so it is roughly 90 to 100 m. H lies inside the 300 m contour, a little below it, so it is roughly 320 m.
+**Step 2: Flat walking time.** The Basin Trail is 17 minutes on flat ground.
 
-**Trail profile.** The trail leaves S heading northwest, rises to a bump just north of the 200 m loop, then heads southwest and then south to H. The dip after the bump is shallow, and the trail crosses the 200 m contour going inward (uphill) before continuing up to H. I treated the route as a net climb from S to H.
+**Step 3: Climb penalty.** S sits just outside the 100 m index contour, so it is roughly 90 m. H lies inside the hill, roughly 230 m, which is about 140 m of net climb. Counting contour crossings going uphill along the trail, I estimate about 8 (including the 100 m index line and the 200 m index line). These are estimates from reading the crowded contours, so the count is approximate. At 4 minutes each, the climb adds about 32 minutes.
 
-**Counting uphill crossings.** Contour lines between S (~90–100 m) and H (~320 m), at 20 m spacing:
+**Step 4: Total time.** 17 + 32 = 49 minutes of walking, so the hiker reaches the hut at about 17:19.
 
-- 100 (index), 120, 140, 160, 180: 5 crossings
-- 200 (index), 220, 240, 260, 280: 5 crossings
-- 300 (index): 1 crossing
-- 320: roughly at H's level, so I count it as 1 more
+**Step 5: Margin before sunset.** 18:42 − 17:19 = 83 minutes (equivalently 132 − 49 = 83).
 
-That gives about 12 uphill crossings. The estimate is uncertain by about one contour, because H's exact elevation and the shallow dip both affect the count.
+The answer depends on the estimated crossing count, so it could shift by about 4 minutes per crossing miscounted.
 
-**Time calculation.**
+FINAL ANSWER: 83",63,0,stop,
+openai/gpt-6-luna,topo-sunset-000000,ok,91,topo.sunset,"The trail crosses 6 contour lines uphill, adding \(6 \times 4 = 24\) minutes. Total walking time is \(17 + 24 = 41\) minutes. Sunset is 132 minutes after now, so the hiker arrives 91 minutes before sunset.
 
-- Flat walking time: 14 min
-- Climb penalty: 12 × 4 = 48 min
-- Total: 14 + 48 = 62 min
+FINAL ANSWER: 91",63,0,stop,
+anthropic/claude-haiku-5.5,topo-sunset-000001,ok,18,topo.sunset,"## Estimating the climb
 
-**Arrival.** Now is 14:10, so the hiker reaches the hut at 14:10 + 62 min = 15:12.
+**Time budget:** Now is 16:25 and sunset is 17:49, so 84 minutes of daylight remain. The flat walking time is 14 minutes.
 
-Sunset is at 15:26, so the hiker arrives 15:26 − 15:12 = 14 minutes before sunset.
+**Starting elevation:** S sits just east of the index 100 m contour, so it is roughly 120–130 m.
 
-If H were at 300 m instead, the answer would be 18, so the result depends on the contour count near H.
+**Trail profile:** The trail runs from S eastward, then south-east down the slope, then east, then north-east to H. Tracing it against the contours:
 
-FINAL ANSWER: 14",18,0,stop,
-openai/gpt-6-luna,topo-sunset-000000,ok,38,topo.sunset,"The trail crosses 6 contour lines uphill, adding \(6 \times 4 = 24\) minutes to the 14-minute flat-ground time. That makes 38 minutes total. There are 76 minutes from 14:10 to sunset, so the hiker arrives 38 minutes before sunset.
+- **S to the 200 m index line (about 125 m → 200 m):** The trail climbs through the 140, 160, 180 and 200 m contours, about 4 uphill crossings.
+- **200 m to the 300 m index line:** The trail crosses the 220, 240, 260, 280 and 300 m contours, about 5 uphill crossings.
+- **300 m to H:** The trail continues uphill through the 320–380 m contours toward H. H lies just inside the 400 m loop near its lower-left edge, so I estimate H at about 380–390 m, adding about 4 more crossings.
 
-FINAL ANSWER: 38",18,0,stop,
-anthropic/claude-haiku-5.5,topo-sunset-000001,ok,30,topo.sunset,"## Reasoning
+The trail appears to climb monotonically, so I take the total as about 13 uphill crossings. This is an estimate from reading the map, not an exact count.
 
-**Time budget.** The hiker starts at 16:25, and sunset is at 17:49, so 84 minutes of daylight remain. The flat walking time for the Ridge Trail is 14 minutes.
+**Time calculation:**
+- Naismith climb penalty: 13 × 4 = 52 minutes
+- Total walking time: 14 + 52 = 66 minutes
 
-**Climb from S to H.** I read the contours from the map, which is approximate:
-- S sits between the 100 m index contour and the 200 m contour, so I estimate its elevation at about 160 m.
-- H sits between the 300 m contour and the 400 m loop, so I estimate its elevation at about 360 m.
+**Arrival:** 16:25 + 66 min = 17:31.
 
-That gives a net climb of about 200 m, which is about 10 contour intervals of 20 m each.
+**Margin before sunset:** 17:49 − 17:31 = 18 minutes.
 
-**Naismith penalty.** Each uphill contour crossing adds 4 minutes. The trail also dips at a couple of points, but those downhill crossings add nothing. Counting the net climb gives about 10 uphill crossings, so the penalty is 10 × 4 = 40 minutes.
+The answer is sensitive to the contour count: if H is 12 crossings away instead of 13, the margin becomes 22 minutes.
 
-**Total travel time.** 14 + 40 = 54 minutes.
+FINAL ANSWER: 18",14,0,stop,
+openai/gpt-6-luna,topo-sunset-000001,ok,46,topo.sunset,"There are 6 contour crossings uphill, adding 6 × 4 = 24 minutes. Total travel time is 14 + 24 = 38 minutes. From 16:25 to sunset is 84 minutes, so the hiker arrives 84 − 38 = 46 minutes before sunset.
 
-**Arrival.** Starting at 16:25 and adding 54 minutes gives 17:19. Sunset is at 17:49, so the hiker arrives 30 minutes before sunset.
+FINAL ANSWER: 46",14,0,stop,
+anthropic/claude-haiku-5.5,topo-sunset-000002,ok,18,topo.sunset,"## Reasoning
 
-The answer depends on the elevation estimates for S and H and on the exact number of uphill crossings, which I could only read approximately from the map. A slightly different count would shift the result by several minutes.
+**Time budget.** The hiker has 46 minutes before sunset (14:10 to 14:56). The flat walking time is 12 minutes, leaving 34 minutes for climbing penalties. Each uphill contour crossing adds 4 minutes, so the answer is 34 − 4N, where N is the number of uphill crossings.
 
-FINAL ANSWER: 30",14,0,stop,
-openai/gpt-6-luna,topo-sunset-000001,ok,50,topo.sunset,"The trail crosses 5 contour lines uphill, adding \(5 \times 4 = 20\) minutes to the 14-minute flat-ground walking time. The hiker takes 34 minutes total. There are 84 minutes until sunset, so the hiker arrives 50 minutes before sunset.
+**Elevations.** Neither marked point sits on a contour. Reading the map:
+- S lies near the southern index contour (labeled 600 to its east), so it is roughly 600–620 m.
+- H lies inside the ring of index contours that encloses the 641 m summit, so it is roughly 620–640 m.
 
-FINAL ANSWER: 50",14,0,stop,
-anthropic/claude-haiku-5.5,topo-sunset-000002,ok,54,topo.sunset,"## Estimating the route
+**Trail crossings.** The trail runs from S north-westward, bends up through a small contour loop near (778, 690), then continues north-east and north-west to H. Because the route dips and rises, the uphill crossings can exceed the net height gain. Tracing the route, I estimate about 4 contour lines are crossed going uphill. This is an estimate from a hand-read map, not an exact count.
 
-**Timing:** Now is 14:05 and sunset is 15:26, so there are 81 minutes of daylight left.
+**Result.** With N = 4:
+- Time used = 12 + 4 × 4 = 28 minutes
+- Minutes before sunset = 46 − 28 = 18
 
-**Trail structure:** The Miners Trail leaves S and heads southwest, down into a shallow valley near the bottom of the trail loop. From there it climbs northwest to H. The descent from S to the valley adds no time. Only the climb from the valley to H matters.
+The hiker reaches the hut about 18 minutes before sunset. The answer depends on the estimated crossing count, so it is approximate.
 
-**Climb to H:** H lies north of the index contour that bounds the hill to the south (the one passing near the 641 spot elevation), so H sits at roughly the 580–600 m level, while the valley is a little lower. The thin contour lines between the valley and H are dense around (850–900, 350–400), and I count about 3 contour lines crossed going uphill. This count is an estimate from the map, since the thin lines are hard to resolve precisely.
+FINAL ANSWER: 18",10,0,stop,
+openai/gpt-6-luna,topo-sunset-000002,ok,14,topo.sunset,"The trail has 5 uphill contour crossings, adding \(5 \times 4 = 20\) minutes to the 12-minute flat-ground walk. The total travel time is 32 minutes, so the hiker arrives at 14:42, which is 14 minutes before sunset.
 
-**Naismith penalty:** 3 crossings × 4 min = 12 min.
+FINAL ANSWER: 14",10,0,stop,
+anthropic/claude-haiku-5.5,topo-sunset-000003,ok,51,topo.sunset,"## Estimating the time budget
 
-**Total walking time:** 15 min (flat) + 12 min (climb) = 27 min.
+- Time until sunset: 16:13 − 14:40 = **93 minutes**
+- Flat walking time for the Aspen Trail: **18 minutes**
+- Time left for climbing: 93 − 18 = 75 minutes
+- Each uphill contour crossing costs 4 minutes, so the answer is 75 − 4N, where N is the number of uphill crossings.
 
-**Arrival:** 14:05 + 27 min = 14:32.
+## Counting uphill crossings
 
-**Margin before sunset:** 15:26 − 14:32 = 54 minutes.
+I can't read the exact spot elevations from the image, so these are rough estimates from the contour pattern.
 
-The result depends on the uphill-crossing count, which is my estimate; each extra crossing would reduce the margin by 4 minutes.
+- **S** sits on the lower, lake-side slope, roughly 60–80 m.
+- **H** lies between the 200 m index contour (below and to the right of it) and the 300 m index contour (to the northwest), so roughly 220–250 m.
+- The trail goes generally westward and uphill from S toward H. It crosses several thin contours between S and the bend near (845, 375), then crosses the 100 m index near (700, 420). That's about 2–3 uphill crossings.
+- From there it dips to a low point near (640, 520) and then climbs to H, crossing the 200 m line and one or two thin lines. That's about 2–3 more uphill crossings.
+- Downhill crossings add no time, which accounts for the dips.
 
-FINAL ANSWER: 54",46,0,stop,
-openai/gpt-6-luna,topo-sunset-000002,ok,54,topo.sunset,"The trail takes 15 minutes on flat ground and crosses 3 contour lines uphill, adding 12 minutes. Total travel time is 27 minutes; from 14:05 to sunset is 81 minutes, so the hiker arrives 54 minutes before sunset.
+Estimated N ≈ 6 uphill crossings, so the climb adds about 24 minutes.
 
-FINAL ANSWER: 54",46,0,stop,
-anthropic/claude-haiku-5.5,topo-sunset-000003,ok,43,topo.sunset,"## Estimating the route
+## Result
 
-**Time budget:** Now is 14:40 and sunset is 16:13, so 93 minutes of daylight remain. The flat walking time for the Aspen Trail is 18 minutes.
+Total time to reach the hut = 18 + 24 = 42 minutes, so the hiker arrives 93 − 42 = 51 minutes before sunset.
 
-**Climb penalty:** The trail runs from S (on the east side near the lake, roughly 120 m) up over a ridge near (840, 375), then drops southwest to a low point near (640, 520), then climbs again to H on the west slope, roughly 240 m. I can't read every contour crossing precisely from the map, so these elevations are estimates.
+This depends on the estimated count of uphill crossings, which is the least certain part. A count of 6 gives 51; the answer would shift by 4 for each crossing miscounted.
 
-- **S to the ridge crest:** roughly 5 contour lines crossed uphill (about 120 m to 220 m).
-- **Descent to the low point:** no time added.
-- **Low point to H:** roughly 3 contour lines crossed uphill (about 180 m to 240 m).
+FINAL ANSWER: 51",31,0,stop,
+openai/gpt-6-luna,topo-sunset-000003,ok,47,topo.sunset,"The trail crosses 7 contour lines uphill, adding \(7 \times 4 = 28\) minutes to the 18-minute flat walking time. The total is 46 minutes, so leaving at 14:40 means arriving at 15:26—47 minutes before sunset.
 
-That gives about 8 uphill crossings, or 8 × 4 = 32 minutes of climb penalty.
+FINAL ANSWER: 47",31,0,stop,
+anthropic/claude-haiku-5.5,topo-sunset-000004,ok,-25,topo.sunset,"## Reasoning
 
-**Total time:** 18 + 32 = 50 minutes of walking, so the hiker arrives at about 14:40 + 50 min = 15:30.
+**Time budget:** Now is 15:55 and sunset is 16:31, so the hiker has 36 minutes of daylight.
 
-**Margin before sunset:** 16:13 − 15:30 = 43 minutes.
+**Flat walking time:** The trail takes 25 minutes on flat ground.
 
-The result depends on the estimated crossing count, so it could shift by a few minutes if the contour readings are off.
+**Climb penalty:** Naismith's adjustment adds 4 minutes for each contour line crossed going uphill. Downhill crossings add nothing.
 
-FINAL ANSWER: 43",31,0,stop,
-openai/gpt-6-luna,topo-sunset-000003,ok,55,topo.sunset,"The trail crosses 5 contour lines uphill, adding 5 × 4 = 20 minutes to the 18-minute flat-ground time. That makes the trip 38 minutes; there are 93 minutes until sunset, so the hiker arrives 55 minutes before sunset.
+**Estimating the elevations from the map:**
+- S sits near the 200 m index contour, roughly 230 m.
+- H sits just inside the 400 m index contour, roughly 380–390 m.
+- The trail rises from S to a summit-like bend near (850, 530), at roughly 280 m, then descends to a valley near 240 m, then climbs to H.
 
-FINAL ANSWER: 55",31,0,stop,
-anthropic/claude-haiku-5.5,topo-sunset-000004,ok,30,topo.sunset,"## Estimating the route
+**Counting uphill crossings (approximate, read from the contour pattern):**
+- S → bend: about 3 uphill crossings (240, 260, 280 m).
+- Bend → valley: downhill crossings only, no time added.
+- Valley → H: about 6–7 uphill crossings (260 through about 380 m).
 
-The trail leaves S heading north, loops west across the slope near the 300 m index contour, then descends southwest toward H on a knoll.
+Total uphill crossings: about 9. The elevations are estimated from the map, so this count is approximate.
 
-**Reading the contours (approximate):**
-- S sits on the lower eastern flank, roughly 170 to 180 m.
-- The trail's northern loop reaches roughly 240 m, so the climb out of S crosses about four 20 m contours (180, 200, 220, 240).
-- H sits inside the closed ring on the knoll, roughly 220 to 240 m. The descent from the loop to H crosses contours downhill, which adds no time.
+**Total time:**
+- Climb penalty: 9 × 4 = 36 minutes
+- Total trip time: 25 + 36 = 61 minutes
 
-Taking about 4 uphill contour crossings is an estimate from the map. The contours are dense and the trail wiggles, so the true count could be 3 to 5.
+**Arrival relative to sunset:**
+- Available time: 36 minutes
+- Margin: 36 − 61 = −25 minutes
 
-## Time calculation
+The hiker arrives about 25 minutes after sunset. Because the crossing count depends on reading the contours by eye, the exact value could shift by a few minutes.
 
-- Flat walking time: 18 min
-- Naismith climb penalty: 4 uphill crossings × 4 min = 16 min
-- Total walking time: 18 + 16 = 34 min
+FINAL ANSWER: -25",-37,0,stop,
+openai/gpt-6-luna,topo-sunset-000004,ok,-25,topo.sunset,"The trail crosses 9 contour lines uphill, adding \(9 \times 4 = 36\) minutes to the 25-minute flat-ground time. That makes the total travel time 61 minutes, while sunset is 36 minutes away, so the hiker arrives 25 minutes after sunset.
 
-Time available: now 15:00, sunset 16:04, so 64 minutes of daylight remain.
+FINAL ANSWER: -25",-37,0,stop,
+anthropic/claude-haiku-5.5,topo-sunset-000005,ok,-27,topo.sunset,"## Estimating the time budget
 
-Minutes before sunset at arrival = 64 − 34 = 30
+- Time now: 15:20. Sunset: 15:46. Time available: 26 minutes.
+- Flat walking time for the Basin Trail: 13 minutes.
+- Naismith climb penalty: 4 minutes per contour line crossed going uphill.
 
-FINAL ANSWER: 30",-2,0,stop,
-openai/gpt-6-luna,topo-sunset-000004,ok,18,topo.sunset,"The trail crosses 7 contour lines uphill, adding \(7 \times 4 = 28\) minutes. Total travel time is \(18 + 28 = 46\) minutes, so the hiker arrives at 15:46, 18 minutes before sunset.
+## Estimating the elevation change
 
-FINAL ANSWER: 18",-2,0,stop,
-anthropic/claude-haiku-5.5,topo-sunset-000005,ok,5,topo.sunset,"**Time budget:** Now is 14:35 and sunset is 15:19, so there are 44 minutes of daylight left.
+The map does not give exact elevations for S or H, so these are estimates from the surrounding index contours:
 
-**Flat walking time:** The trail takes 11 minutes on flat ground.
+- **S** sits near the brown 300 m index contour, so I estimate it at about 320 m.
+- **H** lies between the 500 m and 600 m index contours, so I estimate it at about 530 m.
 
-**Climb penalty:** Reading the contours from the map:
-- S sits just below the 500 m index contour, so I estimate its elevation at about 480 m.
-- H lies between the 600 and 700 index contours, which I estimate at about 620 m.
-- Going uphill from S to H, the trail crosses about 7 contour lines (the 500 through 620 m lines), each adding 4 minutes: 7 × 4 = 28 minutes.
+The net climb is therefore about 210 m, roughly 10 to 11 contour intervals. Since the trail runs from S up toward H and the descent sections add no time, I take about 10 uphill crossings as the best estimate.
 
-**Total time:** 11 + 28 = 39 minutes.
+## Total time
 
-**Arrival:** 14:35 + 39 min = 15:14, which is 5 minutes before sunset.
+- Climb penalty: 10 × 4 = 40 minutes
+- Total: 13 + 40 = 53 minutes
 
-This is an estimate. Contour positions near S and H are hard to read exactly, and a difference of one or two crossings would change the answer by 4–8 minutes.
+Departing at 15:20, the hiker arrives at about 16:13. Sunset is at 15:46, so the arrival is 27 minutes after sunset.
 
-FINAL ANSWER: 5",-15,0,stop,
-openai/gpt-6-luna,topo-sunset-000005,ok,1,topo.sunset,"The trail crosses 8 contour lines uphill, adding \(8 \times 4 = 32\) minutes. Total walking time is \(11 + 32 = 43\) minutes. There are 44 minutes until sunset, so the hiker arrives 1 minute before sunset.
+The answer is sensitive to the contour count: 11 crossings would give −31, and 9 would give −23. The value depends on reading the contours along the trail, which is approximate from the image.
 
-FINAL ANSWER: 1",-15,0,stop,
-anthropic/claude-haiku-5.5,topo-sunset-000006,ok,72,topo.sunset,"I estimated this from the map by eye, so the contour-crossing count is approximate.
+FINAL ANSWER: -27",-31,0,stop,
+openai/gpt-6-luna,topo-sunset-000005,ok,-47,topo.sunset,"The trail crosses 15 contour lines uphill, adding \(15 \times 4 = 60\) minutes. Total walking time is \(13 + 60 = 73\) minutes. There are 26 minutes until sunset, so the hiker arrives 47 minutes after sunset.
 
-1. **Time available:** It is 15:00 and sunset is 17:03, so there are 123 minutes of daylight.
-2. **Flat walking time:** The trail's flat-ground walking time is 15 minutes.
-3. **Climb penalty:** S sits on the lower, eastern side of the ridge and H on the higher, western side, so the trail gains roughly 140–160 m net. Counting the contour lines crossed uphill along the route, including the dip near (345, 787) and the climb to H, gives about 9. At 4 minutes each, that is 36 minutes.
-4. **Arrival:** 15 + 36 = 51 minutes, so the hiker reaches the hut at about 15:51.
-5. **Margin before sunset:** 17:03 − 15:51 = 72 minutes.
+FINAL ANSWER: -47",-31,0,stop,
+anthropic/claude-haiku-5.5,topo-sunset-000006,ok,70,topo.sunset,"## Estimating the trip
 
-The main uncertainty is the uphill crossing count (each contour changes the answer by 4 minutes); the estimate is 72 minutes before sunset.
+**Time available:** 16:35 to 18:40 is 125 minutes.
 
-FINAL ANSWER: 72",64,0,stop,
-openai/gpt-6-luna,topo-sunset-000006,ok,80,topo.sunset,"There are 7 uphill contour crossings, adding \(7 \times 4 = 28\) minutes to the 15-minute flat-ground time. The hike takes 43 minutes, and sunset is 123 minutes after now, so the hiker arrives 80 minutes before sunset.
+**Flat walking time:** 19 minutes.
 
-FINAL ANSWER: 80",64,0,stop,
-anthropic/claude-haiku-5.5,topo-sunset-000007,ok,69,topo.sunset,"## Estimating the route
+**Climb penalty:** Naismith's rule adds 4 minutes per 20 m contour line crossed uphill. I can't read the exact spot elevations from the map, so I estimated them from the contour pattern:
 
-**Elevations at the endpoints (estimated from contour position):**
-- S sits just southwest of the index contour near (690, 700), on the lower side, so I estimate about 180 m.
-- H lies near the 300 m index line on the east side of the spur, so I estimate about 300 m.
+- **S** sits east of the heavy index contour labelled 100, near the lake edge, so it is roughly 90–100 m.
+- **H** lies west of that index line, between the 200 and 300 index contours, roughly 260–280 m.
+- The trail rises steadily from S to H, so the uphill crossings are about (280 − 100) / 20 ≈ 9 contour lines.
 
-**Trail profile (estimated):**
-1. From S, the trail climbs northeast, crossing the 200 m index and the thin contours above it, to a crest near (820, 738) at roughly 320 m. That is about 140 m of climb, or 7 contour lines, so 7 × 4 = 28 min.
-2. The trail then bends southeast and descends to about 260 m near (915, 885). Descending adds no time.
-3. From there it climbs to H at about 300 m, crossing 2 contour lines, so 2 × 4 = 8 min.
+**Climb time:** 9 × 4 = 36 minutes.
 
-**Total uphill penalty:** 28 + 8 = 36 min.
+**Total journey time:** 19 + 36 = 55 minutes.
 
-**Total travel time:** 19 min flat walking + 36 min climb = 55 min.
+**Arrival time:** 16:35 + 55 min = 17:30.
 
-**Arrival time:** 15:25 + 55 min = 16:20.
+**Margin before sunset:** 18:40 − 17:30 = 70 minutes.
 
-**Margin before sunset:** 17:29 − 16:20 = 69 min.
+The elevation estimates are uncertain by roughly one or two contour lines, so the answer could plausibly be 66–74 minutes.
 
-The contour readings are approximate, so this answer is uncertain: a different reading of the crest or endpoint elevations would change the climb count.
+FINAL ANSWER: 70",62,0,stop,
+openai/gpt-6-luna,topo-sunset-000006,ok,62,topo.sunset,"The trail crosses 11 contour lines uphill. That adds \(11 \times 4 = 44\) minutes to the 19-minute flat walking time, for a total of 63 minutes. Starting at 16:35, the hiker arrives at 17:38, which is 62 minutes before sunset.
+
+FINAL ANSWER: 62",62,1,stop,
+anthropic/claude-haiku-5.5,topo-sunset-000007,ok,69,topo.sunset,"I estimated the elevations from the contour pattern near the trail, so this is an approximate count rather than an exact reading.
+
+**Available time:** 15:25 to 17:18 is 113 minutes.
+
+**Flat walking time:** 16 minutes.
+
+**Climb penalty:** S sits just west of the 100 m index contour, so it is roughly 90 m. From S the trail climbs northeast to a crest near (820, 738), probably around 160 m. Along the way it crosses the 100, 120, 140 and 160 m contours going uphill, which is 4 crossings. Past the crest it descends toward (935, 800) and (912, 880), crossing contours downhill, which adds no time. H looks to be around 180 to 200 m, so the final approach likely adds about 3 more uphill crossings.
+
+That gives about 7 uphill crossings, or 7 × 4 = 28 minutes.
+
+**Total travel time:** 16 + 28 = 44 minutes.
+
+**Arrival:** 15:25 + 44 min = 16:09.
+
+**Margin before sunset:** 17:18 − 16:09 = 69 minutes.
 
 FINAL ANSWER: 69",45,0,stop,
-openai/gpt-6-luna,topo-sunset-000007,ok,73,topo.sunset,"The time until sunset is 124 minutes. The trail crosses 8 contours uphill, adding 32 minutes to the 19-minute flat-ground walk: 19 + 32 = 51 minutes. That leaves 124 − 51 = 73 minutes before sunset.
+openai/gpt-6-luna,topo-sunset-000007,ok,73,topo.sunset,"There are 6 uphill contour crossings, adding \(6 \times 4 = 24\) minutes to the 16-minute flat-ground time. The total walk is 40 minutes. Sunset is 113 minutes after now, so the hiker arrives 73 minutes before sunset.
 
 FINAL ANSWER: 73",45,0,stop,
-anthropic/claude-haiku-5.5,topo-sunset-000008,ok,30,topo.sunset,"**Reading the map**
+anthropic/claude-haiku-5.5,topo-sunset-000008,ok,10,topo.sunset,"**Step 1: Available time.** Now is 15:25 and sunset is 16:37, so there are 72 minutes of daylight left.
 
-- **Time available:** from 15:40 to sunset at 17:25 is 105 minutes.
-- **Flat walking time:** 15 minutes for the Summit Trail.
-- **Start S** sits on the southeast flank of the spur, roughly 250–270 m. The nearby index contours are the 200 and 300 lines.
-- **Hut H** sits on the northwest side of the spur, between the 500 and 600 index contours, roughly 560 m.
+**Step 2: Flat walking time.** The trail takes 14 minutes on the flat.
 
-**Climb**
+**Step 3: Climb penalty.** Naismith's adjustment adds 4 minutes per 20 m contour crossed going uphill. If the trail climbs roughly monotonically from S to H, the number of uphill crossings equals (elevation of H − elevation of S) / 20, so the penalty is 4 × that count, or 0.2 min per metre of net climb.
 
-The net climb is about 560 − 260 ≈ 300 m, which is about 15 contour intervals of 20 m. I counted these as uphill crossings, assuming the trail climbs fairly steadily from S to H. This is an estimate read from the map, so the crossing count could be off by a line or two.
+**Step 4: Elevations (estimated).** I could not read the contours precisely, so these are approximate:
+- S lies a little north of the index contour labelled 300, and the map's contour spacing there suggests it sits around 320 m.
+- H lies near the index contours in the 500–600 m range, which I take as about 560 m.
 
-**Naismith penalty**
+This gives a net climb of about 240 m, or 12 contour crossings, so the climb adds 12 × 4 = 48 minutes.
 
-15 crossings × 4 min = 60 minutes.
+**Step 5: Total and arrival.** Total time is 14 + 48 = 62 minutes. Starting at 15:25, the hiker reaches the hut at 16:27, which is 72 − 62 = 10 minutes before sunset.
 
-**Total travel time**
+The answer is sensitive to the elevation estimates: each 20 m error in H or S shifts the result by 4 minutes.
 
-15 min (flat) + 60 min (climb) = 75 minutes.
+FINAL ANSWER: 10",14,0,stop,
+openai/gpt-6-luna,topo-sunset-000008,ok,18,topo.sunset,"The trail’s uphill crossings add 40 minutes to the 14-minute flat walking time, for a total of 54 minutes. From 15:25, the hiker arrives at 16:19—18 minutes before sunset.
 
-**Margin before sunset**
+FINAL ANSWER: 18",14,0,stop,
+anthropic/claude-haiku-5.5,topo-sunset-000009,ok,49,topo.sunset,"## Reading the map
 
-105 − 75 = 30 minutes before sunset.
+**Time budget:** Now is 16:10 and sunset is 17:43, so there are 93 minutes of daylight left. The walk on flat ground takes 20 minutes.
 
-The answer is sensitive to the start and hut elevations, which are estimates from the contour spacing, so treat 30 as approximate.
+**Climb penalty:** Naismith's rule adds 4 minutes per contour crossed uphill, so the total time is 20 + 4N minutes, where N is the number of uphill contour crossings. The answer is then 93 − (20 + 4N) = 73 − 4N.
 
-FINAL ANSWER: 30",46,0,stop,
-openai/gpt-6-luna,topo-sunset-000008,ok,34,topo.sunset,"There are 14 uphill contour crossings, adding 56 minutes to the 15-minute flat walking time. The hike takes 71 minutes; sunset is 105 minutes away, so the hiker arrives 34 minutes before sunset.
+**Estimating N:** The trail runs from S on the lakeshore to H on the hill's southeast flank.
+- S lies in the low ground east of the hill, roughly 60–80 m.
+- The trail climbs westward past the 100 m index contour near the dip around (900, 760).
+- From there it climbs toward H, which sits just south of the 200 m index line, roughly 180 m. That is about four 20 m contours (120, 140, 160, 180).
+- Adding the lower crossings near S gives roughly 6 uphill crossings in total.
 
-FINAL ANSWER: 34",46,0,stop,
-anthropic/claude-haiku-5.5,topo-sunset-000009,ok,7,topo.sunset,"I estimated the trail's elevation profile from the contours, so the final number is approximate.
+The contour spacing is hard to read precisely from the image, so N = 6 is an estimate, not an exact count.
 
-**Time available:** Now 14:50 and sunset 15:46 give 56 minutes. Flat walking time is 17 minutes, leaving 39 minutes for the climb.
+## Calculation
 
-**Trail profile (estimated):**
-- **S to the saddle near (880, 762):** S sits outside the 100 m index contour, roughly 60–80 m elevation. The trail climbs to about 150–160 m, crossing roughly 4 contours uphill.
-- **Saddle down to about (765, 858):** The trail drops to about 200 m's lower side, so this stretch adds no time.
-- **(765, 858) to H:** H lies just southeast of the 300 m index line, so it is roughly 280 m. Climbing from about 200 m to 280 m crosses about 4 contours uphill.
+- Walking time with climb: 20 + 4(6) = 44 minutes.
+- Arrival time: 16:10 + 44 min = 16:54.
+- Minutes before sunset: 17:43 − 16:54 = 49 minutes.
 
-**Climb penalty:** About 8 uphill crossings × 4 min = 32 min.
+FINAL ANSWER: 49",25,0,stop,
+openai/gpt-6-luna,topo-sunset-000009,ok,41,topo.sunset,"The trail crosses 8 contour lines uphill, adding \(8 \times 4 = 32\) minutes to the 20-minute flat walking time. Total travel time is 52 minutes. From 16:10 to sunset at 17:43 is 93 minutes, so the hiker arrives 41 minutes before sunset.
 
-**Total time:** 17 + 32 = 49 minutes.
-
-**Margin:** 56 − 49 = 7 minutes before sunset.
-
-The count of uphill crossings is the least certain part, since the contours are dense near the trail. Each crossing changes the answer by 4 minutes.
-
-FINAL ANSWER: 7",-9,0,stop,
-openai/gpt-6-luna,topo-sunset-000009,ok,-1,topo.sunset,"The trail has 10 uphill contour crossings, adding 40 minutes to the 17-minute flat-ground walk. That makes the total travel time 57 minutes; sunset is 56 minutes away.
-
-FINAL ANSWER: -1",-9,0,stop,
+FINAL ANSWER: 41",25,0,stop,
