@@ -134,6 +134,20 @@ body.stage-on .caption span { background: rgba(14, 17, 22, 0.72); color: #F3EEDF
 .hud .sub { font-family: var(--label); font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; font-size: 12px; color: rgba(243,238,223,0.8); }
 .hud .said { font-family: var(--mono); font-size: 14px; color: #fff; background: var(--model); padding: 2px 8px; }
 .hud .said.ok { background: var(--truth); }
+/* the answer ruler (trail missions): the truth fills in blue; flags mark what each model and the player said */
+.hud .ruler { margin-top: 2px; padding: 6px 24px 8px; background: rgba(14, 17, 22, 0.82); border: 1px solid rgba(243, 238, 223, 0.25); }
+.hud .ruler .scale { position: relative; width: clamp(250px, 42vw, 560px); height: 92px; }
+.hud .ruler .axis { position: absolute; left: 0; right: 0; bottom: 20px; height: 1px; background: rgba(243,238,223,0.45); }
+.hud .ruler .fill { position: absolute; left: 0; bottom: 19px; height: 3px; background: #8cc3f0; }
+.hud .ruler .tick { position: absolute; bottom: 20px; width: 1px; height: 5px; background: rgba(243,238,223,0.55); }
+.hud .ruler .tick.major { height: 9px; background: #F3EEDF; }
+.hud .ruler .num { position: absolute; bottom: 0; transform: translateX(-50%); font-family: var(--mono); font-size: 11px; color: rgba(243,238,223,0.8); }
+.hud .ruler .flag { position: absolute; bottom: 20px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; white-space: nowrap; }
+.hud .ruler .flag::after { content: ""; width: 1px; height: var(--h, 10px); background: currentColor; }
+.hud .ruler .flag b { font-family: var(--mono); font-weight: 500; font-size: 12px; padding: 1px 6px; }
+.hud .ruler .flag.model { color: var(--model); } .hud .ruler .flag.model b { background: var(--model); color: #fff; }
+.hud .ruler .flag.you { color: var(--you); } .hud .ruler .flag.you b { background: var(--you); color: var(--ink); }
+.hud .ruler .flag.plain { color: #F3EEDF; } .hud .ruler .flag.plain b { border: 1px solid rgba(243,238,223,0.6); background: var(--night); }
 
 .map-tools { position: absolute; right: 10px; top: 10px; z-index: 8; display: flex; gap: 6px; }
 .tool {
@@ -269,6 +283,10 @@ details.fullq p { margin: 8px 0 4px; font-family: var(--serif); color: var(--ink
   .facts { grid-template-columns: 1fr; }
   .land { padding: 0 16px 40px; }
   .hud .said { font-size: 12px; }
+  .hud { bottom: 10px; }                     /* on a phone the ruler sits at the foot of the stage, clear of the trail */
+  .hud .ruler { padding: 4px 20px 6px; margin-top: auto; }
+  .hud .ruler .scale { width: calc(100vw - 72px); height: 86px; }
+  .hud .ruler .flag b { font-size: 11px; padding: 1px 4px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .fx-grain { animation: none; }

@@ -1,0 +1,1 @@
+done: site/ answer ruler on the trail reveals (truth fills in blue; flags for Haiku, Luna and you; clock scale on the sunset mission), ported from site-fable per #75; also fixed the 'undefined up, undefined down' steps line (topo 2.1.0 renamed the fields). next: Alex reviews and merges. blocked: nothing
