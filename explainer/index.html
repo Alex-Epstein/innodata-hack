@@ -63,7 +63,9 @@ ol.stages { list-style:none; padding:0; margin:0; display:grid; grid-template-co
 .bar.luna { background:repeating-linear-gradient(135deg, var(--model) 0 3px, #f6d3cc 3px 6px); outline:1.5px solid var(--model); outline-offset:-1.5px; }
 .val { text-align:right; font-size:14px; }
 .verdict { font-size:12px; text-align:center; padding:4px 0; border:1px solid currentColor; margin-left:14px; }
-.verdict.keep { color:var(--truth); } .verdict.drop { color:var(--ink-2); }
+.verdict.keep { color:var(--truth); } .verdict.drop { color:var(--ink-2); } .verdict.final { color:var(--ink-2); border-style:dotted; }
+.chart.norule .rule5 { display:none; }
+td.ok { color:var(--ink-2); } td.bad { color:var(--model); font-weight:600; } td.truthc { color:var(--truth); font-weight:600; }
 .chart-foot { display:flex; gap:22px; flex-wrap:wrap; font:13px "IBM Plex Mono", monospace; color:var(--ink-2); padding-top:10px; border-top:1px solid var(--rule); }
 .sw { display:inline-block; width:14px; height:10px; margin-right:6px; vertical-align:middle; }
 .sw.haiku { background:var(--model); }
@@ -118,17 +120,17 @@ footer { padding:28px 0 60px; font-size:13px; color:var(--ink-2); }
 <div id="tip"></div>
 <div class="wrap">
 <div class="collar"><span class="cap">Innodata hackathon · Track 2 · Visual Task Factory</span>
-<span class="mono muted">built from commit fa6f0f5 (14:00) · every number read from results/ and tasks/</span></div>
+<span class="mono muted">built from commit 585f52c (14:57) · every number read from results/ and tasks/</span></div>
 
 <header class="hero">
   <h1>A factory for questions<br>AI can't see through</h1>
   <p class="lede">We turn real data into realistic images, ask a question that takes several steps of reasoning,
   compute the answer from the data in code, check every task automatically, and evaluate Claude Haiku 5.5 and GPT-6 Luna, the two models the organizers set, on it.</p>
   <div class="stats">
-    <div class="stat"><div class="n red">4/30</div><div class="l">Claude Haiku 5.5 right on the topo pilot (3 templates × 10 seeds)</div></div>
-    <div class="stat"><div class="n red">4/30</div><div class="l">GPT-6 Luna right on the same tasks</div></div>
-    <div class="stat"><div class="n blue">60/60</div><div class="l">pilot tasks that passed all 7 automatic checks</div></div>
-    <div class="stat"><div class="n">$0.30</div><div class="l">total model cost for these 120 evaluation calls</div></div>
+    <div class="stat"><div class="n red">2/10</div><div class="l">Claude Haiku 5.5 right on our final 10 tasks</div></div>
+    <div class="stat"><div class="n red">3/10</div><div class="l">GPT-6 Luna right on the same final tasks</div></div>
+    <div class="stat"><div class="n blue">10/10</div><div class="l">final tasks that passed all 7 automatic checks</div></div>
+    <div class="stat"><div class="n">$0.52</div><div class="l">model cost for all 188 calls on this page (final, pilots, few-shot test)</div></div>
   </div>
 </header>
 
@@ -154,16 +156,54 @@ footer { padding:28px 0 60px; font-size:13px; color:var(--ink-2); }
 
 <section id="funnel">
   <h2>Quality gates</h2><h3>What survived each check</h3>
-  <p class="beat">All 6 pilot sets (3 topo, 3 power), counted from the validator's own reports.</p>
-  <div class='f-row' data-tip='Seeds attempted: 60'><span class='f-name'>Seeds attempted</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>60</span><span class='f-note muted'>generation_log.json</span></div><div class='f-row' data-tip='Tasks generated: 60'><span class='f-name'>Tasks generated</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>60</span><span class='f-note muted'>generation_log.json</span></div><div class='f-row' data-tip='passed schema: 60'><span class='f-name'>passed schema</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>60</span><span class='f-note muted'>Every field the organizers require, with the right types; the image exists</span></div><div class='f-row' data-tip='passed data first: 60'><span class='f-name'>passed data first</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>60</span><span class='f-note muted'>The data JSON was written before the picture and is unchanged since</span></div><div class='f-row' data-tip='passed two solvers: 60'><span class='f-name'>passed two solvers</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>60</span><span class='f-note muted'>A second, independent solver computes the same answer</span></div><div class='f-row' data-tip='passed render matches data: 60'><span class='f-name'>passed render matches data</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>60</span><span class='f-note muted'>Pixels at known points match the data (contour colour, breaker symbol)</span></div><div class='f-row' data-tip='passed legibility: 60'><span class='f-name'>passed legibility</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>60</span><span class='f-note muted'>Every label is at least 8 px tall, none overlap, none cut off</span></div><div class='f-row' data-tip='passed answer not in question: 60'><span class='f-name'>passed answer not in question</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>60</span><span class='f-note muted'>The question does not give the answer away</span></div><div class='f-row' data-tip='passed reproducible: 60'><span class='f-name'>passed reproducible</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>60</span><span class='f-note muted'>Rebuilding from the seed gives byte-identical PNG and data</span></div><div class='f-row' data-tip='Evaluated on both models: 60'><span class='f-name'>Evaluated on both models</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>60</span><span class='f-note muted'>responses.csv</span></div><div class='f-row last'><span class='f-name'>Templates kept by the rule</span><span class='f-track'></span><span class='mono f-val'>3 / 6</span><span class='f-note muted'>kept: topo.crossings, topo.sunset, topo.flood</span></div>
+  <p class="beat">The final set plus all 6 pilot sets (3 topo, 3 power), counted from the validator's own reports.</p>
+  <div class='f-row' data-tip='Seeds attempted: 70'><span class='f-name'>Seeds attempted</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>70</span><span class='f-note muted'>generation_log.json</span></div><div class='f-row' data-tip='Tasks generated: 70'><span class='f-name'>Tasks generated</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>70</span><span class='f-note muted'>generation_log.json</span></div><div class='f-row' data-tip='passed schema: 70'><span class='f-name'>passed schema</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>70</span><span class='f-note muted'>Every field the organizers require, with the right types; the image exists</span></div><div class='f-row' data-tip='passed data first: 70'><span class='f-name'>passed data first</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>70</span><span class='f-note muted'>The data JSON was written before the picture and is unchanged since</span></div><div class='f-row' data-tip='passed two solvers: 70'><span class='f-name'>passed two solvers</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>70</span><span class='f-note muted'>A second, independent solver computes the same answer</span></div><div class='f-row' data-tip='passed render matches data: 70'><span class='f-name'>passed render matches data</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>70</span><span class='f-note muted'>Pixels at known points match the data (contour colour, breaker symbol)</span></div><div class='f-row' data-tip='passed legibility: 70'><span class='f-name'>passed legibility</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>70</span><span class='f-note muted'>Every label is at least 8 px tall, none overlap, none cut off</span></div><div class='f-row' data-tip='passed answer not in question: 70'><span class='f-name'>passed answer not in question</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>70</span><span class='f-note muted'>The question does not give the answer away</span></div><div class='f-row' data-tip='passed reproducible: 70'><span class='f-name'>passed reproducible</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>70</span><span class='f-note muted'>Rebuilding from the seed gives byte-identical PNG and data</span></div><div class='f-row' data-tip='Evaluated on both models: 70'><span class='f-name'>Evaluated on both models</span><span class='f-track'><span class='f-bar' style='width:100.0%'></span></span><span class='mono f-val'>70</span><span class='f-note muted'>responses.csv</span></div><div class='f-row last'><span class='f-name'>Templates kept by the rule</span><span class='f-track'></span><span class='mono f-val'>3 / 6</span><span class='f-note muted'>kept: topo.crossings, topo.sunset, topo.flood</span></div>
   <p class="muted" style="margin-top:14px">Draws that break a fairness rule (labels overlapping, solvers disagreeing,
   a trail running along a contour) are thrown away inside the generator before a task is written, so they don't show
   up as rejected seeds here.</p>
 </section>
 
+<section id="final">
+  <h2>Final results</h2><h3>The final 10: Haiku 2/10, Luna 3/10</h3>
+  <p class="beat">Fresh seeds (100 and up, never used in a pilot), every one through all 7 checks, then both models once.</p>
+  <div class="chart norule" role="img" aria-label="Final set: correct answers per mission for Haiku and Luna">
+<div class="axis-top"><span></span><span class="ax"><b style="left:0">0</b><b style="left:50%">half</b><b style="right:0">all right</b></span><span></span></div>
+<div class="grp"><div class="grp-label"><span class="cap">Rescue carry</span><span class="muted">crossings · topo-2.1.0</span></div><div class="bars">
+<div class="bar-row" data-tip="Haiku · Rescue carry: 0 of 3 right"><span class="who">Haiku</span><span class="track"><span class="rule5"></span><span class="bar haiku" style="width:0.0%"></span></span><span class="val mono">0/3</span></div>
+<div class="bar-row" data-tip="Luna · Rescue carry: 1 of 3 right"><span class="who">Luna</span><span class="track"><span class="rule5"></span><span class="bar luna" style="width:33.3%"></span></span><span class="val mono">1/3</span></div>
+</div><div class="verdict final">3 TASKS</div></div>
+<div class="grp"><div class="grp-label"><span class="cap">Hiker vs sunset</span><span class="muted">sunset · topo-2.1.0</span></div><div class="bars">
+<div class="bar-row" data-tip="Haiku · Hiker vs sunset: 0 of 3 right"><span class="who">Haiku</span><span class="track"><span class="rule5"></span><span class="bar haiku" style="width:0.0%"></span></span><span class="val mono">0/3</span></div>
+<div class="bar-row" data-tip="Luna · Hiker vs sunset: 0 of 3 right"><span class="who">Luna</span><span class="track"><span class="rule5"></span><span class="bar luna" style="width:0.0%"></span></span><span class="val mono">0/3</span></div>
+</div><div class="verdict final">3 TASKS</div></div>
+<div class="grp"><div class="grp-label"><span class="cap">Dam failure</span><span class="muted">flood · topo-2.1.0</span></div><div class="bars">
+<div class="bar-row" data-tip="Haiku · Dam failure: 2 of 4 right"><span class="who">Haiku</span><span class="track"><span class="rule5"></span><span class="bar haiku" style="width:50.0%"></span></span><span class="val mono">2/4</span></div>
+<div class="bar-row" data-tip="Luna · Dam failure: 2 of 4 right"><span class="who">Luna</span><span class="track"><span class="rule5"></span><span class="bar luna" style="width:50.0%"></span></span><span class="val mono">2/4</span></div>
+</div><div class="verdict final">4 TASKS</div></div>
+<div class="chart-foot"><span class="key"><i class="sw haiku"></i>Haiku 5.5</span><span class="key"><i class="sw luna"></i>GPT-6 Luna</span></div></div>
+  <table class='data'><tr><th>Task</th><th>Place</th><th>Computed answer</th><th>Haiku 5.5</th><th>GPT-6 Luna</th></tr><tr><td class='mono'>topo-crossings-000100</td><td>Breakneck Ridge, New York</td><td class='mono truthc'>11</td><td class='mono bad'>7 ✗</td><td class='mono bad'>5 ✗</td></tr><tr><td class='mono'>topo-crossings-000101</td><td>Mount Tamalpais, California</td><td class='mono truthc'>11</td><td class='mono bad'>5 ✗</td><td class='mono ok'>11 ✓</td></tr><tr><td class='mono'>topo-crossings-000102</td><td>Bear Mountain, New York</td><td class='mono truthc'>16</td><td class='mono bad'>12 ✗</td><td class='mono bad'>10 ✗</td></tr><tr><td class='mono'>topo-sunset-000100</td><td>Breakneck Ridge, New York</td><td class='mono truthc'>37</td><td class='mono bad'>45 ✗</td><td class='mono bad'>45 ✗</td></tr><tr><td class='mono'>topo-sunset-000101</td><td>Mount Tamalpais, California</td><td class='mono truthc'>9</td><td class='mono bad'>13 ✗</td><td class='mono bad'>25 ✗</td></tr><tr><td class='mono'>topo-sunset-000102</td><td>Bear Mountain, New York</td><td class='mono truthc'>29</td><td class='mono bad'>49 ✗</td><td class='mono bad'>57 ✗</td></tr><tr><td class='mono'>topo-flood-000100</td><td>Bear Mountain, New York</td><td class='mono truthc'>C4</td><td class='mono ok'>C4 ✓</td><td class='mono ok'>C4 ✓</td></tr><tr><td class='mono'>topo-flood-000101</td><td>Breakneck Ridge, New York</td><td class='mono truthc'>C5</td><td class='mono ok'>C5 ✓</td><td class='mono ok'>C5 ✓</td></tr><tr><td class='mono'>topo-flood-000102</td><td>Harriman State Park, New York</td><td class='mono truthc'>C1</td><td class='mono bad'>C6 ✗</td><td class='mono bad'>C6 ✗</td></tr><tr><td class='mono'>topo-flood-000103</td><td>Mount Tamalpais, California</td><td class='mono truthc'>C1</td><td class='mono bad'>C3 ✗</td><td class='mono bad'>C3 ✗</td></tr></table>
+  <p>On the trail missions both models <strong>undercount crossings</strong> (where both missed: 11 became 7 and 5; 16 became 12 and 10). On the
+  floods, 4 of 4 wrong answers name a <strong>planted decoy</strong> (the camp nearest the dam or
+  the dry camp most directly below it). Every reply finished normally
+  (none cut off); the run cost $0.0502
+  for 20 calls.
+  <strong>Hand check:</strong> 10 of 10 final tasks judged visible, unique and fair in
+  <code>results/human/hand_check.md</code> (pre-checked by an agent against the overlays; confirmed by eye: 0 of 10 so far).</p>
+</section>
+
+<section id="fewshot">
+  <h2>Can prompting fix it?</h2><h3>Two worked examples didn't help</h3>
+  <p class="beat">If showing the model our step-by-step solutions fixed it, nobody would need the data.</p>
+  <table class='data'><tr><th>Mission</th><th>Model</th><th>No examples</th><th>2 worked examples</th></tr><tr><td>Crossings</td><td>Claude Haiku 5.5</td><td>1/8</td><td>0/8</td></tr><tr><td>Crossings</td><td>GPT-6 Luna</td><td>0/8</td><td>1/8</td></tr><tr><td>Sunset</td><td>Claude Haiku 5.5</td><td>0/8</td><td>1/8</td></tr><tr><td>Sunset</td><td>GPT-6 Luna</td><td>1/8</td><td>0/8</td></tr><tr><td>Flood</td><td>Claude Haiku 5.5</td><td>3/8</td><td>3/8</td></tr><tr><td>Flood</td><td>GPT-6 Luna</td><td>3/8</td><td>1/8</td></tr><tr><td><strong>All</strong></td><td><strong>both</strong></td><td><strong>8/48</strong></td><td><strong>6/48</strong></td></tr></table>
+  <p>Per mission, seeds 0 and 1 of the pilot were the worked examples and seeds 2 to 9 the test tasks, with the same
+  eval settings (48 calls, $0.1708). Luna copied the
+  examples' answers; Haiku copied the solution layout and still estimated. With 8 tasks per cell this rules out a big
+  effect, not a small one (<code>results/extra/fewshot/summary.md</code>).</p>
+</section>
+
 <section id="results">
-  <h2>Results</h2><h3>Topo maps break both models</h3>
-  <p class="beat">Real terrain, real places. The models read every label and do the arithmetic, then lose count tracing a line through the contours.</p>
+  <h2>Pilots</h2><h3>How we chose which missions to keep</h3>
+  <p class="beat">10 seeds per mission on both models. A mission stays only if it stays hard.</p>
   <div class="chart" role="img" aria-label="Topo pilot: correct answers out of 10 per template for Haiku and Luna">
 <div class="axis-top"><span></span><span class="ax"><b style="left:0">0</b><b style="left:50%">5</b><b style="right:0">10 right</b></span><span></span></div>
 <div class="grp"><div class="grp-label"><span class="cap">Rescue carry</span><span class="muted">crossings · topo-2.1.0</span></div><div class="bars">
@@ -203,74 +243,57 @@ footer { padding:28px 0 60px; font-size:13px; color:var(--ink-2); }
 </section>
 
 <section id="examples">
-  <h2>Look inside</h2><h3>Real tasks, real misses</h3>
+  <h2>Look inside</h2><h3>Final tasks, real misses</h3>
   <p class="beat">This is what the AI sees. Press "Show the truth overlay" to see what the code knows.</p>
   
 <article class="example">
   <header><span class="cap">topo · Rescue carry</span>
-  <span class="mono muted">topo-crossings-000000 · seed 0 · difficulty 3</span></header>
+  <span class="mono muted">topo-crossings-000100 · seed 100 · difficulty 3</span></header>
   <div class="ex-grid">
-    <figure><a href="../tasks/pilot_topo_crossings/images/topo-crossings-000000.png" target="_blank"><img id="ex0" src="../tasks/pilot_topo_crossings/images/topo-crossings-000000.png" alt="task image topo-crossings-000000"></a>
-      <figcaption><button class='toggle' data-target='ex0' data-a='../tasks/pilot_topo_crossings/images/topo-crossings-000000.png' data-b='../tasks/pilot_topo_crossings/overlays/topo-crossings-000000_truth.png'>Show the truth overlay</button><span class="muted">click the image to open it full size</span></figcaption></figure>
+    <figure><a href="../tasks/final/images/topo-crossings-000100.png" target="_blank"><img id="ex0" src="../tasks/final/images/topo-crossings-000100.png" alt="task image topo-crossings-000100"></a>
+      <figcaption><button class='toggle' data-target='ex0' data-a='../tasks/final/images/topo-crossings-000100.png' data-b='../tasks/final/overlays/topo-crossings-000100_truth.png'>Show the truth overlay</button><span class="muted">click the image to open it full size</span></figcaption></figure>
     <div class="ex-side">
-      <p class="q">This is a topographic map of a real place (Bear Mountain, New York), drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 20 meters, index contours (heavy brown lines, some labeled) are every 100 meters, and elevations are in meters. Rescue carry: a stretcher team carries a casualty along the Aspen Trail (solid magenta line) from the magenta square S to the magenta square E. To pace the carry, the team leader logs every contour line the trail crosses. How many contour lines (index contours included) does the trail cross between S and E? Neither square stands on a contour line, so count only the crossings between the two squares. If the trail crosses the same contour line more than once, count every crossing. Answer with a whole number, for example 7.</p>
+      <p class="q">This is a topographic map of a real place (Breakneck Ridge, New York), drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 20 meters, index contours (heavy brown lines, some labeled) are every 100 meters, and elevations are in meters. Rescue carry: a stretcher team carries a casualty along the Aspen Trail (solid magenta line) from the magenta square S to the magenta square E. To pace the carry, the team leader logs every contour line the trail crosses. How many contour lines (index contours included) does the trail cross between S and E? Neither square stands on a contour line, so count only the crossings between the two squares. If the trail crosses the same contour line more than once, count every crossing. Answer with a whole number, for example 7.</p>
       <div class="replies">
-        <div class="reply truth"><span class="cap">Computed answer</span><span class="mono big">12</span>
+        <div class="reply truth"><span class="cap">Computed answer</span><span class="mono big">11</span>
         <span class="mark">from the data, twice</span></div>
-        <div class='reply bad'><span class='cap'>Haiku 5.5</span><span class='mono big'>6</span><span class='mark'>✗ wrong</span></div><div class='reply bad'><span class='cap'>GPT-6 Luna</span><span class='mono big'>11</span><span class='mark'>✗ wrong</span></div>
+        <div class='reply bad'><span class='cap'>Haiku 5.5</span><span class='mono big'>7</span><span class='mark'>✗ wrong</span></div><div class='reply bad'><span class='cap'>GPT-6 Luna</span><span class='mono big'>5</span><span class='mark'>✗ wrong</span></div>
       </div>
-      <details><summary>The reasoning chain the code recorded (<code>steps</code>)</summary><table class='steps'><tr><td class='k'>trail length m</td><td class='mono'>1068.8</td></tr><tr><td class='k'>uphill crossings</td><td class='mono'>6</td></tr><tr><td class='k'>downhill crossings</td><td class='mono'>6</td></tr><tr><td class='k'>index contour crossings</td><td class='mono'>2</td></tr><tr><td class='k'>contour crossings</td><td class='mono'>12</td></tr><tr><td class='k'>wrong if index contours left out</td><td class='mono'>10</td></tr><tr><td class='k'>levels crossed</td><td class='mono'>[60, 80, 100, 120, 140, 160, 160, 140, 120, 100, 80, 60]</td></tr></table></details>
+      <details><summary>The reasoning chain the code recorded (<code>steps</code>)</summary><table class='steps'><tr><td class='k'>trail length m</td><td class='mono'>644.2</td></tr><tr><td class='k'>uphill crossings</td><td class='mono'>0</td></tr><tr><td class='k'>downhill crossings</td><td class='mono'>11</td></tr><tr><td class='k'>index contour crossings</td><td class='mono'>2</td></tr><tr><td class='k'>contour crossings</td><td class='mono'>11</td></tr><tr><td class='k'>wrong if index contours left out</td><td class='mono'>9</td></tr><tr><td class='k'>levels crossed</td><td class='mono'>[340, 320, 300, 280, 260, 240, 220, 200, 180, 160, 140]</td></tr></table></details>
     </div>
   </div>
 </article>
 <article class="example">
   <header><span class="cap">topo · Hiker vs sunset</span>
-  <span class="mono muted">topo-sunset-000000 · seed 0 · difficulty 3</span></header>
+  <span class="mono muted">topo-sunset-000100 · seed 100 · difficulty 3</span></header>
   <div class="ex-grid">
-    <figure><a href="../tasks/pilot_topo_sunset/images/topo-sunset-000000.png" target="_blank"><img id="ex1" src="../tasks/pilot_topo_sunset/images/topo-sunset-000000.png" alt="task image topo-sunset-000000"></a>
-      <figcaption><button class='toggle' data-target='ex1' data-a='../tasks/pilot_topo_sunset/images/topo-sunset-000000.png' data-b='../tasks/pilot_topo_sunset/overlays/topo-sunset-000000_truth.png'>Show the truth overlay</button><span class="muted">click the image to open it full size</span></figcaption></figure>
+    <figure><a href="../tasks/final/images/topo-sunset-000100.png" target="_blank"><img id="ex1" src="../tasks/final/images/topo-sunset-000100.png" alt="task image topo-sunset-000100"></a>
+      <figcaption><button class='toggle' data-target='ex1' data-a='../tasks/final/images/topo-sunset-000100.png' data-b='../tasks/final/overlays/topo-sunset-000100_truth.png'>Show the truth overlay</button><span class="muted">click the image to open it full size</span></figcaption></figure>
     <div class="ex-side">
-      <p class="q">This is a topographic map of a real place (Bear Mountain, New York), drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 20 meters, index contours (heavy brown lines, some labeled) are every 100 meters, and elevations are in meters. A lost hiker at the magenta square S must reach the hut at the magenta square H along the Basin Trail (solid magenta line) before dark. The incident box on the map gives the time now, the time of sunset and the walking time for the trail&#x27;s length on flat ground. By Naismith&#x27;s rule the climb adds time: add 4 minutes for every contour line the trail crosses going uphill (each one is 20 m of climb, at 300 m of climb per hour). Contour lines crossed going downhill add no time, and neither square stands on a contour line. How many minutes before sunset does the hiker reach the hut? Give a negative number if the hiker arrives after sunset. Answer with a whole number of minutes, for example 12 or -7.</p>
+      <p class="q">This is a topographic map of a real place (Breakneck Ridge, New York), drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 20 meters, index contours (heavy brown lines, some labeled) are every 100 meters, and elevations are in meters. A lost hiker at the magenta square S must reach the hut at the magenta square H along the Juniper Trail (solid magenta line) before dark. The incident box on the map gives the time now, the time of sunset and the walking time for the trail&#x27;s length on flat ground. By Naismith&#x27;s rule the climb adds time: add 4 minutes for every contour line the trail crosses going uphill (each one is 20 m of climb, at 300 m of climb per hour). Contour lines crossed going downhill add no time, and neither square stands on a contour line. How many minutes before sunset does the hiker reach the hut? Give a negative number if the hiker arrives after sunset. Answer with a whole number of minutes, for example 12 or -7.</p>
       <div class="replies">
-        <div class="reply truth"><span class="cap">Computed answer</span><span class="mono big">63</span>
+        <div class="reply truth"><span class="cap">Computed answer</span><span class="mono big">37</span>
         <span class="mark">from the data, twice</span></div>
-        <div class='reply bad'><span class='cap'>Haiku 5.5</span><span class='mono big'>83</span><span class='mark'>✗ wrong</span></div><div class='reply bad'><span class='cap'>GPT-6 Luna</span><span class='mono big'>91</span><span class='mark'>✗ wrong</span></div>
+        <div class='reply bad'><span class='cap'>Haiku 5.5</span><span class='mono big'>45</span><span class='mark'>✗ wrong</span></div><div class='reply bad'><span class='cap'>GPT-6 Luna</span><span class='mono big'>45</span><span class='mark'>✗ wrong</span></div>
       </div>
-      <details><summary>The reasoning chain the code recorded (<code>steps</code>)</summary><table class='steps'><tr><td class='k'>flat walk min</td><td class='mono'>17</td></tr><tr><td class='k'>uphill crossings</td><td class='mono'>13</td></tr><tr><td class='k'>downhill crossings</td><td class='mono'>0</td></tr><tr><td class='k'>minutes for ascent</td><td class='mono'>52</td></tr><tr><td class='k'>walking minutes</td><td class='mono'>69</td></tr><tr><td class='k'>daylight minutes</td><td class='mono'>132</td></tr><tr><td class='k'>arrival</td><td class='mono'>17:39</td></tr><tr><td class='k'>wrong if every crossing counted</td><td class='mono'>63</td></tr><tr><td class='k'>wrong if climb ignored</td><td class='mono'>115</td></tr></table></details>
+      <details><summary>The reasoning chain the code recorded (<code>steps</code>)</summary><table class='steps'><tr><td class='k'>flat walk min</td><td class='mono'>16</td></tr><tr><td class='k'>uphill crossings</td><td class='mono'>9</td></tr><tr><td class='k'>downhill crossings</td><td class='mono'>4</td></tr><tr><td class='k'>minutes for ascent</td><td class='mono'>36</td></tr><tr><td class='k'>walking minutes</td><td class='mono'>52</td></tr><tr><td class='k'>daylight minutes</td><td class='mono'>89</td></tr><tr><td class='k'>arrival</td><td class='mono'>15:22</td></tr><tr><td class='k'>wrong if every crossing counted</td><td class='mono'>21</td></tr><tr><td class='k'>wrong if climb ignored</td><td class='mono'>73</td></tr></table></details>
     </div>
   </div>
 </article>
 <article class="example">
   <header><span class="cap">topo · Dam failure</span>
-  <span class="mono muted">topo-flood-000000 · seed 0 · difficulty 3</span></header>
+  <span class="mono muted">topo-flood-000102 · seed 102 · difficulty 3</span></header>
   <div class="ex-grid">
-    <figure><a href="../tasks/pilot_topo_flood/images/topo-flood-000000.png" target="_blank"><img id="ex2" src="../tasks/pilot_topo_flood/images/topo-flood-000000.png" alt="task image topo-flood-000000"></a>
-      <figcaption><button class='toggle' data-target='ex2' data-a='../tasks/pilot_topo_flood/images/topo-flood-000000.png' data-b='../tasks/pilot_topo_flood/overlays/topo-flood-000000_truth.png'>Show the truth overlay</button><span class="muted">click the image to open it full size</span></figcaption></figure>
+    <figure><a href="../tasks/final/images/topo-flood-000102.png" target="_blank"><img id="ex2" src="../tasks/final/images/topo-flood-000102.png" alt="task image topo-flood-000102"></a>
+      <figcaption><button class='toggle' data-target='ex2' data-a='../tasks/final/images/topo-flood-000102.png' data-b='../tasks/final/overlays/topo-flood-000102_truth.png'>Show the truth overlay</button><span class="muted">click the image to open it full size</span></figcaption></figure>
     <div class="ex-side">
-      <p class="q">This is a topographic map of a real place (Bear Mountain, New York), drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 20 meters, index contours (heavy brown lines, some labeled) are every 100 meters, and elevations are in meters. Flash flood: the dam at the magenta square D has failed. The water runs downhill from D, always in the direction of steepest descent, so its path crosses every contour line at a right angle. 6 campsites are marked with magenta points, C1 to C6, all lower than the dam. Exactly one of them lies in the water&#x27;s path. Which campsite does the water reach? Answer with the campsite name, for example C2.</p>
+      <p class="q">This is a topographic map of a real place (Harriman State Park, New York), drawn in the style of a USGS 7.5-minute quadrangle. The contour interval is 10 meters, index contours (heavy brown lines, some labeled) are every 50 meters, and elevations are in meters. Flash flood: the dam at the magenta square D has failed. The water runs downhill from D, always in the direction of steepest descent, so its path crosses every contour line at a right angle. 6 campsites are marked with magenta points, C1 to C6, all lower than the dam. Exactly one of them lies in the water&#x27;s path. Which campsite does the water reach? Answer with the campsite name, for example C2.</p>
       <div class="replies">
-        <div class="reply truth"><span class="cap">Computed answer</span><span class="mono big">C2</span>
+        <div class="reply truth"><span class="cap">Computed answer</span><span class="mono big">C1</span>
         <span class="mark">from the data, twice</span></div>
-        <div class='reply bad'><span class='cap'>Haiku 5.5</span><span class='mono big'>C4</span><span class='mark'>✗ wrong</span></div><div class='reply bad'><span class='cap'>GPT-6 Luna</span><span class='mono big'>C4</span><span class='mark'>✗ wrong</span></div>
+        <div class='reply bad'><span class='cap'>Haiku 5.5</span><span class='mono big'>C6</span><span class='mark'>✗ wrong</span></div><div class='reply bad'><span class='cap'>GPT-6 Luna</span><span class='mono big'>C6</span><span class='mark'>✗ wrong</span></div>
       </div>
-      <details><summary>The reasoning chain the code recorded (<code>steps</code>)</summary><table class='steps'><tr><td class='k'>dam elev m</td><td class='mono'>326.2</td></tr><tr><td class='k'>water sets off bearing deg</td><td class='mono'>136</td></tr><tr><td class='k'>water route length m</td><td class='mono'>1470.0</td></tr><tr><td class='k'>flooded camp</td><td class='mono'>C2</td></tr><tr><td class='k'>dry camp most directly below dam</td><td class='mono'>C1</td></tr><tr><td class='k'>nearest campsite to dam</td><td class='mono'>C5</td></tr><tr><td class='k'>lowest campsite</td><td class='mono'>C6</td></tr><tr><td class='k'>camps</td><td class='mono'>6 entries (see data JSON)</td></tr></table></details>
-    </div>
-  </div>
-</article>
-<article class="example">
-  <header><span class="cap">power · Double trip</span>
-  <span class="mono muted">power-dbl-000000 · seed 0 · difficulty 3</span></header>
-  <div class="ex-grid">
-    <figure><a href="../tasks/pilot_power_dbl/images/power-dbl-000000.png" target="_blank"><img id="ex3" src="../tasks/pilot_power_dbl/images/power-dbl-000000.png" alt="task image power-dbl-000000"></a>
-      <figcaption><span class="muted">click the image to open it full size</span></figcaption></figure>
-    <div class="ex-side">
-      <p class="q">This is the as-found single-line diagram of a building&#x27;s 480 V switchgear. Breakers 52-M2 and CB-03 both trip at the same moment. Nothing else changes: no other breaker opens or closes, normally-open (N.O.) breakers stay open, and Generator G1 keeps running. A load has power only if a path of closed breakers connects it to a running source. Which loads that were running before the event have no power afterwards? A load behind an open breaker was not running. Answer with the load tags (for example CH-2), in the order they appear on the drawing from left to right, separated by commas.</p>
-      <div class="replies">
-        <div class="reply truth"><span class="cap">Computed answer</span><span class="mono big">RP-3, EL-1, CT-1, KP-1, EV-1, AC-1, DH-A</span>
-        <span class="mark">from the data, twice</span></div>
-        <div class='reply bad'><span class='cap'>Haiku 5.5</span><span class='mono big'>RP-3, EL-1, CT-1, KP-1, EV-1, AC-1</span><span class='mark'>✗ wrong</span></div><div class='reply bad'><span class='cap'>GPT-6 Luna</span><span class='mono big'>PR-3, EL-1, CT-1, KP-1, EV-1, AC-1, DH-A</span><span class='mark'>✗ wrong</span></div>
-      </div>
-      <details><summary>The reasoning chain the code recorded (<code>steps</code>)</summary><table class='steps'><tr><td class='k'>1 running before</td><td class='mono'>[&quot;LP-2&quot;, &quot;CRAH-4&quot;, &quot;LAB-2&quot;, &quot;RP-3&quot;, &quot;EL-1&quot;, &quot;CT-1&quot;, &quot;KP-1&quot;, &quot;EV-1&quot;, &quot;AC-1&quot;, &quot;DH-A&quot;, &quot;FP-1&quot;]</td></tr><tr><td class='k'>1 off before</td><td class='mono'>[&quot;CH-2&quot;, &quot;PP-2&quot;]</td></tr><tr><td class='k'>2 lost from 52M2 alone</td><td class='mono'>[&quot;RP-3&quot;, &quot;EL-1&quot;, &quot;CT-1&quot;, &quot;KP-1&quot;, &quot;EV-1&quot;, &quot;AC-1&quot;]</td></tr><tr><td class='k'>3 lost from CB-03 alone</td><td class='mono'>[&quot;DH-A&quot;]</td></tr><tr><td class='k'>4 alive though drawn under bus2</td><td class='mono'>[]</td></tr><tr><td class='k'>5 answer left to right</td><td class='mono'>[&quot;RP-3&quot;, &quot;EL-1&quot;, &quot;CT-1&quot;, &quot;KP-1&quot;, &quot;EV-1&quot;, &quot;AC-1&quot;, &quot;DH-A&quot;]</td></tr></table></details>
+      <details><summary>The reasoning chain the code recorded (<code>steps</code>)</summary><table class='steps'><tr><td class='k'>dam elev m</td><td class='mono'>353.3</td></tr><tr><td class='k'>water sets off bearing deg</td><td class='mono'>154</td></tr><tr><td class='k'>water route length m</td><td class='mono'>1550.0</td></tr><tr><td class='k'>flooded camp</td><td class='mono'>C1</td></tr><tr><td class='k'>dry camp most directly below dam</td><td class='mono'>C6</td></tr><tr><td class='k'>nearest campsite to dam</td><td class='mono'>C6</td></tr><tr><td class='k'>lowest campsite</td><td class='mono'>C1</td></tr><tr><td class='k'>camps</td><td class='mono'>6 entries (see data JSON)</td></tr></table></details>
     </div>
   </div>
 </article>
@@ -293,13 +316,13 @@ footer { padding:28px 0 60px; font-size:13px; color:var(--ink-2); }
     <li><strong>Pixels match data.</strong> Probes check that the picture shows what the data says (a contour's colour, a breaker's symbol).</li>
     <li><strong>Byte-identical rebuilds.</strong> Same seed, same PNG and data, checked by SHA-256.</li>
     <li><strong>One fixed eval.</strong> Temperature 0, reasoning effort high, max 64,000 tokens, identical prompt for both models,
-      replies cached and logged raw. Every reply in these pilots finished normally (none cut off).</li>
+      replies cached and logged raw. Every reply in the final run and the pilots finished normally (none cut off).</li>
   </ul>
   <ul class="honest">
-    <li><strong>Where it's weak (said out loud).</strong> Pilots are 10 seeds per template. Topo uses four real places, so hills repeat.
+    <li><strong>Where it's weak (said out loud).</strong> The final set is 10 tasks and pilots are 10 seeds per template: enough to show the gap, not for tight error bars. Topo uses four real places, so hills repeat.
       Flood has 6 camps, so guessing gets about 1 in 6.</li>
     <li><strong>Sunset.</strong> On real slopes most trails climb one way, so the uphill count often equals the total count.</li>
-    <li><strong>Fairness.</strong> A human baseline (a teammate solving tasks from the image only, timed) is in progress.</li>
+    <li><strong>Fairness.</strong> Hand check: 10 of 10 final tasks judged fair, 0 confirmed by eye so far. The timed human baseline is not in the repo yet.</li>
     <li><strong>Power.</strong> Not yet hard enough to keep; we show it as a negative result.</li>
   </ul></div>
 </section>
@@ -316,8 +339,8 @@ uv run python -m factory rebuild  --tasks tasks/pilot_topo_crossings
 uv run python -m factory fresh    --seed 7 --show</pre>
 </section>
 
-<footer>Generated by <code>explainer/build.py</code> from commit fa6f0f5. Sources:
-<code>results/pilot_topo_crossings/</code>, <code>results/pilot_topo_sunset/</code>, <code>results/pilot_topo_flood/</code>, <code>results/pilot2_power_trip/</code>, <code>results/pilot2_power_dbl/</code>, <code>results/pilot2_power_iso/</code>, <code>results/spikes/README.md</code>. Pilot numbers, not the final evaluation.</footer>
+<footer>Generated by <code>explainer/build.py</code> from commit 585f52c. Sources:
+<code>results/pilot_topo_crossings/</code>, <code>results/pilot_topo_sunset/</code>, <code>results/pilot_topo_flood/</code>, <code>results/pilot2_power_trip/</code>, <code>results/pilot2_power_dbl/</code>, <code>results/pilot2_power_iso/</code>, <code>results/spikes/README.md</code>. results/final/, results/extra/fewshot/, results/human/hand_check.md.</footer>
 </div>
 <script>
 const tip = document.getElementById('tip');
